@@ -6,7 +6,6 @@ import cors from "cors";
 import "dotenv/config";
 import instructorRoutes from "./routes/instructor.js";
 import courseRoutes from "./routes/course.js";
-import exerciseRoutes from "./routes/exercise.js";
 
 import indvidualRoutes from "./routes/individualTrainee.js";
 
@@ -17,7 +16,6 @@ app.use(cors());
 
 app.use("/instructor", instructorRoutes);
 app.use("/course", courseRoutes);
-app.use("/exercise", exerciseRoutes);
 app.use("/indvidualTrainee", indvidualRoutes);
 
 const port = process.env.PORT || 8000;
