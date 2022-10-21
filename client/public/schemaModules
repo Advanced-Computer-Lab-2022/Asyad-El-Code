@@ -1,0 +1,32 @@
+INDIVIDUAL TRAINEE:
+
+
+
+
+
+
+
+
+
+CORPORATE TRAINEE:
+-> username
+-> password
+-> email
+-> credit card details/ billing details
+-> certificate 
+-> phoneNumber
+-> address
+-> grade 
+-> percentageCompleted
+-> problem 
+
+
+GUEST:
+-> priceOfCourse
+-> country
+-> totalHoursOfCourse
+-> signingUp :  firstName, lastName, email, password, gender
+
+
+
+
