@@ -40,14 +40,14 @@ const individualTraineeSchema = mongoose.Schema ({
        
     },
 
-    certificate:{
-        type: [String]
-    },
+    // certificate:{
+    //     type: [String]
+    // },
 
     
-    problems:{
-        type:[String]  //problem related to specific course 
-    },
+    // problems:{
+    //     type:[String]  //problem related to specific course 
+    // },
 
     // grades:[{
     //     grade:Number  //excercises:
@@ -96,8 +96,8 @@ export function validate(individualTrainee) {
       address: Joi.object().required(),
       country: Joi.string().required(),
       university: Joi.string().required(),
-      problems: Joi.array().required(),
-      certificate: Joi.array().required(),
+      //problems: Joi.array().required(),
+      //certificate: Joi.array().required(),
       billingDetails: Joi.object({
         masterCardNumber: Joi.string().required(),
         expiryDate: Joi.date().required(),
