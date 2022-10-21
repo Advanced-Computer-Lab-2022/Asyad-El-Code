@@ -1,8 +1,7 @@
 import mongoose, { mongo } from "mongoose";
-import Exercise from "./exercise.js";
 import Joi from "joi";
 
-const courseSchema = mongoose.Schema({
+export const courseSchema = mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -49,9 +48,9 @@ const courseSchema = mongoose.Schema({
   },
   excercises: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Exercise",
-      required: true,
+      questions: [
+        { title: String, answers: [{ answer: String, correct: Boolean }] },
+      ],
     },
   ],
   price: {
@@ -76,10 +75,12 @@ export function validate(course) {
     image: Joi.string().required(),
     rating: Joi.number(),
     previewVideo: Joi.string().required(),
+    excercises: Joi.array().required(),
     price: Joi.number().required(),
   });
   return schema.validate(course, { allowUnknown: true });
 }
 
 const Course = mongoose.model("Course", courseSchema);
+
 export default Course;
