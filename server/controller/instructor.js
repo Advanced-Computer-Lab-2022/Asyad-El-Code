@@ -32,6 +32,6 @@ export const createInstructor = async (req, res) => {
     await instructor.save();
     res.status(200).json(instructor);
   } catch (error) {
-    res.send(error.message);
+    res.send(error.message); //test
   }
 };
