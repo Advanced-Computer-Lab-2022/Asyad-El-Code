@@ -4,11 +4,15 @@ import bodyParser from "body-parser";
 import cors from 'cors'
 
 import "dotenv/config";
+import instructorRoutes from "./routes/instructor.js"
 
 const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
+
+
+app.use("/instructor", instructorRoutes);
 
 
 const port = process.env.PORT || 8000;
@@ -24,7 +28,3 @@ mongoose
   )
 
   .catch((err) => console.log(err.message));
-
-  
-
-
