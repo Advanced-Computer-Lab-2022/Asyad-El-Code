@@ -34,6 +34,7 @@ const instructorSchema = mongoose.Schema({
   gender: {
     type: String,
     required: true,
+    enum: ["Male", "Female", "Prefer not to say"],
   },
   dateOfBirth: {
     type: Date,
