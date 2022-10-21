@@ -69,7 +69,8 @@ const individualTraineeSchema = mongoose.Schema ({
     },
 
     university:{
-        type:String
+        type:String,
+        required: true
         
     },
 
@@ -94,7 +95,7 @@ export function validate(individualTrainee) {
       password: Joi.string().required(),
       address: Joi.object().required(),
       country: Joi.string().required(),
-      
+      university: Joi.string().required(),
       problems: Joi.array().required(),
       certificate: Joi.array().required(),
       billingDetails: Joi.object({

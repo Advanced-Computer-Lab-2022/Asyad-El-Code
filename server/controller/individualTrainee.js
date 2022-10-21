@@ -19,7 +19,7 @@ export const createIndvidualTrainee = async (req, res) => {
     problem,
     //grade,
     //percentageCompleted,
-    universityOrSchool,
+    university,
     address
   } = req.body;
 
@@ -37,7 +37,7 @@ export const createIndvidualTrainee = async (req, res) => {
       //grade:grade,
       problem:problem,
       //percentageCompleted:percentageCompleted,
-      universityOrSchool:universityOrSchool,
+      university:university,
       address:address,
 
     });
