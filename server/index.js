@@ -6,6 +6,8 @@ import cors from 'cors'
 import "dotenv/config";
 import instructorRoutes from "./routes/instructor.js"
 
+import indvidualRoutes from "./routes/individualTrainee.js";
+
 const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
@@ -13,6 +15,7 @@ app.use(cors());
 
 
 app.use("/instructor", instructorRoutes);
+app.use("/indvidualTrainee", indvidualRoutes);
 
 
 const port = process.env.PORT || 8000;
