@@ -1,6 +1,6 @@
 import mongoose, { mongo } from "mongoose";
 import Joi from "joi";
-
+import Instructor from "./instructor.js";
 export const courseSchema = mongoose.Schema({
   title: {
     type: String,
@@ -57,6 +57,7 @@ export const courseSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  instructors: { type: [mongoose.Schema.Types.ObjectId], ref: "Instructor" },
   // promotion: {
   //   type: Number,
   //   default: 0.0,
