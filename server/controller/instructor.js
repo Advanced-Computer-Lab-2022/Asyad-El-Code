@@ -59,7 +59,8 @@ export const findCourseBySubjectAndRating = async (req, res) => {
   try {
     const { subject, rating } = req.body;
     const courses = await Course.find().or([
-      { rating: rating, subject: subject },
+      { rating: rating },
+      { subject: subject },
     ]);
     if (!courses) return res.status(200).send({ message: "No course found" });
     return res.status(200).send(courses);
@@ -67,8 +68,6 @@ export const findCourseBySubjectAndRating = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
-
-
 
 export const addNewCourse = async (req, res) => {
   const { error } = validateCourse(req.body);
