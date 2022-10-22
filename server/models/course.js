@@ -43,7 +43,7 @@ export const courseSchema = mongoose.Schema({
     required: true,
   },
   outline: {
-    type: [String],
+    type: [{ subtitle: String, totalHours: Number }],
     required: true,
   },
   excercises: [
