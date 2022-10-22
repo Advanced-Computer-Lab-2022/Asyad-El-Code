@@ -39,18 +39,36 @@ export const createInstructor = async (req, res) => {
 };
 
 export const viewCourseTitles = async (req, res) => {
-  const { id } = req.params;
-  console.log(id);
-  const courses = await Course.find();
-  for (let i = 0; i < courses.length; i++) {
-    let instructorId = courses[i].instructorId;
-    if (instructorId && instructorId.toString() == id) {
-      return res.status(200).send(courses[i]);
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const courses = await Course.find();
+    for (let i = 0; i < courses.length; i++) {
+      let instructorId = courses[i].instructorId;
+      if (instructorId && instructorId.toString() == id) {
+        return res.status(200).send(courses[i]);
+      }
     }
+    return res.status(200).send({ message: "No courses found" });
+  } catch (error) {
+    res.status(400).send(error.message);
   }
-  return res.status(200).send({ message: "No courses found" });
 };
-export const findCourseBySubjectAndRating = async (req, res) => {};
+//TODO GENERAL
+export const findCourseBySubjectAndRating = async (req, res) => {
+  try {
+    const { subject, rating } = req.body;
+    const courses = await Course.find().or([
+      { rating: rating, subject: subject },
+    ]);
+    if (!courses) return res.status(200).send({ message: "No course found" });
+    return res.status(200).send(courses);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+
 
 export const addNewCourse = async (req, res) => {
   const { error } = validateCourse(req.body);
