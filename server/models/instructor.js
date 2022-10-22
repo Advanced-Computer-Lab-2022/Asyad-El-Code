@@ -46,7 +46,7 @@ const instructorSchema = mongoose.Schema({
   },
 });
 
-export function validate(user) {
+export function validateInstructor(user) {
   const schema = Joi.object({
     firstName: Joi.string().min(3).required(),
     lastName: Joi.string().min(3).required(),

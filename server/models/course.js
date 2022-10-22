@@ -65,7 +65,7 @@ export const courseSchema = mongoose.Schema({
   // add instructor
 });
 
-export function validate(course) {
+export function validateCourse(course) {
   const schema = Joi.object({
     title: Joi.string().min(3).required(),
     summary: Joi.string().min(3).required(),
