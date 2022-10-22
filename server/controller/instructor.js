@@ -69,6 +69,23 @@ export const findCourseBySubjectAndRating = async (req, res) => {
   }
 };
 
+
+export const filterCourseBySubjectAndPrice = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { subject, minPrice, maxPrice } = req.body;
+    const courses = await Course.find({ instructorId: id }).or([
+      { subject: subject },
+      { price: { $lte: maxPrice, $gte: minPrice } },
+    ]);
+    if (!courses) return res.status(200).send({ message: "No course found" });
+    return res.status(200).send(courses);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+
 export const addNewCourse = async (req, res) => {
   const { error } = validateCourse(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -110,6 +127,5 @@ export const addNewCourse = async (req, res) => {
     res.send(error.message); //test
   }
 };
-// export const filterCourses = async (req, res) => {
 
-// };
+
