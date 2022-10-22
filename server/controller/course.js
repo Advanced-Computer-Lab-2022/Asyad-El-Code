@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import Course from "../models/course.js";
-import { validate } from "../models/course.js";
+import { validateCourse } from "../models/course.js";
 
 export const createCourse = async (req, res) => {
-  const { error } = validate(req.body);
+  const { error } = validateCourse(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   const {
     title,
@@ -18,7 +18,7 @@ export const createCourse = async (req, res) => {
     outline,
     excercises,
     price,
-    instructors,
+    instructorId,
   } = req.body;
 
   try {
@@ -35,7 +35,7 @@ export const createCourse = async (req, res) => {
       outline: outline,
       excercises: excercises,
       price: price,
-      instructors: instructors,
+      instructorId: instructorId,
     });
     await course.save();
     res.status(200).json(course);

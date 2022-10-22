@@ -42,19 +42,15 @@ export const viewCourseTitles = async (req, res) => {
   const { id } = req.params;
   console.log(id);
   const courses = await Course.find();
-  const courseTitles = [];
   for (let i = 0; i < courses.length; i++) {
-    let instructorsId = courses[i].instructors;
-    for (let j = 0; j < instructorsId.length; j++) {
-      console.log(instructorsId[j]);
-
-      courseTitles.push(
-        instructorsId[j].toString() == id ? courses[i].title : null
-      );
+    let instructorId = courses[i].instructorId;
+    if (instructorId && instructorId.toString() == id) {
+      return res.status(200).send(courses[i]);
     }
   }
-  res.send(courseTitles);
+  return res.status(200).send({ message: "No courses found" });
 };
+export const findCourseBySubjectAndRating = async (req, res) => {};
 
 export const addNewCourse = async (req, res) => {
   const { error } = validateCourse(req.body);
