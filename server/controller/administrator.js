@@ -30,32 +30,68 @@ export const createAdministrator = async (req, res) => {
 
 }
 
-export const getAdministrators = async (_req,res)=>{
-    try{
+export const getAdministrators = async (_req, res) => {
+    try {
         const administrators = await Administrator.find()
         res.status(200).send(administrators);
-    }catch(err){
+    } catch (err) {
         res.send(err.message)
     }
 }
 
-export const getAdministrator = async (req,res)=>{
-    try{
+export const getAdministratorById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const administrator = await Administrator.findById(id);
+        if(!administrator)
+            res.status(200).send(administrator);
+        else
+            res.status(400).send(`Could not find Administrator with id: ${id}`)
+    } catch (err) {
+        res.send(err.message)
+    }
+}
+
+export const getAdministratorByUserName = async (req, res) => {
+    try {
         const userName = req.params.userName;
-        const administrator = await Administrator.find({userName:userName})
+        const administrator = await Administrator.find({ userName: userName })
         res.status(200).send(administrator);
-    }catch(err){
+    } catch (err) {
         res.send(err.message)
     }
 }
 
-export const deleteAdministrator = async (req,res)=>{
-    try{
-        const userName = req.body.userName;
-        const response = await Administrator.deleteOne({userName:userName}) 
-        const isDeleted = response.deletedCount===1?`User ${userName} was deleted successfully`:`Couldn't delete user: ${userName}`;
-        res.status(200).send(isDeleted)
-    }catch(err){
+export const deleteAdministrator = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const deletedAdministrator = await Administrator.findByIdAndDelete(id);
+        if (!deletedAdministrator) {
+            res.status(400).send("Couldn't delete administrator")
+        } else {
+            res.status(200).send(deletedAdministrator)
+
+        }
+    } catch (err) {
+        console.log(err)
+        res.send(err.message)
+    }
+}
+
+export const updateAdministrator = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const updatedAdministrator = await Administrator.findByIdAndUpdate(
+            id,
+            req.body,
+            {new:true}
+            )
+        if (!updateAdministrator) {
+            res.status(400).send("Couldn't update administrator")
+        } else {
+            res.status(200).send(updatedAdministrator)
+        }
+    } catch (err) {
         console.log(err)
         res.send(err.message)
     }
