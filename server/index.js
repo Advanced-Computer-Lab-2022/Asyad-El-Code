@@ -10,6 +10,7 @@ import indvidualRoutes from "./routes/individualTrainee.js";
 import administratorRoutes from "./routes/administrator.js";
 
 import corporateRoutes from "./routes/corporateTrainee.js";
+import generalContoller from "./routes/generalContoller.js";
 
 const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -21,6 +22,7 @@ app.use("/course", courseRoutes);
 app.use("/indvidualTrainee", indvidualRoutes);
 app.use("/administrator", administratorRoutes);
 app.use("/corporateTrainee", corporateRoutes);
+app.use("/main", generalContoller);
 
 
 const port = process.env.PORT || 8000;

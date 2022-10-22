@@ -83,6 +83,7 @@ export const filterCourseBySubjectAndPrice = async (req, res) => {
   }
 };
 
+
 export const addNewCourse = async (req, res) => {
   const { error } = validateCourse(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -124,6 +125,5 @@ export const addNewCourse = async (req, res) => {
     res.send(error.message); //test
   }
 };
-// export const filterCourses = async (req, res) => {
 
-// };
+
