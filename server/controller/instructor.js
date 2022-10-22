@@ -55,6 +55,4 @@ export const viewCourseTitles = async (req, res) => {
   res.send(courseTitles);
 };
 
-// export const filterCourses = async (req, res) => {
 
-// };
