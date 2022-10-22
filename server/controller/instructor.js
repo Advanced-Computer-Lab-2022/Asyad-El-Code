@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import Instructor from "../models/instructor.js";
 import Course from "../models/course.js";
-import { validate } from "../models/instructor.js";
+import { validateInstructor } from "../models/instructor.js";
+import { validateCourse } from "../models/course.js";
 
 export const createInstructor = async (req, res) => {
-  const { error } = validate(req.body);
+  const { error } = validateInstructor(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   const {
     firstName,
@@ -69,6 +70,47 @@ export const findCourseBySubjectAndRating = async (req, res) => {
 
 
 
+export const addNewCourse = async (req, res) => {
+  const { error } = validateCourse(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+  const { id } = req.params;
+  const {
+    title,
+    summary,
+    subject,
+    duration,
+    releaseDate,
+    language,
+    image,
+    rating,
+    previewVideo,
+    outline,
+    excercises,
+    price,
+  } = req.body;
+
+  try {
+    const course = await new Course({
+      title: title,
+      summary: summary,
+      subject: subject,
+      duration: duration,
+      releaseDate: releaseDate,
+      language: language,
+      image: image,
+      rating: rating,
+      previewVideo: previewVideo,
+      outline: outline,
+      excercises: excercises,
+      price: price,
+      instructorId: id,
+    });
+    await course.save();
+    res.status(200).json(course);
+  } catch (error) {
+    res.send(error.message); //test
+  }
+};
 // export const filterCourses = async (req, res) => {
 
 // };
