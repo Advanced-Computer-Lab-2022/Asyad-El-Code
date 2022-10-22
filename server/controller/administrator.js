@@ -48,3 +48,15 @@ export const getAdministrator = async (req,res)=>{
         res.send(err.message)
     }
 }
+
+export const deleteAdministrator = async (req,res)=>{
+    try{
+        const userName = req.body.userName;
+        const response = await Administrator.deleteOne({userName:userName}) 
+        const isDeleted = response.deletedCount===1?`User ${userName} was deleted successfully`:`Couldn't delete user: ${userName}`;
+        res.status(200).send(isDeleted)
+    }catch(err){
+        console.log(err)
+        res.send(err.message)
+    }
+}
