@@ -1,10 +1,19 @@
 import express from "express";
-import { createIndvidualTrainee } from "../controller/individualTrainee.js";
+import {
+  createIndvidualTrainee,
+  getAllIndividualTrainees,
+  getIndividualTrainees,
+  deleteIndividualTrainee,
+  updateIndividualTrainee,
+  filterBasedOnPrice,
+} from "../controller/individualTrainee.js";
 const router = express.Router();
 
-router.post("/",createIndvidualTrainee);
-
-
-
+router.post("/", createIndvidualTrainee);
+router.get("/", getAllIndividualTrainees);
+router.get("/:id", getIndividualTrainees);
+router.delete("/:id", deleteIndividualTrainee);
+router.put("/:id", updateIndividualTrainee);
+router.get("/filter/price", filterBasedOnPrice);
 
 export default router;
