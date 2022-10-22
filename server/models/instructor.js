@@ -44,7 +44,6 @@ const instructorSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  //Courses
 });
 
 export function validate(user) {
