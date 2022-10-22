@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
 import Joi from 'joi'
+import {reportedProblemsSchema} from './reportedProblems.js';
 
-const administratorSchema = mongoose.Schema({
+const administratorSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: true,
@@ -25,7 +26,8 @@ const administratorSchema = mongoose.Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
+    // reportedProblems:{ type: mongoose.Schema.Types.ObjectId, ref: 'ReportedProblems' }
 });
 
 export function validate(user) {
