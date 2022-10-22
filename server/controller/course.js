@@ -18,6 +18,7 @@ export const createCourse = async (req, res) => {
     outline,
     excercises,
     price,
+    instructors,
   } = req.body;
 
   try {
@@ -34,6 +35,7 @@ export const createCourse = async (req, res) => {
       outline: outline,
       excercises: excercises,
       price: price,
+      instructors: instructors,
     });
     await course.save();
     res.status(200).json(course);
