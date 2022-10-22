@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import Instructor from "../models/instructor.js";
 import Course from "../models/course.js";
-import { validate } from "../models/instructor.js";
+import { validateInstructor } from "../models/instructor.js";
+import { validateCourse } from "../models/course.js";
 
 export const createInstructor = async (req, res) => {
-  const { error } = validate(req.body);
+  const { error } = validateInstructor(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   const {
     firstName,
@@ -38,21 +39,91 @@ export const createInstructor = async (req, res) => {
 };
 
 export const viewCourseTitles = async (req, res) => {
-  const { id } = req.params;
-  console.log(id);
-  const courses = await Course.find();
-  const courseTitles = [];
-  for (let i = 0; i < courses.length; i++) {
-    let instructorsId = courses[i].instructors;
-    for (let j = 0; j < instructorsId.length; j++) {
-      console.log(instructorsId[j]);
-
-      courseTitles.push(
-        instructorsId[j].toString() == id ? courses[i].title : null
-      );
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const courses = await Course.find();
+    for (let i = 0; i < courses.length; i++) {
+      let instructorId = courses[i].instructorId;
+      if (instructorId && instructorId.toString() == id) {
+        return res.status(200).send(courses[i]);
+      }
     }
+    return res.status(200).send({ message: "No courses found" });
+  } catch (error) {
+    res.status(400).send(error.message);
   }
-  res.send(courseTitles);
+};
+//TODO GENERAL
+export const findCourseBySubjectAndRating = async (req, res) => {
+  try {
+    const { subject, rating } = req.body;
+    const courses = await Course.find().or([
+      { rating: rating, subject: subject },
+    ]);
+    if (!courses) return res.status(200).send({ message: "No course found" });
+    return res.status(200).send(courses);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+export const filterCourseBySubjectAndPrice = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { subject, minPrice, maxPrice } = req.body;
+    const courses = await Course.find({ instructorId: id }).or([
+      { subject: subject },
+      { price: { $lte: maxPrice, $gte: minPrice } },
+    ]);
+    if (!courses) return res.status(200).send({ message: "No course found" });
+    return res.status(200).send(courses);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+
+export const addNewCourse = async (req, res) => {
+  const { error } = validateCourse(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+  const { id } = req.params;
+  const {
+    title,
+    summary,
+    subject,
+    duration,
+    releaseDate,
+    language,
+    image,
+    rating,
+    previewVideo,
+    outline,
+    excercises,
+    price,
+  } = req.body;
+
+  try {
+    const course = await new Course({
+      title: title,
+      summary: summary,
+      subject: subject,
+      duration: duration,
+      releaseDate: releaseDate,
+      language: language,
+      image: image,
+      rating: rating,
+      previewVideo: previewVideo,
+      outline: outline,
+      excercises: excercises,
+      price: price,
+      instructorId: id,
+    });
+    await course.save();
+    res.status(200).json(course);
+  } catch (error) {
+    res.send(error.message); //test
+  }
 };
 
 

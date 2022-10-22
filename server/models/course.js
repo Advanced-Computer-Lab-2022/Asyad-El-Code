@@ -43,7 +43,7 @@ export const courseSchema = mongoose.Schema({
     required: true,
   },
   outline: {
-    type: [String],
+    type: [{ subtitle: String, totalHours: Number }],
     required: true,
   },
   excercises: [
@@ -57,7 +57,7 @@ export const courseSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  instructors: { type: [mongoose.Schema.Types.ObjectId], ref: "Instructor" },
+  instructorId: { type: mongoose.Schema.Types.ObjectId, ref: "Instructor" },
   // promotion: {
   //   type: Number,
   //   default: 0.0,
@@ -65,7 +65,7 @@ export const courseSchema = mongoose.Schema({
   // add instructor
 });
 
-export function validate(course) {
+export function validateCourse(course) {
   const schema = Joi.object({
     title: Joi.string().min(3).required(),
     summary: Joi.string().min(3).required(),
