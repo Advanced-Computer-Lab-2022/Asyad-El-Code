@@ -55,7 +55,7 @@ export const findCourseBySubjectAndRating = async (req, res) => {};
 export const addNewCourse = async (req, res) => {
   const { error } = validateCourse(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-  const id = req.params;
+  const { id } = req.params;
   const {
     title,
     summary,
