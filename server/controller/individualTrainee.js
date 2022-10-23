@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import indvidualTrainee from "../models/individualTrainee.js";
-import { validate } from "../models/individualTrainee.js";
+import IndividualTrainee, { validate } from "../models/individualTrainee.js";
 import Course from "../models/course.js";
 import Types from "mongoose";
 
@@ -102,11 +102,18 @@ export const updateIndividualTrainee = async (req, res) => {
   }
 };
 
-export const filterBasedOnPrice = async (req, res) => {
-  const courses = await Course.find({
-    price: { $lte: parseInt(req.body.max) },
-  }).and({
-    price: { $gte: parseInt(req.body.min) },
-  });
-  res.send(courses);
+
+export const selectCountry = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const country = req.body.country;
+    const updated = await IndividualTrainee.findByIdAndUpdate(id, { country: country }, { new: true })
+    if (!updated) {
+      res.status(401).send("Couldn't select country")
+    } else
+      res.status(200).send(updated);
+
+  } catch (err) {
+    res.status(401).send(err)
+  }
 };

@@ -54,37 +54,6 @@ export const viewCourseTitles = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
-//TODO GENERAL
-export const findCourseBySubjectAndRating = async (req, res) => {
-  try {
-    const { subject, rating } = req.body;
-    const courses = await Course.find().or([
-      { rating: rating },
-      { subject: subject },
-    ]);
-    if (!courses) return res.status(200).send({ message: "No course found" });
-    return res.status(200).send(courses);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-};
-
-
-export const filterCourseBySubjectAndPrice = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { subject, minPrice, maxPrice } = req.body;
-    const courses = await Course.find({ instructorId: id }).or([
-      { subject: subject },
-      { price: { $lte: maxPrice, $gte: minPrice } },
-    ]);
-    if (!courses) return res.status(200).send({ message: "No course found" });
-    return res.status(200).send(courses);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-};
-
 
 export const addNewCourse = async (req, res) => {
   const { error } = validateCourse(req.body);
@@ -128,4 +97,32 @@ export const addNewCourse = async (req, res) => {
   }
 };
 
+export const filterCourseBySubjectAndPrice = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { subject, minPrice, maxPrice } = req.body;
+    const courses = await Course.find({ instructorId: id }).or([
+      { subject: subject },
+      { price: { $lte: maxPrice, $gte: minPrice } },
+    ]);
+    if (!courses) return res.status(200).send({ message: "No course found" });
+    return res.status(200).send(courses);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
 
+export const selectCountry = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const country = req.body.country;
+    const updated = await Instructor.findByIdAndUpdate(id, { country: country }, { new: true })
+    if (!updated) {
+      res.status(401).send("Couldn't select country")
+    } else
+      res.status(200).send(updated);
+
+  } catch (err) {
+    res.status(401).send(err)
+  }
+};

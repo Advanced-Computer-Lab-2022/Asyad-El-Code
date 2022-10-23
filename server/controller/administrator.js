@@ -1,5 +1,7 @@
 import Administrator from "../models/administrator.js";
 import { validate } from "../models/administrator.js"
+import CorporateTrainee from "../models/corporateTrainee.js";
+import Instructor from "../models/instructor.js";
 
 export const createAdministrator = async (req, res) => {
     const { error } = validate(req.body);
@@ -96,3 +98,41 @@ export const updateAdministrator = async (req, res) => {
         res.send(err.message)
     }
 }
+
+//Admin create instructors with username and password
+// export const createInstructor = async (req, res) => {
+//     const {
+//       userName,
+//       password,
+//     } = req.body;
+  
+//     try {
+//       const instructor = await new Instructor({
+//         userName: userName,
+//         password: password
+//       });
+//       await instructor.save();
+//       res.status(200).json(instructor);
+//     } catch (error) {
+//       res.send(error.message); 
+//     }
+//   };
+
+//Admin create corperateTrainee with userName and passsword
+// export const createCorporateTrainee = async (req, res) => {
+//     const {
+//       userName,
+//       password,
+//     } = req.body;
+  
+//     try {
+//       const corporateTrainee = await new CorporateTrainee({
+//         userName: userName,
+//         password: password
+//       });
+//       await corporateTrainee.save();
+//       res.status(200).json(corporateTrainee);
+//     } catch (error) {
+//       res.send(error.message); 
+//     }
+//   };

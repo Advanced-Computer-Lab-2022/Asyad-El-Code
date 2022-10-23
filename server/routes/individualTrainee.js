@@ -5,7 +5,6 @@ import {
   getIndividualTrainees,
   deleteIndividualTrainee,
   updateIndividualTrainee,
-  filterBasedOnPrice,
 } from "../controller/individualTrainee.js";
 const router = express.Router();
 
@@ -14,6 +13,5 @@ router.get("/", getAllIndividualTrainees);
 router.get("/:id", getIndividualTrainees);
 router.delete("/:id", deleteIndividualTrainee);
 router.put("/:id", updateIndividualTrainee);
-router.get("/filter/price", filterBasedOnPrice);
 
 export default router;
