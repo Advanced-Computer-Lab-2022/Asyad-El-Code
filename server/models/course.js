@@ -43,7 +43,7 @@ export const courseSchema = mongoose.Schema({
     required: true,
   },
   outline: {
-    type: [{ subtitle: String, totalHours: Number }],
+    type: [String],
     required: true,
   },
   excercises: [
@@ -57,12 +57,14 @@ export const courseSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  instructorId: { type: mongoose.Schema.Types.ObjectId, ref: "Instructor" },
+  instructors: { type: [mongoose.Schema.Types.ObjectId], ref: "Instructor" },
   // promotion: {
   //   type: Number,
   //   default: 0.0,
   // },later
   // add instructor
+  discount: [{country: String, percent: Number}],
+  subTitles: [{name:{type:String, required:true}, duration:{type: Number, required: true}}]
 });
 
 export function validateCourse(course) {
@@ -78,6 +80,8 @@ export function validateCourse(course) {
     previewVideo: Joi.string().required(),
     excercises: Joi.array().required(),
     price: Joi.number().required(),
+    discount:Joi.array(),
+    subTitles:Joi.array().required()
   });
   return schema.validate(course, { allowUnknown: true });
 }

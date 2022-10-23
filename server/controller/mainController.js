@@ -1,4 +1,3 @@
-import e from "express";
 import Course from "../models/course.js";
 
 //guest/instructor/individual trainee/corporate trainee
