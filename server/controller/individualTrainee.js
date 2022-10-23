@@ -102,14 +102,6 @@ export const updateIndividualTrainee = async (req, res) => {
   }
 };
 
-export const filterBasedOnPrice = async (req, res) => {
-  const courses = await Course.find({
-    price: { $lte: parseInt(req.body.max) },
-  }).and({
-    price: { $gte: parseInt(req.body.min) },
-  });
-  res.send(courses);
-};
 
 export const selectCountry = async (req, res) => {
   try {
