@@ -129,3 +129,17 @@ export const addNewCourse = async (req, res) => {
 };
 
 
+export const selectCountry = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const country = req.body.country;
+    const updated = await Instructor.findByIdAndUpdate(id, { country: country }, { new: true })
+    if (!updated) {
+      res.status(401).send("Couldn't select country")
+    } else
+      res.status(200).send(updated);
+
+  } catch (err) {
+    res.status(401).send(err)
+  }
+};

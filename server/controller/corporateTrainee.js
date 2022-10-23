@@ -102,10 +102,17 @@ export const updateCorporateTrainee = async (req, res) => {
     }
 }
 
-
-// GENERAL--------GENERAL---------GENERAL 
- export const getCourses = async (req, res) => {
-    const courses = await Course.find().select(["rating","price", "duration"]);
-    console.log(courses);
-    res.send(courses);
- }
+export const selectCountry = async (req, res) => {
+    try {
+      const id = req.params.id;
+      const country = req.body.country;
+      const updated = await CorporateTrainee.findByIdAndUpdate(id, { country: country }, { new: true })
+      if (!updated) {
+        res.status(401).send("Couldn't select country")
+      } else
+        res.status(200).send(updated);
+  
+    } catch (err) {
+      res.status(401).send(err)
+    }
+  };

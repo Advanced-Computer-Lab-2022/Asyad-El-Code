@@ -10,7 +10,7 @@ import indvidualRoutes from "./routes/individualTrainee.js";
 import administratorRoutes from "./routes/administrator.js";
 
 import corporateRoutes from "./routes/corporateTrainee.js";
-import generalContoller from "./routes/generalContoller.js";
+import generalContoller from "./routes/generalRoute.js";
 
 const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
