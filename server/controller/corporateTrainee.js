@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import CorporateTrainee from "../models/corporateTrainee.js";
+import Course from "../models/course.js";
 import { validate } from "../models/corporateTrainee.js";
 
 export const createCorporateTrainee = async (req, res) => {
@@ -45,3 +46,66 @@ export const createCorporateTrainee = async (req, res) => {
     res.send(error.message);
   }
 };
+
+
+export const getAllCorporateTrainees = async (req, res) => {
+    const corpTrainees = await CorporateTrainee.find();
+    res.send(corpTrainees);
+}
+
+export const getCorporateTrainee = async (req, res) => {
+    
+    try {
+        const corpTrainee = await CorporateTrainee.findById(req.params.id);
+        if(!corpTrainee) return res.status(404).send('This ID doesnt exist');
+        res.send(corpTrainee);
+    } catch (error) {
+        res.send(error.message + " This ID doesnt exist");
+    }
+    
+}
+
+export const deleteCorporateTrainee = async (req, res) => {
+
+    try {
+        const corpTrainee = await CorporateTrainee.findById(req.params.id);
+        if(!corpTrainee) return res.status(404).send('This ID doesnt exist');
+        await CorporateTrainee.deleteOne({_id:req.params.id})
+            res.status(200).send(corpTrainee);
+    } catch (error) {
+        res.send(error.message + " This ID doesnt exist");
+    }
+
+}
+
+export const updateCorporateTrainee = async (req, res) => {
+
+    try {
+        const corpTrainee = await CorporateTrainee.findById(req.params.id);
+        if(!corpTrainee) return res.status(404).send('This ID doesnt exist');
+    
+        const { error } = validate(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
+        
+        const newCorpTrainee = await CorporateTrainee.findByIdAndUpdate(req.params.id, {
+            password: req.body.password,
+            phoneNumber: req.body.phoneNumber,
+            country: req.body.country,
+            address: req.body.address,
+
+        }, {new: true});
+
+        res.send(newCorpTrainee);
+
+    } catch (error) {
+        res.send("This ID doesnt exist");
+    }
+}
+
+
+// GENERAL--------GENERAL---------GENERAL 
+ export const getCourses = async (req, res) => {
+    const courses = await Course.find().select(["rating","price", "duration"]);
+    console.log(courses);
+    res.send(courses);
+ }
