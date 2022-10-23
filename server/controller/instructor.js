@@ -8,6 +8,7 @@ export const createInstructor = async (req, res) => {
   const { error } = validateInstructor(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   const {
+    userName,
     firstName,
     lastName,
     email,
@@ -21,6 +22,7 @@ export const createInstructor = async (req, res) => {
 
   try {
     const instructor = await new Instructor({
+      userName: userName,
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -116,13 +118,52 @@ export const selectCountry = async (req, res) => {
   try {
     const id = req.params.id;
     const country = req.body.country;
-    const updated = await Instructor.findByIdAndUpdate(id, { country: country }, { new: true })
+    const updated = await Instructor.findByIdAndUpdate(
+      id,
+      { country: country },
+      { new: true }
+    );
     if (!updated) {
-      res.status(401).send("Couldn't select country")
-    } else
-      res.status(200).send(updated);
-
+      res.status(401).send("Couldn't select country");
+    } else res.status(200).send(updated);
   } catch (err) {
-    res.status(401).send(err)
+    res.status(401).send(err);
   }
+};
+
+export const updateInformation = async (req, res) => {
+  const { error } = validateInstructor(req.body);
+  if (error) res.status(401).send(error.details[0].message);
+  try {
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      country,
+      dateOfBirth,
+      phoneNumber,
+    } = req.body;
+    const { id } = req.params;
+
+    const updatedInstructor = await Instructor.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password,
+          country: country,
+          dateOfBirth: dateOfBirth,
+          phoneNumber: phoneNumber,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).send(updatedInstructor);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+  res.send;
 };
