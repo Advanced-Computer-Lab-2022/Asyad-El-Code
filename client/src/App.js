@@ -1,26 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React from "react";
+import {
+  AppBar,
+  CssBaseline,
+  Grid,
+  styled,
+  Tabs,
+  TextField,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import { ThemeContext } from "@emotion/react";
+import { Stack } from "@mui/system";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import Navbar from "./components/Navbar";
+import MenuAppBar from "./components/Navbar";
+import Home from "./components/HomePage/Home";
+export const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-          TEST
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <MenuAppBar></MenuAppBar>
+      <Home></Home>
+    </>
   );
-}
+};
 
 export default App;
