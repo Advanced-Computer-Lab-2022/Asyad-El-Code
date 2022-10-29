@@ -1,15 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
-import Navbar from "./components/Navbar"
-import Admin from './components/Admin';
+import React from "react";
 
-function App() {
+import { ThemeContext } from "@emotion/react";
+import { Stack } from "@mui/system";
+import Navbar from "./components/Navbar";
+import MenuAppBar from "./components/Navbar";
+import Home from "./components/HomePage/Home";
+import CourseDetails from "./components/Course/CourseDetails";
+export const App = () => {
   return (
-    <div className="App">
-      <Navbar/>
-      <Admin/>
-    </div>
+    <>
+      <MenuAppBar></MenuAppBar>
+      <Home></Home>
+
+      {/* {/* <CourseDetails></CourseDetails> */}
+    </>
   );
-}
+};
 
 export default App;

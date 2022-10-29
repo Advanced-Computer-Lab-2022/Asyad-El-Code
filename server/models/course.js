@@ -42,10 +42,17 @@ export const courseSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  outline: {
-    type: [{ subtitle: String, totalHours: Number }],
+  outlines: {
+    type: [
+      {
+        outline: String,
+        totalHours: Number,
+        subtitles: [{ subtitle: String, minutes: Number }],
+      },
+    ],
     required: true,
   },
+
   excercises: [
     {
       questions: [
@@ -64,12 +71,6 @@ export const courseSchema = mongoose.Schema({
   // },later
   // add instructor
   discount: [{ country: String, percent: Number }],
-  subTitles: [
-    {
-      name: { type: String, required: true },
-      duration: { type: Number, required: true },
-    },
-  ],
 });
 
 export function validateCourse(course) {
@@ -86,7 +87,6 @@ export function validateCourse(course) {
     excercises: Joi.array().required(),
     price: Joi.number().required(),
     discount: Joi.array(),
-    subTitles: Joi.array().required(),
   });
   return schema.validate(course, { allowUnknown: true });
 }
