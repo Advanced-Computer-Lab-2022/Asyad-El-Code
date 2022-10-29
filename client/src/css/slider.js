@@ -19,6 +19,11 @@ const useStyles = makeStyles()((theme) => {
       fontWeight: "800",
       fontSize: "15px",
     },
+    paper: {
+      position: "absolute",
+      left:'370px',
+      top:"500px"
+    },
   };
 });
 export default useStyles;
