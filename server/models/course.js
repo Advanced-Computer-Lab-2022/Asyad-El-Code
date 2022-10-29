@@ -64,7 +64,13 @@ export const courseSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  instructorId: { type: mongoose.Schema.Types.ObjectId, ref: "Instructor" },
+  instructor: {
+    instructorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Instructor",
+    },
+    name: String,
+  },
   // promotion: {
   //   type: Number,
   //   default: 0.0,
