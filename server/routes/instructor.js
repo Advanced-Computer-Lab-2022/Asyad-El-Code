@@ -17,6 +17,5 @@ router.get("/filterBySubjectAndPrice/:id", filterCourseBySubjectAndPrice);
 router.post("/addNewCourse/:id", addNewCourse);
 router.patch("/updateInformation/:id", updateInformation);
 
-router.get("/findCourse", searchByTitleOrSubjectOrInstructor);
 
 export default router;
