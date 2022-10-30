@@ -11,6 +11,7 @@ export const createCorporateTrainee = async (req, res) => {
     lastName,
     email,
     password,
+    userName,
     country,
     dateOfBirth,
     //certificate,
@@ -33,6 +34,7 @@ export const createCorporateTrainee = async (req, res) => {
       dateOfBirth: dateOfBirth,
       //certificate: certificate,
       phoneNumber: phoneNumber,
+      userName:userName,
       //grade:grade,
       //problem:problem,
       //percentageCompleted:percentageCompleted,
@@ -43,7 +45,7 @@ export const createCorporateTrainee = async (req, res) => {
     await corporatetrainee.save();
     res.status(200).json(corporatetrainee);
   } catch (error) {
-    res.send(error.message);
+    res.status(401).send(error.message);
   }
 };
 

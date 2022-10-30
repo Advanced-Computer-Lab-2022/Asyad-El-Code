@@ -51,7 +51,7 @@ export function validateInstructor(user) {
     password: Joi.string().required(),
     firstName: Joi.string().min(3),
     lastName: Joi.string().min(3),
-    email: Joi.string().email(),
+    email: Joi.string().email().required(),
     phoneNumber: Joi.number().min(10),
     dateOfBirth: Joi.date(),
     gender: Joi.string(),

@@ -6,19 +6,22 @@ import Joi from "joi";
 const corporateTraineeSchema = mongoose.Schema({
     firstName:{
         type: String,
-        required: true,
         minLength: 3
     },
 
     lastName:{
         type: String,
-        required: true,
         minLength: 3
     },
 
     password:{
         type: String,
         required: true
+    },
+
+    userName:{
+        type:String,
+        required:true
     },
 
     email:{
@@ -29,7 +32,6 @@ const corporateTraineeSchema = mongoose.Schema({
 
     country:{
         type: String,
-        required: true
     },
 
     
@@ -53,12 +55,10 @@ const corporateTraineeSchema = mongoose.Schema({
 
     dateOfBirth:{
         type: Date,
-        required: true
     },
 
     phoneNumber:{
         type: String,
-        required:true
     },
 
     address:{
@@ -79,14 +79,15 @@ const corporateTraineeSchema = mongoose.Schema({
 
 export function validate(corporateTrainee) {
     const schema = Joi.object({
-      firstName: Joi.string().min(3).required(),
-      lastName: Joi.string().min(3).required(),
+      firstName: Joi.string().min(3),
+      lastName: Joi.string().min(3),
       email: Joi.string().email().required(),
-      phoneNumber: Joi.number().required().min(10),
-      dateOfBirth: Joi.date().required(),
+      phoneNumber: Joi.number().min(10),
+      dateOfBirth: Joi.date(),
       password: Joi.string().required(),
-      address: Joi.object().required(),
-      country: Joi.string().required(),
+      address: Joi.object(),
+      country: Joi.string(),
+      userName: Joi.string().required(),
       //problems: Joi.array().required(),
       //certificate: Joi.array().required(),
 

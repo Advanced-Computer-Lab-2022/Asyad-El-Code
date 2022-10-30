@@ -1,8 +1,10 @@
-import { Tab, Fab, Tabs, Box, AppBar, Grid, Container, Typography, Paper, 
+import {
+    Tab, Fab, Tabs, Box, AppBar, Grid, Container, Typography, Paper,
     Modal, FormControl, form, OutlinedInput, Input, InputLabel,
-     FormGroup, Button, IconButton, TextField } from '@mui/material'
+    FormGroup, Button, IconButton, TextField
+} from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { addAdmin } from '../../actions/admin';
 
@@ -26,13 +28,14 @@ const AdminModal = (props) => {
     const handleForm = (e) => {
 
         const admin = {
-            userName:e.target.username.value,
-            email:e.target.email.value,
-            password:e.target.password.value,
+            userName: e.target.username.value,
+            email: e.target.email.value,
+            password: e.target.password.value,
         }
         console.log(admin)
         e.preventDefault()
         dispatch(addAdmin(admin))
+        props.handleClose();
     }
 
     return (

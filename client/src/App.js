@@ -10,9 +10,9 @@ import Admin from "./components/Admin/Admin";
 export const App = () => {
   return (
     <>
-      {/* <MenuAppBar></MenuAppBar>
-      <Home></Home> */}
-      <Admin></Admin>
+      <MenuAppBar></MenuAppBar>
+      <Home></Home>
+      {/* <Admin></Admin> */}
 
       {/* {/* <CourseDetails></CourseDetails> */}
     </>

@@ -8,6 +8,9 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { useDispatch, useSelector } from "react-redux";
+import { addInstructor } from '../../actions/instructor';
+
 
 
 const style = {
@@ -23,11 +26,18 @@ const style = {
 };
 
 const InstructorModal = (props) => {
+    const dispatch = useDispatch();
     const handleForm = (e) => {
+        const instructor = {
+            userName:e.target.username.value,
+            email:e.target.email.value,
+            password:e.target.password.value,
+        }
+        console.log(instructor)
         e.preventDefault()
-        console.log(e.target.email.value)
-        console.log(e.target.username.value)
-        console.log(e.target.password.value)
+        dispatch(addInstructor(instructor))
+        props.handleClose();
+
     }
 
     return (

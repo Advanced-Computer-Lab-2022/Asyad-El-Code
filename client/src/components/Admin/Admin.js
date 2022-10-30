@@ -18,6 +18,9 @@ import CorperateModal from './CorperateModal';
 import { useDispatch, useSelector } from "react-redux";
 import { styled } from '@mui/material';
 import { getAdmins } from '../../actions/admin';
+import InstructorTabPanel from './InstructorTabPanel';
+import { getCorporates } from '../../actions/corporate';
+import { getInstructors } from '../../actions/instructor';
 
 
 const arr = [
@@ -89,12 +92,14 @@ const Admin = () => {
     const [corperateModal, setCorperateModal] = useState(false);
     const dispatch = useDispatch();
     const admins = useSelector((a) => a.admins);
+    const corporates = useSelector((c) => c.corporates);
     console.log(admins)
+    console.log(corporates)
 
     useEffect(() => {
-        dispatch(getAdmins())
-    }, [])
-    
+        dispatch(getAdmins());
+        dispatch(getCorporates());
+    }, [])  
     useEffect(()=>{
         dispatch(getAdmins())
     },[instructorModal])
@@ -164,7 +169,7 @@ const Admin = () => {
                                                     <AccountCircleIcon />
                                                 </Grid>
                                                 <Grid item xs={4}>
-                                                    <Typography sx={{ fontWeight: 'bold', textTransform: 'uppercase' }}>{admin?.firstName} {admin?.lastName}</Typography>
+                                                    <Typography sx={{ fontWeight: 'bold', textTransform: 'uppercase' }}>{admin?.userName}</Typography>
                                                 </Grid>
                                                 <Grid item xs={4}>
                                                     <Typography sx={{ fontWeight: 'bold'}}>{admin?.email}</Typography>
@@ -182,31 +187,25 @@ const Admin = () => {
                                     </Grid>
                                 </Grid>
                             </TabPanel>
-                            <TabPanel value={tabIndex} index={1}>
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <Stack spacing={2}>
-                                            {arr.map((course, index) => {
-                                                return (
-                                                    <Item key={index} sx={{ height: '40px' }}>{course.title}</Item>
-                                                )
-                                            })}
-                                        </Stack>
-                                    </Grid>
-                                    <Grid item xs={10}>
-                                    </Grid>
-                                    <Grid item xs={2} mt={4}>
-                                        <Fab color="secondary" aria-label="add" onClick={handleInstructorModalOpen}>
-                                            <PersonAddIcon />
-                                        </Fab>
-                                    </Grid>
-                                </Grid>
-                            </TabPanel>
+                            <InstructorTabPanel value={tabIndex} index={1} modalOpen={handleInstructorModalOpen} modalClose={handleInstructorModalClose}></InstructorTabPanel>
                             <TabPanel value={tabIndex} index={2}>
                                 <Grid container>
-                                    <Grid item xs={12}>
-                                        Corperate Trainees
-                                    </Grid>
+                                {corporates.map((corporate, index) => {
+                                        return (
+                                            <Grid container key={index} sx={{ backgroundColor: 'lavender', padding: '15px' }}>
+                                                <Grid item xs={1}>
+                                                    <AccountCircleIcon />
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Typography sx={{ fontWeight: 'bold', textTransform: 'uppercase' }}>{corporate?.userName}</Typography>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Typography sx={{ fontWeight: 'bold'}}>{corporate?.email}</Typography>
+                                                </Grid>
+                                                <Divider></Divider>
+                                            </Grid>
+                                        )
+                                    })}
                                     <Grid item xs={10}>
                                     </Grid>
                                     <Grid item xs={2} mt={4}>

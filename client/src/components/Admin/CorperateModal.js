@@ -6,6 +6,9 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { addCorporate } from '../../actions/corporate';
+import { useDispatch, useSelector } from "react-redux";
+
 
 
 const style = {
@@ -21,11 +24,18 @@ const style = {
 };
 
 const CorperateModal = (props) => {
+    const dispatch = useDispatch();
     const handleForm = (e) => {
+        const corporate = {
+            userName:e.target.username.value,
+            email:e.target.email.value,
+            password:e.target.password.value,
+        }
+        console.log(corporate)
         e.preventDefault()
-        console.log(e.target.email.value)
-        console.log(e.target.username.value)
-        console.log(e.target.password.value)
+        dispatch(addCorporate(corporate))
+        props.handleClose();
+
     }
 
     return (

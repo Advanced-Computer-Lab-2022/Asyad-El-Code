@@ -33,12 +33,24 @@ export const createInstructor = async (req, res) => {
       wallet: wallet,
       phoneNumber: phoneNumber,
     });
+
     await instructor.save();
     res.status(200).json(instructor);
   } catch (error) {
-    res.send(error.message); //test
+    console.log("HENAAA")
+    res.status(401).send(error.message); //test
   }
 };
+
+export const getInstructors = async (_req, res) => {
+  try {
+    const instructors = await Instructor.find();
+    return res.status(200).send(instructors);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 
 export const viewCourseTitles = async (req, res) => {
   try {
