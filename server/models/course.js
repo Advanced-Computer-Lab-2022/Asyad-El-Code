@@ -47,24 +47,26 @@ export const courseSchema = mongoose.Schema({
       {
         outline: String,
         totalHours: Number,
-        subtitles: [{ subtitle: String, minutes: Number }],
+        subtitles: [{ subtitle: String, minutes: Number, videoUrl: String }],
+        exercise: [
+          { question: String, answers: [{ answer: String, correct: Boolean }] },
+        ],
       },
     ],
     required: true,
   },
 
-  excercises: [
-    {
-      questions: [
-        { title: String, answers: [{ answer: String, correct: Boolean }] },
-      ],
-    },
-  ],
   price: {
     type: Number,
     required: true,
   },
-  instructorId: { type: mongoose.Schema.Types.ObjectId, ref: "Instructor" },
+  instructor: {
+    instructorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Instructor",
+    },
+    name: String,
+  },
   // promotion: {
   //   type: Number,
   //   default: 0.0,
