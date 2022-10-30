@@ -123,9 +123,9 @@ export const searchByTitleOrSubjectOrInstructor = async (req, res) => {
     const subjectRgx = new RegExp(searchQuery, "i");
     const instructorRgx = new RegExp(searchQuery, "i");
     console.log(instructorRgx);
-    const instructorID = await Instructor.find({
-      $or: [{ userName: instructorRgx }],
-    }).select("_id");
+    // const instructorID = await Instructor.find({
+    //   $or: [{ userName: instructorRgx }],
+    // }).select("_id");
 
     const courses = await Course.find({
       $or: [

@@ -47,19 +47,15 @@ export const courseSchema = mongoose.Schema({
       {
         outline: String,
         totalHours: Number,
-        subtitles: [{ subtitle: String, minutes: Number }],
+        subtitles: [{ subtitle: String, minutes: Number, videoUrl: String }],
+        exercise: [
+          { question: String, answers: [{ answer: String, correct: Boolean }] },
+        ],
       },
     ],
     required: true,
   },
 
-  excercises: [
-    {
-      questions: [
-        { title: String, answers: [{ answer: String, correct: Boolean }] },
-      ],
-    },
-  ],
   price: {
     type: Number,
     required: true,
