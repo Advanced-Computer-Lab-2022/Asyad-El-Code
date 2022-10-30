@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -15,10 +15,37 @@ import {
 import course from "../images/course.jpeg";
 import useStyles from "../css/slider.js";
 import { Stack } from "@mui/system";
+import CourseDetails from "./Course/CourseDetails";
+import { useRef } from "react";
+import "../css/card.css";
+
+import { useSelector } from "react-redux";
+const arr = [
+  { id: "1", title: "7amada Bena" },
+  { id: "2", title: "Yalla yel3b" },
+  { id: "3", title: "Essam ElDeen" },
+  { id: "5", title: "ElDeen Ye3" },
+  { id: "6", title: "Khaled ABo" },
+  { id: "7", title: "ElWafaa kora" },
+  { id: "8", title: "Khaled Essam" },
+  { id: "9", title: "Heidar Khaled" },
+  { id: "10", title: "Ahmed Heidar" },
+];
 
 export const SimpleSlider = () => {
-  const handleClick = () => {
-    console.log("CLICKED");
+  const [detailsBox, setDetailsBox] = useState(false);
+  const [title, setTitle] = useState("");
+  const courses = useSelector((c) => c.courses);
+  console.log(courses);
+
+  const handleMouseOver = (event, title) => {
+    console.log(event);
+    console.log("sdsd");
+    setTitle(title);
+    setDetailsBox(true);
+  };
+  const handleMouseOut = (event) => {
+    setDetailsBox(false);
   };
 
   function SampleNextArrow(props) {
@@ -52,7 +79,6 @@ export const SimpleSlider = () => {
     initialSlide: 0,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
-
     responsive: [
       {
         breakpoint: 1024,
@@ -81,52 +107,55 @@ export const SimpleSlider = () => {
     ],
   };
   return (
-    <div style={{ width: "1200px" }}>
-      <Slider {...settings}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, index) => {
-          return (
-            <Card
-              onClick={handleClick}
-              elevation={0}
-              className={classes.cardGrid}
-              key={index}
-              
-            >
-              <CardMedia
-                component="img"
-                image={course}
-                className={classes.cardMedia}
-              ></CardMedia>
-              <CardContent>
-                <Typography
-                  className={classes.cardHeader}
-                  gutterBottom
-                  variant="h6"
-                  component="div"
-                >
-                  Compelete tutorial by javaScript mastery toruel
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Roberto Joseph
-                </Typography>
-                <Stack spacing={1} direction="row">
-                  <p>4.5</p>
-                  <Rating readOnly sx={{ alignItems: "center" }}>
-                    jgdsjdjhs
-                  </Rating>
-                  <p style={{ alignSelf: "center" }}>n5332</p>
-                </Stack>
-                <Typography variant="body1" fontWeight="bold">
-                  $70203
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button>Hello world</Button>
-              </CardActions>
-            </Card>
-          );
-        })}
-      </Slider>
+    <div positon="relative">
+      <div style={{ width: "1200px" }}>
+        <Slider {...settings}>
+          {courses.map((course, index) => {
+            return (
+              <Card elevation={0} className={classes.cardGrid} key={index}>
+                <CardMedia
+                  component="img"
+                  image={course}
+                  className={classes.cardMedia}
+                  // onMouseOver={(event) => handleMouseOver(event, item.title)}
+                  // onMouseOut={handleMouseOut}
+                ></CardMedia>
+
+                <CardContent>
+                  <Typography
+                    className={classes.cardHeader}
+                    gutterBottom
+                    variant="h6"
+                    component="div"
+                  >
+                    {course.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {course.summary}
+                  </Typography>
+
+                  <Stack spacing={1} direction="row">
+                    <p>4.5</p>
+                    <Rating readOnly sx={{ alignItems: "center" }}></Rating>
+                    <p style={{ alignSelf: "center" }}>n5332</p>
+                  </Stack>
+                  <Typography variant="body1" fontWeight="bold">
+                    {course.price}
+                  </Typography>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </Slider>
+      </div>
+
+      {detailsBox && (
+        <>
+          <div className={classes.paper}>
+            {/* <CourseDetails itemTitle={title}></CourseDetails> */}
+          </div>
+        </>
+      )}
     </div>
   );
 };

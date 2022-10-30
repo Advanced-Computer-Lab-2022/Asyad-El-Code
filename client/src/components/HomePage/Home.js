@@ -12,12 +12,23 @@ import {
   Box,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStyles from "../../css/home";
 import study from "../../images/study.jpeg";
-import Members from "./PopularCourses";
+import Members, { PopularCourses } from "./PopularCourses";
+import { useDispatch } from "react-redux";
+import { getCourses } from "../../actions/courses";
+
 export const Home = () => {
   const { classes } = useStyles();
+  const dispatch = useDispatch();
+  const handleOver = (event) => {
+    console.log("HIIISID");
+  };
+
+  useEffect(() => {
+    dispatch(getCourses());
+  }, []);
 
   return (
     <div>
@@ -29,7 +40,6 @@ export const Home = () => {
                 Learn without <br /> limits{" "}
               </Typography>
             </Grid>
-
             <Grid item>
               Start, switch, or advance your career with more than 5,200
               courses,
@@ -57,12 +67,15 @@ export const Home = () => {
             </Grid>
           </Grid>
           <Grid item auto>
-            <img className={classes.image} src={study}></img>
+            <img
+              onMouseOver={handleOver}
+              className={classes.image}
+              src={study}
+            ></img>
           </Grid>
         </Grid>
       </div>
-
-      <Members></Members>
+      <PopularCourses></PopularCourses>
     </div>
 
     // <>

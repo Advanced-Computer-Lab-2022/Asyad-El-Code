@@ -1,0 +1,2 @@
+export const FETCH_ALL = "FETCH_ALL";
+export const FILTER_SUBJECT_RATING = "FILTER_SUBJECT_RATING";

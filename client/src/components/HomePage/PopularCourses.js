@@ -3,7 +3,7 @@ import React from "react";
 import useStyles from "../../css/home";
 import SimpleSlider from "../Slider";
 
-export const Members = () => {
+export const PopularCourses = () => {
   const { classes } = useStyles();
   return (
     <Grid className={classes.members} container justifyContent="center">
@@ -15,4 +15,4 @@ export const Members = () => {
   );
 };
 
-export default Members;
+export default PopularCourses;

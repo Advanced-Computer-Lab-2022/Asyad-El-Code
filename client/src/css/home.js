@@ -17,7 +17,6 @@ const useStyles = makeStyles()((theme) => {
     cardMedia: {
       objectFit: "cover",
       background: "black",
-      cursor: "pointer",
 
     },
 
@@ -30,6 +29,8 @@ const useStyles = makeStyles()((theme) => {
       fontSize: "15px",
       fontWeight: "bold",
     },
+    
+   
   };
 });
 export default useStyles;
