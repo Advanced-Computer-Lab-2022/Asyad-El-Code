@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component, useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -13,8 +13,12 @@ import {
 import { Container, Stack } from "@mui/system";
 import useStyles from "../../css/slider.js";
 import course from "../../images/course.jpeg";
+import { useSelector } from "react-redux";
 
 export const CoursesGrid = () => {
+  const [detailsBox, setDetailsBox] = useState(false);
+  const [title, setTitle] = useState("");
+  const courses = useSelector((c) => c.courses);
   const handleClick = () => {
     console.log("CLICKED");
   };
@@ -22,7 +26,7 @@ export const CoursesGrid = () => {
   return (
     <Container maxWidth="md" sx={{ backgroundColor: "#F2F0EF" }}>
       <Grid container spacing={2} marginTop="20px" justifyContent={"center"}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, index) => {
+        {courses.map((course, index) => {
           return (
             <Grid item xs={4}>
               <Card
@@ -43,24 +47,31 @@ export const CoursesGrid = () => {
                     variant="h6"
                     component="div"
                   >
-                    Compelete tutorial by javaScript mastery toruel
+                    {course.title}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Roberto Joseph
+                    {course.title}
                   </Typography>
                   <Stack spacing={1} direction="row">
-                    <p>4.5</p>
+                    <p>{course.rating}</p>
                     <Rating readOnly sx={{ alignItems: "center" }}>
                       jgdsjdjhs
                     </Rating>
                     <p style={{ alignSelf: "center" }}>n5332</p>
                   </Stack>
+                  <Typography>What will you learn?</Typography>
+                  <ul>
+                    {" "}
+                    {course.outlines.map((item, index) => {
+                      return <li>{item.outline}</li>;
+                    })}
+                  </ul>
                   <Typography variant="body1" fontWeight="bold">
-                    $70203
+                    {`$ ${course.price}`}
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button>Hello world</Button>
+                  <Button endIcon="">Add To Cart</Button>
                 </CardActions>
               </Card>
             </Grid>

@@ -1,4 +1,5 @@
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import {
   Button,
   Container,
@@ -6,26 +7,59 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { maxWidth, ThemeProvider } from "@mui/system";
-import React from "react";
-const theme = createTheme({
-  status: {
-    danger: "#e53e3e",
-  },
-  palette: {
-    primary: {
-      main: "#0971f1",
-      darker: "#053e85",
-    },
-    neutral: {
-      main: "#d3302f",
-      contrastText: "#fff",
-    },
-  },
-});
+import { maxWidth } from "@mui/system";
+import React, { useEffect, useState } from "react";
+import CheckboxesTags from "./CheckBox";
+import PriceSlider from "./PriceSlider";
+import RatingSlider from "./RatingSlider";
+import { useDispatch } from "react-redux";
+import { filterCourses } from "../../actions/courses";
+import { useSelector } from "react-redux";
+import { filter } from "underscore";
+
+const initialFilterData = {
+  Subject: [
+    "Computer Science",
+    "Business",
+    "Management",
+    "Medicine",
+    "Pharmacy",
+  ],
+  Price: [0, 100],
+  Rating: [0, 5],
+};
+
 export const FilterBar = () => {
+  const [filterData, setFilterData] = useState(initialFilterData);
+  const dispatch = useDispatch();
+  const courses = useSelector((c) => c.courses);
+
+  const handlePriceChange = (e, newValue) => {
+    setFilterData({ ...filterData, Price: newValue });
+  };
+  const handleRatingChange = (e, newValue) => {
+    setFilterData({ ...filterData, Rating: newValue });
+  };
+  const handleChange = (e, newValue) => {
+    if (newValue.length === 0) {
+      newValue = [
+        "Computer Science",
+        "Business",
+        "Management",
+        "Medicine",
+        "Pharmacy",
+      ];
+    }
+
+    setFilterData({ ...filterData, Subject: newValue });
+  };
+
+  useEffect(() => {}, [courses]);
+  const handleClick = (e) => {
+    dispatch(filterCourses(filterData));
+  };
   return (
-    <Container sx={{ backgroundColor: "#00262B" }} maxWidth="xl">
+    <Container sx={{ backgroundColor: "#F2F0EF" }} maxWidth="xl">
       <Grid
         container
         columnSpacing={1}
@@ -39,49 +73,42 @@ export const FilterBar = () => {
           marginTop="20px"
           marginBottom="10px"
         >
-          <Typography variant="h4" color="white">
+          <Typography variant="h4" color="black">
             Filter By:
           </Typography>
         </Grid>
         <Grid container marginLeft="40px" spacing={2} marginBottom="20px">
-          <ThemeProvider theme={theme}>
-            <Grid item>
-              <Button
-                endIcon={<KeyboardArrowDown />}
-                variant="contained"
-                color="neutral"
-              >
-                Subject
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                endIcon={<KeyboardArrowDown />}
-                variant="contained"
-                color="neutral"
-              >
-                Rating
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                endIcon={<KeyboardArrowDown />}
-                variant="contained"
-                color="neutral"
-              >
-                Subject
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                endIcon={<KeyboardArrowDown />}
-                variant="contained"
-                color="neutral"
-              >
-                Price
-              </Button>
-            </Grid>
-          </ThemeProvider>
+          <Grid item xs={3}>
+            <CheckboxesTags
+              testawyy={[
+                "Computer Science",
+                "Business",
+                "Management",
+                "Medicine",
+                "Pharmacy",
+              ]}
+              name={"Subject"}
+              handleChange={handleChange}
+            ></CheckboxesTags>
+          </Grid>
+
+          <Grid item xs={2}>
+            <Typography variant="p">Price</Typography>
+            <PriceSlider form={handlePriceChange}></PriceSlider>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography variant="p">Rating</Typography>
+            <RatingSlider form={handleRatingChange}></RatingSlider>
+          </Grid>
+          <Grid item xs={2}>
+            <Button
+              startIcon={<FilterAltIcon></FilterAltIcon>}
+              size="large"
+              onClick={handleClick}
+            >
+              Filter
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </Container>
