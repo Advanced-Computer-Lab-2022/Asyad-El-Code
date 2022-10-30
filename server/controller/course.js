@@ -156,9 +156,6 @@ export const filterAllCourses = async (req, res) => {
     const subjectArray = subject.split(/[,]+/);
     const priceArray = price.split(/[,]+/);
     const ratingArray = rating.split(/[,]+/);
-    console.log(subjectArray);
-    console.log(priceArray[1]);
-    console.log(ratingArray);
 
     const courses = await Course.find({
       subject: { $in: subjectArray },
@@ -167,7 +164,6 @@ export const filterAllCourses = async (req, res) => {
       .and({ price: { $gte: parseInt(priceArray[0]) } })
       .and({ rating: { $lte: parseInt(ratingArray[1]) } })
       .and({ rating: { $gte: parseInt(ratingArray[0]) } });
-    console.log(courses);
     res.status(200).send(courses);
   } catch (err) {
     res.status(401).send(err);

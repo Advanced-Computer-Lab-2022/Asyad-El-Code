@@ -167,3 +167,37 @@ export const updateInformation = async (req, res) => {
   }
   res.send;
 };
+
+export const getAllInstructorCourses = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const courses = await Course.find({ "instructor.instructorId": id });
+    if (!courses) {
+      res.status(404).send("Cannot find Courses for this instructor");
+    }
+    res.status(200).send(courses);
+  } catch (err) {
+    res.status(401).send(err.message);
+  }
+};
+
+export const filterInstructorCourses = async (req, res) => {
+  try {
+    const { id, subject, price, rating } = req.query;
+    const subjectArray = subject.split(/[,]+/);
+    const priceArray = price.split(/[,]+/);
+    const ratingArray = rating.split(/[,]+/);
+    console.log(id);
+    const courses = await Course.find({ "instructor:instructorId": id })
+      .and({
+        subject: { $in: subjectArray },
+      })
+      .and({ price: { $lte: parseInt(priceArray[1]) } })
+      .and({ price: { $gte: parseInt(priceArray[0]) } })
+      .and({ rating: { $lte: parseInt(ratingArray[1]) } })
+      .and({ rating: { $gte: parseInt(ratingArray[0]) } });
+    res.status(200).send(courses);
+  } catch (err) {
+    res.status(401).send(err);
+  }
+};

@@ -64,7 +64,7 @@ export const courseSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  instructorId: {
+  instructor: {
     instructotId: { type: mongoose.Schema.Types.ObjectId, ref: "Instructor" },
     name: String,
   },

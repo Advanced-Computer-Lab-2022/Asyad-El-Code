@@ -16,3 +16,19 @@ export const filterCourses = (filterData) => async (dispatch) => {
     console.log(error);
   }
 };
+export const getAllInstructorCourses = () => async (dispatch) => {
+  try {
+    const { data } = await api.getAllInstructorCourses();
+    dispatch({ type: "FETCH_ALL_INSTRUCTOR_COURSES", payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const filterInstructorCourses = (filterData) => async (dispatch) => {
+  try {
+    const { data } = await api.filterInstructorCourses(filterData);
+    dispatch({ type: "FILTER_INSTRUCTOR_COURSES", payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};

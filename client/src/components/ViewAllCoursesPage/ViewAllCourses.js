@@ -6,17 +6,20 @@ import Slider from "../Slider";
 import { CoursesGrid } from "./CoursesGrid";
 import { FilterBar } from "./FilterBar";
 import { useDispatch } from "react-redux";
-import { getCourses } from "../../actions/courses";
+import { filterCourses, getCourses } from "../../actions/courses";
 
 export const Courses = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCourses());
   }, []);
+  const handleClick = (e, filterData) => {
+    dispatch(filterCourses(filterData));
+  };
   return (
     <div>
       <MenuAppBar></MenuAppBar>
-      <FilterBar></FilterBar>
+      <FilterBar handleClick={handleClick}></FilterBar>
       <CoursesGrid></CoursesGrid>
       <Grid container justifyContent="center" marginTop="40px"></Grid>
     </div>

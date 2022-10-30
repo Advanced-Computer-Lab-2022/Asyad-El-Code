@@ -29,7 +29,7 @@ const initialFilterData = {
   Rating: [0, 5],
 };
 
-export const FilterBar = () => {
+export const FilterBar = ({ handleClick }) => {
   const [filterData, setFilterData] = useState(initialFilterData);
   const dispatch = useDispatch();
   const courses = useSelector((c) => c.courses);
@@ -54,10 +54,8 @@ export const FilterBar = () => {
     setFilterData({ ...filterData, Subject: newValue });
   };
 
-  useEffect(() => {}, [courses]);
-  const handleClick = (e) => {
-    dispatch(filterCourses(filterData));
-  };
+  // useEffect(() => {}, [courses]);
+
   return (
     <Container sx={{ backgroundColor: "#F2F0EF" }} maxWidth="xl">
       <Grid
@@ -104,7 +102,7 @@ export const FilterBar = () => {
             <Button
               startIcon={<FilterAltIcon></FilterAltIcon>}
               size="large"
-              onClick={handleClick}
+              onClick={(e) => handleClick(e, filterData)}
             >
               Filter
             </Button>
