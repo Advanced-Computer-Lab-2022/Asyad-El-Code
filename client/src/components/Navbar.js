@@ -14,11 +14,12 @@ import { US, EG, CA } from 'country-flag-icons/react/3x2'
 export default function ButtonAppBar() {
   const { classes } = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [country, setCountry] = React.useState('');
+  const [country, setCountry] = React.useState("");
 
   const open = anchorEl;
 
   const handleClick = (event) => {
+    console.log("asdsdsa")
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (event) => {
@@ -27,7 +28,11 @@ export default function ButtonAppBar() {
 
   const handleCountry = (event) => {
     setCountry(event.target.value);
+    console.log(country)
   };
+
+  // React.useEffect(())
+
   return (
     <CssBaseline>
       <AppBar className={classes.appBar} position="sticky">
@@ -72,7 +77,22 @@ export default function ButtonAppBar() {
           </div>
 
           <Grid spacing={2} container className={classes.rightSection}>
-
+            <Grid item xs={2}>
+              <FormControl fullWidth size="small">
+                <InputLabel id="demo-simple-select-label">Country</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={country}
+                  label="Country"
+                  onChange={handleCountry}
+                >
+                  <MenuItem value={"Egypt"}><EG title="Egypt" width={20} />Egypt</MenuItem>
+                  <MenuItem value={"Canada"}><CA title="Canada" width={20} />Canada</MenuItem>
+                  <MenuItem value={"USA"}><US title="United States" width={20} />USA</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
             <Grid item>
               <Button variant="outlined" className={classes.navButtons}>
                 Login
