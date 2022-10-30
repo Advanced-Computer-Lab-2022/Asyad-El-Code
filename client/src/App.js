@@ -6,11 +6,13 @@ import Navbar from "./components/Navbar";
 import MenuAppBar from "./components/Navbar";
 import Home from "./components/HomePage/Home";
 import CourseDetails from "./components/Course/CourseDetails";
+import Admin from "./components/Admin/Admin";
 export const App = () => {
   return (
     <>
-      <MenuAppBar></MenuAppBar>
-      <Home></Home>
+      {/* <MenuAppBar></MenuAppBar>
+      <Home></Home> */}
+      <Admin></Admin>
 
       {/* {/* <CourseDetails></CourseDetails> */}
     </>

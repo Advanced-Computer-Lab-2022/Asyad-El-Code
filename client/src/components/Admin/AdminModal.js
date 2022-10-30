@@ -1,10 +1,11 @@
-import { Tab, Fab, Tabs, Box, AppBar, Grid, Container, Typography, Paper, Modal, FormControl, form, OutlinedInput, Input, InputLabel, FormGroup, Button, IconButton, TextField } from '@mui/material'
+import { Tab, Fab, Tabs, Box, AppBar, Grid, Container, Typography, Paper, 
+    Modal, FormControl, form, OutlinedInput, Input, InputLabel,
+     FormGroup, Button, IconButton, TextField } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
-import React, { useState } from 'react';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import React, { useState,useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { addAdmin } from '../../actions/admin';
+
 
 
 const style = {
@@ -20,11 +21,18 @@ const style = {
 };
 
 const AdminModal = (props) => {
+    const dispatch = useDispatch();
+
     const handleForm = (e) => {
+
+        const admin = {
+            userName:e.target.username.value,
+            email:e.target.email.value,
+            password:e.target.password.value,
+        }
+        console.log(admin)
         e.preventDefault()
-        console.log(e.target.email.value)
-        console.log(e.target.username.value)
-        console.log(e.target.password.value)
+        dispatch(addAdmin(admin))
     }
 
     return (
