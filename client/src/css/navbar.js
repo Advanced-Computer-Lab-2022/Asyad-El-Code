@@ -23,6 +23,7 @@ const useStyles = makeStyles()((theme) => {
       justifyContent: "end",
     },
     courseButton: {
+      backgroundColor: "red",
       width: "400px",
       color: "black",
       fontWeight: "bold",
@@ -32,6 +33,12 @@ const useStyles = makeStyles()((theme) => {
       fontWeight: "bold",
       marginLeft: "40px",
       marginRight: "40px",
+    },
+    admin: {
+      width: "200px",
+    },
+    instructor: {
+      width: "200px",
     },
   };
 });

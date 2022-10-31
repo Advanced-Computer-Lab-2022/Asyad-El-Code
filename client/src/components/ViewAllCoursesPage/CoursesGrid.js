@@ -12,13 +12,15 @@ import {
 } from "@mui/material";
 import { Container, Stack } from "@mui/system";
 import useStyles from "../../css/slider.js";
-import course from "../../images/course.jpeg";
+import image from "../../images/course.jpeg";
 import { useSelector } from "react-redux";
 
 export const CoursesGrid = () => {
   const [detailsBox, setDetailsBox] = useState(false);
   const [title, setTitle] = useState("");
   const courses = useSelector((c) => c.courses);
+  const selectedCountry = useSelector((c) => c.selectedCountry);
+  const rates = useSelector((c) => c.currencyRates);
   const handleClick = () => {
     console.log("CLICKED");
   };
@@ -37,7 +39,7 @@ export const CoursesGrid = () => {
               >
                 <CardMedia
                   component="img"
-                  image={course}
+                  image={image}
                   className={classes.cardMedia}
                 ></CardMedia>
                 <CardContent>
@@ -67,7 +69,11 @@ export const CoursesGrid = () => {
                     })}
                   </ul>
                   <Typography variant="body1" fontWeight="bold">
-                    {`$ ${course.price}`}
+                    {selectedCountry === "USA"
+                      ? "$" + (course.price * rates[0]).toFixed(2) + " USD"
+                      : selectedCountry === "CANADA"
+                      ? "$" + (course.price * rates[1]).toFixed(2) + " CAD"
+                      : course.price.toFixed(2) + " EGP"}
                   </Typography>
                 </CardContent>
                 <CardActions>

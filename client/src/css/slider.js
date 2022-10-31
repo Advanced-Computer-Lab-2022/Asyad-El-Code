@@ -21,9 +21,10 @@ const useStyles = makeStyles()((theme) => {
     },
     paper: {
       position: "absolute",
-      left:'370px',
-      top:"500px"
+      left: "370px",
+      top: "500px",
     },
+   
   };
 });
 export default useStyles;

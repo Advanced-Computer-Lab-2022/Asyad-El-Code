@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
   getAllInstructorCourses,
-  filterInstructorCourses
+  filterInstructorCourses,
 } from "../../actions/instructor";
 import { FilterBar } from "../ViewAllCoursesPage/FilterBar";
 import { CoursesGrid } from "../ViewAllCoursesPage/CoursesGrid";

@@ -11,10 +11,10 @@ import {
   findCourseBySubjectAndRating,
   filterAllCourses,
   searchByTitleOrSubjectOrInstructor
+
 } from "../controller/course.js";
 
 const router = express.Router();
-
 
 router.post("/", createCourse);
 router.get("/filter/price", filterBasedOnPrice);
@@ -28,9 +28,5 @@ router.get("/getCourses", getAllCourses);
 router.get("/filterAllCourses", filterAllCourses);
 
 router.get("/findCourse", searchByTitleOrSubjectOrInstructor);
-
-
-
-
 
 export default router;
