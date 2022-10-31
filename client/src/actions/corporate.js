@@ -1,4 +1,4 @@
-import * as api from "../api/index";
+import * as api from "../api/corporate";
 import { FETCH_CORPORATES, ADD_CORPORATE } from "../constants/corporate";
 
 export const getCorporates = () => async (dispatch) => {
