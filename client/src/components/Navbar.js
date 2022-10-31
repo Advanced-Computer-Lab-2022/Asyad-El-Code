@@ -96,9 +96,13 @@ export default function ButtonAppBar() {
               open={openMenu}
               onInputChange={(_, value) => {
                 if (value.length === 0) {
-                  if (openMenu) setOpenMenu(false);
+                  if (openMenu) {
+                    setOpenMenu(false);
+                  }
                 } else {
-                  if (!openMenu) setOpenMenu(true);
+                  if (!openMenu) {
+                    setOpenMenu(true);
+                  }
                 }
               }}
               onClose={() => setOpenMenu(false)}
@@ -156,6 +160,13 @@ export default function ButtonAppBar() {
               </Button>
             </Grid>
           </Grid>
+
+          <Button
+            onClick={() => history.push("/createcourse")}
+            variant="contained"
+          >
+            Create course
+          </Button>
         </Toolbar>
       </AppBar>
     </CssBaseline>

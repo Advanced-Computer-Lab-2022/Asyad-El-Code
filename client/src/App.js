@@ -7,13 +7,14 @@ import ViewAllCourses from "./components/ViewAllCoursesPage/ViewAllCourses";
 import { InstructorCourses } from "./components/Instructor/InstructorCourses";
 
 import { Switch, Route } from "react-router-dom";
+import CourseStructure from "./components/Instructor/CourseStructure";
 export const App = () => {
   return (
     <>
       {/* <MenuAppBar></MenuAppBar>
       <Home></Home> */}
       <Navbar></Navbar>
-      
+
       <Switch>
         <Route exact path="/">
           <Home />
@@ -24,10 +25,11 @@ export const App = () => {
         <Route exact path="/instructorpage">
           <InstructorCourses></InstructorCourses>
         </Route>
+        <Route exact path="/createCourse">
+          <CourseStructure></CourseStructure>
+        </Route>
       </Switch>
       {/* <CourseDetails></CourseDetails> */}
-
-      {/* <CourseStructure></CourseStructure> */}
 
       {/* {/* <CourseDetails></CourseDetails> */}
     </>
