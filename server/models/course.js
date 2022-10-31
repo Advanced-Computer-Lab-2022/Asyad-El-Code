@@ -61,6 +61,7 @@ export const courseSchema = mongoose.Schema({
     required: true,
   },
   instructor: {
+
     instructorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Instructor",
