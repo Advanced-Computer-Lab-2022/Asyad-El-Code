@@ -1,5 +1,6 @@
 import express from "express";
-import { createCorporateTrainee, getAllCorporateTrainees, getCorporateTrainee, deleteCorporateTrainee, updateCorporateTrainee} from "../controller/corporateTrainee.js";
+import { createCorporateTrainee, getAllCorporateTrainees, 
+    getCorporateTrainee, deleteCorporateTrainee, updateCorporateTrainee} from "../controller/corporateTrainee.js";
 const router = express.Router();
 
 router.post("/", createCorporateTrainee);

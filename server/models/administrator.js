@@ -5,12 +5,10 @@ import {reportedProblemsSchema} from './reportedProblems.js';
 const administratorSchema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: true,
         minlength: 3,
     },
     lastName: {
         type: String,
-        required: true,
         minlength: 3,
     },
     email: {
@@ -32,8 +30,8 @@ const administratorSchema = new mongoose.Schema({
 
 export function validate(user) {
     const schema = Joi.object({
-        firstName: Joi.string().min(3).required(),
-        lastName: Joi.string().min(3).required(),
+        firstName: Joi.string().min(3),
+        lastName: Joi.string().min(3),
         email: Joi.string().email().required(),
         userName: Joi.string().required(),
         password: Joi.string().required()

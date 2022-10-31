@@ -9,6 +9,14 @@ export const getCourses = () => async (dsipatch) => {
     console.log(error);
   }
 };
+export const filterCourses = (filterData) => async (dispatch) => {
+  try {
+    const { data } = await courseApi.filterCourses(filterData);
+    dispatch({ type: "FILTER_SUBJECT_RATING", payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const filterByTilteOrSubjectOrInstructor =
   (searchQuery) => async (dispatch) => {
