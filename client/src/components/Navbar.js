@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { CssBaseline, Grid, TextField } from "@mui/material";
 import useStyles from "../css/navbar";
+<<<<<<< HEAD
 import { Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -18,6 +19,14 @@ import { useSelector } from "react-redux";
 import { Autocomplete, FormControl, InputLabel, Select } from "@mui/material";
 import { US, EG, CA } from "country-flag-icons/react/3x2";
 import { useHistory } from "react-router-dom";
+=======
+import { Menu, MenuItem,FormControl,InputLabel,Select,Autocomplete } from "@mui/material";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { US,EG,CA } from 'country-flag-icons/react/3x2'
+import { useState } from "react";
+import { useDispatch,useSelector } from "react-redux";
+
+>>>>>>> 9816e0d6c27ff5ecd354470d9965c693bad548d6
 export default function ButtonAppBar() {
   const { classes } = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -33,9 +42,16 @@ export default function ButtonAppBar() {
   const handleClose = (event) => {
     setAnchorEl(null);
   };
+<<<<<<< HEAD
   const handleCountry = (event) => {
     setCountry(event.target.value);
   };
+=======
+
+  const handleCountry = (event)=>{
+    setCountry(event.target.value)
+  }
+>>>>>>> 9816e0d6c27ff5ecd354470d9965c693bad548d6
   return (
     <CssBaseline>
       <AppBar className={classes.appBar} position="sticky">
