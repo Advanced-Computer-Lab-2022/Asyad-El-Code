@@ -19,15 +19,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCurrencyRates } from "../actions/currencyRates";
 import { margin } from "@mui/system";
 import { changeSelectedCountry } from "../actions/selectedCountry";
-
-import { Menu, MenuItem } from "@mui/material";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { Autocomplete, FormControl, InputLabel, Select } from "@mui/material";
-import { US, EG, CA } from "country-flag-icons/react/3x2";
 import { useHistory } from "react-router-dom";
 export default function ButtonAppBar() {
+  const dispatch = useDispatch();
   const { classes } = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [country, setCountry] = React.useState("");
