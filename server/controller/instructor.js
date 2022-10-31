@@ -214,7 +214,6 @@ export const filterInstructorCourses = async (req, res) => {
     res.status(401).send(err);
   }
 }
-
 export const searchByTitleOrSubject = async (req, res) => {
   try {
     const { title, subject } = req.query;
