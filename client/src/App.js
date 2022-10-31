@@ -5,15 +5,16 @@ import MenuAppBar from "./components/Navbar";
 import Home from "./components/HomePage/Home";
 import ViewAllCourses from "./components/ViewAllCoursesPage/ViewAllCourses";
 import { InstructorCourses } from "./components/Instructor/InstructorCourses";
-
+import Admin from "./components/Admin/Admin.js";
 import CourseStructure from "./components/Instructor/CourseStructure";
 import Exercise from "./components/Instructor/Exercise";
 import PopularCourses from "./components/HomePage/PopularCourses";
 import SimpleSlider from "./components/Slider";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Router } from "react-router-dom";
 export const App = () => {
   return (
     <>
+      <MenuAppBar></MenuAppBar>
 
       <Switch>
         <Route exact path="/">
@@ -25,7 +26,11 @@ export const App = () => {
         <Route exact path="/instructorpage">
           <InstructorCourses></InstructorCourses>
         </Route>
+        <Route path="/adminPage">
+          <Admin></Admin>
+        </Route>
       </Switch>
+
       {/* <CourseDetails></CourseDetails> */}
     </>
   );
