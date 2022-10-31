@@ -4,11 +4,11 @@ import { validateCourse } from "../models/course.js";
 import Instructor from "../models/instructor.js";
 
 export const createCourse = async (req, res) => {
-  console.log("Iam in backend")
+  console.log("Iam in backend");
   console.log(req.body);
   // const { error } = validateCourse(req.body);
-
   // if (error) return res.status(400).send(error.details[0].message);
+
   const {
     title,
     summary,
@@ -24,7 +24,10 @@ export const createCourse = async (req, res) => {
     instructor,
     discount,
   } = req.body;
-  console.log(outlines[0]);
+  console.log(req.body.outlines[0]);
+
+  const initiaform = outlines[0].subtitles[0];
+  console.log(initiaform);
 
   try {
     const course = await new Course({
@@ -37,12 +40,12 @@ export const createCourse = async (req, res) => {
       image,
       rating,
       previewVideo,
-      outlines,
+      outlines: req.body.outlines,
       price,
       instructor,
-      discount:[{country:"shdshdsd",precent:2323}]
+      discount: [{ country: "shdshdsd", precent: 2323 }],
     });
-    
+
     console.log("Iamhere man man amn");
     await course.save();
     res.status(200).json(course);

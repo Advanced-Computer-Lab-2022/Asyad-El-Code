@@ -7,7 +7,6 @@ import { InstructorCourses } from "./components/Instructor/InstructorCourses";
 import { Switch, Route } from "react-router-dom";
 import CourseStructure from "./components/Instructor/CourseStructure";
 import Admin from "./components/Admin/Admin.js";
-import CourseStructure from "./components/Instructor/CourseStructure";
 import Exercise from "./components/Instructor/Exercise";
 export const App = () => {
   return (
@@ -16,7 +15,6 @@ export const App = () => {
       <Home></Home> */}
       <Navbar></Navbar>
 
-      <MenuAppBar></MenuAppBar>
 
       <Switch>
         <Route exact path="/">
