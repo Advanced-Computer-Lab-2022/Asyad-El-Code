@@ -19,7 +19,7 @@ export const createCourse = async (req, res) => {
     outlines,
     excercises,
     price,
-    instructorId,
+    instructor,
     discount,
   } = req.body;
   console.log(outlines[0]);
@@ -38,7 +38,7 @@ export const createCourse = async (req, res) => {
       outlines,
       excercises,
       price,
-      instructorId,
+      instructor,
       discount,
     });
     await course.save();
@@ -117,20 +117,23 @@ export const findCourseBySubjectAndRating = async (req, res) => {
 
 export const searchByTitleOrSubjectOrInstructor = async (req, res) => {
   try {
-    const { title, subject, instructor } = req.body;
-    const titleRgx = new RegExp("^" + title, "i");
-    const subjectRgx = new RegExp("^" + subject, "i");
-    const instructorRgx = new RegExp("^" + instructor, "i");
-    const instructorID = await Instructor.find({
-      $or: [{ userName: instructorRgx }],
-    }).select("_id");
+    const { searchQuery } = req.query;
+    console.log(searchQuery);
+    const titleRgx = new RegExp(searchQuery, "i");
+    const subjectRgx = new RegExp(searchQuery, "i");
+    const instructorRgx = new RegExp(searchQuery, "i");
+    console.log(instructorRgx);
+    // const instructorID = await Instructor.find({
+    //   $or: [{ userName: instructorRgx }],
+    // }).select("_id");
+
     const courses = await Course.find({
       $or: [
         { title: titleRgx },
         { subject: subjectRgx },
         {
-          instructorId: {
-            $in: instructorID,
+          "instructor.name": {
+            $in: instructorRgx,
           },
         },
       ],

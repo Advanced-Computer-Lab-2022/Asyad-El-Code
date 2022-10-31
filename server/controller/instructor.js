@@ -168,6 +168,7 @@ export const updateInformation = async (req, res) => {
   res.send;
 };
 
+
 export const getAllInstructorCourses = async (req, res) => {
   try {
     const { id } = req.params;
@@ -199,5 +200,19 @@ export const filterInstructorCourses = async (req, res) => {
     res.status(200).send(courses);
   } catch (err) {
     res.status(401).send(err);
+
+export const searchByTitleOrSubject = async (req, res) => {
+  try {
+    const { title, subject } = req.query;
+    const { id } = req.params.id;
+    const courses = await Course.find({ "instructor.instructorId": id }).or([
+      { title: title },
+      { subject: subject },
+    ]);
+
+    res.status(200).send(courses);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+
   }
 };
