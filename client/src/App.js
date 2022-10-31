@@ -1,18 +1,32 @@
 import React from "react";
-
-import { ThemeContext } from "@emotion/react";
 import { Stack } from "@mui/system";
 import Navbar from "./components/Navbar";
 import MenuAppBar from "./components/Navbar";
 import Home from "./components/HomePage/Home";
-import CourseDetails from "./components/Course/CourseDetails";
+import ViewAllCourses from "./components/ViewAllCoursesPage/ViewAllCourses";
+import { InstructorCourses } from "./components/Instructor/InstructorCourses";
+
+import CourseStructure from "./components/Instructor/CourseStructure";
+import Exercise from "./components/Instructor/Exercise";
+import PopularCourses from "./components/HomePage/PopularCourses";
+import SimpleSlider from "./components/Slider";
+import { Switch, Route } from "react-router-dom";
 export const App = () => {
   return (
     <>
-      <MenuAppBar></MenuAppBar>
-      <Home></Home>
 
-      {/* {/* <CourseDetails></CourseDetails> */}
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/viewAll">
+          <ViewAllCourses />
+        </Route>
+        <Route exact path="/instructorpage">
+          <InstructorCourses></InstructorCourses>
+        </Route>
+      </Switch>
+      {/* <CourseDetails></CourseDetails> */}
     </>
   );
 };
