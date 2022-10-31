@@ -13,9 +13,7 @@ import CheckboxesTags from "./CheckBox";
 import PriceSlider from "./PriceSlider";
 import RatingSlider from "./RatingSlider";
 import { useDispatch } from "react-redux";
-import { filterCourses } from "../../actions/courses";
 import { useSelector } from "react-redux";
-import { filter } from "underscore";
 
 const initialFilterData = {
   Subject: [

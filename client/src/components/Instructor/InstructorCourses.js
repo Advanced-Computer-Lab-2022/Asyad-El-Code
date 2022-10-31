@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import {
   getAllInstructorCourses,
   filterInstructorCourses,
-} from "../../actions/courses";
+} from "../../actions/instructor";
 import { FilterBar } from "../ViewAllCoursesPage/FilterBar";
 import { CoursesGrid } from "../ViewAllCoursesPage/CoursesGrid";
 import { Typography } from "@mui/material";

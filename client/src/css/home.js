@@ -14,23 +14,7 @@ const useStyles = makeStyles()((theme) => {
     members: {
       marginTop: "40px",
     },
-    cardMedia: {
-      objectFit: "cover",
-      background: "black",
-
-    },
-
-    cardGrid: {
-      padding: "10px",
-      cursor: "pointer",
-    },
-    cardContent: {
-      marginTop: "0px",
-      fontSize: "15px",
-      fontWeight: "bold",
-    },
-    
-   
+ 
   };
 });
 export default useStyles;
