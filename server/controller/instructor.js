@@ -37,7 +37,7 @@ export const createInstructor = async (req, res) => {
     await instructor.save();
     res.status(200).json(instructor);
   } catch (error) {
-    console.log("HENAAA")
+    console.log("HENAAA");
     res.status(401).send(error.message); //test
   }
 };
@@ -50,7 +50,6 @@ export const getInstructors = async (_req, res) => {
     res.status(400).send(error.message);
   }
 };
-
 
 export const viewCourseTitles = async (req, res) => {
   try {
@@ -180,7 +179,6 @@ export const updateInformation = async (req, res) => {
   res.send;
 };
 
-
 export const getAllInstructorCourses = async (req, res) => {
   try {
     const { id } = req.params;
@@ -200,8 +198,8 @@ export const filterInstructorCourses = async (req, res) => {
     const subjectArray = subject.split(/[,]+/);
     const priceArray = price.split(/[,]+/);
     const ratingArray = rating.split(/[,]+/);
-    console.log(id);
-    const courses = await Course.find({ "instructor:instructorId": id })
+    const courses = await Course.find()
+      .and({ "instructor.instructorId": id })
       .and({
         subject: { $in: subjectArray },
       })
@@ -213,7 +211,7 @@ export const filterInstructorCourses = async (req, res) => {
   } catch (err) {
     res.status(401).send(err);
   }
-}
+};
 export const searchByTitleOrSubject = async (req, res) => {
   try {
     const { title, subject } = req.query;
@@ -226,6 +224,5 @@ export const searchByTitleOrSubject = async (req, res) => {
     res.status(200).send(courses);
   } catch (error) {
     res.status(400).send({ message: error.message });
-
   }
-}
+};
