@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Button } from "@mui/material";
+import { Grid, Button , Typography} from "@mui/material";
 import Section from "./Section";
 
 const initialFormState = {
