@@ -14,9 +14,9 @@ import Exercise from "./components/Instructor/Exercise";
 export const App = () => {
   return (
     <>
-      {/* <MenuAppBar></MenuAppBar>
-      <Home></Home> */}
-      <CourseStructure></CourseStructure>
+      <MenuAppBar></MenuAppBar>
+      <Home></Home>
+      {/* <CourseStructure></CourseStructure> */}
 
       {/* {/* <CourseDetails></CourseDetails> */}
     </>

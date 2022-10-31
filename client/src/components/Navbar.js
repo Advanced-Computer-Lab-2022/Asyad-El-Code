@@ -8,11 +8,13 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { CssBaseline, Grid, TextField } from "@mui/material";
 import useStyles from "../css/navbar";
-import { Menu, MenuItem,FormControl,InputLabel,Select,Autocomplete } from "@mui/material";
+import { Menu, MenuItem, FormControl, InputLabel, Select, Autocomplete } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { US,EG,CA } from 'country-flag-icons/react/3x2'
-import { useState } from "react";
-import { useDispatch,useSelector } from "react-redux";
+import { US, EG, CA } from 'country-flag-icons/react/3x2'
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrencyRates } from "../actions/currencyRates";
+import { margin } from "@mui/system";
 
 export default function ButtonAppBar() {
   const { classes } = useStyles();
@@ -24,6 +26,12 @@ export default function ButtonAppBar() {
   const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(false);
   const courses = useSelector((c) => c.courses);
+  const rates = useSelector(state => state.currencyRates);
+  console.log(rates)
+  useEffect(() => {
+    dispatch(getCurrencyRates());
+  }, [country])
+
   const handleClick = (event) => {
     console.log("asdsdsa")
     setAnchorEl(event.currentTarget);
@@ -32,7 +40,7 @@ export default function ButtonAppBar() {
     setAnchorEl(null);
   };
 
-  const handleCountry = (event)=>{
+  const handleCountry = (event) => {
     setCountry(event.target.value)
   }
   return (
@@ -118,9 +126,9 @@ export default function ButtonAppBar() {
                   label="Country"
                   onChange={handleCountry}
                 >
-                  <MenuItem value={"Egypt"}><EG title="Egypt" width={20} />Egypt</MenuItem>
-                  <MenuItem value={"Canada"}><CA title="Canada" width={20} />Canada</MenuItem>
-                  <MenuItem value={"USA"}><US title="United States" width={20} />USA</MenuItem>
+                  <MenuItem value={"Egypt"}><EG title="Egypt" width={20} st/><span style={{marginLeft:'10px'}}>Egypt</span></MenuItem>
+                  <MenuItem value={"Canada"}><CA title="Canada" width={20} /><span style={{marginLeft:'10px'}}>Canada</span></MenuItem>
+                  <MenuItem value={"USA"}><US title="USA" width={20} /><span style={{marginLeft:'10px'}}>USA</span></MenuItem>
                 </Select>
               </FormControl>
             </Grid>
