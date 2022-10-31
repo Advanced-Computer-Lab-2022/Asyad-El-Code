@@ -145,7 +145,7 @@ export const SimpleSlider = () => {
                     <p style={{ alignSelf: "center" }}>n5332</p>
                   </Stack>
                   <Typography variant="body1" fontWeight="bold">
-                    {selectedCountry==="USA"?(course.price*rates[0]).toFixed(2)+"$ USD":selectedCountry==="CANADA"?(course.price*rates[1]).toFixed(2)+"$ CAD":(course.price).toFixed(2)+" EGP"}
+                    {selectedCountry==="USA"?"$"+(course.price*rates[0]).toFixed(2)+" USD":selectedCountry==="CANADA"?"$"+(course.price*rates[1]).toFixed(2)+" CAD":(course.price).toFixed(2)+" EGP"}
                   </Typography>
                 </CardContent>
               </Card>
@@ -154,13 +154,7 @@ export const SimpleSlider = () => {
         </Slider>
       </div>
 
-      {detailsBox && (
-        <>
-          <div className={classes.paper}>
-            {/* <CourseDetails itemTitle={title}></CourseDetails> */}
-          </div>
-        </>
-      )}
+      
     </div>
   );
 };
