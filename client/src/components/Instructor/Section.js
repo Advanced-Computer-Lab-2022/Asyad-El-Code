@@ -5,6 +5,10 @@ import { useState } from "react";
 import LectureDetails from "./LectureDetails";
 import Exercise from "./Exercise";
 
+
+
+
+
 const initialFormState = {
     outline: "",
     totalHours: "",
