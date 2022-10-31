@@ -11,13 +11,15 @@ import {
   CardMedia,
   Rating,
   Typography,
+  Modal,
+  Box,
 } from "@mui/material";
-import course from "../images/course.jpeg";
 import useStyles from "../css/slider.js";
 import { Stack } from "@mui/system";
-import CourseDetails from "./Course/CourseDetails";
 import { useRef } from "react";
 import "../css/card.css";
+import image from "../images/course.jpeg";
+import CoursePopup from "../components/Course/CoursePopup";
 
 import { useSelector } from "react-redux";
 import currencyRates from "../reducers/currencyRates";
@@ -39,18 +41,24 @@ export const SimpleSlider = () => {
   const courses = useSelector((c) => c.courses);
   const selectedCountry = useSelector((c) => c.selectedCountry);
   const rates = useSelector((c) => c.currencyRates);
+  const [courseDetails, setCourseDetails] = useState(null);
   console.log(courses);
   console.log(selectedCountry);
   console.log(rates);
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = (course) => {
+    setCourseDetails(course);
+    setOpen(true);
+  };
+
+  const handleClose = () => setOpen(false);
 
   const handleMouseOver = (event, title) => {
     console.log(event);
     console.log("sdsd");
     setTitle(title);
     setDetailsBox(true);
-  };
-  const handleMouseOut = (event) => {
-    setDetailsBox(false);
   };
 
   function SampleNextArrow(props) {
@@ -120,7 +128,7 @@ export const SimpleSlider = () => {
               <Card elevation={0} className={classes.cardGrid} key={index}>
                 <CardMedia
                   component="img"
-                  image={course}
+                  image={image}
                   className={classes.cardMedia}
                   // onMouseOver={(event) => handleMouseOver(event, item.title)}
                   // onMouseOut={handleMouseOut}
@@ -148,13 +156,40 @@ export const SimpleSlider = () => {
                     {selectedCountry==="USA"?"$"+(course.price*rates[0]).toFixed(2)+" USD":selectedCountry==="CANADA"?"$"+(course.price*rates[1]).toFixed(2)+" CAD":(course.price).toFixed(2)+" EGP"}
                   </Typography>
                 </CardContent>
+                <CardActions>
+                  <Button
+                    onClick={() => handleOpen(course)}
+                    variant="outlined"
+                    size="small"
+                  >
+                    View
+                  </Button>
+                </CardActions>
               </Card>
             );
           })}
         </Slider>
       </div>
 
-      
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            height: "470px",
+            width: "340px",
+            position: "absolute",
+            top: "50%",
+            left: "47%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <CoursePopup courseData={courseDetails}></CoursePopup>
+        </Box>
+      </Modal>
     </div>
   );
 };

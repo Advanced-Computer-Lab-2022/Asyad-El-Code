@@ -228,4 +228,4 @@ export const searchByTitleOrSubject = async (req, res) => {
     res.status(400).send({ message: error.message });
 
   }
-};
+}
