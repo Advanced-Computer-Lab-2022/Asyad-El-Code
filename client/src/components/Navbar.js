@@ -15,6 +15,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrencyRates } from "../actions/currencyRates";
 import { margin } from "@mui/system";
+import { changeSelectedCountry } from "../actions/selectedCountry";
 
 export default function ButtonAppBar() {
   const { classes } = useStyles();
@@ -41,7 +42,9 @@ export default function ButtonAppBar() {
   };
 
   const handleCountry = (event) => {
+    console.log(event.target.value)
     setCountry(event.target.value)
+    dispatch(changeSelectedCountry(event.target.value))
   }
   return (
     <CssBaseline>
@@ -126,8 +129,8 @@ export default function ButtonAppBar() {
                   label="Country"
                   onChange={handleCountry}
                 >
-                  <MenuItem value={"Egypt"}><EG title="Egypt" width={20} st/><span style={{marginLeft:'10px'}}>Egypt</span></MenuItem>
-                  <MenuItem value={"Canada"}><CA title="Canada" width={20} /><span style={{marginLeft:'10px'}}>Canada</span></MenuItem>
+                  <MenuItem value={"EGYPT"}><EG title="Egypt" width={20} st/><span style={{marginLeft:'10px'}}>Egypt</span></MenuItem>
+                  <MenuItem value={"CANADA"}><CA title="Canada" width={20} /><span style={{marginLeft:'10px'}}>Canada</span></MenuItem>
                   <MenuItem value={"USA"}><US title="USA" width={20} /><span style={{marginLeft:'10px'}}>USA</span></MenuItem>
                 </Select>
               </FormControl>

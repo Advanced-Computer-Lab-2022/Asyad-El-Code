@@ -20,6 +20,7 @@ import { useRef } from "react";
 import "../css/card.css";
 
 import { useSelector } from "react-redux";
+import currencyRates from "../reducers/currencyRates";
 const arr = [
   { id: "1", title: "7amada Bena" },
   { id: "2", title: "Yalla yel3b" },
@@ -36,7 +37,11 @@ export const SimpleSlider = () => {
   const [detailsBox, setDetailsBox] = useState(false);
   const [title, setTitle] = useState("");
   const courses = useSelector((c) => c.courses);
+  const selectedCountry = useSelector((c) => c.selectedCountry);
+  const rates = useSelector((c) => c.currencyRates);
   console.log(courses);
+  console.log(selectedCountry);
+  console.log(rates);
 
   const handleMouseOver = (event, title) => {
     console.log(event);
@@ -140,7 +145,7 @@ export const SimpleSlider = () => {
                     <p style={{ alignSelf: "center" }}>n5332</p>
                   </Stack>
                   <Typography variant="body1" fontWeight="bold">
-                    {course.price}
+                    {selectedCountry==="USA"?(course.price*rates[0]).toFixed(2)+"$ USD":selectedCountry==="CANADA"?(course.price*rates[1]).toFixed(2)+"$ CAD":(course.price).toFixed(2)+" EGP"}
                   </Typography>
                 </CardContent>
               </Card>

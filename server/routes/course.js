@@ -10,6 +10,7 @@ import {
   getPriceOfCourses,
   findCourseBySubjectAndRating,
   filterAllCourses,
+  searchByTitleOrSubjectOrInstructor
 } from "../controller/course.js";
 
 const router = express.Router();

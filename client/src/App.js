@@ -11,11 +11,15 @@ import { InstructorCourses } from "./components/Instructor/InstructorCourses";
 
 import CourseStructure from "./components/Instructor/CourseStructure";
 import Exercise from "./components/Instructor/Exercise";
+import { Slider } from "@mui/material";
+import PopularCourses from "./components/HomePage/PopularCourses";
+import SimpleSlider from "./components/Slider";
 export const App = () => {
   return (
     <>
       <MenuAppBar></MenuAppBar>
       <Home></Home>
+      <SimpleSlider></SimpleSlider>
       {/* <CourseStructure></CourseStructure> */}
 
       {/* {/* <CourseDetails></CourseDetails> */}

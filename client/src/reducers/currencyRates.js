@@ -1,4 +1,4 @@
-import { FETCH_CURRENCY_RATES } from "../constants/currencyRates";
+import { FETCH_CURRENCY_RATES} from "../constants/currencyRates";
 
 export default (currencyRates = [], action) => {
     console.log("Iam here in the currency reducer");
