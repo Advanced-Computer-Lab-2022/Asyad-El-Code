@@ -8,8 +8,12 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { CssBaseline, Grid, TextField } from "@mui/material";
 import useStyles from "../css/navbar";
-import { Menu, MenuItem } from "@mui/material";
+import { Menu, MenuItem,FormControl,InputLabel,Select,Autocomplete } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { US,EG,CA } from 'country-flag-icons/react/3x2'
+import { useState } from "react";
+import { useDispatch,useSelector } from "react-redux";
+
 export default function ButtonAppBar() {
   const { classes } = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -27,6 +31,10 @@ export default function ButtonAppBar() {
   const handleClose = (event) => {
     setAnchorEl(null);
   };
+
+  const handleCountry = (event)=>{
+    setCountry(event.target.value)
+  }
   return (
     <CssBaseline>
       <AppBar className={classes.appBar} position="sticky">

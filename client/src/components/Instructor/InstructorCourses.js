@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
   getAllInstructorCourses,
-  filterInstructorCourses,
-} from "../../actions/courses";
+  filterInstructorCourses
+} from "../../actions/instructor";
 import { FilterBar } from "../ViewAllCoursesPage/FilterBar";
 import { CoursesGrid } from "../ViewAllCoursesPage/CoursesGrid";
 import { Typography } from "@mui/material";
