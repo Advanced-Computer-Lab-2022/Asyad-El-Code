@@ -34,6 +34,12 @@ const useStyles = makeStyles()((theme) => {
       marginLeft: "40px",
       marginRight: "40px",
     },
+    admin: {
+      width: "200px",
+    },
+    instructor: {
+      width: "200px",
+    },
   };
 });
 export default useStyles;

@@ -11,14 +11,24 @@ import {
 } from "@mui/material";
 import { CssBaseline, Grid, TextField } from "@mui/material";
 import useStyles from "../css/navbar";
-import { Menu, MenuItem } from "@mui/material";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { Autocomplete, FormControl, InputLabel, Select } from "@mui/material";
+import {
+  Menu,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
+  Autocomplete,
+} from "@mui/material";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { US, EG, CA } from "country-flag-icons/react/3x2";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrencyRates } from "../actions/currencyRates";
+import { margin } from "@mui/system";
+import { changeSelectedCountry } from "../actions/selectedCountry";
 import { useHistory } from "react-router-dom";
 export default function ButtonAppBar() {
+  const dispatch = useDispatch();
   const { classes } = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [country, setCountry] = React.useState("");
@@ -26,6 +36,12 @@ export default function ButtonAppBar() {
   const [search, setSearch] = useState("");
   const [openMenu, setOpenMenu] = useState(false);
   const courses = useSelector((c) => c.courses);
+  const rates = useSelector((state) => state.currencyRates);
+  console.log(rates);
+  useEffect(() => {
+    dispatch(getCurrencyRates());
+  }, [country]);
+
   const history = useHistory();
   const handleClick = (event) => {
     history.push("/viewAll");
@@ -33,8 +49,11 @@ export default function ButtonAppBar() {
   const handleClose = (event) => {
     setAnchorEl(null);
   };
+
   const handleCountry = (event) => {
+    console.log(event.target.value);
     setCountry(event.target.value);
+    dispatch(changeSelectedCountry(event.target.value));
   };
   return (
     <CssBaseline>
@@ -122,7 +141,15 @@ export default function ButtonAppBar() {
           >
             Instructor
           </Button>
-
+          <Button
+            onClick={() => {
+              history.push("/adminPage");
+            }}
+            variant="outlined"
+            className={classes.admin}
+          >
+            Admin
+          </Button>
           <Grid spacing={2} container className={classes.rightSection}>
             <Grid item xs={2}>
               <FormControl fullWidth size="small">
@@ -134,17 +161,17 @@ export default function ButtonAppBar() {
                   label="Country"
                   onChange={handleCountry}
                 >
-                  <MenuItem value={"Egypt"}>
-                    <EG title="Egypt" width={20} />
-                    Egypt
+                  <MenuItem value={"EGYPT"}>
+                    <EG title="Egypt" width={20} st />
+                    <span style={{ marginLeft: "10px" }}>Egypt</span>
                   </MenuItem>
-                  <MenuItem value={"Canada"}>
+                  <MenuItem value={"CANADA"}>
                     <CA title="Canada" width={20} />
-                    Canada
+                    <span style={{ marginLeft: "10px" }}>Canada</span>
                   </MenuItem>
                   <MenuItem value={"USA"}>
-                    <US title="United States" width={20} />
-                    USA
+                    <US title="USA" width={20} />
+                    <span style={{ marginLeft: "10px" }}>USA</span>
                   </MenuItem>
                 </Select>
               </FormControl>

@@ -1,19 +1,22 @@
 import React from "react";
-import { Stack } from "@mui/system";
 import Navbar from "./components/Navbar";
 import MenuAppBar from "./components/Navbar";
 import Home from "./components/HomePage/Home";
 import ViewAllCourses from "./components/ViewAllCoursesPage/ViewAllCourses";
 import { InstructorCourses } from "./components/Instructor/InstructorCourses";
-
 import { Switch, Route } from "react-router-dom";
 import CourseStructure from "./components/Instructor/CourseStructure";
+import Admin from "./components/Admin/Admin.js";
+import CourseStructure from "./components/Instructor/CourseStructure";
+import Exercise from "./components/Instructor/Exercise";
 export const App = () => {
   return (
     <>
       {/* <MenuAppBar></MenuAppBar>
       <Home></Home> */}
       <Navbar></Navbar>
+
+      <MenuAppBar></MenuAppBar>
 
       <Switch>
         <Route exact path="/">
@@ -28,7 +31,11 @@ export const App = () => {
         <Route exact path="/createCourse">
           <CourseStructure></CourseStructure>
         </Route>
+        <Route path="/adminPage">
+          <Admin></Admin>
+        </Route>
       </Switch>
+
       {/* <CourseDetails></CourseDetails> */}
 
       {/* {/* <CourseDetails></CourseDetails> */}
