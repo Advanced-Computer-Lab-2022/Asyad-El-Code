@@ -1,4 +1,5 @@
 import express from "express";
+import { convert } from "../controller/currencyConversion.js";
 
 import {
   createCourse,
@@ -12,6 +13,7 @@ import {
 } from "../controller/course.js";
 
 const router = express.Router();
+
 
 router.post("/", createCourse);
 router.get("/filter/price", filterBasedOnPrice);

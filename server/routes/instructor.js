@@ -9,6 +9,7 @@ import {
   searchByTitleOrSubject,
 
   updateInformation,
+  getInstructors
 } from "../controller/instructor.js";
 import { viewCourseTitles } from "../controller/instructor.js";
 import { addNewCourse } from "../controller/instructor.js";
@@ -16,6 +17,7 @@ import { searchByTitleOrSubjectOrInstructor } from "../controller/course.js";
 const router = express.Router();
 
 router.post("/", createInstructor);
+router.get("/", getInstructors);
 router.get("/viewTitles/:id", viewCourseTitles);
 
 router.get("/filterBySubjectAndPrice/:id", filterCourseBySubjectAndPrice);

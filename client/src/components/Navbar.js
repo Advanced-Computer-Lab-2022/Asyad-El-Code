@@ -6,37 +6,27 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Autocomplete, CssBaseline, Grid, TextField } from "@mui/material";
+import { CssBaseline, Grid, TextField } from "@mui/material";
 import useStyles from "../css/navbar";
 import { Menu, MenuItem } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import {
-  filterByTilteOrSubjectOrInstructor,
-  getCourses,
-} from "../actions/courses";
-import { useEffect } from "react";
-
 export default function ButtonAppBar() {
   const { classes } = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [country, setCountry] = React.useState("");
+
   const open = anchorEl;
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(false);
   const courses = useSelector((c) => c.courses);
   const handleClick = (event) => {
+    console.log("asdsdsa")
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (event) => {
     setAnchorEl(null);
   };
-
-  const handleChange = (newValue) => {
-    setSearch(newValue);
-  };
-
   return (
     <CssBaseline>
       <AppBar className={classes.appBar} position="sticky">
@@ -110,6 +100,22 @@ export default function ButtonAppBar() {
           </div>
 
           <Grid spacing={2} container className={classes.rightSection}>
+            <Grid item xs={2}>
+              <FormControl fullWidth size="small">
+                <InputLabel id="demo-simple-select-label">Country</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={country}
+                  label="Country"
+                  onChange={handleCountry}
+                >
+                  <MenuItem value={"Egypt"}><EG title="Egypt" width={20} />Egypt</MenuItem>
+                  <MenuItem value={"Canada"}><CA title="Canada" width={20} />Canada</MenuItem>
+                  <MenuItem value={"USA"}><US title="United States" width={20} />USA</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
             <Grid item>
               <Button variant="outlined" className={classes.navButtons}>
                 Login

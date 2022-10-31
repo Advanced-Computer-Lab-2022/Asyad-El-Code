@@ -5,8 +5,6 @@ import { Stack } from "@mui/system";
 import Navbar from "./components/Navbar";
 import MenuAppBar from "./components/Navbar";
 import Home from "./components/HomePage/Home";
-
-
 import ViewAllCourses from "./components/ViewAllCoursesPage/ViewAllCourses";
 import { FilterBar } from "./components/ViewAllCoursesPage/FilterBar";
 import { InstructorCourses } from "./components/Instructor/InstructorCourses";
