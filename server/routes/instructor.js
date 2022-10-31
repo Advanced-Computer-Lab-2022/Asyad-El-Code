@@ -2,6 +2,12 @@ import express from "express";
 import {
   createInstructor,
   filterCourseBySubjectAndPrice,
+
+  filterInstructorCourses,
+  getAllInstructorCourses,
+
+  searchByTitleOrSubject,
+
   updateInformation,
   getInstructors
 } from "../controller/instructor.js";
@@ -18,7 +24,9 @@ router.get("/filterBySubjectAndPrice/:id", filterCourseBySubjectAndPrice);
 
 router.post("/addNewCourse/:id", addNewCourse);
 router.patch("/updateInformation/:id", updateInformation);
+router.get("/searchByTitleOrSubject/:id", searchByTitleOrSubject);
 
-router.get("/findCourse", searchByTitleOrSubjectOrInstructor);
+router.get("/getAllInstructorCourses/:id", getAllInstructorCourses);
+router.get("/filterInstructorCourses", filterInstructorCourses);
 
 export default router;

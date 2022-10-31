@@ -1,4 +1,4 @@
-import * as api from "../api/index";
+import * as api from "../api/admin";
 import { FETCH_ALL, ADD_ADMIN } from "../constants/admins";
 
 export const getAdmins = () => async (dispatch) => {

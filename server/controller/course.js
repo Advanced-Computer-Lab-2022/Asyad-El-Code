@@ -19,7 +19,7 @@ export const createCourse = async (req, res) => {
     outlines,
     excercises,
     price,
-    instructorId,
+    instructor,
     discount,
   } = req.body;
   console.log(outlines[0]);
@@ -38,7 +38,7 @@ export const createCourse = async (req, res) => {
       outlines,
       excercises,
       price,
-      instructorId,
+      instructor,
       discount,
     });
     await course.save();
@@ -117,20 +117,23 @@ export const findCourseBySubjectAndRating = async (req, res) => {
 
 export const searchByTitleOrSubjectOrInstructor = async (req, res) => {
   try {
-    const { title, subject, instructor } = req.body;
-    const titleRgx = new RegExp("^" + title, "i");
-    const subjectRgx = new RegExp("^" + subject, "i");
-    const instructorRgx = new RegExp("^" + instructor, "i");
-    const instructorID = await Instructor.find({
-      $or: [{ userName: instructorRgx }],
-    }).select("_id");
+    const { searchQuery } = req.query;
+    console.log(searchQuery);
+    const titleRgx = new RegExp(searchQuery, "i");
+    const subjectRgx = new RegExp(searchQuery, "i");
+    const instructorRgx = new RegExp(searchQuery, "i");
+    console.log(instructorRgx);
+    // const instructorID = await Instructor.find({
+    //   $or: [{ userName: instructorRgx }],
+    // }).select("_id");
+
     const courses = await Course.find({
       $or: [
         { title: titleRgx },
         { subject: subjectRgx },
         {
-          instructorId: {
-            $in: instructorID,
+          "instructor.name": {
+            $in: instructorRgx,
           },
         },
       ],
@@ -144,6 +147,26 @@ export const searchByTitleOrSubjectOrInstructor = async (req, res) => {
 export const getAllCourses = async (_req, res) => {
   try {
     const courses = await Course.find();
+    res.status(200).send(courses);
+  } catch (err) {
+    res.status(401).send(err);
+  }
+};
+
+export const filterAllCourses = async (req, res) => {
+  try {
+    const { subject, price, rating } = req.query;
+    const subjectArray = subject.split(/[,]+/);
+    const priceArray = price.split(/[,]+/);
+    const ratingArray = rating.split(/[,]+/);
+
+    const courses = await Course.find({
+      subject: { $in: subjectArray },
+    })
+      .and({ price: { $lte: parseInt(priceArray[1]) } })
+      .and({ price: { $gte: parseInt(priceArray[0]) } })
+      .and({ rating: { $lte: parseInt(ratingArray[1]) } })
+      .and({ rating: { $gte: parseInt(ratingArray[0]) } });
     res.status(200).send(courses);
   } catch (err) {
     res.status(401).send(err);
