@@ -23,6 +23,7 @@ const useStyles = makeStyles()((theme) => {
       justifyContent: "end",
     },
     courseButton: {
+      backgroundColor: "red",
       width: "400px",
       color: "black",
       fontWeight: "bold",

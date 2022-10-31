@@ -11,13 +11,15 @@ import {
   CardMedia,
   Rating,
   Typography,
+  Modal,
+  Box,
 } from "@mui/material";
-import course from "../images/course.jpeg";
 import useStyles from "../css/slider.js";
 import { Stack } from "@mui/system";
-import CourseDetails from "./Course/CourseDetails";
 import { useRef } from "react";
 import "../css/card.css";
+import image from "../images/course.jpeg";
+import CoursePopup from "../components/Course/CoursePopup";
 
 import { useSelector } from "react-redux";
 const arr = [
@@ -36,16 +38,22 @@ export const SimpleSlider = () => {
   const [detailsBox, setDetailsBox] = useState(false);
   const [title, setTitle] = useState("");
   const courses = useSelector((c) => c.courses);
+  const [courseDetails, setCourseDetails] = useState(null);
   console.log(courses);
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = (course) => {
+    setCourseDetails(course);
+    setOpen(true);
+  };
+
+  const handleClose = () => setOpen(false);
 
   const handleMouseOver = (event, title) => {
     console.log(event);
     console.log("sdsd");
     setTitle(title);
     setDetailsBox(true);
-  };
-  const handleMouseOut = (event) => {
-    setDetailsBox(false);
   };
 
   function SampleNextArrow(props) {
@@ -115,7 +123,7 @@ export const SimpleSlider = () => {
               <Card elevation={0} className={classes.cardGrid} key={index}>
                 <CardMedia
                   component="img"
-                  image={course}
+                  image={image}
                   className={classes.cardMedia}
                   // onMouseOver={(event) => handleMouseOver(event, item.title)}
                   // onMouseOut={handleMouseOut}
@@ -143,19 +151,40 @@ export const SimpleSlider = () => {
                     {course.price}
                   </Typography>
                 </CardContent>
+                <CardActions>
+                  <Button
+                    onClick={() => handleOpen(course)}
+                    variant="outlined"
+                    size="small"
+                  >
+                    View
+                  </Button>
+                </CardActions>
               </Card>
             );
           })}
         </Slider>
       </div>
 
-      {detailsBox && (
-        <>
-          <div className={classes.paper}>
-            {/* <CourseDetails itemTitle={title}></CourseDetails> */}
-          </div>
-        </>
-      )}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            height: "470px",
+            width: "340px",
+            position: "absolute",
+            top: "50%",
+            left: "47%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <CoursePopup courseData={courseDetails}></CoursePopup>
+        </Box>
+      </Modal>
     </div>
   );
 };

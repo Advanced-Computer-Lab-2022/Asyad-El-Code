@@ -1,59 +1,76 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import {
+  Button,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
 import { CssBaseline, Grid, TextField } from "@mui/material";
 import useStyles from "../css/navbar";
+<<<<<<< HEAD
+import { Menu, MenuItem } from "@mui/material";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { Autocomplete, FormControl, InputLabel, Select } from "@mui/material";
+import { US, EG, CA } from "country-flag-icons/react/3x2";
+import { useHistory } from "react-router-dom";
+=======
 import { Menu, MenuItem,FormControl,InputLabel,Select,Autocomplete } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { US,EG,CA } from 'country-flag-icons/react/3x2'
 import { useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
 
+>>>>>>> 9816e0d6c27ff5ecd354470d9965c693bad548d6
 export default function ButtonAppBar() {
   const { classes } = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [country, setCountry] = React.useState("");
-
   const open = anchorEl;
   const [search, setSearch] = useState("");
-  const dispatch = useDispatch();
   const [openMenu, setOpenMenu] = useState(false);
   const courses = useSelector((c) => c.courses);
+  const history = useHistory();
   const handleClick = (event) => {
-    console.log("asdsdsa")
-    setAnchorEl(event.currentTarget);
+    history.push("/viewAll");
   };
   const handleClose = (event) => {
     setAnchorEl(null);
   };
+<<<<<<< HEAD
+  const handleCountry = (event) => {
+    setCountry(event.target.value);
+  };
+=======
 
   const handleCountry = (event)=>{
     setCountry(event.target.value)
   }
+>>>>>>> 9816e0d6c27ff5ecd354470d9965c693bad548d6
   return (
     <CssBaseline>
       <AppBar className={classes.appBar} position="sticky">
         <Toolbar>
-          <Typography color="black" variant="h6" component="div">
+          <Button onClick={() => history.push("/")} variant="contained">
+            Home
+          </Button>
+          {/* <Typography color="black" variant="h6" component="div">
             Logo
-          </Typography>
-
+          </Typography> */}
           <Button
             className={classes.courseButton}
             variant="contained"
             color="error"
             onClick={handleClick}
             size="large"
-            endIcon={<KeyboardArrowDownIcon></KeyboardArrowDownIcon>}
           >
             Explore
           </Button>
-
           <Menu
             onClose={handleClose}
             id="resources-menu"
@@ -103,9 +120,20 @@ export default function ButtonAppBar() {
               onClose={() => setOpenMenu(false)}
               options={courses.map((course) => course.title)}
               sx={{ width: 300 }}
-              renderInput={(params) => <TextField {...params} label="Search Courses" />}
+              renderInput={(params) => (
+                <TextField {...params} label="Search Courses" />
+              )}
             />
           </div>
+          <Button
+            onClick={() => {
+              history.push("/instructorpage");
+            }}
+            className={classes.instructor}
+            variant="outlined"
+          >
+            Instructor
+          </Button>
 
           <Grid spacing={2} container className={classes.rightSection}>
             <Grid item xs={2}>
@@ -118,9 +146,18 @@ export default function ButtonAppBar() {
                   label="Country"
                   onChange={handleCountry}
                 >
-                  <MenuItem value={"Egypt"}><EG title="Egypt" width={20} />Egypt</MenuItem>
-                  <MenuItem value={"Canada"}><CA title="Canada" width={20} />Canada</MenuItem>
-                  <MenuItem value={"USA"}><US title="United States" width={20} />USA</MenuItem>
+                  <MenuItem value={"Egypt"}>
+                    <EG title="Egypt" width={20} />
+                    Egypt
+                  </MenuItem>
+                  <MenuItem value={"Canada"}>
+                    <CA title="Canada" width={20} />
+                    Canada
+                  </MenuItem>
+                  <MenuItem value={"USA"}>
+                    <US title="United States" width={20} />
+                    USA
+                  </MenuItem>
                 </Select>
               </FormControl>
             </Grid>
