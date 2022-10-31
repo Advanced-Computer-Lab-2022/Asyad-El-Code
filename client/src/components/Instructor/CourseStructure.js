@@ -27,14 +27,12 @@ import {
   MenuItem,
   Select,
   TextField,
-  Menu
+  Menu,
 } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 import { useDispatch } from "react-redux";
 import { createCourse } from "../../actions/courses";
 import CoursePreview from "./CoursePreview";
-
-
 
 const drawerWidth = 240;
 
@@ -63,10 +61,10 @@ const initialFormState = {
   summary: "",
   subject: "",
   duration: "", //lesa
-  releaseDate: "2002-09-09",  //lesa
+  releaseDate: "2002-09-09", //lesa
   language: "",
   image: "",
-  rating: 0.0,  //default
+  rating: 0.0, //default
   previewVideo: "",
   outlines: [],
   price: "",
@@ -99,34 +97,14 @@ function CourseStructure(props) {
   };
 
   const submitOutlines = (state) => {
-    // const element = 0;
-    // const array = state;
-    // console.log(state.totalHours);
-    // // for (let i = 0; i < array.length; i++) {
-    // //   element += array[i].totalHours;
-      
-    // // }
-    // duration += parseInt(state.totalHours);
-    // let hours = duration/60;
-    // console.log(hours);
-    // setInitialForm({ ...initialForm, duration: hours });
     console.log("HJsdghjdsdghsdg");
     setInitialForm({ ...initialForm, outlines: state });
     setPage("Course Preview");
-    // var value =0;
-    // var totalHours = initialForm.outlines.map((outline)=>outline.totalHours);
-    // for(var i =0; i<totalHours.length; i++)value+=totalHours[i];
-    // totalHours/=60;
-    // setInitialForm({...initialForm,duration:totalHours});
   };
 
-
-  const handleSubmit = () => {
-    dispatch(createCourse(initialForm));
-  };
   const goNext = () => {
     setPage("Course Content");
-  }
+  };
 
   const drawer = (
     <div>
@@ -229,7 +207,7 @@ function CourseStructure(props) {
         <div>
           {page === "Course Details" ? (
             <Box>
-              <form onSubmit={handleSubmit}>
+              <form>
                 <Grid
                   container
                   spacing={5}
@@ -267,11 +245,15 @@ function CourseStructure(props) {
                         label="Category"
                         onChange={handleChange}
                       >
-                        <MenuItem value={"Computer Science"}>Computer Science</MenuItem>
+                        <MenuItem value={"Computer Science"}>
+                          Computer Science
+                        </MenuItem>
                         <MenuItem value={"Commerce"}>Commerce</MenuItem>
                         <MenuItem value={"Finance"}>Finance</MenuItem>
                         <MenuItem value={"Robotics"}>Robotics</MenuItem>
-                        <MenuItem value={"Project Management"}>Project Management</MenuItem>
+                        <MenuItem value={"Project Management"}>
+                          Project Management
+                        </MenuItem>
                         <MenuItem value={"Logistics"}>Logistics</MenuItem>
                       </Select>
                     </FormControl>
@@ -325,7 +307,6 @@ function CourseStructure(props) {
                     />
                   </Grid>
 
-
                   <Grid item xs={12} sm={12}>
                     <TextField
                       required
@@ -334,8 +315,7 @@ function CourseStructure(props) {
                       label="Video Preview"
                       fullWidth
                       variant="outlined"
-                 
-                                            onChange={handleChange}
+                      onChange={handleChange}
                     />
                   </Grid>
                   {/* <Grid item xs={12} sm={6}>
@@ -392,7 +372,7 @@ function CourseStructure(props) {
           ) : page === "Course Content" ? (
             <CourseOutline submitOutlines={submitOutlines}></CourseOutline>
           ) : page === "Course Preview" ? (
-           <CoursePreview course={initialForm}></CoursePreview>
+            <CoursePreview course={initialForm}></CoursePreview>
           ) : null}
         </div>
       </Box>

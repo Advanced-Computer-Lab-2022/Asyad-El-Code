@@ -1,5 +1,3 @@
-
-
 import * as React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
@@ -26,9 +24,7 @@ const initialFormState = {
   rating: "",
   previewVideo: "",
   outlines: [],
-  exercises: [
-    { question: [{ title: "", answers: [{ answer: "", corect: "" }] }] },
-  ],
+
   price: "",
   instructor: {
     instructorId: "",
@@ -48,4 +44,3 @@ function CreateCourse(props) {
 }
 
 export default CreateCourse;
-
