@@ -11,25 +11,12 @@ export const getCourses = () => async (dsipatch) => {
 };
 export const filterCourses = (filterData) => async (dispatch) => {
   try {
-    const { data } = await api.filterCourses(filterData);
+    const { data } = await courseApi.filterCourses(filterData);
     dispatch({ type: "FILTER_SUBJECT_RATING", payload: data });
   } catch (error) {
     console.log(error);
   }
 };
-export const getAllInstructorCourses = () => async (dispatch) => {
-  try {
-    const { data } = await api.getAllInstructorCourses();
-    dispatch({ type: "FETCH_ALL_INSTRUCTOR_COURSES", payload: data });
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const filterInstructorCourses = (filterData) => async (dispatch) => {
-  try {
-    const { data } = await api.filterInstructorCourses(filterData);
-    dispatch({ type: "FILTER_INSTRUCTOR_COURSES", payload: data });
-
 
 export const filterByTilteOrSubjectOrInstructor =
   (searchQuery) => async (dispatch) => {
@@ -48,7 +35,6 @@ export const createCourse = (course) => async (dispatch) => {
   try {
     const { data } = await courseApi.createCourse(course);
     dispatch({ type: CREATE_COURSE, payload: data });
-
   } catch (error) {
     console.log(error);
   }
