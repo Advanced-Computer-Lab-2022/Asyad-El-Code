@@ -31,6 +31,10 @@ import {
 import { makeStyles } from "tss-react/mui";
 import { useDispatch } from "react-redux";
 import { createCourse } from "../../actions/courses";
+import CoursePreview from "./CoursePreview";
+
+
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles()((theme) => {
@@ -57,14 +61,13 @@ const initialFormState = {
   title: "",
   summary: "",
   subject: "",
-  duration: "",
-  releaseDate: "",
+  duration: "", //lesa
+  releaseDate: "2002-09-09",  //lesa
   language: "",
   image: "",
-  rating: "",
+  rating: 0.0,  //default
   previewVideo: "",
   outlines: [],
-  exercises: [],
   price: "",
   instructor: {
     instructorId: "635c587e07f18b986c357bb7",
@@ -79,6 +82,7 @@ function CourseStructure(props) {
   const { window } = props;
   const [page, setPage] = useState("Course Details");
   const dispatch = useDispatch();
+  let duration = 0;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -94,11 +98,34 @@ function CourseStructure(props) {
   };
 
   const submitOutlines = (state) => {
+    // const element = 0;
+    // const array = state;
+    // console.log(state.totalHours);
+    // // for (let i = 0; i < array.length; i++) {
+    // //   element += array[i].totalHours;
+      
+    // // }
+    // duration += parseInt(state.totalHours);
+    // let hours = duration/60;
+    // console.log(hours);
+    // setInitialForm({ ...initialForm, duration: hours });
+    console.log("HJsdghjdsdghsdg");
     setInitialForm({ ...initialForm, outlines: state });
+    setPage("Course Preview");
+    // var value =0;
+    // var totalHours = initialForm.outlines.map((outline)=>outline.totalHours);
+    // for(var i =0; i<totalHours.length; i++)value+=totalHours[i];
+    // totalHours/=60;
+    // setInitialForm({...initialForm,duration:totalHours});
   };
+
+
   const handleSubmit = () => {
     dispatch(createCourse(initialForm));
   };
+  const goNext = () => {
+    setPage("Course Content");
+  }
 
   const drawer = (
     <div>
@@ -205,7 +232,7 @@ function CourseStructure(props) {
                 <Grid
                   container
                   spacing={5}
-                  maxWidth="40%"
+                  maxWidth="90%"
                   margin="20px"
                   direction="row"
                   justifyContent="center"
@@ -213,7 +240,7 @@ function CourseStructure(props) {
                 >
                   <Grid item xs={12}>
                     <Typography variant="h4" gutterBottom textAlign="center">
-                      Page 1/3
+                      Course Details
                     </Typography>
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -235,25 +262,47 @@ function CourseStructure(props) {
                       <Select
                         labelId="category-select-label"
                         id="category-select"
-                        name="category"
+                        name="subject"
                         label="Category"
                         onChange={handleChange}
                       >
-                        <MenuItem value={10}>Computer Science</MenuItem>
-                        <MenuItem value={20}>Commerce</MenuItem>
-                        <MenuItem value={30}>Finance</MenuItem>
-                        <MenuItem value={30}>Robotics</MenuItem>
-                        <MenuItem value={30}>Project Management</MenuItem>
-                        <MenuItem value={30}>Logistics</MenuItem>
+                        <MenuItem value={"Computer Science"}>Computer Science</MenuItem>
+                        <MenuItem value={"Commerce"}>Commerce</MenuItem>
+                        <MenuItem value={"Finance"}>Finance</MenuItem>
+                        <MenuItem value={"Robotics"}>Robotics</MenuItem>
+                        <MenuItem value={"Project Management"}>Project Management</MenuItem>
+                        <MenuItem value={"Logistics"}>Logistics</MenuItem>
                       </Select>
                     </FormControl>
                   </Grid>
 
-                  <Grid item xs={12} sm={6}>
+                  <Grid item xs={12} sm={4}>
+                    <FormControl required fullWidth>
+                      <InputLabel id="language-select-label">
+                        Language
+                      </InputLabel>
+                      <Select
+                        labelId="language-select-label"
+                        id="language-select"
+                        name="language"
+                        label="Language"
+                        onChange={handleChange}
+                      >
+                        <MenuItem value={"Arabic"}>Arabic</MenuItem>
+                        <MenuItem value={"English"}>English</MenuItem>
+                        <MenuItem value={"French"}>French</MenuItem>
+                        <MenuItem value={"German"}>German</MenuItem>
+                        <MenuItem value={"Portuguese"}>Portuguese</MenuItem>
+                        <MenuItem value={"Spanish"}>Spanish</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+
+                  <Grid item xs={12} sm={4}>
                     <TextField
                       required
                       id="price"
-                      name="cost"
+                      name="price"
                       label="Cost"
                       fullWidth
                       variant="outlined"
@@ -261,7 +310,8 @@ function CourseStructure(props) {
                       onChange={handleChange}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+
+                  <Grid item xs={12} sm={4}>
                     <TextField
                       required
                       id="duration"
@@ -273,25 +323,38 @@ function CourseStructure(props) {
                       onChange={handleChange}
                     />
                   </Grid>
-                  {/* <Grid item xs={12} sm={4}>
-                  <TextField
-                      required
-                      id="weeks"
-                      name="weeks"
-                      label="Weeks"
-                      fullWidth
-                      variant="outlined"
-                      type="number"
-                      value={state.weeks}
-                      onChange={handleChange}
-                  />
-              </Grid> */}
+
 
                   <Grid item xs={12} sm={12}>
                     <TextField
                       required
-                      id="description"
-                      name="description"
+                      id="previewVideo"
+                      name="previewVideo"
+                      label="Video Preview"
+                      fullWidth
+                      variant="outlined"
+                 
+                                            onChange={handleChange}
+                    />
+                  </Grid>
+                  {/* <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="duration"
+                      name="duration"
+                      label="Duration"
+                      fullWidth
+                      variant="outlined"
+                      type="number"
+                      onChange={handleChange}
+                    />
+                  </Grid> */}
+
+                  <Grid item xs={12} sm={12}>
+                    <TextField
+                      required
+                      id="summary"
+                      name="summary"
                       label="Description"
                       fullWidth
                       variant="outlined"
@@ -302,8 +365,8 @@ function CourseStructure(props) {
                   <Grid item xs={12} sm={12}>
                     <TextField
                       required
-                      id="imageURL"
-                      name="imageURL"
+                      id="image"
+                      name="image"
                       label="Image URL"
                       fullWidth
                       variant="outlined"
@@ -318,7 +381,7 @@ function CourseStructure(props) {
                     justifyContent="flex-end"
                     alignContent="flex-end"
                   >
-                    <Button variant="contained" onClick={handleSubmit}>
+                    <Button variant="contained" onClick={goNext}>
                       Next
                     </Button>
                   </Grid>
@@ -328,7 +391,7 @@ function CourseStructure(props) {
           ) : page === "Course Content" ? (
             <CourseOutline submitOutlines={submitOutlines}></CourseOutline>
           ) : page === "Course Preview" ? (
-            <div>COURSE PREVIEW</div>
+           <CoursePreview course={initialForm}></CoursePreview>
           ) : null}
         </div>
       </Box>

@@ -1,4 +1,4 @@
-import { FETCH_ALL } from "../constants/courses";
+import { CREATE_COURSE, FETCH_ALL } from "../constants/courses";
 
 export default (courses = [], action) => {
   console.log("Iam here");
@@ -13,6 +13,8 @@ export default (courses = [], action) => {
       return action.payload;
     case "FILTER_INSTRUCTOR_COURSES":
       return action.payload;
+    case CREATE_COURSE:
+      return[...courses,action.payload]
     default:
       return courses;
   }
