@@ -1,0 +1,2 @@
+export const FETCH_CORPORATES = "FETCH_CORPORATES";
+export const ADD_CORPORATE = "ADD_CORPORATE";

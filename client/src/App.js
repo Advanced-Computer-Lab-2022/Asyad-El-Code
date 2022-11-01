@@ -1,17 +1,27 @@
-import './App.css';
-import MyNavBar from './tempNavbar';
-import Instructor from './instructor';
-import AddCourseForm from './addCourse';
-import CourseForm from './newCourse';
+import React from "react";
+import CourseDetails from "./components/Course/CourseDetails";
+import { ThemeContext } from "@emotion/react";
+import { Stack } from "@mui/system";
+import Navbar from "./components/Navbar";
+import MenuAppBar from "./components/Navbar";
+import Home from "./components/HomePage/Home";
+import ViewAllCourses from "./components/ViewAllCoursesPage/ViewAllCourses";
+import { FilterBar } from "./components/ViewAllCoursesPage/FilterBar";
+import { InstructorCourses } from "./components/Instructor/InstructorCourses";
 
-const App = () => {
+import CourseStructure from "./components/Instructor/CourseStructure";
+import Exercise from "./components/Instructor/Exercise";
+export const App = () => {
   return (
     <>
-      <MyNavBar></MyNavBar>
-      <AddCourseForm></AddCourseForm>
-      {/* <CourseForm></CourseForm> */}
+      {/* <MenuAppBar></MenuAppBar>
+      <Home></Home> */}
+      <CourseStructure></CourseStructure>
+
+      {/* {/* <CourseDetails></CourseDetails> */}
     </>
   );
-}
+};
+
 
 export default App;

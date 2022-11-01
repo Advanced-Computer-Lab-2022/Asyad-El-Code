@@ -1,0 +1,3 @@
+export const FETCH_ALL = "FETCH_ALL";
+export const FETCH_INSTRUCTORS = "FETCH_INSTRUCTORS";
+export const ADD_INSTRUCTOR = "ADD_INSTRUCTOR";

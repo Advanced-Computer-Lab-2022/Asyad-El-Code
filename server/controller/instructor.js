@@ -33,12 +33,24 @@ export const createInstructor = async (req, res) => {
       wallet: wallet,
       phoneNumber: phoneNumber,
     });
+
     await instructor.save();
     res.status(200).json(instructor);
   } catch (error) {
-    res.send(error.message); //test
+    console.log("HENAAA")
+    res.status(401).send(error.message); //test
   }
 };
+
+export const getInstructors = async (_req, res) => {
+  try {
+    const instructors = await Instructor.find();
+    return res.status(200).send(instructors);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 
 export const viewCourseTitles = async (req, res) => {
   try {
@@ -167,3 +179,54 @@ export const updateInformation = async (req, res) => {
   }
   res.send;
 };
+
+
+export const getAllInstructorCourses = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const courses = await Course.find({ "instructor.instructorId": id });
+    if (!courses) {
+      res.status(404).send("Cannot find Courses for this instructor");
+    }
+    res.status(200).send(courses);
+  } catch (err) {
+    res.status(401).send(err.message);
+  }
+};
+
+export const filterInstructorCourses = async (req, res) => {
+  try {
+    const { id, subject, price, rating } = req.query;
+    const subjectArray = subject.split(/[,]+/);
+    const priceArray = price.split(/[,]+/);
+    const ratingArray = rating.split(/[,]+/);
+    console.log(id);
+    const courses = await Course.find({ "instructor:instructorId": id })
+      .and({
+        subject: { $in: subjectArray },
+      })
+      .and({ price: { $lte: parseInt(priceArray[1]) } })
+      .and({ price: { $gte: parseInt(priceArray[0]) } })
+      .and({ rating: { $lte: parseInt(ratingArray[1]) } })
+      .and({ rating: { $gte: parseInt(ratingArray[0]) } });
+    res.status(200).send(courses);
+  } catch (err) {
+    res.status(401).send(err);
+  }
+}
+
+export const searchByTitleOrSubject = async (req, res) => {
+  try {
+    const { title, subject } = req.query;
+    const { id } = req.params.id;
+    const courses = await Course.find({ "instructor.instructorId": id }).or([
+      { title: title },
+      { subject: subject },
+    ]);
+
+    res.status(200).send(courses);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+
+  }
+}
