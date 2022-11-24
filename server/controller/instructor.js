@@ -198,8 +198,7 @@ export const filterInstructorCourses = async (req, res) => {
     const subjectArray = subject.split(/[,]+/);
     const priceArray = price.split(/[,]+/);
     const ratingArray = rating.split(/[,]+/);
-    const courses = await Course.find()
-      .and({ "instructor.instructorId": id })
+    const courses = await Course.find({ "instructor.instructorId": id })
       .and({
         subject: { $in: subjectArray },
       })
