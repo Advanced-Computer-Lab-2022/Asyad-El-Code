@@ -23,7 +23,7 @@ const initialFilterData = {
     "Medicine",
     "Pharmacy",
   ],
-  Price: [0, 100],
+  Price: [0, 10000],
   Rating: [0, 5],
 };
 
