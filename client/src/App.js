@@ -8,6 +8,7 @@ import { Switch, Route } from "react-router-dom";
 import CourseStructure from "./components/Instructor/CourseStructure";
 import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
+import CourseSteps from "./components/Instructor/CourseSteps";
 export const App = () => {
   return (
     <>
@@ -27,7 +28,7 @@ export const App = () => {
           <InstructorCourses></InstructorCourses>
         </Route>
         <Route exact path="/createCourse">
-          <CourseStructure></CourseStructure>
+          <CourseSteps></CourseSteps>
         </Route>
         <Route path="/adminPage">
           <Admin></Admin>
