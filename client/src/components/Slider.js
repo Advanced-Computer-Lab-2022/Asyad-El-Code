@@ -18,11 +18,13 @@ import useStyles from "../css/slider.js";
 import { Stack } from "@mui/system";
 import { useRef } from "react";
 import "../css/card.css";
-import image from "../images/course.jpeg";
+import image from "../images/point.png";
 import CoursePopup from "../components/Course/CoursePopup";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import currencyRates from "../reducers/currencyRates";
+import { getCourse } from "../actions/courses.js";
+import { useHistory } from "react-router-dom";
 const arr = [
   { id: "1", title: "7amada Bena" },
   { id: "2", title: "Yalla yel3b" },
@@ -42,9 +44,13 @@ export const SimpleSlider = () => {
   const selectedCountry = useSelector((c) => c.selectedCountry);
   const rates = useSelector((c) => c.currencyRates);
   const [courseDetails, setCourseDetails] = useState(null);
-  console.log(courses);
-  console.log(selectedCountry);
-  console.log(rates);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleClick = (courseId, courseTitle) => {
+    dispatch(getCourse(courseId, history, courseTitle));
+  };
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = (course) => {
@@ -124,9 +130,11 @@ export const SimpleSlider = () => {
       <div style={{ width: "1200px" }}>
         <Slider {...settings}>
           {courses.map((course, index) => {
+            console.log(course.image);
             return (
               <Card elevation={0} className={classes.cardGrid} key={index}>
                 <CardMedia
+                  onClick={() => handleClick(course._id, course.title)}
                   component="img"
                   image={image}
                   className={classes.cardMedia}
@@ -148,12 +156,21 @@ export const SimpleSlider = () => {
                   </Typography>
 
                   <Stack spacing={1} direction="row">
-                    <p>4.5</p>
-                    <Rating readOnly sx={{ alignItems: "center" }}></Rating>
+                    <p>{parseFloat(course.rating)}</p>
+                    <Rating
+                      precision={0.5}
+                      defaultValue={parseFloat(course.rating)}
+                      readOnly
+                      sx={{ alignItems: "center" }}
+                    ></Rating>
                     <p style={{ alignSelf: "center" }}>n5332</p>
                   </Stack>
                   <Typography variant="body1" fontWeight="bold">
-                    {selectedCountry==="USA"?"$"+(course.price*rates[0]).toFixed(2)+" USD":selectedCountry==="CANADA"?"$"+(course.price*rates[1]).toFixed(2)+" CAD":(course.price).toFixed(2)+" EGP"}
+                    {selectedCountry === "USA"
+                      ? "$" + (course.price * rates[0]).toFixed(2) + " USD"
+                      : selectedCountry === "CANADA"
+                      ? "$" + (course.price * rates[1]).toFixed(2) + " CAD"
+                      : course.price.toFixed(2) + " EGP"}
                   </Typography>
                 </CardContent>
                 <CardActions>

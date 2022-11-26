@@ -2,13 +2,7 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import {
-  Button,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-} from "@mui/material";
+import { Button, InputAdornment, Link, SvgIcon } from "@mui/material";
 import { CssBaseline, Grid, TextField } from "@mui/material";
 import useStyles from "../css/navbar";
 import {
@@ -24,9 +18,13 @@ import { US, EG, CA } from "country-flag-icons/react/3x2";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrencyRates } from "../actions/currencyRates";
-import { margin } from "@mui/system";
 import { changeSelectedCountry } from "../actions/selectedCountry";
 import { useHistory } from "react-router-dom";
+import LanguageIcon from "@mui/icons-material/Language";
+
+import "./Header.css";
+import styled from "@emotion/styled";
+import { Box } from "@mui/system";
 export default function ButtonAppBar() {
   const dispatch = useDispatch();
   const { classes } = useStyles();
@@ -55,62 +53,28 @@ export default function ButtonAppBar() {
     setCountry(event.target.value);
     dispatch(changeSelectedCountry(event.target.value));
   };
+
+  const MyLink = styled(Link)({
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+  });
   return (
     <CssBaseline>
       <AppBar className={classes.appBar} position="sticky">
         <Toolbar>
-          <Button onClick={() => history.push("/")} variant="contained">
+          <MyLink underline="none" href="/">
             Home
-          </Button>
+          </MyLink>
           {/* <Typography color="black" variant="h6" component="div">
             Logo
           </Typography> */}
-          <Button
-            className={classes.courseButton}
-            variant="contained"
-            color="error"
-            onClick={handleClick}
-            size="large"
-          >
+
+          <MyLink sx={{ ml: 4, mr: 3 }} href="/viewAll" underline="none">
             Explore
-          </Button>
-          <Menu
-            onClose={handleClose}
-            id="resources-menu"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "center",
-            }}
-            open={open}
-          >
-            <MenuItem onClick={handleClose}>Blog</MenuItem>
-            <MenuItem onClick={handleClose}>Blog</MenuItem>
-          </Menu>
+          </MyLink>
+
           <div className={classes.headerOptions}>
-            {/* <TextField
-              sx={{ backgroundColor: "white", width: "400px" }}
-              placeholder="Search for courses"
-            ></TextField> */}
-            {/* <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={courses.map((course) => course.title)}
-              sx={{ width: 300 }}
-              onChange={handleChange}
-              filterOptions={(options) =>
-                options.filter((option) => option.includes("1"))
-              }
-              value={search}
-              freeSolo
-              renderInput={(params) => (
-                <TextField {...params} label="Search for courses" />
-              )}
-            /> */}
             <Autocomplete
               open={openMenu}
               onInputChange={(_, value) => {
@@ -126,13 +90,27 @@ export default function ButtonAppBar() {
               }}
               onClose={() => setOpenMenu(false)}
               options={courses.map((course) => course.title)}
-              sx={{ width: 300 }}
+              sx={{
+                width: 300,
+                borderRadius: 1,
+                borderStyle: "solid",
+                borderWidth: 1,
+                borderColor: "aqua",
+                opacity: 0.5,
+              }}
               renderInput={(params) => (
-                <TextField {...params} label="Search Courses" />
+                <TextField
+                  {...params}
+                  label="Search Courses"
+                  InputLabelProps={{
+                    className: "text_label",
+                  }}
+                  sx={{ input: { color: "white" } }}
+                />
               )}
             />
           </div>
-          <Button
+          {/* <Button
             onClick={() => {
               history.push("/instructorpage");
             }}
@@ -140,6 +118,16 @@ export default function ButtonAppBar() {
             variant="outlined"
           >
             Instructor
+          </Button>
+
+          <Button
+            onClick={() => {
+              history.push("/coursePage");
+            }}
+            className={classes.instructor}
+            variant="outlined"
+          >
+            coursePage
           </Button>
           <Button
             onClick={() => {
@@ -149,17 +137,26 @@ export default function ButtonAppBar() {
             className={classes.admin}
           >
             Admin
-          </Button>
+          </Button> */}
           <Grid spacing={2} container className={classes.rightSection}>
             <Grid item xs={2}>
               <FormControl fullWidth size="small">
-                <InputLabel id="demo-simple-select-label">Country</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={country}
-                  label="Country"
                   onChange={handleCountry}
+                  displayEmpty
+                  renderValue={(value) => {
+                    return (
+                      <Box color="#FFFFFF" sx={{ display: "flex", gap: 1 }}>
+                        <SvgIcon color="#FFFFFF">
+                          <LanguageIcon color="#FFFFFF" />
+                        </SvgIcon>
+                        {value}
+                      </Box>
+                    );
+                  }}
                 >
                   <MenuItem value={"EGYPT"}>
                     <EG title="Egypt" width={20} st />
@@ -176,24 +173,27 @@ export default function ButtonAppBar() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item>
-              <Button variant="outlined" className={classes.navButtons}>
+            <Grid alignSelf="center" item>
+              {/* <Button variant="outlined" className={classes.navButtons}>
                 Login
-              </Button>
+              </Button> */}
+              <MyLink href="#" underline="none">
+                Login
+              </MyLink>
             </Grid>
-            <Grid item>
-              <Button variant="outlined" className={classes.navButtons}>
-                Sign up
-              </Button>
+            <Grid alignSelf="center" item>
+              <MyLink color="white" underline="none">
+                Sign Up
+              </MyLink>
             </Grid>
           </Grid>
 
-          <Button
+          {/* <Button
             onClick={() => history.push("/createcourse")}
             variant="contained"
           >
             Create course
-          </Button>
+          </Button> */}
         </Toolbar>
       </AppBar>
     </CssBaseline>
