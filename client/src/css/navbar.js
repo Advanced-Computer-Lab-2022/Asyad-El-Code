@@ -3,7 +3,8 @@ import { makeStyles } from "tss-react/mui";
 const useStyles = makeStyles()((theme) => {
   return {
     appBar: {
-      backgroundColor: "white",
+      backgroundColor: "black",
+      opacity: 0.89,
     },
     logo: {
       height: "60px",
