@@ -17,7 +17,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import CourseOutline from "./CourseOutline";
-import { useEffect } from "react";
 import { useState } from "react";
 import {
   Button,
@@ -27,34 +26,32 @@ import {
   MenuItem,
   Select,
   TextField,
-  Menu,
 } from "@mui/material";
-import { makeStyles } from "tss-react/mui";
-import { useDispatch } from "react-redux";
-import { createCourse } from "../../actions/courses";
+// import { makeStyles } from "tss-react/mui";
+// import { useDispatch } from "react-redux";
 import CoursePreview from "./CoursePreview";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles()((theme) => {
-  return {
-    formStyle: {
-      margin: "50px",
-      backgroundColor: "aqua",
-    },
-    textArea: {
-      color: "gold",
-      minHeight: "100px",
-    },
-    boxStyle: {
-      border: "1px",
-      borderRadius: "30px",
-      borderColor: "red",
-      width: "50%",
-      margin: "10px",
-    },
-  };
-});
+// const useStyles = makeStyles()((theme) => {
+//   return {
+//     formStyle: {
+//       margin: "50px",
+//       backgroundColor: "aqua",
+//     },
+//     textArea: {
+//       color: "gold",
+//       minHeight: "100px",
+//     },
+//     boxStyle: {
+//       border: "1px",
+//       borderRadius: "30px",
+//       borderColor: "red",
+//       width: "50%",
+//       margin: "10px",
+//     },
+//   };
+// });
 
 const initialFormState = {
   title: "",
@@ -80,8 +77,8 @@ function CourseStructure(props) {
   const [initialForm, setInitialForm] = React.useState(initialFormState);
   const { window } = props;
   const [page, setPage] = useState("Course Details");
-  const dispatch = useDispatch();
-  let duration = 0;
+  
+ 
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -97,7 +94,7 @@ function CourseStructure(props) {
   };
 
   const submitOutlines = (state) => {
-    console.log("HJsdghjdsdghsdg");
+    console.log("asdfghjkl");
     setInitialForm({ ...initialForm, outlines: state });
     setPage("Course Preview");
   };

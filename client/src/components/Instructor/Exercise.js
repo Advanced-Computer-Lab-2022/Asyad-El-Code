@@ -72,7 +72,6 @@ export default function Exercise({
   const [answerArray, setAnswerArray] = useState(["", "", "", ""]);
 
   const handleSubmit = async (e) => {
-    console.log("Iam here wlahi el 3azem");
     e.preventDefault();
     const answers = [
       { answer: answerArray[0], correct: true },
