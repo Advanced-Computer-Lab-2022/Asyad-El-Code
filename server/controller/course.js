@@ -4,8 +4,6 @@ import { validateCourse } from "../models/course.js";
 import Instructor from "../models/instructor.js";
 
 export const createCourse = async (req, res) => {
-  console.log("Iam in backend");
-  console.log(req.body);
   // const { error } = validateCourse(req.body);
   // if (error) return res.status(400).send(error.details[0].message);
 
@@ -19,16 +17,12 @@ export const createCourse = async (req, res) => {
     image,
     rating,
     previewVideo,
-    outlines,
     price,
     instructor,
     discount,
   } = req.body;
-  console.log(req.body.outlines[0]);
-
-  const initiaform = outlines[0].subtitles[0];
-  console.log(initiaform);
-
+  const { outlines } = req.body.outlines;
+  console.log(req.body);
   try {
     const course = await new Course({
       title,
@@ -40,7 +34,7 @@ export const createCourse = async (req, res) => {
       image,
       rating,
       previewVideo,
-      outlines: req.body.outlines,
+      outlines: outlines,
       price,
       instructor,
       discount: [{ country: "shdshdsd", precent: 2323 }],
@@ -48,6 +42,7 @@ export const createCourse = async (req, res) => {
 
     console.log("Iamhere man man amn");
     await course.save();
+    console.log("Iasdsd");
     res.status(200).json(course);
   } catch (error) {
     res.send(error.message); //test
@@ -62,6 +57,16 @@ export const getCoursesDetails = async (_req, res) => {
       duration: 1,
       rating: 1,
     });
+    res.status(200).send(courses);
+  } catch (err) {
+    res.status(401).send(err);
+  }
+};
+
+export const getCourse = async (req, res) => {
+  try {
+    const { courseId } = req.query;
+    const courses = await Course.findById(courseId);
     res.status(200).send(courses);
   } catch (err) {
     res.status(401).send(err);
