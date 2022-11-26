@@ -1,0 +1,339 @@
+import React, { useEffect, useState } from "react";
+import { Stepper, Step, StepLabel, Button, Typography, Grid, TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
+import CourseOutline from "./CourseOutline";
+import CoursePreview from "./CoursePreview";
+import Section from "./Section";
+
+const initialFormState = {
+    title: "",
+    summary: "",
+    subject: "",
+    duration: "", //lesa
+    releaseDate: "2002-09-09", //lesa
+    language: "",
+    image: "",
+    rating: 0.0, //default
+    previewVideo: "",
+    outlines: [],
+    price: "",
+    instructor: {
+        instructorId: "635c587e07f18b986c357bb7",
+        name: "klllllll",
+    },
+    discount: [{ country: "", precentage: "" }],
+};
+
+
+
+function CourseSteps() {
+    const [activeStep, setActiveStep] = useState(0);
+    const [initialForm, setInitialForm] = React.useState(initialFormState);
+    const [outlines, setOutlines] = useState(initialFormState.outlines);
+
+
+    const [points, setPoints] = React.useState([]);
+    const [sd, setSd] = React.useState(0);
+    const [count, setCount] = React.useState(1);
+    const [mapState, setMapState] = useState(new Map());
+    const [sections, setSections] = useState(new Map());
+
+    const updateMap = (key, value) => {
+      setMapState(map => new Map(map.set(key, value)));
+      setSections(map => new Map(map.set(key, value)));
+    }
+    const createSection = (key, value) => {
+        setSections(map => new Map(map.set(key, value)));
+  
+      }
+    
+
+    useEffect(()=>{
+        let arr = [];
+        for (let value of mapState.values()){
+            arr.push(value);
+        }
+        setInitialForm({...initialForm, outlines:arr});
+    },[mapState])
+
+    const deleteMap = (key) => {
+        setMapState((prev) => {
+          const newState = new Map(prev);
+          newState.delete(key);
+          return newState;
+        });
+        setSections((prev) => {
+            const newState = new Map(prev);
+            newState.delete(key);
+            return newState;
+          });
+      }
+
+    const addPoint = () => {
+        let arr = [];
+        var section = { outline: "", totalHours: "", subtitles: [], exercises: []};
+        arr.push(count);
+        // setPoints([...arr]);
+        setPoints([...points, arr]);
+        setSections(map => new Map(map.set(count, section)));
+        setCount(count+1);
+        console.log(points.length);
+        console.log(count);
+        setSd(sd + 1);
+      };
+
+      const submitOutline = (id, state) => {
+        updateMap(id, state);
+        // setInitialForm({...initialForm, outlines:[...initialForm.outlines,state]});
+        // let arr = [];
+        // for (let value of mapState.values()){
+        //     arr.push(value);
+        // }
+        // setInitialForm({...initialForm, outlines:arr});
+      };
+    
+      const deleteSection = (id) => {
+        deleteMap(id);
+        
+        setPoints((current) => current.filter((section) => section[0].id !== id));
+        setSd(0);
+      }
+
+      useEffect(()=>{
+        
+      },[activeStep])
+    
+
+
+    const nextStep = () => {
+        setActiveStep((currentStep) => currentStep + 1);
+    }
+    const prevStep = () => {
+        if (activeStep > 0)
+            setActiveStep((currentStep) => currentStep - 1);
+    }
+
+    const handleChange = (e) => {
+        const val = e.target.value;
+        const key = e.target.name;
+        setInitialForm({ ...initialForm, [key]: val });
+    };
+
+
+
+    // const submitOutlines = (state) => {
+    //     console.log("asdfghjkl");
+    //     setInitialForm({ ...initialForm, outlines: state });
+
+    // };
+
+    return (
+        <>
+            <Grid container maxWidth="80%" marginTop={10} marginLeft={20} marginRight={20} marginBottom={30} direction="row" justifyContent="center" alignItems="center">
+
+                <Grid item xs={12}>
+                    <Stepper activeStep={activeStep}>
+                        <Step>
+                            <StepLabel>Course Details</StepLabel>
+                        </Step>
+                        <Step>
+                            <StepLabel>Course Content</StepLabel>
+                        </Step>
+                        <Step>
+                            <StepLabel>Course Preview</StepLabel>
+                        </Step>
+                    </Stepper>
+                </Grid>
+                <Grid item sm={12}>
+                    <div>
+                        {activeStep === 0 ? (
+                            <Box>
+                                <form>
+                                    <Grid
+                                        container
+                                        spacing={5}
+                                        maxWidth="90%"
+                                        margin="20px"
+                                        direction="row"
+                                        justifyContent="center"
+                                        alignItems="center"
+                                    >
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField
+                                                required
+                                                id="title"
+                                                name="title"
+                                                label="Course Title"
+                                                fullWidth
+                                                variant="outlined"
+                                                onChange={handleChange}
+                                                value={initialForm.title}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <FormControl required fullWidth>
+                                                <InputLabel id="category-select-label">
+                                                    Category
+                                                </InputLabel>
+                                                <Select
+                                                    labelId="category-select-label"
+                                                    id="category-select"
+                                                    name="subject"
+                                                    label="Category"
+                                                    onChange={handleChange}
+                                                    value={initialForm.subject}
+
+                                                >
+                                                    <MenuItem value={"Computer Science"}>
+                                                        Computer Science
+                                                    </MenuItem>
+                                                    <MenuItem value={"Commerce"}>Commerce</MenuItem>
+                                                    <MenuItem value={"Finance"}>Finance</MenuItem>
+                                                    <MenuItem value={"Robotics"}>Robotics</MenuItem>
+                                                    <MenuItem value={"Project Management"}>
+                                                        Project Management
+                                                    </MenuItem>
+                                                    <MenuItem value={"Logistics"}>Logistics</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+
+                                        <Grid item xs={12} sm={4}>
+                                            <FormControl required fullWidth>
+                                                <InputLabel id="language-select-label">
+                                                    Language
+                                                </InputLabel>
+                                                <Select
+                                                    labelId="language-select-label"
+                                                    id="language-select"
+                                                    name="language"
+                                                    label="Language"
+                                                    onChange={handleChange}
+                                                    value={initialForm.language}
+
+                                                >
+                                                    <MenuItem value={"Arabic"}>Arabic</MenuItem>
+                                                    <MenuItem value={"English"}>English</MenuItem>
+                                                    <MenuItem value={"French"}>French</MenuItem>
+                                                    <MenuItem value={"German"}>German</MenuItem>
+                                                    <MenuItem value={"Portuguese"}>Portuguese</MenuItem>
+                                                    <MenuItem value={"Spanish"}>Spanish</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField
+                                                required
+                                                id="price"
+                                                name="price"
+                                                label="Cost"
+                                                fullWidth
+                                                variant="outlined"
+                                                type="number"
+                                                onChange={handleChange}
+                                                value={initialForm.price}
+
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField
+                                                required
+                                                id="duration"
+                                                name="duration"
+                                                label="Duration"
+                                                fullWidth
+                                                variant="outlined"
+                                                type="number"
+                                                onChange={handleChange}
+                                                value={initialForm.duration}
+
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={12} sm={12}>
+                                            <TextField
+                                                required
+                                                id="previewVideo"
+                                                name="previewVideo"
+                                                label="Video Preview"
+                                                fullWidth
+                                                variant="outlined"
+                                                onChange={handleChange}
+                                                value={initialForm.previewVideo}
+
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={12}>
+                                            <TextField
+                                                required
+                                                id="summary"
+                                                name="summary"
+                                                label="Description"
+                                                fullWidth
+                                                variant="outlined"
+                                                onChange={handleChange}
+                                                value={initialForm.summary}
+
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={12} sm={12}>
+                                            <TextField
+                                                required
+                                                id="image"
+                                                name="image"
+                                                label="Image URL"
+                                                fullWidth
+                                                variant="outlined"
+                                                onChange={handleChange}
+                                                value={initialForm.image}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={9}></Grid>
+                                        <Grid
+                                            item
+                                            xs={2}
+                                            alignItems="end"
+                                            justifyContent="flex-end"
+                                            alignContent="flex-end"
+                                        >
+                                        </Grid>
+                                    </Grid>
+                                </form>
+                            </Box>
+                        ) : activeStep === 1 ? (
+                            // <CourseOutline submitOutlines={submitOutlines}></CourseOutline>
+                            <>
+                                <Grid item sm={12}>
+                                    <div>
+                                        {[...sections.keys()].map(k => (
+                                            <Grid item xs={12}>
+                                                <Section sd={sd} id={k} index={k} submitOutline={submitOutline} deleteSection={deleteSection} initialForm={sections.get(k)} updateSection={updateMap} />
+                                            </Grid>
+
+                                        ))}
+                                        <Button onClick={() => addPoint()}>Add Section</Button>
+                                    </div>
+                                </Grid>
+                            </>
+                        ) : activeStep === 2 ? (
+                            <CoursePreview course={initialForm}></CoursePreview>
+                        ) : null}
+                    </div>
+                </Grid>
+                <Grid item sm={6} display="flex" justifyContent="start" container>
+                    <Button onClick={prevStep} variant="outlined">Previous</Button>
+                </Grid>
+
+                <Grid item sm={6} display="flex" justifyContent="end" container>
+                    <Button onClick={nextStep} variant="outlined">Next</Button>
+                </Grid>
+
+            </Grid>
+        </>
+    );
+
+}
+
+export default CourseSteps;
