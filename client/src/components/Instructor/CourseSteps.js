@@ -11,7 +11,7 @@ const initialFormState = {
     title: "",
     summary: "",
     subject: "",
-    duration: "", //lesa
+    duration: "0.00", //lesa
     releaseDate: "2002-09-09", //lesa
     language: "",
     image: "",
@@ -37,6 +37,7 @@ function CourseSteps() {
     const [count, setCount] = React.useState(1);
     const [mapState, setMapState] = useState(new Map());
     const [sections, setSections] = useState(new Map());
+    const [ready, setReady] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -50,11 +51,21 @@ function CourseSteps() {
 
     useEffect(() => {
         let arr = [];
+        let duration = 0.00;
         for (let value of mapState.values()) {
             arr.push(value);
+            duration += parseInt(value.totalHours);
         }
-        setInitialForm({ ...initialForm, outlines: arr });
-    }, [mapState])
+        duration = duration/60;
+        duration = duration.toFixed(2);
+        setInitialForm({ ...initialForm, outlines: arr, duration: duration });
+    }, [mapState]);
+
+    useEffect(() => {
+        if (ready) {
+            dispatch(createCourse(initialForm));
+        }
+    }, [ready]);
 
     const deleteMap = (key) => {
         setMapState((prev) => {
@@ -71,7 +82,7 @@ function CourseSteps() {
 
     const addPoint = () => {
         let arr = [];
-        var section = { outline: "", totalHours: "", subtitles: [], exercises: [] };
+        var section = { outline: "", totalHours: "0", subtitles: [], exercises: [] };
         arr.push(count);
         // setPoints([...arr]);
         setPoints([...points, arr]);
@@ -92,12 +103,14 @@ function CourseSteps() {
         setSd(0);
     }
 
-    const nextStep = () => {
+
+    async function nextStep () {
         if(activeStep === 2){
             const date = new Date().toJSON();
             console.log("THE DATE: ", date);
             setInitialForm({...initialForm, releaseDate: date});
-            dispatch(createCourse(initialForm));
+
+            setReady(true);
         } else setActiveStep((currentStep) => currentStep + 1); 
         
     }
@@ -113,12 +126,6 @@ function CourseSteps() {
     };
 
 
-
-    // const submitOutlines = (state) => {
-    //     console.log("asdfghjkl");
-    //     setInitialForm({ ...initialForm, outlines: state });
-
-    // };
 
     return (
         <>
@@ -165,6 +172,46 @@ function CourseSteps() {
                                                 value={initialForm.title}
                                             />
                                         </Grid>
+
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField
+                                                required
+                                                id="price"
+                                                name="price"
+                                                label="Cost"
+                                                fullWidth
+                                                variant="outlined"
+                                                type="number"
+                                                onChange={handleChange}
+                                                value={initialForm.price}
+
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={12} sm={6}>
+                                            <FormControl required fullWidth>
+                                                <InputLabel id="language-select-label">
+                                                    Language
+                                                </InputLabel>
+                                                <Select
+                                                    labelId="language-select-label"
+                                                    id="language-select"
+                                                    name="language"
+                                                    label="Language"
+                                                    onChange={handleChange}
+                                                    value={initialForm.language}
+
+                                                >
+                                                    <MenuItem value={"Arabic"}>Arabic</MenuItem>
+                                                    <MenuItem value={"English"}>English</MenuItem>
+                                                    <MenuItem value={"French"}>French</MenuItem>
+                                                    <MenuItem value={"German"}>German</MenuItem>
+                                                    <MenuItem value={"Portuguese"}>Portuguese</MenuItem>
+                                                    <MenuItem value={"Spanish"}>Spanish</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+
                                         <Grid item xs={12} sm={6}>
                                             <FormControl required fullWidth>
                                                 <InputLabel id="category-select-label">
@@ -191,60 +238,6 @@ function CourseSteps() {
                                                     <MenuItem value={"Logistics"}>Logistics</MenuItem>
                                                 </Select>
                                             </FormControl>
-                                        </Grid>
-
-                                        <Grid item xs={12} sm={4}>
-                                            <FormControl required fullWidth>
-                                                <InputLabel id="language-select-label">
-                                                    Language
-                                                </InputLabel>
-                                                <Select
-                                                    labelId="language-select-label"
-                                                    id="language-select"
-                                                    name="language"
-                                                    label="Language"
-                                                    onChange={handleChange}
-                                                    value={initialForm.language}
-
-                                                >
-                                                    <MenuItem value={"Arabic"}>Arabic</MenuItem>
-                                                    <MenuItem value={"English"}>English</MenuItem>
-                                                    <MenuItem value={"French"}>French</MenuItem>
-                                                    <MenuItem value={"German"}>German</MenuItem>
-                                                    <MenuItem value={"Portuguese"}>Portuguese</MenuItem>
-                                                    <MenuItem value={"Spanish"}>Spanish</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </Grid>
-
-                                        <Grid item xs={12} sm={4}>
-                                            <TextField
-                                                required
-                                                id="price"
-                                                name="price"
-                                                label="Cost"
-                                                fullWidth
-                                                variant="outlined"
-                                                type="number"
-                                                onChange={handleChange}
-                                                value={initialForm.price}
-
-                                            />
-                                        </Grid>
-
-                                        <Grid item xs={12} sm={4}>
-                                            <TextField
-                                                required
-                                                id="duration"
-                                                name="duration"
-                                                label="Duration"
-                                                fullWidth
-                                                variant="outlined"
-                                                type="number"
-                                                onChange={handleChange}
-                                                value={initialForm.duration}
-
-                                            />
                                         </Grid>
 
                                         <Grid item xs={12} sm={12}>

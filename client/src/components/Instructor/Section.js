@@ -9,17 +9,6 @@ import Exercise from "./Exercise";
 
 
 
-
-const initialFormState = {
-    outline: "",
-    totalHours: "",
-    subtitles: [],
-    exercises: []
-};
-
-
-
-
 const Section = (props) => {
     // console.log(props.initialForm);
     const [expanded, setExpanded] = useState("");
@@ -27,9 +16,14 @@ const Section = (props) => {
     const [initialForm, setInitialForm] = useState(props.initialForm);
     const [totalMinutes, setTotalMinutes] = useState(0);
 
+
     useEffect(()=>{
         props.updateSection(props.id, initialForm);
-    },[initialForm])
+    },[initialForm]);
+
+    useEffect(()=>{
+        props.updateSection(props.id, initialForm);
+    },[totalMinutes]);
 
     const handleChangeAcc = (panel) => (evt, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -55,25 +49,28 @@ const Section = (props) => {
             return [...prev];
         });
 
+    
+
 
     const submitContent = (state, type) => {
         if (type === "subtitles") {
-            // console.log("HEYYYY: " + state.minutes);
-            // totalMinutes = totalMinutes + parseInt(state.minutes);
-            setTotalMinutes(totalMinutes + parseInt(state.minutes));
-            // console.log("Tot: " + totalMinutes);
-            // console.log(state);
-            setInitialForm({ ...initialForm, subtitles: [...initialForm.subtitles, state] });
-
+            // setTotalMinutes(totalMinutes + parseInt(state.minutes));
+            //setTimeout(() => { setInitialForm({ ...initialForm, subtitles: [...initialForm.subtitles, state], totalHours: initialForm.totalHours + parseInt(state.minutes) }); }, 5000);
+            // update subtitles in the initialform and add the minutes to the total minutes
+            // setInitialForm({ ...initialForm, subtitles: [...initialForm.subtitles, state], totalHours: initialForm.totalHours + parseInt(state.minutes) });
+            // console.log(state.minutes);
+            // console.log(initialForm.totalHours);
+            // //add state.minutes to totalHours
+            setInitialForm({ ...initialForm, subtitles: [...initialForm.subtitles, state], totalHours: parseInt(initialForm.totalHours) + parseInt(state.minutes) });
         }
         else {
-            console.log("samoooo alikoooo");
-            setInitialForm({ ...initialForm, exercises: [...initialForm.exercises, state] });
+            // assuming that an exercise takes 5 minutes
+            setInitialForm({ ...initialForm, exercises: [...initialForm.exercises, state], totalHours: parseInt(initialForm.totalHours) + 5 });
+            
         }
     };
 
     const submitSection = () => {
-        console.log("TOTAL MINUTES: " + totalMinutes);
         setInitialForm({ ...initialForm, totalHours: totalMinutes });
         props.submitOutline(props.id, initialForm);
 
