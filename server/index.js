@@ -18,7 +18,7 @@ app.use(cors());
 
 app.use("/instructor", instructorRoutes);
 app.use("/course", courseRoutes);
-app.use("/indvidualTrainee", indvidualRoutes);
+app.use("/individualTrainee", indvidualRoutes);
 app.use("/administrator", administratorRoutes);
 app.use("/corporateTrainee", corporateRoutes);
 
