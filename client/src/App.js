@@ -9,6 +9,8 @@ import CourseStructure from "./components/Instructor/CourseStructure";
 import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
 import { CourseContent } from "./components/Course/CourseContent";
+import { MyCourses } from "./components/Trainee/MyCourses";
+import { Profile } from "./components/Profile/Profile";
 export const App = () => {
   return (
     <>
@@ -34,6 +36,12 @@ export const App = () => {
         </Route>
         <Route path="/test">
           <CourseContent></CourseContent>
+        </Route>
+        <Route path="/myCourses">
+          <MyCourses></MyCourses>
+        </Route>
+        <Route path="/profile">
+          <Profile></Profile>
         </Route>
       </Switch>
 
