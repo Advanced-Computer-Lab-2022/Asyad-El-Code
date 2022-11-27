@@ -137,7 +137,7 @@ export default function Exercise({
               alignItems="center"
             >
               <Grid item sm={3}>
-                <p>Question Name:</p>
+                <p>Question:</p>
               </Grid>
               <Grid item xs={9}>
                 <TextField

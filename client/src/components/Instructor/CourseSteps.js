@@ -3,6 +3,9 @@ import { Stepper, Step, StepLabel, Button, Typography, Grid, TextField, FormCont
 import CourseOutline from "./CourseOutline";
 import CoursePreview from "./CoursePreview";
 import Section from "./Section";
+import { useDispatch } from "react-redux";
+import { createCourse } from "../../actions/courses";
+
 
 const initialFormState = {
     title: "",
@@ -28,8 +31,6 @@ const initialFormState = {
 function CourseSteps() {
     const [activeStep, setActiveStep] = useState(0);
     const [initialForm, setInitialForm] = React.useState(initialFormState);
-    const [outlines, setOutlines] = useState(initialFormState.outlines);
-
 
     const [points, setPoints] = React.useState([]);
     const [sd, setSd] = React.useState(0);
@@ -37,75 +38,68 @@ function CourseSteps() {
     const [mapState, setMapState] = useState(new Map());
     const [sections, setSections] = useState(new Map());
 
-    const updateMap = (key, value) => {
-      setMapState(map => new Map(map.set(key, value)));
-      setSections(map => new Map(map.set(key, value)));
-    }
-    const createSection = (key, value) => {
-        setSections(map => new Map(map.set(key, value)));
-  
-      }
-    
+    const dispatch = useDispatch();
 
-    useEffect(()=>{
+
+    const updateMap = (key, value) => {
+        setMapState(map => new Map(map.set(key, value)));
+        setSections(map => new Map(map.set(key, value)));
+    }
+
+
+
+    useEffect(() => {
         let arr = [];
-        for (let value of mapState.values()){
+        for (let value of mapState.values()) {
             arr.push(value);
         }
-        setInitialForm({...initialForm, outlines:arr});
-    },[mapState])
+        setInitialForm({ ...initialForm, outlines: arr });
+    }, [mapState])
 
     const deleteMap = (key) => {
         setMapState((prev) => {
-          const newState = new Map(prev);
-          newState.delete(key);
-          return newState;
+            const newState = new Map(prev);
+            newState.delete(key);
+            return newState;
         });
         setSections((prev) => {
             const newState = new Map(prev);
             newState.delete(key);
             return newState;
-          });
-      }
+        });
+    }
 
     const addPoint = () => {
         let arr = [];
-        var section = { outline: "", totalHours: "", subtitles: [], exercises: []};
+        var section = { outline: "", totalHours: "", subtitles: [], exercises: [] };
         arr.push(count);
         // setPoints([...arr]);
         setPoints([...points, arr]);
         setSections(map => new Map(map.set(count, section)));
-        setCount(count+1);
+        setCount(count + 1);
         console.log(points.length);
         console.log(count);
         setSd(sd + 1);
-      };
+    };
 
-      const submitOutline = (id, state) => {
+    const submitOutline = (id, state) => {
         updateMap(id, state);
-        // setInitialForm({...initialForm, outlines:[...initialForm.outlines,state]});
-        // let arr = [];
-        // for (let value of mapState.values()){
-        //     arr.push(value);
-        // }
-        // setInitialForm({...initialForm, outlines:arr});
-      };
-    
-      const deleteSection = (id) => {
+    };
+
+    const deleteSection = (id) => {
         deleteMap(id);
-        
         setPoints((current) => current.filter((section) => section[0].id !== id));
         setSd(0);
-      }
-
-      useEffect(()=>{
-        
-      },[activeStep])
-    
-
+    }
 
     const nextStep = () => {
-        setActiveStep((currentStep) => currentStep + 1);
+        if(activeStep === 2){
+            const date = new Date().toJSON();
+            console.log("THE DATE: ", date);
+            setInitialForm({...initialForm, releaseDate: date});
+            dispatch(createCourse(initialForm));
+        } else setActiveStep((currentStep) => currentStep + 1); 
+        
     }
     const prevStep = () => {
         if (activeStep > 0)
@@ -128,7 +122,7 @@ function CourseSteps() {
 
     return (
         <>
-            <Grid container maxWidth="80%" marginTop={10} marginLeft={20} marginRight={20} marginBottom={30} direction="row" justifyContent="center" alignItems="center">
+            <Grid container maxWidth="80%" marginTop={5} marginLeft={20} marginRight={20} marginBottom={5} direction="row" justifyContent="center" alignItems="center">
 
                 <Grid item xs={12}>
                     <Stepper activeStep={activeStep}>
@@ -143,14 +137,16 @@ function CourseSteps() {
                         </Step>
                     </Stepper>
                 </Grid>
-                <Grid item sm={12}>
+                <Grid item sm={1}>
+                </Grid>
+                <Grid item sm={10}>
                     <div>
                         {activeStep === 0 ? (
                             <Box>
                                 <form>
                                     <Grid
                                         container
-                                        spacing={5}
+                                        spacing={4}
                                         maxWidth="90%"
                                         margin="20px"
                                         direction="row"
@@ -303,7 +299,6 @@ function CourseSteps() {
                                 </form>
                             </Box>
                         ) : activeStep === 1 ? (
-                            // <CourseOutline submitOutlines={submitOutlines}></CourseOutline>
                             <>
                                 <Grid item sm={12}>
                                     <div>
@@ -322,12 +317,14 @@ function CourseSteps() {
                         ) : null}
                     </div>
                 </Grid>
+                <Grid item sm={1}>
+                </Grid>
                 <Grid item sm={6} display="flex" justifyContent="start" container>
                     <Button onClick={prevStep} variant="outlined">Previous</Button>
                 </Grid>
 
                 <Grid item sm={6} display="flex" justifyContent="end" container>
-                    <Button onClick={nextStep} variant="outlined">Next</Button>
+                    <Button onClick={nextStep} variant="contained"> {activeStep === 2 ? "Create" : "Next"}</Button>
                 </Grid>
 
             </Grid>

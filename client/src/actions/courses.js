@@ -31,11 +31,12 @@ export const filterByTilteOrSubjectOrInstructor =
     }
   };
 
-export const createCourse = (course) => async (dispatch) => {
-  try {
-    const { data } = await courseApi.createCourse(course);
-    dispatch({ type: CREATE_COURSE, payload: data });
-  } catch (error) {
-    console.log(error);
-  }
-};
+  export const createCourse = (course) => async (dispatch) => {
+    try {
+      console.log("THE COURSE IS : ", course);
+      const { data } = await courseApi.createCourse(course);
+      dispatch({ type: CREATE_COURSE, payload: data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
