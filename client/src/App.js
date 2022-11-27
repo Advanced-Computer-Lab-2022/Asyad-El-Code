@@ -17,7 +17,6 @@ export const App = () => {
       {/* <MenuAppBar></MenuAppBar>
       <Home></Home> */}
       <Navbar></Navbar>
-
       <Switch>
         <Route exact path="/">
           <Home />
