@@ -8,3 +8,5 @@ export const FILTER_COURSES = "FILTER_COURSES";
 
 export const CREATE_COURSE = "CREAE_COURSE";
 export const GET_COURSE_DATA = "GET_COURSE_DATA";
+
+export const GET_COURSE = "GET_COURSE";

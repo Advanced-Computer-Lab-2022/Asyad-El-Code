@@ -17,3 +17,6 @@ export const getCourseData = async () => {
   console.log("im in API");
   return await API.get(`/getCourseData/637fbdfb4578b11fccfd6f87`);
 };
+
+export const getCourse = async (courseId) =>
+  await API.get(`/getCourse?courseId=${courseId}`);

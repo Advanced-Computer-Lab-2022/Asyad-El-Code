@@ -3,6 +3,7 @@ import {
   CREATE_COURSE,
   FILTER_COURSES,
   GET_COURSE_DATA,
+  GET_COURSE,
 } from "../constants/courses";
 
 export const getCourses = () => async (dsipatch) => {
@@ -37,6 +38,7 @@ export const filterByTilteOrSubjectOrInstructor =
 
 export const createCourse = (course) => async (dispatch) => {
   try {
+    console.log("THE COURSE IS : ", course);
     const { data } = await courseApi.createCourse(course);
     dispatch({ type: CREATE_COURSE, payload: data });
   } catch (error) {
@@ -53,3 +55,15 @@ export const getCourseData = () => async (dispatch) => {
     console.log(err);
   }
 };
+export const getCourse =
+  (courseId, history, courseTitle) => async (dispatch) => {
+    try {
+      console.log("COURSE ID ", courseId);
+      const { data } = await courseApi.getCourse(courseId);
+      console.log("THE COURSE IS ", data);
+      dispatch({ type: GET_COURSE, payload: data });
+      history.push(`/course/${courseTitle}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
