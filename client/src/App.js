@@ -10,6 +10,8 @@ import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
 import CoursePage from "./components/Course/CoursePage";
 import ScrollToTop from "./components/ScrollToTop";
+import { MyCourses } from "./components/Trainee/MyCourses";
+import { Profile } from "./components/Profile/Profile";
 export const App = () => {
   return (
     <>
@@ -33,16 +35,17 @@ export const App = () => {
           <Route path="/adminPage">
             <Admin></Admin>
           </Route>
-
           <Route path="/course/*">
             <CoursePage></CoursePage>
           </Route>
+           <Route path="/myCourses">
+          <MyCourses></MyCourses>
+        </Route>
+        <Route path="/profile">
+          <Profile></Profile>
+        </Route>
         </Switch>
       </ScrollToTop>
-
-      {/* <CourseDetails></CourseDetails> */}
-
-      {/* {/* <CourseDetails></CourseDetails> */}
     </>
   );
 };

@@ -117,3 +117,33 @@ export const selectCountry = async (req, res) => {
     res.status(401).send(err)
   }
 };
+export const enrollCourse = async (req, res) => {
+  try {
+    const { id, courseId } = req.body;
+    const courseIdCasted =await mongoose.Types.ObjectId(courseId);
+    const idCasted = await mongoose.Types.ObjectId(id);
+    console.log(id)
+    console.log(idCasted)
+    console.log(courseIdCasted)
+    const { title, summary, duration, releaseDate, image, rating, instuctor } = await Course.findById(courseIdCasted );
+    const user = await IndividualTrainee.findById(idCasted)
+    const updatedUser = await IndividualTrainee.findByIdAndUpdate(idCasted, {
+      courses: [...user.courses, {
+        title,
+        summary,
+        duration,
+        releaseDate,
+        image,
+        rating,
+        instuctor
+      }]
+    }, { new: true })
+    if (!updatedUser) {
+      res.status(401).send("Couldn't enroll course")
+    } else
+      res.status(200).send(updatedUser);
+
+  } catch (err) {
+    res.status(401).json({ error: err.message })
+  }
+};

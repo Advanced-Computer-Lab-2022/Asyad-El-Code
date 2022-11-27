@@ -14,7 +14,7 @@ import {
   Autocomplete,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { US, EG, CA } from "country-flag-icons/react/3x2";
+import { US, EG, CA, SA, GB,DE,CN,AE } from "country-flag-icons/react/3x2";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrencyRates } from "../actions/currencyRates";
@@ -36,6 +36,7 @@ export default function ButtonAppBar() {
   const courses = useSelector((c) => c.courses);
   const rates = useSelector((state) => state.currencyRates);
   console.log(rates);
+
   useEffect(() => {
     dispatch(getCurrencyRates());
   }, [country]);
@@ -158,17 +159,37 @@ export default function ButtonAppBar() {
                     );
                   }}
                 >
-                  <MenuItem value={"EGYPT"}>
+                  <MenuItem value={"EGP"}>
                     <EG title="Egypt" width={20} st />
                     <span style={{ marginLeft: "10px" }}>Egypt</span>
                   </MenuItem>
-                  <MenuItem value={"CANADA"}>
+                  <MenuItem value={"CAD"}>
                     <CA title="Canada" width={20} />
                     <span style={{ marginLeft: "10px" }}>Canada</span>
                   </MenuItem>
-                  <MenuItem value={"USA"}>
+                  <MenuItem value={"USD"}>
                     <US title="USA" width={20} />
                     <span style={{ marginLeft: "10px" }}>USA</span>
+                  </MenuItem>
+                  <MenuItem value={"EUR"}>
+                    <DE title="EUR" width={20} />
+                    <span style={{ marginLeft: "10px" }}>Germany</span>
+                  </MenuItem>
+                  <MenuItem value={"SAR"}>
+                    <SA title="USA" width={20} />
+                    <span style={{ marginLeft: "10px" }}>KSA</span>
+                  </MenuItem>
+                  <MenuItem value={"AED"}>
+                    <AE title="USA" width={20} />
+                    <span style={{ marginLeft: "10px" }}>UAE</span>
+                  </MenuItem>
+                  <MenuItem value={"GBP"}>
+                    <GB title="USA" width={20} />
+                    <span style={{ marginLeft: "10px" }}>UK</span>
+                  </MenuItem>
+                  <MenuItem value={"CNY"}>
+                    <CN title="USA" width={20} />
+                    <span style={{ marginLeft: "10px" }}>China</span>
                   </MenuItem>
                 </Select>
               </FormControl>
