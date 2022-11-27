@@ -2,10 +2,7 @@ import { makeStyles } from "tss-react/mui";
 
 const useStyles = makeStyles()((theme) => {
   return {
-    root: {
-      marginTop: "30px",
-      marginLeft: "100px",
-    },
+    root: {},
     image: {
       width: "500px",
       marginTop: "30px",
@@ -14,7 +11,6 @@ const useStyles = makeStyles()((theme) => {
     members: {
       marginTop: "40px",
     },
- 
   };
 });
 export default useStyles;

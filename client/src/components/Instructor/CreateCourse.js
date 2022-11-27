@@ -23,7 +23,7 @@ const initialFormState = {
   image: "",
   rating: "",
   previewVideo: "",
-  outlines: [],
+  outlines: "",
 
   price: "",
   instructor: {

@@ -1,5 +1,9 @@
 import * as courseApi from "../api/course";
-import { CREATE_COURSE, FILTER_COURSES } from "../constants/courses";
+import {
+  CREATE_COURSE,
+  FILTER_COURSES,
+  GET_COURSE,
+} from "../constants/courses";
 
 export const getCourses = () => async (dsipatch) => {
   try {
@@ -33,9 +37,23 @@ export const filterByTilteOrSubjectOrInstructor =
 
 export const createCourse = (course) => async (dispatch) => {
   try {
+    console.log("THE COURSE IS : ", course);
     const { data } = await courseApi.createCourse(course);
     dispatch({ type: CREATE_COURSE, payload: data });
   } catch (error) {
     console.log(error);
   }
 };
+
+export const getCourse =
+  (courseId, history, courseTitle) => async (dispatch) => {
+    try {
+      console.log("COURSE ID ", courseId);
+      const { data } = await courseApi.getCourse(courseId);
+      console.log("THE COURSE IS ", data);
+      dispatch({ type: GET_COURSE, payload: data });
+      history.push(`/course/${courseTitle}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
