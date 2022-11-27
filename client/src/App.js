@@ -8,13 +8,13 @@ import { Switch, Route } from "react-router-dom";
 import CourseStructure from "./components/Instructor/CourseStructure";
 import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
+import { CourseContent } from "./components/Course/CourseContent";
 export const App = () => {
   return (
     <>
       {/* <MenuAppBar></MenuAppBar>
       <Home></Home> */}
       <Navbar></Navbar>
-
 
       <Switch>
         <Route exact path="/">
@@ -31,6 +31,9 @@ export const App = () => {
         </Route>
         <Route path="/adminPage">
           <Admin></Admin>
+        </Route>
+        <Route path="/test">
+          <CourseContent></CourseContent>
         </Route>
       </Switch>
 

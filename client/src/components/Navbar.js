@@ -20,7 +20,7 @@ import {
   Autocomplete,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { US, EG, CA, SA, GB,DE,CN,AE } from "country-flag-icons/react/3x2";
+import { US, EG, CA, SA, GB, DE, CN, AE } from "country-flag-icons/react/3x2";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrencyRates } from "../actions/currencyRates";
@@ -214,6 +214,9 @@ export default function ButtonAppBar() {
             variant="contained"
           >
             Create course
+          </Button>
+          <Button variant="contained" onClick={() => history.push("/test")}>
+            course content
           </Button>
         </Toolbar>
       </AppBar>

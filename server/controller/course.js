@@ -178,3 +178,13 @@ export const filterAllCourses = async (req, res) => {
     res.status(401).send(err);
   }
 };
+
+export const getCourseData = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const course = await Course.findById(id);
+    res.status(200).send(course);
+  } catch (error) {
+    console.log(error);
+  }
+};
