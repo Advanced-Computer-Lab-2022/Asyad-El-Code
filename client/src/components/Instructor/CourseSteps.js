@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Stepper, Step, StepLabel, Button, Typography, Grid, TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
-import CourseOutline from "./CourseOutline";
+import { Stepper, Step, StepLabel, Button, Grid, TextField, FormControl, InputLabel, Select, MenuItem, Box } from "@mui/material";
 import CoursePreview from "./CoursePreview";
 import Section from "./Section";
 import { useDispatch } from "react-redux";
 import { createCourse } from "../../actions/courses";
+import AlertDialog from "./Alert";
 
 
 const initialFormState = {
     title: "",
     summary: "",
     subject: "",
-    duration: "0.00", //lesa
-    releaseDate: "2002-09-09", //lesa
+    duration: "0.00", // automatically calculated
+    releaseDate: "0000-00-00", //auto fill with current date
     language: "",
     image: "",
     rating: 0.0, //default
@@ -39,13 +39,15 @@ function CourseSteps() {
     const [sections, setSections] = useState(new Map());
     const [ready, setReady] = useState(false);
 
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alertTitle, setAlertTitle] = useState("Create Course");
+    const [alertMessage, setAlertMessage] = useState("You are about to create a new course. Are you sure you want to continue?");
+
     const dispatch = useDispatch();
+    const handleAlertDialogue = () => {
+        setOpenAlert(!openAlert);
+    };
 
-
-    const updateMap = (key, value) => {
-        setMapState(map => new Map(map.set(key, value)));
-        setSections(map => new Map(map.set(key, value)));
-    }
 
 
 
@@ -56,7 +58,7 @@ function CourseSteps() {
             arr.push(value);
             duration += parseInt(value.totalHours);
         }
-        duration = duration/60;
+        duration = duration / 60;
         duration = duration.toFixed(2);
         setInitialForm({ ...initialForm, outlines: arr, duration: duration });
     }, [mapState]);
@@ -67,6 +69,10 @@ function CourseSteps() {
         }
     }, [ready]);
 
+    const updateMap = (key, value) => {
+        setMapState(map => new Map(map.set(key, value)));
+        setSections(map => new Map(map.set(key, value)));
+    }
     const deleteMap = (key) => {
         setMapState((prev) => {
             const newState = new Map(prev);
@@ -84,7 +90,6 @@ function CourseSteps() {
         let arr = [];
         var section = { outline: "", totalHours: "0", subtitles: [], exercises: [] };
         arr.push(count);
-        // setPoints([...arr]);
         setPoints([...points, arr]);
         setSections(map => new Map(map.set(count, section)));
         setCount(count + 1);
@@ -104,15 +109,15 @@ function CourseSteps() {
     }
 
 
-    async function nextStep () {
-        if(activeStep === 2){
+    async function nextStep() {
+        if (activeStep === 2) {
             const date = new Date().toJSON();
             console.log("THE DATE: ", date);
-            setInitialForm({...initialForm, releaseDate: date});
+            setInitialForm({ ...initialForm, releaseDate: date });
 
-            setReady(true);
-        } else setActiveStep((currentStep) => currentStep + 1); 
-        
+            handleAlertDialogue();
+        } else setActiveStep((currentStep) => currentStep + 1);
+
     }
     const prevStep = () => {
         if (activeStep > 0)
@@ -125,10 +130,22 @@ function CourseSteps() {
         setInitialForm({ ...initialForm, [key]: val });
     };
 
+    const alertAction = () => {
+        setReady(true);
+    }
+
 
 
     return (
         <>
+            <AlertDialog
+                open={openAlert}
+                handleClose={handleAlertDialogue}
+                title={alertTitle}
+                message={alertMessage}
+                action={alertAction}
+                color="primary"
+            ></AlertDialog>
             <Grid container maxWidth="80%" marginTop={5} marginLeft={20} marginRight={20} marginBottom={5} direction="row" justifyContent="center" alignItems="center">
 
                 <Grid item xs={12}>

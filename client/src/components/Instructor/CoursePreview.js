@@ -6,6 +6,7 @@ import {
   Typography,
   Grid,
   Divider,
+  Chip,
 } from "@mui/material";
 import React from "react";
 
@@ -40,25 +41,19 @@ export const CoursePreview = ({ course }) => {
                 </Typography>
                 <Typography sx={{ fontSize: 15, color: "#1c1d1f" }} component="div">
                   {course.summary}
-                  <br/>
-                  <br/>
+                  <br />
+                  <br />
                 </Typography>
-                <Divider/>
+                <Divider />
                 <Grid container maxWidth="100%" direction="row" justifyContent="center" alignItems="center" marginTop={2}>
                   <Grid item sm={4}>
-                    <Typography sx={{ fontSize: 16 }} color="CaptionText">
-                      {course.duration} Hrs
-                    </Typography>
+                    <Chip label={course.duration + " Hrs"} variant="outlined"></Chip>
                   </Grid>
                   <Grid item sm={4}>
-                    <Typography sx={{ fontSize: 16 }} color="CaptionText">
-                      ${course.price}
-                    </Typography>
+                    <Chip label={"$" + course.price} variant="outlined"></Chip>
                   </Grid>
                   <Grid item sm={4}>
-                    <Typography sx={{ fontSize: 16 }} color="CaptionText">
-                      {course.language}
-                    </Typography>
+                    <Chip label={course.language} variant="outlined"></Chip>
                   </Grid>
                 </Grid>
 
