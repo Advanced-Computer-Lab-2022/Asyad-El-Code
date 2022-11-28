@@ -21,7 +21,7 @@ import { useRef } from "react";
 import "../../css/card.css";
 import image from "../../images/course.jpeg";
 import { useDispatch, useSelector } from "react-redux";
-import { getTrainee } from "../../actions/individualTrainees.js";
+import { getTrainee } from "../../actions/individualTrainees";
 
 
 
@@ -35,14 +35,15 @@ const bull = (
 );
 export const MyCourses = () => {
   const dispatch = useDispatch();
+
   const trainee = useSelector((t) => t.individualTrainees);
-  const myCourses = trainee.courses;
+  const myCourses =[{"title":"Flutter & Dart - The Complete Guide [2023 Edition] ","summary":"A Complete Guide to the Flutter SDK & Flutter Framework for building native iOS and Android apps","duration":42,"releaseDate":"2020-12-21T00:00:00.000Z","image":"/Users/robertojoseph/Asyad-El-Code/client/src/images/code.jpg","rating":4.5,"_id":"638258d2c70684bcad65d9d0"},{"title":"uyuy","summary":"Essam el halawany made this course","duration":48,"releaseDate":"2020-12-21T00:00:00.000Z","image":"010101101","rating":4.3,"_id":"63825929c70684bcad65d9d8"}];
   console.log(trainee)
   console.log(myCourses)
 
   useEffect(() => {
     dispatch(getTrainee());
-  }, [])
+  },[])
 
   return (
     <Grid container justifyContent="center" rowSpacing={4} marginBottom={10}>
@@ -52,7 +53,7 @@ export const MyCourses = () => {
       {myCourses.map((course, index) => {
         return (
           <Grid item xs={9}>
-            <Card sx={{ overFlow: 'hidden', display: "flex" }}>
+            <Card sx={{ overFlow: 'hidden', display: "flex" }} >
               <CardMedia sx={{ maxWidth: 500, maxHeight: 300, maxInlineSize: 500, display: "inline-block" }}
                 component="img"
                 image={image}
@@ -72,7 +73,7 @@ export const MyCourses = () => {
                   }).format(new Date(Date.parse(course.releaseDate)))}{" "}</b>{course.duration} total hours {bull} 52 lectures
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  By <b>{course.author}</b>
+                  By <b>SADSD</b>
                 </Typography>
                 <Stack spacing={1} direction="row">
                   <p>4.5</p>

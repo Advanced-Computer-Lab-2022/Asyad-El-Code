@@ -38,12 +38,12 @@ export const App = () => {
           <Route path="/course/*">
             <CoursePage></CoursePage>
           </Route>
-           <Route path="/myCourses">
-          <MyCourses></MyCourses>
-        </Route>
-        <Route path="/profile">
-          <Profile></Profile>
-        </Route>
+          <Route  path="/myCourses">
+            <MyCourses></MyCourses>
+          </Route>
+          <Route path="/profile">
+            <Profile></Profile>
+          </Route>
         </Switch>
       </ScrollToTop>
     </>
