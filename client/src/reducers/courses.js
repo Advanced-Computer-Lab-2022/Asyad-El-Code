@@ -4,6 +4,8 @@ import {
   GET_COURSE_DATA,
   FILTER_COURSES,
   GET_COURSE,
+  ADD_RATING,
+  ADD_REVIEW,
 } from "../constants/courses";
 
 export default (courses = [], action) => {
@@ -24,6 +26,11 @@ export default (courses = [], action) => {
     case GET_COURSE_DATA:
       return courses.filter((course) => course._id === action.payload._id);
     case GET_COURSE:
+      return courses.filter((course) => course._id === action.payload._id);
+    case ADD_RATING:
+      console.log("Im in reducer add rating");
+      return courses.filter((course) => course._id === action.payload._id);
+    case ADD_REVIEW:
       return courses.filter((course) => course._id === action.payload._id);
     default:
       return courses;

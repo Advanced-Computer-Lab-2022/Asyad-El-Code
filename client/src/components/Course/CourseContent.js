@@ -26,6 +26,8 @@ import StarHalfTwoToneIcon from "@mui/icons-material/StarHalfTwoTone";
 import HomeSharpIcon from "@mui/icons-material/HomeSharp";
 import createTheme from "@mui/material/styles/createTheme";
 import { useHistory } from "react-router-dom";
+import { RatingAndReviewPopup } from "./RatingAndReviewPopup";
+import { addRating, addReview, getCourse } from "../../actions/courses.js";
 const contentInitialForm = {
   subtitle: "",
   minutes: 0,
@@ -37,6 +39,8 @@ const exerciseInitialForm = [
 export const CourseContent = () => {
   const [content, setContent] = useState(contentInitialForm);
   const [exercise, setExercise] = useState(exerciseInitialForm);
+  const [ratingOpen, setRatingOpen] = useState(false);
+  const [submitRatingandReview, setSubmitRatingandReview] = useState(false);
   const dispatch = useDispatch();
   const { classes } = useStyles();
   const history = useHistory();
@@ -70,8 +74,25 @@ export const CourseContent = () => {
     setExercise(exercise);
     setContent(contentInitialForm);
   };
+  const handleCancelRating = () => {
+    setRatingOpen(false);
+  };
+  const handleSubmitRatingAndReview = (rating, review) => {
+    dispatch(addRating(course._id, "63602907fe95a960eb6068a4", "", rating));
+    dispatch(addReview(course._id, "63602907fe95a960eb6068a4", "", review));
+    setRatingOpen(false);
+  };
+  const handleHome = () => {
+    dispatch(getCourse(course._id, history, course.title));
+  };
+
   return (
     <div>
+      <RatingAndReviewPopup
+        ratingOpen={ratingOpen}
+        handleCancelRating={handleCancelRating}
+        handleSubmit={handleSubmitRatingAndReview}
+      ></RatingAndReviewPopup>
       <Grid container marginTop={3}>
         <Grid item xs={3}>
           <Grid container direction="column" spacing={4}>
@@ -85,7 +106,7 @@ export const CourseContent = () => {
                   </Grid>
                   <ThemeProvider theme={theme}>
                     <Grid item xs={6}>
-                      <IconButton onClick={() => history.push("/viewAll")}>
+                      <IconButton onClick={handleHome}>
                         <HomeSharpIcon
                           fontSize="large"
                           color="primary"
@@ -93,7 +114,7 @@ export const CourseContent = () => {
                       </IconButton>
                     </Grid>
                     <Grid item xs={6}>
-                      <IconButton onClick={() => history.push("/viewAll")}>
+                      <IconButton onClick={() => setRatingOpen(true)}>
                         <StarHalfTwoToneIcon
                           fontSize="large"
                           color="warning"

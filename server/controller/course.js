@@ -204,7 +204,7 @@ export const addRating = async (req, res) => {
     const course = await Course.findById(courseId);
     if (!course) return res.status(404).send({ message: "Course not found" });
     //check if the trainee is individual or corporate
-    if (individualTraineeId) {
+    if (individualTraineeId !== "") {
       const trainee = await IndividualTrainee.findById(individualTraineeId);
       if (!trainee)
         return res.status(404).send({ message: "Trainee not found" });
@@ -215,7 +215,7 @@ export const addRating = async (req, res) => {
       if (index !== -1) {
         course.ratings[index].rating = rating;
         await course.save();
-        return res.status(200).send({ message: "Rating updated" });
+        return res.status(200).json(course);
       }
       //if the trainee has not rated the course then add the rating and set corporateTraineeId to null
       course.ratings.push({
@@ -224,9 +224,9 @@ export const addRating = async (req, res) => {
         corporateTraineeId: null,
       });
       await course.save();
-      return res.status(200).send({ message: "Rating added" });
+      return res.status(200).json(course);
     }
-    if (corporateTraineeId) {
+    if (corporateTraineeId !== "") {
       const trainee = await CorporateTrainee.findById(corporateTraineeId);
       if (!trainee)
         return res.status(404).send({ message: "Trainee not found" });
@@ -236,17 +236,29 @@ export const addRating = async (req, res) => {
       );
       if (index !== -1) {
         course.ratings[index].rating = rating;
+        //calculate new rating as average of ratings array and update the course rating
+        const newRating =
+          course.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
+          course.ratings.length;
+        course.rating = newRating;
         await course.save();
-        return res.status(200).send({ message: "Rating updated" });
+        return res.status(200).json(course);
       }
       //if the trainee has not rated the course then add the rating and set individualTraineeId to null
+
       course.ratings.push({
         corporateTraineeId,
         rating,
         individualTraineeId: null,
       });
+      //calculate new rating as average of ratings array and update the course rating
+      const newRating =
+        course.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
+        course.ratings.length;
+      course.rating = newRating;
+
       await course.save();
-      return res.status(200).send({ message: "Rating added" });
+      return res.status(200).json(course);
     }
   } catch (error) {
     console.log(error);
@@ -261,7 +273,7 @@ export const addReview = async (req, res) => {
     const course = await Course.findById(courseId);
     if (!course) return res.status(404).send({ message: "Course not found" });
     //check if the trainee is individual or corporate
-    if (individualTraineeId) {
+    if (individualTraineeId !== "") {
       const trainee = await IndividualTrainee.findById(individualTraineeId);
       if (!trainee)
         return res.status(404).send({ message: "Trainee not found" });
@@ -272,7 +284,7 @@ export const addReview = async (req, res) => {
       if (index !== -1) {
         course.reviews[index].review = review;
         await course.save();
-        return res.status(200).send({ message: "Review updated" });
+        return res.status(200).json(course);
       }
       //if the trainee has not reviewed the course then add the review and set corporateTraineeId to null
       course.reviews.push({
@@ -281,9 +293,9 @@ export const addReview = async (req, res) => {
         corporateTraineeId: null,
       });
       await course.save();
-      return res.status(200).send({ message: "Review added" });
+      return res.status(200).json(course);
     }
-    if (corporateTraineeId) {
+    if (corporateTraineeId !== "") {
       const trainee = await CorporateTrainee.findById(corporateTraineeId);
       if (!trainee)
         return res.status(404).send({ message: "Trainee not found" });
@@ -294,7 +306,7 @@ export const addReview = async (req, res) => {
       if (index !== -1) {
         course.reviews[index].review = review;
         await course.save();
-        return res.status(200).send({ message: "Review updated" });
+        return res.status(200).json(course);
       }
       //if the trainee has not reviewed the course then add the review and set individualTraineeId to null
       course.reviews.push({
@@ -303,7 +315,7 @@ export const addReview = async (req, res) => {
         individualTraineeId: null,
       });
       await course.save();
-      return res.status(200).send({ message: "Review added" });
+      return res.status(200).json(course);
     }
   } catch (error) {
     console.log(error);
