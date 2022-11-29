@@ -45,6 +45,9 @@ export const App = () => {
           <Route path="/profile">
             <Profile></Profile>
           </Route>
+          <Route path="/courseContent">
+            <CourseContent></CourseContent>
+          </Route>
         </Switch>
       </ScrollToTop>
     </>
