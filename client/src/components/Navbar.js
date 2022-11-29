@@ -207,6 +207,14 @@ export default function ButtonAppBar() {
                 Sign Up
               </MyLink>
             </Grid>
+            <Grid alignSelf="center" item>
+              <MyLink
+                underline="none"
+                onClick={() => history.push("/courseContent")}
+              >
+                Course Content
+              </MyLink>
+            </Grid>
           </Grid>
 
           {/* <Button
@@ -215,9 +223,7 @@ export default function ButtonAppBar() {
           >
             Create course
           </Button>
-          <Button variant="contained" onClick={() => history.push("/test")}>
-            course content
-          </Button>
+          
           </Button> */}
         </Toolbar>
       </AppBar>
