@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import Course from "../models/course.js";
 import { validateCourse } from "../models/course.js";
 import Instructor from "../models/instructor.js";
+import IndividualTrainee from "../models/individualTrainee.js";
+import CorporateTrainee from "../models/corporateTrainee.js";
 
 export const createCourse = async (req, res) => {
   // const { error } = validateCourse(req.body);
@@ -189,6 +191,120 @@ export const getCourseData = async (req, res) => {
     const { id } = req.params;
     const courses = await Course.findById(id);
     res.status(200).send(courses);
+  } catch (error) {
+    console.log(error);
+  }
+};
+//add rating for course by trainee
+export const addRating = async (req, res) => {
+  const { courseId, corporateTraineeId, individualTraineeId, rating } =
+    req.query;
+
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) return res.status(404).send({ message: "Course not found" });
+    //check if the trainee is individual or corporate
+    if (individualTraineeId) {
+      const trainee = await IndividualTrainee.findById(individualTraineeId);
+      if (!trainee)
+        return res.status(404).send({ message: "Trainee not found" });
+      //check if the trainee has already rated the course then update the rating
+      const index = course.ratings.findIndex(
+        (rating) => rating.individualTraineeId == individualTraineeId
+      );
+      if (index !== -1) {
+        course.ratings[index].rating = rating;
+        await course.save();
+        return res.status(200).send({ message: "Rating updated" });
+      }
+      //if the trainee has not rated the course then add the rating and set corporateTraineeId to null
+      course.ratings.push({
+        individualTraineeId,
+        rating,
+        corporateTraineeId: null,
+      });
+      await course.save();
+      return res.status(200).send({ message: "Rating added" });
+    }
+    if (corporateTraineeId) {
+      const trainee = await CorporateTrainee.findById(corporateTraineeId);
+      if (!trainee)
+        return res.status(404).send({ message: "Trainee not found" });
+      //check if the trainee has already rated the course then update the rating
+      const index = course.ratings.findIndex(
+        (rating) => rating.corporateTraineeId == corporateTraineeId
+      );
+      if (index !== -1) {
+        course.ratings[index].rating = rating;
+        await course.save();
+        return res.status(200).send({ message: "Rating updated" });
+      }
+      //if the trainee has not rated the course then add the rating and set individualTraineeId to null
+      course.ratings.push({
+        corporateTraineeId,
+        rating,
+        individualTraineeId: null,
+      });
+      await course.save();
+      return res.status(200).send({ message: "Rating added" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// add review for course by trainee
+export const addReview = async (req, res) => {
+  const { courseId, corporateTraineeId, individualTraineeId, review } =
+    req.query;
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) return res.status(404).send({ message: "Course not found" });
+    //check if the trainee is individual or corporate
+    if (individualTraineeId) {
+      const trainee = await IndividualTrainee.findById(individualTraineeId);
+      if (!trainee)
+        return res.status(404).send({ message: "Trainee not found" });
+      //check if the trainee has already reviewed the course then update the review
+      const index = course.reviews.findIndex(
+        (review) => review.individualTraineeId == individualTraineeId
+      );
+      if (index !== -1) {
+        course.reviews[index].review = review;
+        await course.save();
+        return res.status(200).send({ message: "Review updated" });
+      }
+      //if the trainee has not reviewed the course then add the review and set corporateTraineeId to null
+      course.reviews.push({
+        individualTraineeId,
+        review,
+        corporateTraineeId: null,
+      });
+      await course.save();
+      return res.status(200).send({ message: "Review added" });
+    }
+    if (corporateTraineeId) {
+      const trainee = await CorporateTrainee.findById(corporateTraineeId);
+      if (!trainee)
+        return res.status(404).send({ message: "Trainee not found" });
+      //check if the trainee has already reviewed the course then update the review
+      const index = course.reviews.findIndex(
+        (review) => review.corporateTraineeId == corporateTraineeId
+      );
+      if (index !== -1) {
+        course.reviews[index].review = review;
+        await course.save();
+        return res.status(200).send({ message: "Review updated" });
+      }
+      //if the trainee has not reviewed the course then add the review and set individualTraineeId to null
+      course.reviews.push({
+        corporateTraineeId,
+        review,
+        individualTraineeId: null,
+      });
+      await course.save();
+      return res.status(200).send({ message: "Review added" });
+    }
   } catch (error) {
     console.log(error);
   }
