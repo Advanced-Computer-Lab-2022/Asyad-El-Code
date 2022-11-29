@@ -27,12 +27,6 @@ const useStyles = makeStyles()((theme) => {
       backgroundColor: "#EBF1F2",
       marginBottom: "20px",
     },
-    homeIcon: {
-      color: "primary",
-      "&:hover": {
-        color: "secondary",
-      },
-    },
   };
 });
 export default useStyles;
