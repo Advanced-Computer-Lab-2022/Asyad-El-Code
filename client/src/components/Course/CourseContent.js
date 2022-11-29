@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Accordion from "@mui/material/Accordion";
-import { Grid, ListItemIcon, Paper } from "@mui/material";
+import {
+  Grid,
+  IconButton,
+  Link,
+  ListItemIcon,
+  Paper,
+  ThemeProvider,
+} from "@mui/material";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
@@ -14,6 +21,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCourseData } from "../../actions/courses";
 import { VideoAndExercise } from "./VideoAndExercise";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import useStyles from "../../css/courseContent.js";
+import StarHalfTwoToneIcon from "@mui/icons-material/StarHalfTwoTone";
+import HomeSharpIcon from "@mui/icons-material/HomeSharp";
+import createTheme from "@mui/material/styles/createTheme";
+import { useHistory } from "react-router-dom";
 const contentInitialForm = {
   subtitle: "",
   minutes: 0,
@@ -26,14 +38,24 @@ export const CourseContent = () => {
   const [content, setContent] = useState(contentInitialForm);
   const [exercise, setExercise] = useState(exerciseInitialForm);
   const dispatch = useDispatch();
+  const { classes } = useStyles();
+  const history = useHistory();
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#FFFFFF",
+      },
+      warning: {
+        main: "#FFD700",
+      },
+    },
+  });
 
   useEffect(() => {
     dispatch(getCourseData());
   }, []);
-  const courses = useSelector((c) => c.courses);
-  const index = courses.length - 1;
-  const course = courses[index];
-
+  const course = useSelector((c) => c.courses)[0];
+  console.log(course);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -54,10 +76,32 @@ export const CourseContent = () => {
         <Grid item xs={3}>
           <Grid container direction="column" spacing={4}>
             <Grid item>
-              <Paper elevation={12} sx={{ backgroundColor: "#000000" }}>
-                <Typography sx={{ color: "#FFFFFF" }}>
-                  {course.title}
-                </Typography>
+              <Paper elevation={12} className={classes.paper}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <Typography className={classes.courseTitle}>
+                      {course.title}
+                    </Typography>
+                  </Grid>
+                  <ThemeProvider theme={theme}>
+                    <Grid item xs={6}>
+                      <IconButton onClick={() => history.push("/viewAll")}>
+                        <HomeSharpIcon
+                          fontSize="large"
+                          color="primary"
+                        ></HomeSharpIcon>
+                      </IconButton>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <IconButton onClick={() => history.push("/viewAll")}>
+                        <StarHalfTwoToneIcon
+                          fontSize="large"
+                          color="warning"
+                        ></StarHalfTwoToneIcon>
+                      </IconButton>
+                    </Grid>
+                  </ThemeProvider>
+                </Grid>
               </Paper>
             </Grid>
             <Grid item>
@@ -72,6 +116,7 @@ export const CourseContent = () => {
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls="panel1bh-content"
                       id="panel1bh-header"
+                      sx={{ backgroundColor: "#EBF1F2" }}
                     >
                       <Typography sx={{ width: "33%", flexShrink: 0 }}>
                         {outline.outline}

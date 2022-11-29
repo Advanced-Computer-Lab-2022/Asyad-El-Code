@@ -22,9 +22,7 @@ export default (courses = [], action) => {
     case CREATE_COURSE:
       return [...courses, action.payload];
     case GET_COURSE_DATA:
-      console.log("Im in course reducer");
-      courses.push(action.payload);
-      return courses;
+      return courses.filter((course) => course._id === action.payload._id);
     case GET_COURSE:
       return courses.filter((course) => course._id === action.payload._id);
     default:

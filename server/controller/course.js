@@ -187,8 +187,8 @@ export const filterAllCourses = async (req, res) => {
 export const getCourseData = async (req, res) => {
   try {
     const { id } = req.params;
-    const course = await Course.findById(id);
-    res.status(200).send(course);
+    const courses = await Course.findById(id);
+    res.status(200).send(courses);
   } catch (error) {
     console.log(error);
   }

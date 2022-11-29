@@ -5,34 +5,49 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import useStyles from "../../css/courseContent.js";
 export const VideoAndExercise = ({ content, exercise }) => {
-  const [value, setValue] = useState("");
-  const [correct, setCorrect] = useState(false);
-  const [show, setShow] = useState(false);
-  const handleChange = (index) => {
-    setValue(index);
+  const [value, setValue] = useState(new Map());
+  const [correct, setCorrect] = useState(new Map());
+  const [show, setShow] = useState(new Map());
+  const [grade, setGrade] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [showGrade, setShowGrade] = useState(false);
+  const { classes } = useStyles();
+
+  const handleChange = (index, ind) => {
+    setValue((prev) => new Map(prev).set(ind, index));
   };
 
   const handleSubmit = (index) => {
-    if (exercise[index].answers[value].correct === true) {
-      setCorrect(true);
+    if (exercise[index].answers[value.get(index)].correct === true) {
+      setCorrect((prev) => new Map(prev).set(index, true));
+      setShow((prev) => new Map(prev).set(index, true));
+      setGrade((prev) => prev + 1);
     } else {
-      setCorrect(false);
+      setCorrect((prev) => new Map(prev).set(index, false));
+      setShow((prev) => new Map(prev).set(index, true));
     }
-    setShow(true);
   };
+
+  useEffect(() => {
+    setTotal(exercise.length);
+  }, [exercise]);
+
+  useEffect(() => {
+    if (correct.size === total && total !== 0) {
+      setShowGrade(true);
+    }
+  }, [correct, total]);
+
   return (
     <div>
       {content.videoUrl !== "" ? (
         <>
           <Container>
             <Paper elevation={12}>
-              <Typography variant="h4" sx={{ color: "#000000" }}>
-                {content.subtitle}
-              </Typography>
-              <Typography variant="h6" sx={{ color: "#000000" }}>
-                {content.description}
-              </Typography>
+              <Typography variant="h4">{content.subtitle}</Typography>
+              <Typography variant="h6">{content.description}</Typography>
               <iframe
                 width="100%"
                 height="500"
@@ -47,12 +62,23 @@ export const VideoAndExercise = ({ content, exercise }) => {
         </>
       ) : (
         <>
-          {" "}
+          {showGrade ? (
+            <Container>
+              <Paper elevation={12} className={classes.exercisePaper}>
+                <Typography variant="h4" sx={{ color: "#000000" }}>
+                  You Scored
+                </Typography>
+                <Typography variant="h6" sx={{ color: "#000000" }}>
+                  {grade}/{total}
+                </Typography>
+              </Paper>
+            </Container>
+          ) : null}{" "}
           <Container>
-            {exercise.map((ex, index) => {
+            {exercise.map((ex, ind) => {
               return (
                 <>
-                  <Paper elevation={12}>
+                  <Paper elevation={12} className={classes.exercisePaper}>
                     <Typography variant="h4" sx={{ color: "#000000" }}>
                       {ex.question}
                     </Typography>
@@ -70,31 +96,31 @@ export const VideoAndExercise = ({ content, exercise }) => {
                               control={<Radio />}
                               label={answer.answer}
                               key={index}
-                              onChange={() => handleChange(index)}
+                              onChange={() => handleChange(index, ind)}
                             />
                           );
                         })}
                       </RadioGroup>
 
-                      <Button
-                        variant="contained"
-                        onClick={() => handleSubmit(index)}
-                      >
-                        Submit
-                      </Button>
-                    </FormControl>
-
-                    {show ? (
-                      correct ? (
-                        <Typography variant="h6" sx={{ color: "#000000" }}>
-                          Correct
-                        </Typography>
+                      {show.get(ind) ? (
+                        correct.get(ind) ? (
+                          <Typography variant="h6" sx={{ color: "#00FF00" }}>
+                            Correct
+                          </Typography>
+                        ) : (
+                          <Typography variant="h6" sx={{ color: "#FF0000" }}>
+                            Incorrect
+                          </Typography>
+                        )
                       ) : (
-                        <Typography variant="h6" sx={{ color: "#000000" }}>
-                          Incorrect
-                        </Typography>
-                      )
-                    ) : null}
+                        <Button
+                          variant="contained"
+                          onClick={() => handleSubmit(ind)}
+                        >
+                          Submit
+                        </Button>
+                      )}
+                    </FormControl>
                   </Paper>
                 </>
               );
