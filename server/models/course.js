@@ -70,6 +70,32 @@ export const courseSchema = mongoose.Schema({
   // },later
   // add instructor
   discount: [{ country: String, percent: Number }],
+  ratings: [
+    {
+      corporateTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CorporateTrainee",
+      },
+      individualTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "IndividualTrainee",
+      },
+      rating: Number,
+    },
+  ],
+  reviews: [
+    {
+      corporateTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CorporateTrainee",
+      },
+      individualTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "IndividualTrainee",
+      },
+      review: String,
+    },
+  ],
 });
 
 export function validateCourse(course) {
