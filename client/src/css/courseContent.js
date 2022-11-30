@@ -27,6 +27,12 @@ const useStyles = makeStyles()((theme) => {
       backgroundColor: "#EBF1F2",
       marginBottom: "20px",
     },
+    videoPaper: {
+      backgroundColor: "#1C1D1F",
+      color: "white",
+      padding: "20px",
+      marginBottom: "20px",
+    },
   };
 });
 export default useStyles;

@@ -45,9 +45,9 @@ export const VideoAndExercise = ({ content, exercise }) => {
       {content.videoUrl !== "" ? (
         <>
           <Container>
-            <Paper elevation={12}>
-              <Typography variant="h4">{content.subtitle}</Typography>
-              <Typography variant="h6">{content.description}</Typography>
+            <Paper elevation={12} className={classes.videoPaper}>
+              <Typography variant="h3">{content.subtitle}</Typography>
+
               <iframe
                 width="100%"
                 height="500"

@@ -139,11 +139,11 @@ export const CourseContent = () => {
                       id="panel1bh-header"
                       sx={{ backgroundColor: "#EBF1F2" }}
                     >
-                      <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                      <Typography sx={{ marginRight: "30px" }}>
                         {outline.outline}
                       </Typography>
                       <Typography sx={{ color: "text.secondary" }}>
-                        {outline.totalHours}
+                        {`(${outline.totalHours} hours)`}
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
@@ -158,7 +158,7 @@ export const CourseContent = () => {
                               <ListItemIcon>
                                 <OndemandVideoIcon />
                               </ListItemIcon>
-                              <ListItemText>{subtitle.subtitle}</ListItemText>
+                              <ListItemText>{`${subtitle.subtitle}   (${subtitle.minutes} minutes)`}</ListItemText>
                             </ListItem>
                           );
                         })}
