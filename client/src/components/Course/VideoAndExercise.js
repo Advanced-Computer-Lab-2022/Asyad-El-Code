@@ -79,7 +79,10 @@ export const VideoAndExercise = ({ content, exercise }) => {
               return (
                 <>
                   <Paper elevation={12} className={classes.exercisePaper}>
-                    <Typography variant="h4" sx={{ color: "#000000" }}>
+                    <Typography variant="h6" sx={{ color: "grey" }}>
+                      {`Question ${ind + 1} of ${total}`}
+                    </Typography>
+                    <Typography variant="h5" sx={{ color: "#000000" }}>
                       {ex.question}
                     </Typography>
 

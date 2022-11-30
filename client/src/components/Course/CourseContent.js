@@ -162,7 +162,7 @@ export const CourseContent = () => {
                             </ListItem>
                           );
                         })}
-                        {outline.exercise && (
+                        {outline.exercise[0] && (
                           <ListItem
                             button
                             onClick={() => handleClickEx(outline.exercise)}
@@ -183,14 +183,18 @@ export const CourseContent = () => {
           </Grid>
         </Grid>
         <Grid item xs={9}>
-          <Grid container direction="column">
-            <Grid item>
-              <VideoAndExercise
-                content={content}
-                exercise={exercise}
-              ></VideoAndExercise>
-            </Grid>
-          </Grid>
+          {content.videoUrl || exercise[0].question ? (
+            <>
+              <Grid container direction="column">
+                <Grid item>
+                  <VideoAndExercise
+                    content={content}
+                    exercise={exercise}
+                  ></VideoAndExercise>
+                </Grid>
+              </Grid>
+            </>
+          ) : null}
         </Grid>
       </Grid>
     </div>
