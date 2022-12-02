@@ -6,6 +6,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import useStyles from "../../css/courseContent.js";
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 export const VideoAndExercise = ({ content, exercise }) => {
   const [value, setValue] = useState(new Map());
   const [correct, setCorrect] = useState(new Map());
@@ -91,37 +93,71 @@ export const VideoAndExercise = ({ content, exercise }) => {
                         Select one correct answer
                       </FormLabel>
 
-                      <RadioGroup aria-labelledby="quiz" name="quiz">
-                        {ex.answers.map((answer, index) => {
-                          return (
-                            <FormControlLabel
-                              value={answer.answer}
-                              control={<Radio />}
-                              label={answer.answer}
-                              key={index}
-                              onChange={() => handleChange(index, ind)}
-                            />
-                          );
-                        })}
-                      </RadioGroup>
-
                       {show.get(ind) ? (
-                        correct.get(ind) ? (
-                          <Typography variant="h6" sx={{ color: "#00FF00" }}>
-                            Correct
-                          </Typography>
-                        ) : (
-                          <Typography variant="h6" sx={{ color: "#FF0000" }}>
-                            Incorrect
-                          </Typography>
-                        )
+                        <>
+                          {ex.answers.map((ans, index) => {
+                            return (
+                              <>
+                                {ans.correct ? (
+                                  // check icon for correct answer without radio control and with green color
+                                  <FormControlLabel
+                                    value={index}
+                                    control={
+                                      <CheckCircleOutlineOutlinedIcon
+                                        sx={{ color: "#00FF00" }}
+                                      />
+                                    }
+                                    label={ans.answer}
+                                    labelPlacement="end"
+                                  />
+                                ) : (
+                                  // // cross icon for wrong answer without radio control and with red color
+                                  <FormControlLabel
+                                    value={index}
+                                    control={
+                                      <HighlightOffOutlinedIcon
+                                        sx={{ color: "#FF0000" }}
+                                      />
+                                    }
+                                    label={ans.answer}
+                                    labelPlacement="end"
+                                  />
+                                )}
+                              </>
+                            );
+                          })}
+                          {correct.get(ind) ? (
+                            <Typography variant="h6" sx={{ color: "#00FF00" }}>
+                              Correct
+                            </Typography>
+                          ) : (
+                            <Typography variant="h6" sx={{ color: "#FF0000" }}>
+                              Incorrect
+                            </Typography>
+                          )}
+                        </>
                       ) : (
-                        <Button
-                          variant="contained"
-                          onClick={() => handleSubmit(ind)}
-                        >
-                          Submit
-                        </Button>
+                        <>
+                          <RadioGroup aria-labelledby="quiz" name="quiz">
+                            {ex.answers.map((answer, index) => {
+                              return (
+                                <FormControlLabel
+                                  value={answer.answer}
+                                  control={<Radio />}
+                                  label={answer.answer}
+                                  key={index}
+                                  onChange={() => handleChange(index, ind)}
+                                />
+                              );
+                            })}
+                          </RadioGroup>
+                          <Button
+                            variant="contained"
+                            onClick={() => handleSubmit(ind)}
+                          >
+                            Submit
+                          </Button>
+                        </>
                       )}
                     </FormControl>
                   </Paper>
