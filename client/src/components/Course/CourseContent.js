@@ -28,6 +28,7 @@ import createTheme from "@mui/material/styles/createTheme";
 import { useHistory } from "react-router-dom";
 import { RatingAndReviewPopup } from "./RatingAndReviewPopup";
 import { addRating, addReview, getCourse } from "../../actions/courses.js";
+import courseImage from "../../images/point.png";
 const contentInitialForm = {
   subtitle: "",
   minutes: 0,
@@ -99,6 +100,9 @@ export const CourseContent = () => {
             <Grid item>
               <Paper elevation={12} className={classes.paper}>
                 <Grid container>
+                  <Grid iten xs={12}>
+                    <img src={courseImage} alt="Course Image" width="100%" />
+                  </Grid>
                   <Grid item xs={12}>
                     <Typography className={classes.courseTitle}>
                       {course.title}
