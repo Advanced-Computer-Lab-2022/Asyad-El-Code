@@ -11,21 +11,27 @@ import Exercise from "./components/Instructor/Exercise";
 import PopularCourses from "./components/HomePage/PopularCourses";
 import SimpleSlider from "./components/Slider";
 import { Switch, Route } from "react-router-dom";
+import InstructorPage from "./components/Instructor/instructorPage";
+import BasicRating from "./components/Instructor/Rating";
+import { Rating } from "@mui/material";
 export const App = () => {
   return (
     <>
-
-      <Switch>
+      <MenuAppBar></MenuAppBar>
+      {/* <Switch>
         <Route exact path="/">
           <Home />
+          <SimpleSlider/>
         </Route>
         <Route path="/viewAll">
           <ViewAllCourses />
         </Route>
         <Route exact path="/instructorpage">
-          <InstructorCourses></InstructorCourses>
+          <InstructorCourses></Instr<BasicRating />uctorCourses>
         </Route>
-      </Switch>
+      </Switch> */}
+      <InstructorPage />
+      {/*  */}
       {/* <CourseDetails></CourseDetails> */}
     </>
   );
