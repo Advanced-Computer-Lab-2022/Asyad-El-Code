@@ -10,6 +10,7 @@ import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
 import CoursePage from "./components/Course/CoursePage";
 import ScrollToTop from "./components/ScrollToTop";
+import CourseSteps from "./components/Instructor/CourseSteps";
 import { MyCourses } from "./components/Trainee/MyCourses";
 import { Profile } from "./components/Profile/Profile";
 export const App = () => {
@@ -29,21 +30,22 @@ export const App = () => {
           <Route exact path="/instructorpage">
             <InstructorCourses></InstructorCourses>
           </Route>
-          <Route exact path="/createCourse">
-            <CourseStructure></CourseStructure>
-          </Route>
+
           <Route path="/adminPage">
             <Admin></Admin>
+          </Route>
+          <Route exact path="/createCourse">
+            <CourseSteps></CourseSteps>
           </Route>
           <Route path="/course/*">
             <CoursePage></CoursePage>
           </Route>
-           <Route path="/myCourses">
-          <MyCourses></MyCourses>
-        </Route>
-        <Route path="/profile">
-          <Profile></Profile>
-        </Route>
+          <Route path="/myCourses">
+            <MyCourses></MyCourses>
+          </Route>
+          <Route path="/profile">
+            <Profile></Profile>
+          </Route>
         </Switch>
       </ScrollToTop>
     </>

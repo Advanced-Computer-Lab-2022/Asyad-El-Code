@@ -56,7 +56,12 @@ export const CoursesGrid = () => {
                   </Typography>
                   <Stack spacing={1} direction="row">
                     <p>{course.rating}</p>
-                    <Rating readOnly sx={{ alignItems: "center" }}>
+                    <Rating
+                      readOnly
+                      value={course.rating}
+                      precision={0.1}
+                      sx={{ alignItems: "center" }}
+                    >
                       jgdsjdjhs
                     </Rating>
                     <p style={{ alignSelf: "center" }}>n5332</p>
