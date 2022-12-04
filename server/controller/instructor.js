@@ -51,6 +51,16 @@ export const getInstructors = async (_req, res) => {
   }
 };
 
+export const getInstructor = async (req, res) => {
+  try {
+    const instructor = await Instructor.findById(mongoose.Types.ObjectId(req.params.id));
+    if (!instructor) return res.status(404).send("Instructor not found");
+    return res.status(200).send(instructor);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
 export const viewCourseTitles = async (req, res) => {
   try {
     const { id } = req.params;
@@ -224,5 +234,22 @@ export const searchByTitleOrSubject = async (req, res) => {
     res.status(200).send(courses);
   } catch (error) {
     res.status(400).send({ message: error.message });
+  }
+};
+export const updateRating = async (req, res) => {
+  try {
+    const id  = mongoose.Types.ObjectId(req.params.id);
+    const { rating } = req.body;
+    const instructor = await Instructor.findById(id);
+    if (!instructor) return res.status(404).send("instructor not found");
+    const updatedInstructor = await Instructor.findByIdAndUpdate(
+      id,
+      { rating
+        : rating },
+      { new: true }
+    );
+    res.status(200).send(updatedInstructor);
+  } catch (error) {
+    res.status(400).send(error.message);
   }
 };

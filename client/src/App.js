@@ -10,8 +10,9 @@ import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
 import CoursePage from "./components/Course/CoursePage";
 import ScrollToTop from "./components/ScrollToTop";
-import { MyCourses } from "./components/Trainee/MyCourses";
+import MyCourses from "./components/Trainee/MyCourses";
 import { Profile } from "./components/Profile/Profile";
+import { InstructorProfile } from "./components/InstructorPofile/InstructorProfile";
 export const App = () => {
   return (
     <>
@@ -38,11 +39,14 @@ export const App = () => {
           <Route path="/course/*">
             <CoursePage></CoursePage>
           </Route>
-          <Route  path="/myCourses">
+          <Route path="/myCourses">
             <MyCourses></MyCourses>
           </Route>
           <Route path="/profile">
             <Profile></Profile>
+          </Route>
+          <Route path="/instructorProfile">
+            <InstructorProfile></InstructorProfile>
           </Route>
         </Switch>
       </ScrollToTop>

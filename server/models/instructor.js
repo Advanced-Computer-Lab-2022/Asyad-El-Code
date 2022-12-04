@@ -43,6 +43,10 @@ const instructorSchema = mongoose.Schema({
   phoneNumber: {
     type: String,
   },
+  rating: {
+    type: Number,
+    default: 0,
+  },
 });
 
 export function validateInstructor(user) {

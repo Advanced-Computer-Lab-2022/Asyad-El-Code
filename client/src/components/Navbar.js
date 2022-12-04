@@ -203,7 +203,7 @@ export default function ButtonAppBar() {
               </MyLink>
             </Grid>
             <Grid alignSelf="center" item>
-              <MyLink color="white" underline="none">
+              <MyLink color="white" underline="none" href="/profile">
                 Sign Up
               </MyLink>
             </Grid>

@@ -15,7 +15,7 @@ import { getTrainee } from '../../actions/individualTrainees';
 import { updateTrainee } from '../../actions/individualTrainees';
 
 
-const MyProfile = () => {
+const Payments = () => {
     const trainee = useSelector((t) => t.individualTrainee)
     const dispatch = useDispatch();
     const [firstName, setFirstName] = useState(trainee.firstName);
@@ -49,12 +49,12 @@ const MyProfile = () => {
     }, [])
 
     return (
-        <Grid container direction="column" justifyContent="center" alignContent="center">
-            <Grid item borderBottom={1} borderColor="silver" width="100%" padding={3} bgcolor="#1C1D1F" color="white">
-                <Typography fontWeight="bold" fontSize={35} textAlign="center">Public profile</Typography>
-                <Typography fontSize={20} textAlign="center">Add information about yourself</Typography>
-            </Grid>
+        <Grid container direction="column" justifyContent="center" alignContent="center" color="#1C1D1F">
             <Grid item borderBottom={1} borderColor="silver" width="100%" padding={3}>
+                <Typography fontWeight="bold" fontSize={35} textAlign="center">Payments</Typography>
+                <Typography fontSize={20} textAlign="center">Add your payment information</Typography>
+            </Grid>
+            {/* <Grid item borderBottom={1} borderColor="silver" width="100%" padding={3}>
                 <form onSubmit={handleForm}>
 
                     <FormGroup sx={{ marginTop: '20px' }}>
@@ -190,9 +190,9 @@ const MyProfile = () => {
                         </Grid>
                     </FormGroup>
                 </form>
-            </Grid>
+            </Grid> */}
         </Grid>
     )
 }
 
-export default MyProfile;
+export default Payments;

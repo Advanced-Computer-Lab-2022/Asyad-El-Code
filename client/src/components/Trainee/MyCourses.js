@@ -21,7 +21,7 @@ import { useRef } from "react";
 import "../../css/card.css";
 import image from "../../images/course.jpeg";
 import { useDispatch, useSelector } from "react-redux";
-import { getTrainee } from "../../actions/individualTrainees";
+import { fetchTrainee, getTrainee } from "../../actions/individualTrainees";
 
 
 
@@ -33,24 +33,25 @@ const bull = (
     •
   </Box>
 );
-export const MyCourses = () => {
+
+const MyCourses = () => {
   const dispatch = useDispatch();
-
-  const trainee = useSelector((t) => t.individualTrainees);
-  const myCourses =[{"title":"Flutter & Dart - The Complete Guide [2023 Edition] ","summary":"A Complete Guide to the Flutter SDK & Flutter Framework for building native iOS and Android apps","duration":42,"releaseDate":"2020-12-21T00:00:00.000Z","image":"/Users/robertojoseph/Asyad-El-Code/client/src/images/code.jpg","rating":4.5,"_id":"638258d2c70684bcad65d9d0"},{"title":"uyuy","summary":"Essam el halawany made this course","duration":48,"releaseDate":"2020-12-21T00:00:00.000Z","image":"010101101","rating":4.3,"_id":"63825929c70684bcad65d9d8"}];
-  console.log(trainee)
-  console.log(myCourses)
-
+  const trainee = useSelector((t) => t.individualTrainee);
+  console.log(trainee);
+  const courses = trainee.courses;
+  console.log(courses);
+  
   useEffect(() => {
-    dispatch(getTrainee());
-  },[])
+    dispatch(fetchTrainee());
+  }, []);
 
+  dispatch(fetchTrainee());
   return (
     <Grid container justifyContent="center" rowSpacing={4} marginBottom={10}>
       <Grid item xs={10} marginTop={5}>
         <Typography variant="h3">My courses</Typography>
       </Grid>
-      {myCourses.map((course, index) => {
+      {courses.map((course, index) => {
         return (
           <Grid item xs={9}>
             <Card sx={{ overFlow: 'hidden', display: "flex" }} >
@@ -91,3 +92,5 @@ export const MyCourses = () => {
     </Grid>
   )
 }
+
+export default MyCourses;
