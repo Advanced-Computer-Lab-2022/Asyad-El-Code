@@ -10,14 +10,15 @@ import {
   getPriceOfCourses,
   findCourseBySubjectAndRating,
   filterAllCourses,
-  searchByTitleOrSubjectOrInstructor
-
+  searchByTitleOrSubjectOrInstructor,
+  getCourse,
 } from "../controller/course.js";
 
 const router = express.Router();
 
 router.post("/", createCourse);
 router.get("/filter/price", filterBasedOnPrice);
+router.get("/getCourse", getCourse);
 //For coorpar
 router.get("/coursesDetails", getCoursesDetails);
 router.get("/coursesPrice", getPriceOfCourses);

@@ -1,0 +1,15 @@
+.article {
+    height: 400px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: grid;
+    place-items: center;
+}
+
+.header {
+    font-size: 80px;
+    color: white;
+    text-align: center;
+}

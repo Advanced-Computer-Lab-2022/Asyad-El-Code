@@ -1,6 +1,6 @@
 import mongoose, { mongo } from "mongoose";
 import Joi from "joi";
-import Instructor from "./instructor.js";
+
 export const courseSchema = mongoose.Schema({
   title: {
     type: String,
@@ -14,10 +14,7 @@ export const courseSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  // department: {
-  //   type: String,
-  //   required: true,
-  // }, later
+
   duration: {
     type: Number,
     required: true,
@@ -61,7 +58,6 @@ export const courseSchema = mongoose.Schema({
     required: true,
   },
   instructor: {
-
     instructorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Instructor",
@@ -86,8 +82,8 @@ export function validateCourse(course) {
     language: Joi.string().required(),
     image: Joi.string().required(),
     rating: Joi.number(),
+    outlines: Joi.array().required(),
     previewVideo: Joi.string().required(),
-    excercises: Joi.array().required(),
     price: Joi.number().required(),
     discount: Joi.array(),
   });

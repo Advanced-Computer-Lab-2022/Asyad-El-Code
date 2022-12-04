@@ -21,8 +21,7 @@ export const createCourse = async (req, res) => {
     instructor,
     discount,
   } = req.body;
-  const { outlines } = req.body;
-  
+  const { outlines } = req.body.outlines;
   console.log(req.body);
   try {
     const course = await new Course({

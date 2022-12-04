@@ -13,3 +13,6 @@ export const filterByTilteOrSubjectOrInstructor = async (searchQuery) =>
 export const createCourse = async (course) => {
   return await API.post("/", course);
 };
+
+export const getCourse = async (courseId) =>
+  await API.get(`/getCourse?courseId=${courseId}`);
