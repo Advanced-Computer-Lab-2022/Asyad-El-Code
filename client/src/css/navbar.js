@@ -3,7 +3,8 @@ import { makeStyles } from "tss-react/mui";
 const useStyles = makeStyles()((theme) => {
   return {
     appBar: {
-      backgroundColor: "white",
+      backgroundColor: "black",
+      opacity: 0.89,
     },
     logo: {
       height: "60px",
@@ -33,6 +34,12 @@ const useStyles = makeStyles()((theme) => {
       fontWeight: "bold",
       marginLeft: "40px",
       marginRight: "40px",
+    },
+    admin: {
+      width: "200px",
+    },
+    instructor: {
+      width: "200px",
     },
   };
 });

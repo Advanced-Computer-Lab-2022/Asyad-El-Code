@@ -18,22 +18,16 @@ import useStyles from "../css/slider.js";
 import { Stack } from "@mui/system";
 import { useRef } from "react";
 import "../css/card.css";
-import image from "../images/course.jpeg";
+import image from "../images/point.png";
 import CoursePopup from "../components/Course/CoursePopup";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import currencyRates from "../reducers/currencyRates";
-const arr = [
-  { id: "1", title: "7amada Bena" },
-  { id: "2", title: "Yalla yel3b" },
-  { id: "3", title: "Essam ElDeen" },
-  { id: "5", title: "ElDeen Ye3" },
-  { id: "6", title: "Khaled ABo" },
-  { id: "7", title: "ElWafaa kora" },
-  { id: "8", title: "Khaled Essam" },
-  { id: "9", title: "Heidar Khaled" },
-  { id: "10", title: "Ahmed Heidar" },
-];
+import { getCourse } from "../actions/courses.js";
+import { useHistory } from "react-router-dom";
+
+import { getRate } from "./util.js";
+
 
 export const SimpleSlider = () => {
   const [detailsBox, setDetailsBox] = useState(false);
@@ -42,9 +36,13 @@ export const SimpleSlider = () => {
   const selectedCountry = useSelector((c) => c.selectedCountry);
   const rates = useSelector((c) => c.currencyRates);
   const [courseDetails, setCourseDetails] = useState(null);
-  console.log(courses);
-  console.log(selectedCountry);
-  console.log(rates);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleClick = (courseId, courseTitle) => {
+    dispatch(getCourse(courseId, history, courseTitle));
+  };
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = (course) => {
@@ -124,14 +122,16 @@ export const SimpleSlider = () => {
       <div style={{ width: "1200px" }}>
         <Slider {...settings}>
           {courses.map((course, index) => {
+            console.log(course.image);
             return (
               <Card elevation={0} className={classes.cardGrid} key={index}>
                 <CardMedia
+                  onClick={() => handleClick(course._id, course.title)}
                   component="img"
                   image={image}
                   className={classes.cardMedia}
-                  // onMouseOver={(event) => handleMouseOver(event, item.title)}
-                  // onMouseOut={handleMouseOut}
+                // onMouseOver={(event) => handleMouseOver(event, item.title)}
+                // onMouseOut={handleMouseOut}
                 ></CardMedia>
 
                 <CardContent>
@@ -148,12 +148,17 @@ export const SimpleSlider = () => {
                   </Typography>
 
                   <Stack spacing={1} direction="row">
-                    <p>4.5</p>
-                    <Rating readOnly sx={{ alignItems: "center" }}></Rating>
+                    <p>{parseFloat(course.rating)}</p>
+                    <Rating
+                      precision={0.5}
+                      defaultValue={parseFloat(course.rating)}
+                      readOnly
+                      sx={{ alignItems: "center" }}
+                    ></Rating>
                     <p style={{ alignSelf: "center" }}>n5332</p>
                   </Stack>
                   <Typography variant="body1" fontWeight="bold">
-                    {selectedCountry==="USA"?"$"+(course.price*rates[0]).toFixed(2)+" USD":selectedCountry==="CANADA"?"$"+(course.price*rates[1]).toFixed(2)+" CAD":(course.price).toFixed(2)+" EGP"}
+                    {getRate(selectedCountry,course.price,rates)}
                   </Typography>
                 </CardContent>
                 <CardActions>

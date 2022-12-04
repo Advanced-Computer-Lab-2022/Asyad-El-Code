@@ -79,28 +79,27 @@ export const deleteIndividualTrainee = async (req, res) => {
 
 export const updateIndividualTrainee = async (req, res) => {
   try {
-    const IndvidTrainee = await indvidualTrainee.findById(req.params.id);
+    const id = req.params.id;
+    const castedId = mongoose.Types.ObjectId(id);
+    const IndvidTrainee = await indvidualTrainee.findById(castedId);
     if (!IndvidTrainee) return res.status(404).send("This id doesnt exist");
-
-    const { error } = validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
     const newIndvidualTrainee = await indvidualTrainee.findByIdAndUpdate(
-      req.params.id,
+      castedId,
       {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         password: req.body.password,
         phoneNumber: req.body.phoneNumber,
         country: req.body.country,
-        address: req.body.address,
-        university: req.body.university,
       },
       { new: true }
     );
-    res.send(newIndvidualTrainee);
+    res.status(200).send(newIndvidualTrainee);
   } catch (error) {
-    res.send("This id doesnt exist");
+    res.status(401).json({ error: err.message })
   }
 };
+
 
 
 export const selectCountry = async (req, res) => {
@@ -115,5 +114,35 @@ export const selectCountry = async (req, res) => {
 
   } catch (err) {
     res.status(401).send(err)
+  }
+};
+export const enrollCourse = async (req, res) => {
+  try {
+    const { id, courseId } = req.body;
+    const courseIdCasted = await mongoose.Types.ObjectId(courseId);
+    const idCasted = await mongoose.Types.ObjectId(id);
+    console.log(id)
+    console.log(idCasted)
+    console.log(courseIdCasted)
+    const { title, summary, duration, releaseDate, image, rating, instuctor } = await Course.findById(courseIdCasted);
+    const user = await IndividualTrainee.findById(idCasted)
+    const updatedUser = await IndividualTrainee.findByIdAndUpdate(idCasted, {
+      courses: [...user.courses, {
+        title,
+        summary,
+        duration,
+        releaseDate,
+        image,
+        rating,
+        instuctor
+      }]
+    }, { new: true })
+    if (!updatedUser) {
+      res.status(401).send("Couldn't enroll course")
+    } else
+      res.status(200).send(updatedUser);
+
+  } catch (err) {
+    res.status(401).json({ error: err.message })
   }
 };

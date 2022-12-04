@@ -12,13 +12,16 @@ import {
 } from "@mui/material";
 import { Container, Stack } from "@mui/system";
 import useStyles from "../../css/slider.js";
-import course from "../../images/course.jpeg";
+import image from "../../images/course.jpeg";
 import { useSelector } from "react-redux";
+import { getRate } from "../util.js";
 
 export const CoursesGrid = () => {
   const [detailsBox, setDetailsBox] = useState(false);
   const [title, setTitle] = useState("");
   const courses = useSelector((c) => c.courses);
+  const selectedCountry = useSelector((c) => c.selectedCountry);
+  const rates = useSelector((c) => c.currencyRates);
   const handleClick = () => {
     console.log("CLICKED");
   };
@@ -37,7 +40,7 @@ export const CoursesGrid = () => {
               >
                 <CardMedia
                   component="img"
-                  image={course}
+                  image={image}
                   className={classes.cardMedia}
                 ></CardMedia>
                 <CardContent>
@@ -54,7 +57,12 @@ export const CoursesGrid = () => {
                   </Typography>
                   <Stack spacing={1} direction="row">
                     <p>{course.rating}</p>
-                    <Rating readOnly sx={{ alignItems: "center" }}>
+                    <Rating
+                      readOnly
+                      value={course.rating}
+                      precision={0.1}
+                      sx={{ alignItems: "center" }}
+                    >
                       jgdsjdjhs
                     </Rating>
                     <p style={{ alignSelf: "center" }}>n5332</p>
@@ -67,7 +75,7 @@ export const CoursesGrid = () => {
                     })}
                   </ul>
                   <Typography variant="body1" fontWeight="bold">
-                    {`$ ${course.price}`}
+                    {getRate(selectedCountry, course.price, rates)}
                   </Typography>
                 </CardContent>
                 <CardActions>

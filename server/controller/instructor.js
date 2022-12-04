@@ -37,7 +37,7 @@ export const createInstructor = async (req, res) => {
     await instructor.save();
     res.status(200).json(instructor);
   } catch (error) {
-    console.log("HENAAA")
+    console.log("HENAAA");
     res.status(401).send(error.message); //test
   }
 };
@@ -51,6 +51,15 @@ export const getInstructors = async (_req, res) => {
   }
 };
 
+export const getInstructor = async (req, res) => {
+  try {
+    const instructor = await Instructor.findById(mongoose.Types.ObjectId(req.params.id));
+    if (!instructor) return res.status(404).send("Instructor not found");
+    return res.status(200).send(instructor);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
 
 export const viewCourseTitles = async (req, res) => {
   try {
@@ -180,7 +189,6 @@ export const updateInformation = async (req, res) => {
   res.send;
 };
 
-
 export const getAllInstructorCourses = async (req, res) => {
   try {
     const { id } = req.params;
@@ -200,8 +208,7 @@ export const filterInstructorCourses = async (req, res) => {
     const subjectArray = subject.split(/[,]+/);
     const priceArray = price.split(/[,]+/);
     const ratingArray = rating.split(/[,]+/);
-    console.log(id);
-    const courses = await Course.find({ "instructor:instructorId": id })
+    const courses = await Course.find({ "instructor.instructorId": id })
       .and({
         subject: { $in: subjectArray },
       })
@@ -213,7 +220,7 @@ export const filterInstructorCourses = async (req, res) => {
   } catch (err) {
     res.status(401).send(err);
   }
-}
+};
 export const searchByTitleOrSubject = async (req, res) => {
   try {
     const { title, subject } = req.query;
@@ -226,6 +233,22 @@ export const searchByTitleOrSubject = async (req, res) => {
     res.status(200).send(courses);
   } catch (error) {
     res.status(400).send({ message: error.message });
-
   }
-}
+};
+export const updateRating = async (req, res) => {
+  try {
+    const id  = mongoose.Types.ObjectId(req.params.id);
+    const { rating } = req.body;
+    const instructor = await Instructor.findById(id);
+    if (!instructor) return res.status(404).send("instructor not found");
+    const updatedInstructor = await Instructor.findByIdAndUpdate(
+      id,
+      { rating
+        : rating },
+      { new: true }
+    );
+    res.status(200).send(updatedInstructor);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};

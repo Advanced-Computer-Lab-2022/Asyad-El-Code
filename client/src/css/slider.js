@@ -9,6 +9,9 @@ const useStyles = makeStyles()((theme) => {
 
     cardGrid: {
       padding: "10px",
+
+      // paddingRight: "40px",
+      height: 500,
     },
     cardContent: {
       marginTop: "0px",
@@ -24,7 +27,6 @@ const useStyles = makeStyles()((theme) => {
       left: "370px",
       top: "500px",
     },
-   
   };
 });
 export default useStyles;

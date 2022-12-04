@@ -1,13 +1,19 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
 function valuetext(value) {
   return `${value}°C`;
 }
 
 export default function RangeSlider(props) {
-  const [value, setValue] = React.useState([0, 100]);
+  const selectedCountry = useSelector((c) => c.selectedCountry);
+  const rates = useSelector((c) => c.currencyRates);
+  const [max, setMax] = useState(10000);
+
+  const [value, setValue] = React.useState([0, max]);
   const handleChange = (event, newValue) => {
     props.form(event, newValue);
     setValue(newValue);
@@ -22,6 +28,13 @@ export default function RangeSlider(props) {
         onChange={handleChange}
         valueLabelDisplay="auto"
         getAriaValueText={valuetext}
+
+        max={
+          selectedCountry === ""
+            ? 10000
+            : (10000 * rates[selectedCountry]).toFixed(0)
+        }
+
       />
     </Box>
   );

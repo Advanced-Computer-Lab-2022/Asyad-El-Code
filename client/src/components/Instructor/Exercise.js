@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
@@ -8,9 +9,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
 import { Grid, TextField } from "@mui/material";
 import { useState } from "react";
+
+
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -62,14 +65,12 @@ const initialFormState = {
 export default function Exercise({
   open,
   submitContent,
-  handleClickOpen,
   handleClose,
 }) {
   const [initialForm, setInitialForm] = useState(initialFormState);
   const [answerArray, setAnswerArray] = useState(["", "", "", ""]);
 
   const handleSubmit = async (e) => {
-    console.log("Iam here wlahi el 3azem");
     e.preventDefault();
     const answers = [
       { answer: answerArray[0], correct: true },
@@ -78,7 +79,9 @@ export default function Exercise({
       { answer: answerArray[3], correct: false },
     ];
     submitContent({ ...initialForm, answers: answers }, "exercises");
-    setInitialForm({ ...initialForm, answers: answers });
+    //reset initialForm
+    setInitialForm(initialFormState, setAnswerArray(["", "", "", ""]));
+    handleClose();
   };
 
   const handleChange = (e) => {
@@ -122,7 +125,7 @@ export default function Exercise({
           id="customized-dialog-title"
           onClose={handleClose}
         >
-          Add Lecture
+          Add Exercise
         </BootstrapDialogTitle>
         <DialogContent dividers>
           <form onSubmit={handleSubmit} autoComplete="off">
@@ -135,7 +138,7 @@ export default function Exercise({
               alignItems="center"
             >
               <Grid item sm={3}>
-                <p>Question Name:</p>
+                <p>Question:</p>
               </Grid>
               <Grid item xs={9}>
                 <TextField
@@ -149,7 +152,7 @@ export default function Exercise({
                 />
               </Grid>
               <Grid item sm={3}>
-                <p>Answer one</p>
+                <p>1st Answer (correct)</p>
               </Grid>
               <Grid item xs={9}>
                 <TextField
@@ -164,7 +167,7 @@ export default function Exercise({
               </Grid>
 
               <Grid item sm={3}>
-                <p>Answer two</p>
+                <p>2nd Answer</p>
               </Grid>
               <Grid item xs={9}>
                 <TextField
@@ -178,7 +181,7 @@ export default function Exercise({
                 />
               </Grid>
               <Grid item sm={3}>
-                <p>Answer three</p>
+                <p>3rd Answer</p>
               </Grid>
               <Grid item xs={9}>
                 <TextField
@@ -192,7 +195,7 @@ export default function Exercise({
                 />
               </Grid>
               <Grid item sm={3}>
-                <p>Answer four</p>
+                <p>4th Answer</p>
               </Grid>
               <Grid item xs={9}>
                 <TextField
@@ -216,10 +219,11 @@ export default function Exercise({
             // onClick={() => submitLecture(initialForm)}
             onClick={handleSubmit}
           >
-            Add Quiz
+            Add Exercise
           </Button>
         </DialogActions>
       </BootstrapDialog>
     </div>
   );
 }
+
