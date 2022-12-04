@@ -14,6 +14,7 @@ import { Container, Stack } from "@mui/system";
 import useStyles from "../../css/slider.js";
 import image from "../../images/course.jpeg";
 import { useSelector } from "react-redux";
+import { getRate } from "../util.js";
 
 export const CoursesGrid = () => {
   const [detailsBox, setDetailsBox] = useState(false);
@@ -74,11 +75,7 @@ export const CoursesGrid = () => {
                     })}
                   </ul>
                   <Typography variant="body1" fontWeight="bold">
-                    {selectedCountry === "USA"
-                      ? "$" + (course.price * rates[0]).toFixed(2) + " USD"
-                      : selectedCountry === "CANADA"
-                      ? "$" + (course.price * rates[1]).toFixed(2) + " CAD"
-                      : course.price.toFixed(2) + " EGP"}
+                    {getRate(selectedCountry, course.price, rates)}
                   </Typography>
                 </CardContent>
                 <CardActions>

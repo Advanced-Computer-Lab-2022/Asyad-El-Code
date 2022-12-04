@@ -2,7 +2,10 @@ import * as courseApi from "../api/course";
 import {
   CREATE_COURSE,
   FILTER_COURSES,
+  GET_COURSE_DATA,
   GET_COURSE,
+  ADD_RATING,
+  ADD_REVIEW,
 } from "../constants/courses";
 
 export const getCourses = () => async (dsipatch) => {
@@ -45,6 +48,15 @@ export const createCourse = (course) => async (dispatch) => {
   }
 };
 
+export const getCourseData = () => async (dispatch) => {
+  try {
+    console.log("im in action");
+    const { data } = await courseApi.getCourseData();
+    dispatch({ type: GET_COURSE_DATA, payload: data });
+  } catch (err) {
+    console.log(err);
+  }
+};
 export const getCourse =
   (courseId, history, courseTitle) => async (dispatch) => {
     try {
@@ -53,6 +65,40 @@ export const getCourse =
       console.log("THE COURSE IS ", data);
       dispatch({ type: GET_COURSE, payload: data });
       history.push(`/course/${courseTitle}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+//add rating for course by trainee
+export const addRating =
+  (courseId, corporateTraineeId, individualTraineeId, rating) =>
+  async (dispatch) => {
+    try {
+      console.log("Im in actions add Rating");
+      const { data } = await courseApi.addRating(
+        courseId,
+        corporateTraineeId,
+        individualTraineeId,
+        rating
+      );
+      dispatch({ type: ADD_RATING, payload: data });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+// add review for course by trainee
+export const addReview =
+  (courseId, corporateTraineeId, individualTraineeId, review) =>
+  async (dispatch) => {
+    try {
+      const { data } = await courseApi.addReview(
+        courseId,
+        corporateTraineeId,
+        individualTraineeId,
+        review
+      );
+      dispatch({ type: ADD_REVIEW, payload: data });
     } catch (error) {
       console.log(error);
     }

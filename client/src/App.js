@@ -8,6 +8,7 @@ import { Switch, Route } from "react-router-dom";
 import CourseStructure from "./components/Instructor/CourseStructure";
 import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
+import { CourseContent } from "./components/Course/CourseContent";
 import CoursePage from "./components/Course/CoursePage";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -50,8 +51,13 @@ export const App = () => {
             <Profile></Profile>
           </Route>
 
+          <Route path="/courseContent">
+            <CourseContent></CourseContent>
+
+
           <Route path="/instructorProfile">
             <InstructorProfile></InstructorProfile>
+
           </Route>
         </Switch>
       </ScrollToTop>
