@@ -6,7 +6,7 @@ export default (currencyRates = [], action) => {
         case FETCH_CURRENCY_RATES:
             console.log(action.payload)
             
-            return [action.payload.USD,action.payload.CAD]
+            return action.payload;
         default:
             return currencyRates;
     }
