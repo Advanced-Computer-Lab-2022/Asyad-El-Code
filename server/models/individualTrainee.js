@@ -75,6 +75,41 @@ const individualTraineeSchema = mongoose.Schema({
     streetName: String,
     streetNumber: String,
   },
+  courses: [{
+        courseId: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+        title: {
+            type: String,
+            required: true,
+        },
+        summary: {
+            type: String,
+            required: true,
+        },
+        duration: {
+            type: Number,
+            required: true,
+        },
+        releaseDate: {
+            type: Date,
+            required: true,
+        },
+        image: {
+            type: String,
+            required: true,
+        },
+        rating: {
+            type: Number,
+            default: 0.0,
+        },
+        instructor: {
+
+            instructorId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Instructor",
+            },
+            name: String,
+        },
+    }]
 });
 
 export function validate(individualTrainee) {

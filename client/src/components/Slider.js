@@ -25,17 +25,9 @@ import { useDispatch, useSelector } from "react-redux";
 import currencyRates from "../reducers/currencyRates";
 import { getCourse } from "../actions/courses.js";
 import { useHistory } from "react-router-dom";
-const arr = [
-  { id: "1", title: "7amada Bena" },
-  { id: "2", title: "Yalla yel3b" },
-  { id: "3", title: "Essam ElDeen" },
-  { id: "5", title: "ElDeen Ye3" },
-  { id: "6", title: "Khaled ABo" },
-  { id: "7", title: "ElWafaa kora" },
-  { id: "8", title: "Khaled Essam" },
-  { id: "9", title: "Heidar Khaled" },
-  { id: "10", title: "Ahmed Heidar" },
-];
+
+import { getRate } from "./util.js";
+
 
 export const SimpleSlider = () => {
   const [detailsBox, setDetailsBox] = useState(false);
@@ -138,8 +130,8 @@ export const SimpleSlider = () => {
                   component="img"
                   image={image}
                   className={classes.cardMedia}
-                  // onMouseOver={(event) => handleMouseOver(event, item.title)}
-                  // onMouseOut={handleMouseOut}
+                // onMouseOver={(event) => handleMouseOver(event, item.title)}
+                // onMouseOut={handleMouseOut}
                 ></CardMedia>
 
                 <CardContent>
@@ -166,11 +158,7 @@ export const SimpleSlider = () => {
                     <p style={{ alignSelf: "center" }}>n5332</p>
                   </Stack>
                   <Typography variant="body1" fontWeight="bold">
-                    {selectedCountry === "USA"
-                      ? "$" + (course.price * rates[0]).toFixed(2) + " USD"
-                      : selectedCountry === "CANADA"
-                      ? "$" + (course.price * rates[1]).toFixed(2) + " CAD"
-                      : course.price.toFixed(2) + " EGP"}
+                    {getRate(selectedCountry,course.price,rates)}
                   </Typography>
                 </CardContent>
                 <CardActions>
