@@ -9,7 +9,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
 import { Grid, TextField } from "@mui/material";
 import { useState } from "react";
 
@@ -62,7 +61,6 @@ const initialFormState = {
 export default function LectureDetails({
   open,
   submitContent,
-  handleClickOpen,
   handleClose,
 }) {
   const [initialForm, setInitialForm] = useState(initialFormState);
@@ -151,7 +149,7 @@ export default function LectureDetails({
             variant="contained"
             type="submit"
             autoFocus
-            onClick={() => submitContent(initialForm, "subtitles")}
+            onClick={() => {submitContent(initialForm, "subtitles"); handleClose(); setInitialForm(initialFormState);}}
           >
             Add
           </Button>

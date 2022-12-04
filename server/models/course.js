@@ -48,7 +48,7 @@ export const courseSchema = mongoose.Schema({
         outline: String,
         totalHours: Number,
         subtitles: [{ subtitle: String, minutes: Number, videoUrl: String }],
-        exercise: [
+        exercises: [
           { question: String, answers: [{ answer: String, correct: Boolean }] },
         ],
       },
