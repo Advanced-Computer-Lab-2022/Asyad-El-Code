@@ -53,11 +53,10 @@ export const App = () => {
 
           <Route path="/courseContent">
             <CourseContent></CourseContent>
-
+          </Route>
 
           <Route path="/instructorProfile">
             <InstructorProfile></InstructorProfile>
-
           </Route>
         </Switch>
       </ScrollToTop>
