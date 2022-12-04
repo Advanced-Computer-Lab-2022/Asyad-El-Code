@@ -1,13 +1,12 @@
 import mongoose from "mongoose";
-
 import Joi from "joi";
 
 const instructorSchema = mongoose.Schema({
   userName: {
     type: String,
     required: true,
-    minlength:5,
-    unique:true,
+    minlength: 5,
+    unique: true,
   },
   firstName: {
     type: String,

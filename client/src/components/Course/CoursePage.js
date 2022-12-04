@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 
 export const CoursePage = () => {
   const course = useSelector((c) => c.courses)[0];
-  console.log("Iam the frotnend", course);
+  console.log("Iam the courseIn The front", course);
 
   const { classes } = useStyles();
   const MyLink = styled(Link)({
