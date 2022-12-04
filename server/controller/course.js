@@ -39,7 +39,7 @@ export const createCourse = async (req, res) => {
       outlines: outlines,
       price,
       instructor,
-      discount: [{ country: "shdshdsd", precent: 2323 }],
+      discount,
     });
 
     console.log("Iamhere man man amn");

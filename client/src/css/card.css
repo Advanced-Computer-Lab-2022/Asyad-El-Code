@@ -1,3 +1,5 @@
+
+
 .card {
     position: absolute;
     top: 50%;
@@ -82,4 +84,6 @@
 .card .details .center ul li a:hover {
     background: #ff3636;
 }
+
+
 

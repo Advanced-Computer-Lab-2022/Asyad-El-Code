@@ -25,6 +25,8 @@ import LanguageIcon from "@mui/icons-material/Language";
 import "./Header.css";
 import styled from "@emotion/styled";
 import { Box } from "@mui/system";
+import { getCourse, getCourses } from "../actions/courses";
+import { getTrainee } from "../actions/individualTrainees";
 export default function ButtonAppBar() {
   const dispatch = useDispatch();
   const { classes } = useStyles();
@@ -35,6 +37,7 @@ export default function ButtonAppBar() {
   const [openMenu, setOpenMenu] = useState(false);
   const courses = useSelector((c) => c.courses);
   const rates = useSelector((state) => state.currencyRates);
+  const [selectedCourse, setSelected] = useState(null);
   console.log(rates);
 
   useEffect(() => {
@@ -42,13 +45,10 @@ export default function ButtonAppBar() {
   }, [country]);
 
   const history = useHistory();
-  const handleClick = (event) => {
-    history.push("/viewAll");
-  };
-  const handleClose = (event) => {
-    setAnchorEl(null);
-  };
 
+  const handleSelect = (courseId, courseTitle) => {
+    dispatch(getCourse(courseId, history, courseTitle));
+  };
   const handleCountry = (event) => {
     console.log(event.target.value);
     setCountry(event.target.value);
@@ -78,6 +78,10 @@ export default function ButtonAppBar() {
           <div className={classes.headerOptions}>
             <Autocomplete
               open={openMenu}
+              onChange={(event, value) => setSelected(value)}
+              onSelect={() =>
+                handleSelect(selectedCourse?._id, selectedCourse?.title)
+              }
               onInputChange={(_, value) => {
                 if (value.length === 0) {
                   if (openMenu) {
@@ -203,7 +207,12 @@ export default function ButtonAppBar() {
               </MyLink>
             </Grid>
             <Grid alignSelf="center" item>
-              <MyLink color="white" underline="none">
+              <MyLink
+                onClick={() => dispatch(getTrainee())}
+                color="white"
+                underline="none"
+                href="/profile"
+              >
                 Sign Up
               </MyLink>
             </Grid>

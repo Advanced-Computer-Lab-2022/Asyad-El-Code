@@ -11,8 +11,12 @@ import Exercise from "./components/Instructor/Exercise";
 import { CourseContent } from "./components/Course/CourseContent";
 import CoursePage from "./components/Course/CoursePage";
 import ScrollToTop from "./components/ScrollToTop";
-import { MyCourses } from "./components/Trainee/MyCourses";
-import { Profile } from "./components/Profile/Profile";
+
+import MyCourses from "./components/Trainee/MyCourses";
+
+import CourseSteps from "./components/Instructor/CourseSteps";
+import Profile from "./components/Profile/Profile";
+import { InstructorProfile } from "./components/InstructorPofile/InstructorProfile";
 export const App = () => {
   return (
     <>
@@ -30,11 +34,12 @@ export const App = () => {
           <Route exact path="/instructorpage">
             <InstructorCourses></InstructorCourses>
           </Route>
-          <Route exact path="/createCourse">
-            <CourseStructure></CourseStructure>
-          </Route>
+
           <Route path="/adminPage">
             <Admin></Admin>
+          </Route>
+          <Route exact path="/createCourse">
+            <CourseSteps></CourseSteps>
           </Route>
           <Route path="/course/*">
             <CoursePage></CoursePage>
@@ -45,8 +50,14 @@ export const App = () => {
           <Route path="/profile">
             <Profile></Profile>
           </Route>
+
           <Route path="/courseContent">
             <CourseContent></CourseContent>
+
+
+          <Route path="/instructorProfile">
+            <InstructorProfile></InstructorProfile>
+
           </Route>
         </Switch>
       </ScrollToTop>

@@ -13,6 +13,8 @@ export const filterInstructorCourses = async (filterData) => {
 
 export const fetchInstructors = async () => await API.get(`/`);
 
+export const fetchInstructor = async () => await API.get(`/635c587e07f18b986c357bb7`);
+
 export const addInstructor = async (instructor) => {
     return await API.post(`/`, instructor)
 }
