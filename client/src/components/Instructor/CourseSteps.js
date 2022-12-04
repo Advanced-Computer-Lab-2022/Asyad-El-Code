@@ -41,7 +41,7 @@ function CourseSteps() {
 
     const [openAlert, setOpenAlert] = useState(false);
     const [alertTitle, setAlertTitle] = useState("Create Course");
-    const [alertMessage, setAlertMessage] = useState("You are about to create a new course. Are you sure you want to continue?");
+    const [alertMessage, setAlertMessage] = useState("You are about to create a new course. \n Before you proceed, please make sure that you have filled all the fields.\n \n Course profit is subject to 14% service fees per trainee \n Are you sure you want to proceed?");
 
     const dispatch = useDispatch();
     const handleAlertDialogue = () => {
