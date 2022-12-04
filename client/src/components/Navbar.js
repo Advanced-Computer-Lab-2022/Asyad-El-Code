@@ -26,6 +26,7 @@ import "./Header.css";
 import styled from "@emotion/styled";
 import { Box } from "@mui/system";
 import { getCourse, getCourses } from "../actions/courses";
+import { getTrainee } from "../actions/individualTrainees";
 export default function ButtonAppBar() {
   const dispatch = useDispatch();
   const { classes } = useStyles();
@@ -36,6 +37,7 @@ export default function ButtonAppBar() {
   const [openMenu, setOpenMenu] = useState(false);
   const courses = useSelector((c) => c.courses);
   const rates = useSelector((state) => state.currencyRates);
+  const [selectedCourse, setSelected] = useState(null);
   console.log(rates);
 
   useEffect(() => {
@@ -205,7 +207,12 @@ export default function ButtonAppBar() {
               </MyLink>
             </Grid>
             <Grid alignSelf="center" item>
-              <MyLink color="white" underline="none" href="/profile">
+              <MyLink
+                onClick={() => dispatch(getTrainee())}
+                color="white"
+                underline="none"
+                href="/profile"
+              >
                 Sign Up
               </MyLink>
             </Grid>

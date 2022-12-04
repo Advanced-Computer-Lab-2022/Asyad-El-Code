@@ -1,16 +1,10 @@
-<<<<<<< HEAD
-import React, { useState } from "react";
-import { Grid, Button, Typography } from "@mui/material";
-=======
 import React, { useEffect, useState } from "react";
-import { Grid, Button , Typography} from "@mui/material";
->>>>>>> 9eb3783e2a5b853ea1034ed904591321fae8e9bf
+import { Grid, Button, Typography } from "@mui/material";
 import Section from "./Section";
 
 const initialFormState = {
   outlines: [],
 };
-
 
 export const CourseOutline = ({ submitOutlines }) => {
   const [isExpanded, setExpanded] = React.useState(true);
@@ -20,11 +14,11 @@ export const CourseOutline = ({ submitOutlines }) => {
 
   const addPoint = () => {
     let arr = [];
-    var section = {"id": count};
+    var section = { id: count };
     arr.push(section);
     // setPoints([...arr]);
     setPoints([...points, arr]);
-    setCount(count+1);
+    setCount(count + 1);
     console.log(points.length);
     console.log(count);
     setSd(sd + 1);
@@ -38,27 +32,17 @@ export const CourseOutline = ({ submitOutlines }) => {
   };
 
   const submitOutline = (state) => {
-<<<<<<< HEAD
-    // setInitialForm([...initialForm, outlines:initialForm.outlines.push(state)]);
-    // setInitialForm([...initialForm,outlines:newArray]);
     setInitialForm({
       ...initialForm,
       outlines: [...initialForm.outlines, state],
     });
   };
 
-=======
-    setInitialForm({...initialForm,outlines:[...initialForm.outlines,state]});
-  };
-
   const deleteSection = (id) => {
     setPoints((current) => current.filter((section) => section[0].id !== id));
     setSd(0);
-  }
+  };
 
-
-
->>>>>>> 9eb3783e2a5b853ea1034ed904591321fae8e9bf
   return (
     <div>
       <Grid
@@ -73,11 +57,12 @@ export const CourseOutline = ({ submitOutlines }) => {
           <div>
             {points.map((point, index) => (
               <Grid item xs={12}>
-<<<<<<< HEAD
-                <Section sd={sd} id={index + 1} submitOutline={submitOutline} />
-=======
-                <Section sd={sd} id={point[0].id} submitOutline={submitOutline} deleteSection={deleteSection}/>
->>>>>>> 9eb3783e2a5b853ea1034ed904591321fae8e9bf
+                <Section
+                  sd={sd}
+                  id={point[0].id}
+                  submitOutline={submitOutline}
+                  deleteSection={deleteSection}
+                />
               </Grid>
             ))}
             <Button onClick={() => addPoint()}>Add Section</Button>
