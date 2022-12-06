@@ -10,7 +10,12 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { BrowserRouter } from "react-router-dom";
 
 // cont store = configureStore({reducer:})
-const store = createStore(reducers, {}, compose(applyMiddleware(thunk)));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(
+  reducers,
+  {},
+  composeEnhancers(applyMiddleware(thunk))
+);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(

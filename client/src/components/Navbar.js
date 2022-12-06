@@ -14,7 +14,7 @@ import {
   Autocomplete,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { US, EG, CA, SA, GB, DE, CN, AE } from "country-flag-icons/react/3x2";
+import { US, EG, CA } from "country-flag-icons/react/3x2";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrencyRates } from "../actions/currencyRates";
@@ -26,7 +26,6 @@ import "./Header.css";
 import styled from "@emotion/styled";
 import { Box } from "@mui/system";
 import { getCourse, getCourses } from "../actions/courses";
-import { getTrainee } from "../actions/individualTrainees";
 export default function ButtonAppBar() {
   const dispatch = useDispatch();
   const { classes } = useStyles();
@@ -37,9 +36,9 @@ export default function ButtonAppBar() {
   const [openMenu, setOpenMenu] = useState(false);
   const courses = useSelector((c) => c.courses);
   const rates = useSelector((state) => state.currencyRates);
-  const [selectedCourse, setSelected] = useState(null);
-  console.log(rates);
-
+  const [selected, setSelected] = useState("");
+  const selectedCourse = courses.find((c) => c.title === selected);
+  console.log(courses);
   useEffect(() => {
     dispatch(getCurrencyRates());
   }, [country]);
@@ -60,6 +59,7 @@ export default function ButtonAppBar() {
     fontWeight: "bold",
     fontSize: 20,
   });
+
   return (
     <CssBaseline>
       <AppBar className={classes.appBar} position="sticky">
@@ -163,37 +163,17 @@ export default function ButtonAppBar() {
                     );
                   }}
                 >
-                  <MenuItem value={"EGP"}>
+                  <MenuItem value={"EGYPT"}>
                     <EG title="Egypt" width={20} st />
                     <span style={{ marginLeft: "10px" }}>Egypt</span>
                   </MenuItem>
-                  <MenuItem value={"CAD"}>
+                  <MenuItem value={"CANADA"}>
                     <CA title="Canada" width={20} />
                     <span style={{ marginLeft: "10px" }}>Canada</span>
                   </MenuItem>
-                  <MenuItem value={"USD"}>
+                  <MenuItem value={"USA"}>
                     <US title="USA" width={20} />
                     <span style={{ marginLeft: "10px" }}>USA</span>
-                  </MenuItem>
-                  <MenuItem value={"EUR"}>
-                    <DE title="EUR" width={20} />
-                    <span style={{ marginLeft: "10px" }}>Germany</span>
-                  </MenuItem>
-                  <MenuItem value={"SAR"}>
-                    <SA title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>KSA</span>
-                  </MenuItem>
-                  <MenuItem value={"AED"}>
-                    <AE title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>UAE</span>
-                  </MenuItem>
-                  <MenuItem value={"GBP"}>
-                    <GB title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>UK</span>
-                  </MenuItem>
-                  <MenuItem value={"CNY"}>
-                    <CN title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>China</span>
                   </MenuItem>
                 </Select>
               </FormControl>
@@ -207,21 +187,8 @@ export default function ButtonAppBar() {
               </MyLink>
             </Grid>
             <Grid alignSelf="center" item>
-              <MyLink
-                onClick={() => dispatch(getTrainee())}
-                color="white"
-                underline="none"
-                href="/profile"
-              >
+              <MyLink color="white" underline="none">
                 Sign Up
-              </MyLink>
-            </Grid>
-            <Grid alignSelf="center" item>
-              <MyLink
-                underline="none"
-                onClick={() => history.push("/courseContent")}
-              >
-                Course Content
               </MyLink>
             </Grid>
           </Grid>
@@ -231,8 +198,6 @@ export default function ButtonAppBar() {
             variant="contained"
           >
             Create course
-          </Button>
-          
           </Button> */}
         </Toolbar>
       </AppBar>

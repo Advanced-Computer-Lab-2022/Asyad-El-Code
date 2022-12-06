@@ -17,12 +17,13 @@ import MyCourses from "./components/Trainee/MyCourses";
 import CourseSteps from "./components/Instructor/CourseSteps";
 import Profile from "./components/Profile/Profile";
 import { InstructorProfile } from "./components/InstructorPofile/InstructorProfile";
+import { Auth } from "./components/Auth/Auth";
 export const App = () => {
   return (
     <>
       {/* <MenuAppBar></MenuAppBar>
       <Home></Home> */}
-      <Navbar></Navbar>
+
       <ScrollToTop>
         <Switch>
           <Route exact path="/">
@@ -57,6 +58,9 @@ export const App = () => {
 
           <Route path="/instructorProfile">
             <InstructorProfile></InstructorProfile>
+          </Route>
+          <Route path="/auth">
+            <Auth></Auth>
           </Route>
         </Switch>
       </ScrollToTop>
