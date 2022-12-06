@@ -2,98 +2,90 @@ import mongoose from "mongoose";
 
 import Joi from "joi";
 
-
 const corporateTraineeSchema = mongoose.Schema({
-    firstName:{
-        type: String,
-        minLength: 3
-    },
+  firstName: {
+    type: String,
+    minLength: 3,
+  },
 
-    lastName:{
-        type: String,
-        minLength: 3
-    },
+  lastName: {
+    type: String,
+    minLength: 3,
+  },
 
-    password:{
-        type: String,
-        required: true
-    },
+  password: {
+    type: String,
+    required: true,
+  },
 
-    userName:{
-        type:String,
-        required:true
-    },
+  userName: {
+    type: String,
+    required: true,
+  },
 
-    email:{
-        type: String,
-        required: true,
-        unique: true,
-    },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
 
-    country:{
-        type: String,
-    },
+  country: {
+    type: String,
+  },
 
-    
-    // certificate:{
-    //     type: String
-    // },
+  dateOfBirth: {
+    type: Date,
+  },
 
-    
-    // problems:{
-    //     type: String  //problem related to specific course 
-    // },
+  phoneNumber: {
+    type: String,
+  },
 
-    // grades:[{
-    //     grade: Number  //excercises:
-    // }],
+  address: {
+    city: String,
+    streetName: String,
+    streetNumber: String,
+  },
 
-    // percentageCompleted:{
-    //     type: Number,
-    //     default: 0
-    // },
+  // COURSES WITH ACCESS TO
 
-    dateOfBirth:{
-        type: Date,
-    },
-
-    phoneNumber:{
-        type: String,
-    },
-
-    address:{
-        city: String,
-        streetName: String,
-        streetNumber: String
-    },
-    
-    // COURSES WITH ACCESS TO
-    
-    // accessRequest:{
-    //     type: String,  //requesting a course that I don't have access to 
-    //     courseName: String,   //or ID 
-    //     default: null
-    // },
-
+  // accessRequest:{
+  //     type: String,  //requesting a course that I don't have access to
+  //     courseName: String,   //or ID
+  //     default: null
+  // },
 });
 
+corporateTraineeSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign(
+    { email: this.email, id: this._id },
+    process.env.TOKEN_KEY,
+    {
+      expiresIn: "1h",
+    }
+  );
+  return token;
+};
+
 export function validate(corporateTrainee) {
-    const schema = Joi.object({
-      firstName: Joi.string().min(3),
-      lastName: Joi.string().min(3),
-      email: Joi.string().email().required(),
-      phoneNumber: Joi.number().min(10),
-      dateOfBirth: Joi.date(),
-      password: Joi.string().required(),
-      address: Joi.object(),
-      country: Joi.string(),
-      userName: Joi.string().required(),
-      //problems: Joi.array().required(),
-      //certificate: Joi.array().required(),
+  const schema = Joi.object({
+    firstName: Joi.string().min(3),
+    lastName: Joi.string().min(3),
+    email: Joi.string().email().required(),
+    phoneNumber: Joi.number().min(10),
+    dateOfBirth: Joi.date(),
+    password: Joi.string().required(),
+    address: Joi.object(),
+    country: Joi.string(),
+    userName: Joi.string().required(),
+    //problems: Joi.array().required(),
+    //certificate: Joi.array().required(),
+  });
+  return schema.validate(corporateTrainee);
+}
 
-    });
-    return schema.validate(corporateTrainee);
-  }
-
-  const CorporateTrainee = mongoose.model("CorporateTrainee", corporateTraineeSchema);
-  export default CorporateTrainee;
+const CorporateTrainee = mongoose.model(
+  "CorporateTrainee",
+  corporateTraineeSchema
+);
+export default CorporateTrainee;
