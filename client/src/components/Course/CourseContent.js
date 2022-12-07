@@ -59,8 +59,9 @@ export const CourseContent = () => {
   useEffect(() => {
     dispatch(getCourseData());
   }, []);
+
   const course = useSelector((c) => c.courses)[0];
-  console.log(course);
+  console.log("THIS IS THE COURSE", course);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -79,12 +80,12 @@ export const CourseContent = () => {
     setRatingOpen(false);
   };
   const handleSubmitRatingAndReview = (rating, review) => {
-    dispatch(addRating(course._id, "63602907fe95a960eb6068a4", "", rating));
-    dispatch(addReview(course._id, "63602907fe95a960eb6068a4", "", review));
+    dispatch(addRating(course?._id, "63602907fe95a960eb6068a4", "", rating));
+    dispatch(addReview(course?._id, "63602907fe95a960eb6068a4", "", review));
     setRatingOpen(false);
   };
   const handleHome = () => {
-    dispatch(getCourse(course._id, history, course.title));
+    dispatch(getCourse(course?._id, history, course.title));
   };
 
   return (
@@ -105,7 +106,7 @@ export const CourseContent = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <Typography className={classes.courseTitle}>
-                      {course.title}
+                      {course?.title}
                     </Typography>
                   </Grid>
                   <ThemeProvider theme={theme}>
@@ -130,7 +131,7 @@ export const CourseContent = () => {
               </Paper>
             </Grid>
             <Grid item>
-              {course.outlines.map((outline, index) => {
+              {course?.outlines.map((outline, index) => {
                 return (
                   <Accordion
                     expanded={expanded === `panel${index}`}
@@ -144,15 +145,15 @@ export const CourseContent = () => {
                       sx={{ backgroundColor: "#EBF1F2" }}
                     >
                       <Typography sx={{ marginRight: "30px" }}>
-                        {outline.outline}
+                        {outline?.outline}
                       </Typography>
                       <Typography sx={{ color: "text.secondary" }}>
-                        {`(${outline.totalHours} hours)`}
+                        {`(${outline?.totalHours} hours)`}
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <List>
-                        {outline.subtitles.map((subtitle) => {
+                        {outline?.subtitles.map((subtitle) => {
                           return (
                             <ListItem
                               button
@@ -166,7 +167,7 @@ export const CourseContent = () => {
                             </ListItem>
                           );
                         })}
-                        {outline.exercise[0] && (
+                        {outline?.exercise[0] && (
                           <ListItem
                             button
                             onClick={() => handleClickEx(outline.exercise)}
