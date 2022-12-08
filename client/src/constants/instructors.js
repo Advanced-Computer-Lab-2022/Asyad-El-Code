@@ -1,3 +1,6 @@
 export const FETCH_ALL = "FETCH_ALL";
 export const FETCH_INSTRUCTORS = "FETCH_INSTRUCTORS";
 export const ADD_INSTRUCTOR = "ADD_INSTRUCTOR";
+export const FETCH_INSTRUCTOR = "FETCH_INSTRUCTOR";
+export const ADD_RATING = "ADD_RATING";
+export const ADD_REVIEW = "ADD_REVIEW";

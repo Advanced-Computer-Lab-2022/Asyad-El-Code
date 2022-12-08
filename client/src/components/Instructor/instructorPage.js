@@ -2,7 +2,11 @@ import { Button, Grid, Rating, Typography, Paper } from "@mui/material";
 import { useDispatch } from "react-redux";
 import Avatar from "@mui/material/Avatar";
 import { useSelector } from "react-redux";
-import { getAllInstructorCourses } from "../../actions/instructor";
+import {
+  getAllInstructorCourses,
+  getInstructors,
+  getInstructor,
+} from "../../actions/instructor";
 import LanguageIcon from "@mui/icons-material/Language";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -23,10 +27,8 @@ import {
   CardMedia,
   TextField,
 } from "@mui/material";
-import CreateIcon from "@mui/icons-material/Create";
-import InputBase from "@mui/material/InputBase";
-import BasicRating from "./Rating";
-import HoverRating from "./Rating";
+import { RatingAndReviewPopup } from "../Course/RatingAndReviewPopup";
+import { addRating, addReview } from "../../actions/instructor";
 
 const bull = (
   <Box
@@ -59,8 +61,11 @@ function InstructorPage() {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(getInstructors());
     dispatch(getAllInstructorCourses());
   }, []);
+  const instructors = useSelector((c) => c.instructors);
+  const instructor = instructors[0];
   const courses = useSelector((c) => c.courses);
   console.log(courses);
 
@@ -70,8 +75,22 @@ function InstructorPage() {
 
   const [value, setValue] = useState(2);
 
-  const handleSubmit = () => {};
+  const handleSubmit = (rating, review) => {
+    console.log(instructor?._id);
+    dispatch(
+      addRating(instructor?._id, "", "6352c07584a5db1f743a94a6", rating)
+    );
+    dispatch(
+      addReview(instructor?._id, "", "6352c07584a5db1f743a94a6", review)
+    );
+    setOpen(false);
+  };
 
+  const handleCancel = () => {
+    setOpen(false);
+  };
+  console.log("---------------------------");
+  console.log(instructor);
   return (
     <Grid
       container
@@ -118,12 +137,12 @@ function InstructorPage() {
                   fontWeight: 700,
                 }}
               >
-                Maximiliam Muller
+                {instructor?.userName}
               </Typography>
             </Grid>
             <Grid item xs={0}>
               <Typography sx={{ fontWeight: "bold", color: "#F6BE00" }}>
-                4.5
+                {instructor?.rating}
               </Typography>
             </Grid>
 
@@ -188,47 +207,15 @@ function InstructorPage() {
           <Button variant="contained" onClick={handleOpen}>
             Rate and review Instructor
           </Button>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <form>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Please rate instructor
-                </Typography>
-                <HoverRating />
-                <Typography>Review instructor</Typography>
-                <Paper
-                  component="form"
-                  sx={{
-                    p: "2px 4px",
-                    display: "flex",
-                    alignItems: "center",
-                    width: 320,
-                  }}
-                >
-                  <CreateIcon />
-
-                  <TextField
-                    required
-                    id="review"
-                    name="review"
-                    label="write review"
-                    fullWidth
-                    variant="outlined"
-                  />
-                  <Button variant="contained">send</Button>
-                </Paper>
-              </form>
-            </Box>
-          </Modal>
+          <RatingAndReviewPopup
+            ratingOpen={open}
+            handleCancelRating={handleCancel}
+            handleSubmit={handleSubmit}
+          ></RatingAndReviewPopup>
         </Grid>
       </Grid>
 
-      <Grid container marginLeft="330px" marginTop="15px" rowSpacing={10}>
+      <Grid container marginLeft="330px" marginTop="15px" rowSpacing={5}>
         <Grid item xs={8}>
           <Typography variant="h6" sx={{ fontSize: "30px" }}>
             Explore my courses
