@@ -2,6 +2,15 @@ import axios from "axios";
 
 const API = axios.create({ baseURL: "http://localhost:8000/course" });
 
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem("profile")) {
+    req.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("profile")).token
+    }`;
+  }
+  return req;
+});
+
 export const fetchCourses = async () => await API.get(`/getCourses`);
 export const filterCourses = async (filterData) =>
   await API.get(

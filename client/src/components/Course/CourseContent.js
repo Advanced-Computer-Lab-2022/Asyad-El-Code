@@ -60,7 +60,7 @@ export const CourseContent = () => {
     dispatch(getCourseData());
   }, []);
   const course = useSelector((c) => c.courses)[0];
-  console.log(course);
+  console.log("Iam in content", course);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -84,7 +84,7 @@ export const CourseContent = () => {
     setRatingOpen(false);
   };
   const handleHome = () => {
-    dispatch(getCourse(course._id, history, course.title));
+    dispatch(getCourse(course._id, history, course?.title));
   };
 
   return (

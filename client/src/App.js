@@ -17,46 +17,60 @@ import MyCourses from "./components/Trainee/MyCourses";
 import CourseSteps from "./components/Instructor/CourseSteps";
 import Profile from "./components/Profile/Profile";
 import { InstructorProfile } from "./components/InstructorPofile/InstructorProfile";
+import { Auth } from "./components/Auth/Auth";
+import SplashScreen from "./components/Splash/test.js";
 export const App = () => {
   return (
     <>
       {/* <MenuAppBar></MenuAppBar>
       <Home></Home> */}
-      <Navbar></Navbar>
+
       <ScrollToTop>
         <Switch>
           <Route exact path="/">
-            <Home />
+            <SplashScreen></SplashScreen>
           </Route>
-          <Route path="/viewAll">
-            <ViewAllCourses />
-          </Route>
-          <Route exact path="/instructorpage">
-            <InstructorCourses></InstructorCourses>
+          <Route exact path="/auth">
+            <Auth></Auth>
           </Route>
 
-          <Route path="/adminPage">
-            <Admin></Admin>
-          </Route>
-          <Route exact path="/createCourse">
-            <CourseSteps></CourseSteps>
-          </Route>
-          <Route path="/course/*">
-            <CoursePage></CoursePage>
-          </Route>
-          <Route path="/myCourses">
-            <MyCourses></MyCourses>
-          </Route>
-          <Route path="/profile">
-            <Profile></Profile>
-          </Route>
+          <Route>
+            <Navbar></Navbar>
+            <Switch>
+              <Route exact path="/home">
+                <Home />
+              </Route>
+              <Route exact path="/viewAll">
+                <ViewAllCourses />
+              </Route>
+              <Route exact path="/instructorpage">
+                <InstructorCourses></InstructorCourses>
+              </Route>
 
-          <Route path="/courseContent">
-            <CourseContent></CourseContent>
-          </Route>
+              <Route exact path="/adminPage">
+                <Admin></Admin>
+              </Route>
+              <Route exact path="/createCourse">
+                <CourseSteps></CourseSteps>
+              </Route>
+              <Route exact path="/course/*">
+                <CoursePage></CoursePage>
+              </Route>
+              <Route exact path="/myCourses">
+                <MyCourses></MyCourses>
+              </Route>
+              <Route exact path="/profile">
+                <Profile></Profile>
+              </Route>
 
-          <Route path="/instructorProfile">
-            <InstructorProfile></InstructorProfile>
+              <Route exact path="/courseContent">
+                <CourseContent></CourseContent>
+              </Route>
+
+              <Route exact path="/instructorProfile">
+                <InstructorProfile></InstructorProfile>
+              </Route>
+            </Switch>
           </Route>
         </Switch>
       </ScrollToTop>

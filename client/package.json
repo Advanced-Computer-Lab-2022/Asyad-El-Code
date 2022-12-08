@@ -24,6 +24,7 @@
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
     "redux": "^4.2.0",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.1",
     "slick-carousel": "^1.8.1",
     "tss-react": "^4.4.1",
