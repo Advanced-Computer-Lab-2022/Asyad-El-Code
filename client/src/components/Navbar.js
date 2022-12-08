@@ -64,7 +64,7 @@ export default function ButtonAppBar() {
     <CssBaseline>
       <AppBar className={classes.appBar} position="sticky">
         <Toolbar>
-          <MyLink underline="none" href="/">
+          <MyLink underline="none" href="/home">
             Home
           </MyLink>
           {/* <Typography color="black" variant="h6" component="div">
