@@ -52,8 +52,10 @@ export const getCourseData = () => async (dispatch) => {
   try {
     console.log("im in action");
     const { data } = await courseApi.getCourseData();
+    console.log("The data in the reducer", data);
     dispatch({ type: GET_COURSE_DATA, payload: data });
   } catch (err) {
+    console.log("Iam in the rrorr ");
     console.log(err);
   }
 };
@@ -61,6 +63,7 @@ export const getCourse =
   (courseId, history, courseTitle) => async (dispatch) => {
     try {
       console.log("COURSE ID ", courseId);
+      console.log("THE COURSE ISSSS ", courseTitle);
       const { data } = await courseApi.getCourse(courseId);
       console.log("THE COURSE IS ", data);
       dispatch({ type: GET_COURSE, payload: data });

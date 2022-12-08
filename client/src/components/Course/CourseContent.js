@@ -61,7 +61,7 @@ export const CourseContent = () => {
   }, []);
 
   const course = useSelector((c) => c.courses)[0];
-  console.log("THIS IS THE COURSE", course);
+  console.log("Iam in content", course);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -85,7 +85,7 @@ export const CourseContent = () => {
     setRatingOpen(false);
   };
   const handleHome = () => {
-    dispatch(getCourse(course?._id, history, course.title));
+    dispatch(getCourse(course._id, history, course?.title));
   };
 
   return (

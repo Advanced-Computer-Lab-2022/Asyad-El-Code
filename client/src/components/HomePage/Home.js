@@ -16,7 +16,7 @@ import React, { useEffect, useState } from "react";
 import useStyles from "../../css/home";
 import study from "../../images/study.jpeg";
 import Members, { PopularCourses } from "./PopularCourses";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getCourses } from "../../actions/courses";
 import "./home.css";
 import background from "../../images/code.jpg";
@@ -36,6 +36,8 @@ export const Home = () => {
     dispatch(getCourses());
   }, []);
 
+  const user = JSON.parse(localStorage.getItem("profile"));
+  console.log("USER IS NULLLLL", user);
   return (
     <div className={classes.root}>
       <div
