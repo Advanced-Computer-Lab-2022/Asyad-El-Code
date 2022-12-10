@@ -1,6 +1,6 @@
 import { Button, Container, Grid, Rating, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
-import React from "react";
+import React, { useEffect } from "react";
 import LanguageIcon from "@mui/icons-material/Language";
 
 import useStyles from "../../css/course";
@@ -11,10 +11,13 @@ import { styled } from "@mui/material";
 import CourseBenefits from "./CourseBenefits";
 import CourseContent from "./CourseSections";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getTrainee } from "../../actions/individualTrainees";
 
 export const CoursePage = () => {
   const course = useSelector((c) => c.courses)[0];
   console.log("Iam the courseIn The front", course);
+  const dispatch = useDispatch();
 
   const { classes } = useStyles();
   const MyLink = styled(Link)({
@@ -25,6 +28,25 @@ export const CoursePage = () => {
   const MyTypography = styled(Typography)({
     color: "white",
   });
+  //get the user from localstorage
+  const user = JSON.parse(localStorage.getItem("profile"));
+  console.log("Iam the user", user);
+  //Check if the user has the course in his courses
+  useEffect(() => {
+    dispatch(getTrainee());
+  }, []);
+
+  //get user from redux store
+  const individualTrainee = useSelector((state) => state?.individualTrainee);
+  console.log("The state is ", individualTrainee);
+  console.log(individualTrainee?.courses);
+
+  const isCourseInUserCourses = individualTrainee?.courses?.find(
+    (c) => c._id === course._id
+  );
+
+  console.log("Iam the isCourseInUserCourses", isCourseInUserCourses);
+
   return (
     <>
       <div className={classes.root}>
@@ -72,7 +94,9 @@ export const CoursePage = () => {
               </Stack>
             </Grid>
             <Grid item mt={5}>
-              <CourseCard></CourseCard>
+              <CourseCard
+                isCourseInUserCourses={isCourseInUserCourses}
+              ></CourseCard>
             </Grid>
           </Grid>
         </Container>

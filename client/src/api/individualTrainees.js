@@ -14,7 +14,7 @@ API.interceptors.request.use((req) => {
 });
 
 export const fetchTrainee = async () =>
-  await API.get(`/6352c07584a5db1f743a94a6`);
+  await API.get(`/${JSON.parse(localStorage.getItem("profile")).result._id}`);
 
 export const updateTrainee = async (id, trainee) =>
   await API.put(`/${id}`, trainee);

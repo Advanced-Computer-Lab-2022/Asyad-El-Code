@@ -21,10 +21,10 @@ export const createCourse = async (req, res) => {
     previewVideo,
     price,
     instructor,
+    outlines,
     discount,
   } = req.body;
-  const { outlines } = req.body.outlines;
-  console.log(req.body);
+
   try {
     const course = await new Course({
       title,
