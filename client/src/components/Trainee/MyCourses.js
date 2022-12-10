@@ -13,7 +13,7 @@ import {
   Typography,
   Modal,
   Box,
-  Grid
+  Grid,
 } from "@mui/material";
 import useStyles from "../../css/slider.js";
 import { Stack } from "@mui/system";
@@ -21,14 +21,12 @@ import { useRef } from "react";
 import "../../css/card.css";
 import image from "../../images/course.jpeg";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTrainee, getTrainee } from "../../actions/individualTrainees";
-
-
+import { getTrainee } from "../../actions/individualTrainees";
 
 const bull = (
   <Box
     component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
   >
     •
   </Box>
@@ -40,12 +38,12 @@ const MyCourses = () => {
   console.log(trainee);
   const courses = trainee.courses;
   console.log(courses);
-  
+
   useEffect(() => {
-    dispatch(fetchTrainee());
+    dispatch(getTrainee());
   }, []);
 
-  dispatch(fetchTrainee());
+  dispatch(getTrainee());
   return (
     <Grid container justifyContent="center" rowSpacing={4} marginBottom={10}>
       <Grid item xs={10} marginTop={5}>
@@ -54,8 +52,14 @@ const MyCourses = () => {
       {courses.map((course, index) => {
         return (
           <Grid item xs={9}>
-            <Card sx={{ overFlow: 'hidden', display: "flex" }} >
-              <CardMedia sx={{ maxWidth: 500, maxHeight: 300, maxInlineSize: 500, display: "inline-block" }}
+            <Card sx={{ overFlow: "hidden", display: "flex" }}>
+              <CardMedia
+                sx={{
+                  maxWidth: 500,
+                  maxHeight: 300,
+                  maxInlineSize: 500,
+                  display: "inline-block",
+                }}
                 component="img"
                 image={image}
               />
@@ -67,11 +71,15 @@ const MyCourses = () => {
                   {course.summary}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Updated <b>{new Intl.DateTimeFormat("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "2-digit",
-                  }).format(new Date(Date.parse(course.releaseDate)))}{" "}</b>{course.duration} total hours {bull} 52 lectures
+                  Updated{" "}
+                  <b>
+                    {new Intl.DateTimeFormat("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "2-digit",
+                    }).format(new Date(Date.parse(course.releaseDate)))}{" "}
+                  </b>
+                  {course.duration} total hours {bull} 52 lectures
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   By <b>SADSD</b>
@@ -87,10 +95,10 @@ const MyCourses = () => {
               </CardActions>
             </Card>
           </Grid>
-        )
+        );
       })}
     </Grid>
-  )
-}
+  );
+};
 
 export default MyCourses;
