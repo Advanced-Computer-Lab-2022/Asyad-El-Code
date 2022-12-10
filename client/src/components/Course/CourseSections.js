@@ -7,18 +7,16 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useSelector } from "react-redux";
 import LecturesLinks from "./LecturesLinks";
 
-export default function CourseSections() {
+export default function CourseSections({ course }) {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-  const course = useSelector((c) => c.courses)[0];
-  console.log(course);
 
   return (
     <div>
-      {course.outlines.map((outline, index) => {
+      {course?.outlines.map((outline, index) => {
         return (
           <Accordion
             expanded={expanded === `panel${index}`}

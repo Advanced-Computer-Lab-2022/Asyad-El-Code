@@ -12,3 +12,6 @@ export const GET_COURSE_DATA = "GET_COURSE_DATA";
 export const GET_COURSE = "GET_COURSE";
 export const ADD_RATING = "ADD_RATING";
 export const ADD_REVIEW = "ADD_REVIEW";
+
+export const START_LOADING = "START_LOADING";
+export const END_LOADING = "END_LOADING";

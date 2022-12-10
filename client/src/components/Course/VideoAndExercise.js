@@ -8,7 +8,8 @@ import FormLabel from "@mui/material/FormLabel";
 import useStyles from "../../css/courseContent.js";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
-export const VideoAndExercise = ({ content, exercise }) => {
+
+export const VideoAndExercise = ({ content, exercise, exerciseId }) => {
   const [value, setValue] = useState(new Map());
   const [correct, setCorrect] = useState(new Map());
   const [show, setShow] = useState(new Map());
@@ -35,12 +36,26 @@ export const VideoAndExercise = ({ content, exercise }) => {
   useEffect(() => {
     setTotal(exercise.length);
   }, [exercise]);
+  useEffect(() => {
+    setTotal(exercise.length);
+  }, []);
 
   useEffect(() => {
     if (correct.size === total && total !== 0) {
       setShowGrade(true);
     }
   }, [correct, total]);
+
+  useEffect(() => {
+    setValue(new Map());
+    setCorrect(new Map());
+    setShow(new Map());
+    setGrade(0);
+    // setTotal(0);
+    setShowGrade(false);
+  }, [exerciseId]);
+
+  console.log("This is the current exefcise id", exerciseId);
 
   return (
     <div>
