@@ -37,9 +37,19 @@ const contentInitialForm = {
 const exerciseInitialForm = [
   { question: "", answers: [{ answer: "", correct: false }] },
 ];
+
 export const CourseContent = () => {
+  function parseJson() {
+    try {
+      return JSON.parse(localStorage.getItem("profile"));
+    } catch (ex) {
+      return "";
+    }
+  }
+  const user = parseJson();
   const [content, setContent] = useState(contentInitialForm);
   const [exercise, setExercise] = useState(exerciseInitialForm);
+  const [exerciseId, setExerciseId] = useState("");
   const [ratingOpen, setRatingOpen] = useState(false);
   const [submitRatingandReview, setSubmitRatingandReview] = useState(false);
   const dispatch = useDispatch();
@@ -55,11 +65,7 @@ export const CourseContent = () => {
       },
     },
   });
-
-  useEffect(() => {
-    dispatch(getCourseData());
-  }, []);
-
+  console.log(user);
   const course = useSelector((c) => c.courses)[0];
   console.log("Iam in CONTENT COURSEE MAAAN", course);
   const [expanded, setExpanded] = React.useState(false);
@@ -72,16 +78,23 @@ export const CourseContent = () => {
     setExercise(exerciseInitialForm);
   };
 
-  const handleClickEx = (exercise) => {
+  const handleClickEx = (exercise, exerciseId) => {
     setExercise(exercise);
+    setExerciseId(exerciseId);
     setContent(contentInitialForm);
   };
   const handleCancelRating = () => {
     setRatingOpen(false);
   };
   const handleSubmitRatingAndReview = (rating, review) => {
-    dispatch(addRating(course?._id, "63602907fe95a960eb6068a4", "", rating));
-    dispatch(addReview(course?._id, "63602907fe95a960eb6068a4", "", review));
+    if (user.type === "individualTrainee") {
+      dispatch(addRating(course?._id, "", user.result._id, rating));
+      dispatch(addReview(course?._id, "", user.result._id, review));
+    } else {
+      dispatch(addRating(course?._id, user.result._id, "", rating));
+      dispatch(addReview(course?._id, user.result._id, "", review));
+    }
+
     setRatingOpen(false);
   };
   const handleHome = () => {
@@ -170,7 +183,9 @@ export const CourseContent = () => {
                         {outline?.exercises[0] && (
                           <ListItem
                             button
-                            onClick={() => handleClickEx(outline.exercises)}
+                            onClick={() =>
+                              handleClickEx(outline.exercises, outline._id)
+                            }
                           >
                             <ListItemIcon>
                               <QuizIcon />
@@ -195,6 +210,7 @@ export const CourseContent = () => {
                   <VideoAndExercise
                     content={content}
                     exercise={exercise}
+                    exerciseId={exerciseId}
                   ></VideoAndExercise>
                 </Grid>
               </Grid>
