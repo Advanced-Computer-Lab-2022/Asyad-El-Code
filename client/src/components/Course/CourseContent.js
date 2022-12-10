@@ -167,10 +167,10 @@ export const CourseContent = () => {
                             </ListItem>
                           );
                         })}
-                        {outline?.exercise[0] && (
+                        {outline?.exercises[0] && (
                           <ListItem
                             button
-                            onClick={() => handleClickEx(outline.exercise)}
+                            onClick={() => handleClickEx(outline.exercises)}
                           >
                             <ListItemIcon>
                               <QuizIcon />

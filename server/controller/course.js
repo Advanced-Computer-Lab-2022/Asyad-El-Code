@@ -20,11 +20,12 @@ export const createCourse = async (req, res) => {
     rating,
     previewVideo,
     price,
+    outlines,
     instructor,
     discount,
   } = req.body;
-  const { outlines } = req.body.outlines;
-  console.log(req.body);
+
+  console.log(req.body.outlines);
   try {
     const course = await new Course({
       title,
