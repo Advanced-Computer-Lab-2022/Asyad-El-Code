@@ -66,8 +66,10 @@ export const CourseContent = () => {
     },
   });
   console.log(user);
+
   const { courses } = useSelector((state) => state.courses);
   const course = courses[0];
+
 
 
 
@@ -102,7 +104,6 @@ export const CourseContent = () => {
     }
 
 
-   
     setRatingOpen(false);
   };
   const handleHome = () => {
@@ -188,7 +189,9 @@ export const CourseContent = () => {
                           );
                         })}
 
+
                         {outline?.exercises[0] && (
+
 
                           <ListItem
                             button
