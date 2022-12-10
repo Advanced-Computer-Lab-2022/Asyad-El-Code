@@ -11,13 +11,14 @@ import useStyles from "../../css/course";
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
 
-export default function CourseCard() {
+export default function CourseCard({ isCourseInUserCourses }) {
   const course = useSelector((c) => c.courses)[0];
   const { classes } = useStyles();
   const MyInfo = styled(Typography)({
     color: "#757071",
     fontSize: 12,
   });
+  console.log("IS HERE COURSE ? : ", isCourseInUserCourses);
   return (
     <Card sx={{ width: 345 }}>
       <CardMedia
@@ -37,18 +38,31 @@ export default function CourseCard() {
         </Typography>
         <Grid columnSpacing={4} container direction="row">
           <Grid item md={12}>
-            <Button
-              fullWidth
-              sx={{
-                "&:hover": { backgroundColor: "#2F2B2E" },
-                backgroundColor: "#2F2B2E",
-              }}
-              variant="contained"
-            >
-              {" "}
-              {/* TODO Checking if he has the course */}
-              Add to Cart
-            </Button>
+            {isCourseInUserCourses ? (
+              <Button
+                fullWidth
+                sx={{
+                  "&:hover": { backgroundColor: "#2F2B2E" },
+                  backgroundColor: "#2F2B2E",
+                }}
+                variant="contained"
+              >
+                Go to Course
+              </Button>
+            ) : (
+              <Button
+                fullWidth
+                sx={{
+                  "&:hover": { backgroundColor: "#2F2B2E" },
+                  backgroundColor: "#2F2B2E",
+                }}
+                variant="contained"
+              >
+                {" "}
+                {/* TODO Checking if he has the course */}
+                Add to Cart
+              </Button>
+            )}
           </Grid>
 
           <Grid mt={2} item md={12}>

@@ -60,7 +60,7 @@ export const CourseContent = () => {
     dispatch(getCourseData());
   }, []);
   const course = useSelector((c) => c.courses)[0];
-  console.log("Iam in content", course);
+  console.log("Iam in CONTENT COURSEE MAAAN", course);
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
