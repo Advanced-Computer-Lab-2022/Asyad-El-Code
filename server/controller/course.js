@@ -214,6 +214,10 @@ export const addRating = async (req, res) => {
       );
       if (index !== -1) {
         course.ratings[index].rating = rating;
+        const newRating =
+          course.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
+          course.ratings.length;
+        course.rating = newRating;
         await course.save();
         return res.status(200).json(course);
       }
@@ -223,6 +227,10 @@ export const addRating = async (req, res) => {
         rating,
         corporateTraineeId: null,
       });
+      const newRating =
+        course.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
+        course.ratings.length;
+      course.rating = newRating;
       await course.save();
       return res.status(200).json(course);
     }

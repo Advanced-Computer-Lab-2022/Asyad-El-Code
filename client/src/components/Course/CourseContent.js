@@ -68,6 +68,11 @@ export const CourseContent = () => {
   console.log(user);
   const { courses } = useSelector((state) => state.courses);
   const course = courses[0];
+
+
+
+
+
   console.log("Iam in CONTENT COURSEE MAAAN", course);
   const [expanded, setExpanded] = React.useState(false);
 
@@ -96,6 +101,8 @@ export const CourseContent = () => {
       dispatch(addReview(course?._id, user.result._id, "", review));
     }
 
+
+   
     setRatingOpen(false);
   };
   const handleHome = () => {
@@ -180,7 +187,9 @@ export const CourseContent = () => {
                             </ListItem>
                           );
                         })}
+
                         {outline?.exercises[0] && (
+
                           <ListItem
                             button
                             onClick={() =>
