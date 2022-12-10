@@ -124,8 +124,16 @@ export const enrollCourse = async (req, res) => {
     console.log(id);
     console.log(idCasted);
     console.log(courseIdCasted);
-    const { title, summary, duration, releaseDate, image, rating, instuctor } =
-      await Course.findById(courseIdCasted);
+    const {
+      _id,
+      title,
+      summary,
+      duration,
+      releaseDate,
+      image,
+      rating,
+      instuctor,
+    } = await Course.findById(courseIdCasted);
     const user = await IndividualTrainee.findById(idCasted);
     const updatedUser = await IndividualTrainee.findByIdAndUpdate(
       idCasted,
@@ -133,6 +141,7 @@ export const enrollCourse = async (req, res) => {
         courses: [
           ...user.courses,
           {
+            _id: _id,
             title,
             summary,
             duration,

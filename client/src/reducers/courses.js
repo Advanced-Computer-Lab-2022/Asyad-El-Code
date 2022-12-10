@@ -14,8 +14,6 @@ export default (courses = [], action) => {
     case FILTER_COURSES:
       return action.payload;
     case "FETCH_ALL": {
-      // courses = action.payload;
-      // console.log("THE FETCHCOUSRES COURSES", courses);
       return [...courses, ...action.payload];
     }
     case "FILTER_SUBJECT_RATING":
