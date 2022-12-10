@@ -27,25 +27,23 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { getTrainee } from "../../actions/individualTrainees";
 import { updateTrainee } from "../../actions/individualTrainees";
 
-const MyProfile = () => {
-  const trainee = useSelector((t) => t.individualTrainee);
-  console.log("THis is the trainee , " + trainee);
+const MyProfile = ({ trainee }) => {
   const dispatch = useDispatch();
-  const [firstName, setFirstName] = useState(trainee.firstName);
-  const [lastName, setLastName] = useState(trainee.lastName);
-  const [password, setPassword] = useState(trainee.password);
-  const [phone, setPhone] = useState(trainee.phoneNumber);
-  const [country, setCountry] = useState(trainee.country);
-  const [date, setDate] = useState(trainee.dateOfBirth);
+  const [firstName, setFirstName] = useState(trainee?.firstName);
+  const [lastName, setLastName] = useState(trainee?.lastName);
+  const [password, setPassword] = useState(trainee?.password);
+  const [phone, setPhone] = useState(trainee?.phoneNumber);
+  const [country, setCountry] = useState(trainee?.country);
+  const [date, setDate] = useState(trainee?.dateOfBirth);
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+  console.log("in the MyProfile page", trainee);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  console.log(trainee);
   const handleForm = (e) => {
     e.preventDefault();
     trainee.firstName = firstName;
@@ -56,10 +54,6 @@ const MyProfile = () => {
     dispatch(updateTrainee(trainee._id, trainee));
     console.log(trainee);
   };
-
-  useEffect(() => {
-    dispatch(getTrainee());
-  }, []);
 
   return (
     <Grid
@@ -192,6 +186,7 @@ const MyProfile = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={5}>
+                {/*                 
                 <LocalizationProvider>
                   <DatePicker
                     label="Date of birth"
@@ -206,7 +201,7 @@ const MyProfile = () => {
                       <TextField {...params} name="dateOfBirth" fullWidth />
                     )}
                   />
-                </LocalizationProvider>
+                </LocalizationProvider> */}
               </Grid>
               <Grid item xs={10}>
                 <FormControl variant="outlined" margin="10" fullWidth>

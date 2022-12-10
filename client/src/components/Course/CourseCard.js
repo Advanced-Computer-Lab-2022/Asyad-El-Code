@@ -11,9 +11,10 @@ import useStyles from "../../css/course";
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
 
-export default function CourseCard({ isCourseInUserCourses }) {
-  const course = useSelector((c) => c.courses)[0];
+import { useHistory } from "react-router-dom";
+export default function CourseCard({ isCourseInUserCourses, course }) {
   const { classes } = useStyles();
+  const history = useHistory();
   const MyInfo = styled(Typography)({
     color: "#757071",
     fontSize: 12,
@@ -41,6 +42,7 @@ export default function CourseCard({ isCourseInUserCourses }) {
             {isCourseInUserCourses ? (
               <Button
                 fullWidth
+                onClick={() => history.push("/courseContent")}
                 sx={{
                   "&:hover": { backgroundColor: "#2F2B2E" },
                   backgroundColor: "#2F2B2E",

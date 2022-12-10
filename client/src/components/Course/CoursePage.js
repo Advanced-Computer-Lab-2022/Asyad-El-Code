@@ -1,4 +1,11 @@
-import { Button, Container, Grid, Rating, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Container,
+  Grid,
+  Rating,
+  Typography,
+} from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect } from "react";
 import LanguageIcon from "@mui/icons-material/Language";
@@ -15,10 +22,11 @@ import { useDispatch } from "react-redux";
 import { getTrainee } from "../../actions/individualTrainees";
 
 export const CoursePage = () => {
-  const course = useSelector((c) => c.courses)[0];
-  console.log("Iam the courseIn The front", course);
-  const dispatch = useDispatch();
+  const { isLoading, courses } = useSelector((state) => state.courses);
+  console.log("courses in state now is", courses);
+  console.log("HHHHHH");
 
+  const dispatch = useDispatch();
   const { classes } = useStyles();
   const MyLink = styled(Link)({
     color: "#CDBEFB",
@@ -28,94 +36,98 @@ export const CoursePage = () => {
   const MyTypography = styled(Typography)({
     color: "white",
   });
-  //get the user from localstorage
   const user = JSON.parse(localStorage.getItem("profile"));
   console.log("Iam the user", user);
-  //Check if the user has the course in his courses
   useEffect(() => {
     dispatch(getTrainee());
   }, []);
 
-  //get user from redux store
   const individualTrainee = useSelector((state) => state?.individualTrainee);
   console.log("The state is ", individualTrainee);
   console.log(individualTrainee?.courses);
-
+  console.log("COURSE[0] is ", courses[0]);
   const isCourseInUserCourses = individualTrainee?.courses?.find(
-    (c) => c._id === course._id
+    (c) => c._id === courses[0]?._id
   );
 
   console.log("Iam the isCourseInUserCourses", isCourseInUserCourses);
 
   return (
     <>
-      <div className={classes.root}>
-        <Container>
-          <Grid columnSpacing={3} direction="row" container>
-            <Grid item mt={5} md={8}>
-              <MyTypography className={classes.courseTitle} variant="h5">
-                {course.title}
-              </MyTypography>
-              <Typography className={classes.courseSubtitle} variant="h6">
-                {course.summary}
-              </Typography>
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <>
+          <div className={classes.root}>
+            <Container>
+              <Grid columnSpacing={3} direction="row" container>
+                <Grid item mt={5} md={8}>
+                  <MyTypography className={classes.courseTitle} variant="h5">
+                    {courses[0].title}
+                  </MyTypography>
+                  <Typography className={classes.courseSubtitle} variant="h6">
+                    {courses[0].summary}
+                  </Typography>
 
-              <Stack spacing={1} direction="row">
-                <p className={classes.rating}>{course.rating}</p>
-                <Rating
-                  precision={0.5}
-                  className={classes.rating}
-                  defaultValue={parseFloat(course.rating)}
-                  emptyIcon={
-                    <StarBorderIcon
-                      fontSize="inherit"
-                      className={classes.emptyStar}
-                    />
-                  }
-                  readOnly
-                  sx={{ alignItems: "center" }}
-                ></Rating>
+                  <Stack spacing={1} direction="row">
+                    <p className={classes.rating}>{courses[0].rating}</p>
+                    <Rating
+                      precision={0.5}
+                      className={classes.rating}
+                      defaultValue={parseFloat(courses[0].rating)}
+                      emptyIcon={
+                        <StarBorderIcon
+                          fontSize="inherit"
+                          className={classes.emptyStar}
+                        />
+                      }
+                      readOnly
+                      sx={{ alignItems: "center" }}
+                    ></Rating>
 
-                <MyLink underline="always" href="#">
-                  (154.223 ratings)
-                </MyLink>
-              </Stack>
-              <Stack spacing={2} direction="row">
-                <MyTypography variant="body2">
-                  Created by{" "}
-                  <MyLink underline="always" href="#">
-                    {course.in}
-                  </MyLink>
-                </MyTypography>
-              </Stack>
-              <Stack mt={1} spacing={1} direction="row">
-                <LanguageIcon className={classes.earth}></LanguageIcon>
-                <MyTypography variant="body2">English</MyTypography>
-              </Stack>
+                    <MyLink underline="always" href="#">
+                      (154.223 ratings)
+                    </MyLink>
+                  </Stack>
+                  <Stack spacing={2} direction="row">
+                    <MyTypography variant="body2">
+                      Created by{" "}
+                      <MyLink underline="always" href="#">
+                        {courses[0].in}
+                      </MyLink>
+                    </MyTypography>
+                  </Stack>
+                  <Stack mt={1} spacing={1} direction="row">
+                    <LanguageIcon className={classes.earth}></LanguageIcon>
+                    <MyTypography variant="body2">English</MyTypography>
+                  </Stack>
+                </Grid>
+                <Grid item mt={5}>
+                  <CourseCard
+                    course={courses[0]}
+                    isCourseInUserCourses={isCourseInUserCourses}
+                  ></CourseCard>
+                </Grid>
+              </Grid>
+            </Container>
+          </div>
+          <Container>
+            <Grid container>
+              <Grid item md={12}>
+                <CourseBenefits></CourseBenefits>
+              </Grid>
+              <Grid item md={12}>
+                <Typography mt={3} sx={{ fontWeight: "bold" }} variant="h5">
+                  Course Content
+                </Typography>
+              </Grid>
+              <Grid item md={8}>
+                <CourseContent course={courses[0]}></CourseContent>
+              </Grid>
             </Grid>
-            <Grid item mt={5}>
-              <CourseCard
-                isCourseInUserCourses={isCourseInUserCourses}
-              ></CourseCard>
-            </Grid>
-          </Grid>
-        </Container>
-      </div>
-      <Container>
-        <Grid container>
-          <Grid item md={12}>
-            <CourseBenefits></CourseBenefits>
-          </Grid>
-          <Grid item md={12}>
-            <Typography mt={3} sx={{ fontWeight: "bold" }} variant="h5">
-              Course Content
-            </Typography>
-          </Grid>
-          <Grid item md={8}>
-            <CourseContent></CourseContent>
-          </Grid>
-        </Grid>
-      </Container>
+          </Container>{" "}
+        </>
+      )}
     </>
   );
 };

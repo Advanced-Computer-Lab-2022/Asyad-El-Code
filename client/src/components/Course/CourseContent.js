@@ -37,9 +37,19 @@ const contentInitialForm = {
 const exerciseInitialForm = [
   { question: "", answers: [{ answer: "", correct: false }] },
 ];
+
 export const CourseContent = () => {
+  function parseJson() {
+    try {
+      return JSON.parse(localStorage.getItem("profile"));
+    } catch (ex) {
+      return "";
+    }
+  }
+  const user = parseJson();
   const [content, setContent] = useState(contentInitialForm);
   const [exercise, setExercise] = useState(exerciseInitialForm);
+  const [exerciseId, setExerciseId] = useState("");
   const [ratingOpen, setRatingOpen] = useState(false);
   const [submitRatingandReview, setSubmitRatingandReview] = useState(false);
   const dispatch = useDispatch();
@@ -55,11 +65,9 @@ export const CourseContent = () => {
       },
     },
   });
-
-  useEffect(() => {
-    dispatch(getCourseData());
-  }, []);
-  const course = useSelector((c) => c.courses)[0];
+  console.log(user);
+  const { courses } = useSelector((state) => state.courses);
+  const course = courses[0];
   console.log("Iam in CONTENT COURSEE MAAAN", course);
   const [expanded, setExpanded] = React.useState(false);
 
@@ -71,16 +79,23 @@ export const CourseContent = () => {
     setExercise(exerciseInitialForm);
   };
 
-  const handleClickEx = (exercise) => {
+  const handleClickEx = (exercise, exerciseId) => {
     setExercise(exercise);
+    setExerciseId(exerciseId);
     setContent(contentInitialForm);
   };
   const handleCancelRating = () => {
     setRatingOpen(false);
   };
   const handleSubmitRatingAndReview = (rating, review) => {
-    dispatch(addRating(course._id, "63602907fe95a960eb6068a4", "", rating));
-    dispatch(addReview(course._id, "63602907fe95a960eb6068a4", "", review));
+    if (user.type === "individualTrainee") {
+      dispatch(addRating(course?._id, "", user.result._id, rating));
+      dispatch(addReview(course?._id, "", user.result._id, review));
+    } else {
+      dispatch(addRating(course?._id, user.result._id, "", rating));
+      dispatch(addReview(course?._id, user.result._id, "", review));
+    }
+
     setRatingOpen(false);
   };
   const handleHome = () => {
@@ -105,7 +120,7 @@ export const CourseContent = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <Typography className={classes.courseTitle}>
-                      {course.title}
+                      {course?.title}
                     </Typography>
                   </Grid>
                   <ThemeProvider theme={theme}>
@@ -130,7 +145,7 @@ export const CourseContent = () => {
               </Paper>
             </Grid>
             <Grid item>
-              {course.outlines.map((outline, index) => {
+              {course?.outlines.map((outline, index) => {
                 return (
                   <Accordion
                     expanded={expanded === `panel${index}`}
@@ -144,18 +159,17 @@ export const CourseContent = () => {
                       sx={{ backgroundColor: "#EBF1F2" }}
                     >
                       <Typography sx={{ marginRight: "30px" }}>
-                        {outline.outline}
+                        {outline?.outline}
                       </Typography>
                       <Typography sx={{ color: "text.secondary" }}>
-                        {`(${outline.totalHours} hours)`}
+                        {`(${outline?.totalHours} hours)`}
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <List>
-                        {outline.subtitles.map((subtitle) => {
+                        {outline?.subtitles.map((subtitle) => {
                           return (
                             <ListItem
-                              button
                               key={subtitle}
                               onClick={() => handleClick(subtitle)}
                             >
@@ -166,10 +180,12 @@ export const CourseContent = () => {
                             </ListItem>
                           );
                         })}
-                        {outline.exercise[0] && (
+                        {outline?.exercises[0] && (
                           <ListItem
                             button
-                            onClick={() => handleClickEx(outline.exercise)}
+                            onClick={() =>
+                              handleClickEx(outline.exercises, outline._id)
+                            }
                           >
                             <ListItemIcon>
                               <QuizIcon />
@@ -194,6 +210,7 @@ export const CourseContent = () => {
                   <VideoAndExercise
                     content={content}
                     exercise={exercise}
+                    exerciseId={exerciseId}
                   ></VideoAndExercise>
                 </Grid>
               </Grid>

@@ -2,7 +2,7 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Button, InputAdornment, Link, SvgIcon } from "@mui/material";
+import { Avatar, Button, InputAdornment, Link, SvgIcon } from "@mui/material";
 import { CssBaseline, Grid, TextField } from "@mui/material";
 import useStyles from "../css/navbar";
 import {
@@ -21,6 +21,7 @@ import { getCurrencyRates } from "../actions/currencyRates";
 import { changeSelectedCountry } from "../actions/selectedCountry";
 import { useHistory } from "react-router-dom";
 import LanguageIcon from "@mui/icons-material/Language";
+import { Link as DownloadLink } from "react-router-dom";
 
 import "./Header.css";
 import styled from "@emotion/styled";
@@ -34,11 +35,13 @@ export default function ButtonAppBar() {
   const open = anchorEl;
   const [search, setSearch] = useState("");
   const [openMenu, setOpenMenu] = useState(false);
-  const courses = useSelector((c) => c.courses);
+  const { isLoading, courses } = useSelector((state) => state.courses);
+  console.log("Iam the courses ", courses);
+  console.log("Iam the isLoading State ", isLoading);
+
   const rates = useSelector((state) => state.currencyRates);
   const [selected, setSelected] = useState("");
-  const selectedCourse = courses.find((c) => c.title === selected);
-  console.log(courses);
+  const selectedCourse = courses?.find((c) => c.title === selected);
   useEffect(() => {
     dispatch(getCurrencyRates());
   }, [country]);
@@ -53,12 +56,24 @@ export default function ButtonAppBar() {
     setCountry(event.target.value);
     dispatch(changeSelectedCountry(event.target.value));
   };
+  useEffect(() => {
+    dispatch(getCourses());
+  }, []);
 
   const MyLink = styled(Link)({
     color: "white",
     fontWeight: "bold",
     fontSize: 20,
   });
+
+  function parseJson() {
+    try {
+      return JSON.parse(localStorage.getItem("profile"));
+    } catch (ex) {
+      return "";
+    }
+  }
+  const user = parseJson();
 
   return (
     <CssBaseline>
@@ -68,8 +83,8 @@ export default function ButtonAppBar() {
             Home
           </MyLink>
           {/* <Typography color="black" variant="h6" component="div">
-            Logo
-          </Typography> */}
+              Logo
+            </Typography> */}
 
           <MyLink sx={{ ml: 4, mr: 3 }} href="/viewAll" underline="none">
             Explore
@@ -94,7 +109,7 @@ export default function ButtonAppBar() {
                 }
               }}
               onClose={() => setOpenMenu(false)}
-              options={courses.map((course) => course.title)}
+              options={courses?.map((course) => course.title)}
               sx={{
                 width: 300,
                 borderRadius: 1,
@@ -116,33 +131,34 @@ export default function ButtonAppBar() {
             />
           </div>
           {/* <Button
-            onClick={() => {
-              history.push("/instructorpage");
-            }}
-            className={classes.instructor}
-            variant="outlined"
-          >
-            Instructor
-          </Button>
+              onClick={() => {
+                history.push("/instructorpage");
+              }}
+              className={classes.instructor}
+              variant="outlined"
+            >
+              Instructor
+            </Button>
 
-          <Button
-            onClick={() => {
-              history.push("/coursePage");
-            }}
-            className={classes.instructor}
-            variant="outlined"
-          >
-            coursePage
-          </Button>
-          <Button
-            onClick={() => {
-              history.push("/adminPage");
-            }}
-            variant="outlined"
-            className={classes.admin}
-          >
-            Admin
-          </Button> */}
+            <Button
+              onClick={() => {
+                history.push("/coursePage");
+              }}
+              className={classes.instructor}
+              variant="outlined"
+            >
+              coursePage
+            </Button>
+
+            <Button
+              onClick={() => {
+                history.push("/adminPage");
+              }}
+              variant="outlined"
+              className={classes.admin}
+            >
+              Admin
+            </Button> */}
           <Grid spacing={2} container className={classes.rightSection}>
             <Grid item xs={2}>
               <FormControl fullWidth size="small">
@@ -178,27 +194,47 @@ export default function ButtonAppBar() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid alignSelf="center" item>
-              {/* <Button variant="outlined" className={classes.navButtons}>
-                Login
-              </Button> */}
-              <MyLink href="#" underline="none">
-                Login
-              </MyLink>
-            </Grid>
-            <Grid alignSelf="center" item>
-              <MyLink color="white" underline="none">
-                Sign Up
-              </MyLink>
-            </Grid>
-          </Grid>
 
-          {/* <Button
-            onClick={() => history.push("/createcourse")}
-            variant="contained"
+            {user?.result ? (
+              //Create avatar
+              <Grid item>
+                <Link href="/profile">
+                  <Avatar alt={user?.result?.name}>
+                    {user?.result?.firstName.charAt(0)}
+                  </Avatar>
+                </Link>
+              </Grid>
+            ) : (
+              <>
+                <Grid alignSelf="center" item>
+                  <MyLink href="#" underline="none">
+                    Login
+                  </MyLink>
+                </Grid>
+                <Grid alignSelf="center" item>
+                  <MyLink color="white" underline="none">
+                    Sign Up
+                  </MyLink>
+                </Grid>
+              </>
+            )}
+          </Grid>
+          <DownloadLink to="/files/myfi22le.pdf" target="_blank" download>
+            Download
+          </DownloadLink>
+          <Button
+            onClick={() => history.push("/courseContent")}
+            variant="outlined"
+            className={classes.navButtons}
           >
-            Create course
-          </Button> */}
+            Course content
+          </Button>
+          {/* <Button
+              onClick={() => history.push("/createcourse")}
+              variant="contained"
+            >
+              Create course
+            </Button> */}
         </Toolbar>
       </AppBar>
     </CssBaseline>
