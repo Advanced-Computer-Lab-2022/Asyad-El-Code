@@ -13,6 +13,7 @@ import {
   Typography,
   Modal,
   Box,
+  CircularProgress,
 } from "@mui/material";
 import useStyles from "../css/slider.js";
 import { Stack } from "@mui/system";
@@ -31,7 +32,8 @@ import { getRate } from "./util.js";
 export const SimpleSlider = () => {
   const [detailsBox, setDetailsBox] = useState(false);
   const [title, setTitle] = useState("");
-  const courses = useSelector((c) => c.courses);
+  const { isLoading, courses } = useSelector((state) => state.courses);
+  console.log("THE COURSES IS ", courses);
   const selectedCountry = useSelector((c) => c.selectedCountry);
   const rates = useSelector((c) => c.currencyRates);
   const [courseDetails, setCourseDetails] = useState(null);
@@ -116,11 +118,13 @@ export const SimpleSlider = () => {
       },
     ],
   };
-  return (
+  return isLoading ? (
+    <CircularProgress></CircularProgress>
+  ) : (
     <div positon="relative">
       <div style={{ width: "1200px" }}>
         <Slider {...settings}>
-          {courses.map((course, index) => {
+          {courses?.map((course, index) => {
             console.log(course.image);
             return (
               <Card elevation={0} className={classes.cardGrid} key={index}>

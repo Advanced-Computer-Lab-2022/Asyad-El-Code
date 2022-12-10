@@ -6,20 +6,26 @@ import {
   GET_COURSE,
   ADD_RATING,
   ADD_REVIEW,
+  START_LOADING,
+  END_LOADING,
 } from "../constants/courses";
 
-export const getCourses = () => async (dsipatch) => {
+export const getCourses = () => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await courseApi.fetchCourses();
-    dsipatch({ type: "FETCH_ALL", payload: data });
+    dispatch({ type: "FETCH_ALL", payload: data });
+    dispatch({ type: END_LOADING });
   } catch (error) {
     console.log(error);
   }
 };
 export const filterCourses = (filterData) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await courseApi.filterCourses(filterData);
     dispatch({ type: "FILTER_SUBJECT_RATING", payload: data });
+    dispatch({ type: END_LOADING });
   } catch (error) {
     console.log(error);
   }
@@ -28,11 +34,14 @@ export const filterCourses = (filterData) => async (dispatch) => {
 export const filterByTilteOrSubjectOrInstructor =
   (searchQuery) => async (dispatch) => {
     try {
+      dispatch({ type: START_LOADING });
+
       console.log("SEARCHQUEYR", searchQuery);
       const { data } = await courseApi.filterByTilteOrSubjectOrInstructor(
         searchQuery
       );
       dispatch({ type: FILTER_COURSES, payload: data });
+      dispatch({ type: END_LOADING });
     } catch (error) {
       console.log(error);
     }
@@ -40,9 +49,12 @@ export const filterByTilteOrSubjectOrInstructor =
 
 export const createCourse = (course) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
+
     console.log("THE COURSE IS : ", course);
     const { data } = await courseApi.createCourse(course);
     dispatch({ type: CREATE_COURSE, payload: data });
+    dispatch({ type: END_LOADING });
   } catch (error) {
     console.log(error);
   }
@@ -51,9 +63,11 @@ export const createCourse = (course) => async (dispatch) => {
 export const getCourseData = () => async (dispatch) => {
   try {
     console.log("im in action");
+    dispatch({ type: START_LOADING });
     const { data } = await courseApi.getCourseData();
     console.log("The data in the reducer", data);
     dispatch({ type: GET_COURSE_DATA, payload: data });
+    dispatch({ type: END_LOADING });
   } catch (err) {
     console.log("Iam in the rrorr ");
     console.log(err);
@@ -62,11 +76,12 @@ export const getCourseData = () => async (dispatch) => {
 export const getCourse =
   (courseId, history, courseTitle) => async (dispatch) => {
     try {
-      console.log("COURSE ID ", courseId);
-      console.log("THE COURSE ISSSS ", courseTitle);
+      dispatch({ type: START_LOADING });
+      console.log("COURSE ID IS ", courseId);
       const { data } = await courseApi.getCourse(courseId);
-      console.log("THE COURSE IS ", data);
+      console.log("speceif course ", data);
       dispatch({ type: GET_COURSE, payload: data });
+      dispatch({ type: END_LOADING });
       history.push(`/course/${courseTitle}`);
     } catch (error) {
       console.log(error);
@@ -77,6 +92,8 @@ export const addRating =
   (courseId, corporateTraineeId, individualTraineeId, rating) =>
   async (dispatch) => {
     try {
+      dispatch({ type: START_LOADING });
+
       console.log("Im in actions add Rating");
       const { data } = await courseApi.addRating(
         courseId,
@@ -86,6 +103,7 @@ export const addRating =
       );
       dispatch({ type: ADD_RATING, payload: data });
       console.log(data);
+      dispatch({ type: END_LOADING });
     } catch (error) {
       console.log(error);
     }
@@ -95,6 +113,8 @@ export const addReview =
   (courseId, corporateTraineeId, individualTraineeId, review) =>
   async (dispatch) => {
     try {
+      dispatch({ type: START_LOADING });
+
       const { data } = await courseApi.addReview(
         courseId,
         corporateTraineeId,
@@ -102,6 +122,7 @@ export const addReview =
         review
       );
       dispatch({ type: ADD_REVIEW, payload: data });
+      dispatch({ type: END_LOADING });
     } catch (error) {
       console.log(error);
     }

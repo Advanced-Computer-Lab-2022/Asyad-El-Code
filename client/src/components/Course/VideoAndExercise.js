@@ -47,6 +47,7 @@ export const VideoAndExercise = ({ content, exercise, exerciseId }) => {
   }, [correct, total]);
 
   useEffect(() => {
+
     if (content.videoUrl !== "") {
       setValue(new Map());
       setCorrect(new Map());
@@ -58,6 +59,8 @@ export const VideoAndExercise = ({ content, exercise, exerciseId }) => {
   }, [content.videoUrl]);
 
   useEffect(() => {
+
+
     setValue(new Map());
     setCorrect(new Map());
     setShow(new Map());

@@ -66,7 +66,15 @@ export const CourseContent = () => {
     },
   });
   console.log(user);
-  const course = useSelector((c) => c.courses)[0];
+
+  const { courses } = useSelector((state) => state.courses);
+  const course = courses[0];
+
+
+
+
+
+
   console.log("Iam in CONTENT COURSEE MAAAN", course);
   const [expanded, setExpanded] = React.useState(false);
 
@@ -94,6 +102,7 @@ export const CourseContent = () => {
       dispatch(addRating(course?._id, user.result._id, "", rating));
       dispatch(addReview(course?._id, user.result._id, "", review));
     }
+
 
     setRatingOpen(false);
   };
@@ -169,7 +178,6 @@ export const CourseContent = () => {
                         {outline?.subtitles.map((subtitle) => {
                           return (
                             <ListItem
-                              button
                               key={subtitle}
                               onClick={() => handleClick(subtitle)}
                             >
@@ -180,7 +188,11 @@ export const CourseContent = () => {
                             </ListItem>
                           );
                         })}
+
+
                         {outline?.exercises[0] && (
+
+
                           <ListItem
                             button
                             onClick={() =>
