@@ -22,3 +22,6 @@ export const signin = async (formData) => {
 export const changePassword = async (formData, id) => {
   return await API.post(`/confirmPassword/${id}`, formData);
 };
+export const sendEmail = async (formData) => {
+  return await API.post("/sendEmail", formData);
+};

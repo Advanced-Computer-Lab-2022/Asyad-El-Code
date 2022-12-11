@@ -1,4 +1,9 @@
-import { AUTH, AUTH_ERROR, CHANGE_PASSWORD } from "../constants/auth";
+import {
+  AUTH,
+  AUTH_ERROR,
+  CHANGE_PASSWORD,
+  SEND_EMAIL,
+} from "../constants/auth";
 import * as userApi from "../api/auth.js";
 import { END_LOADING, START_LOADING } from "../constants/courses";
 
@@ -31,6 +36,18 @@ export const signin = (formData, history) => async (dispatch) => {
     history.push("/auth");
   }
 };
+
+export const sendEmail = (formData) => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
+    const result = await userApi.sendEmail(formData);
+    dispatch({ type: SEND_EMAIL, payload: result.data });
+    dispatch({ type: END_LOADING });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const changePasword = (formData, id) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
