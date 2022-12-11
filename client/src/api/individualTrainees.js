@@ -19,6 +19,16 @@ export const fetchTrainee = async () =>
 export const updateTrainee = async (id, trainee) =>
   await API.put(`/${id}`, trainee);
 
+export const addGrade = async (
+  individualTraineeId,
+  courseId,
+  outlineId,
+  score,
+  total
+) =>
+  await API.post(
+    `/addGrade?individualTraineeId=${individualTraineeId}&courseId=${courseId}&outlineId=${outlineId}&score=${score}&total=${total}`
+  );
 export const getTrainee = async (id) => {
   const { data } = await API.get(`/${id}`);
   return data;

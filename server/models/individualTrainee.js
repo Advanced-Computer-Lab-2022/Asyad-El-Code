@@ -90,6 +90,13 @@ const individualTraineeSchema = mongoose.Schema({
         },
         name: String,
       },
+      grades: [
+        {
+          score: Number,
+          total: Number,
+          exerciseId: mongoose.Schema.Types.ObjectId,
+        },
+      ],
     },
   ],
 });
