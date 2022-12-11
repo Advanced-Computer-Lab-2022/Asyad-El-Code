@@ -1,4 +1,10 @@
-import { AUTH, LOGOUT, AUTH_ERROR, CHANGE_PASSWORD } from "../constants/auth";
+import {
+  AUTH,
+  LOGOUT,
+  AUTH_ERROR,
+  CHANGE_PASSWORD,
+  SEND_EMAIL,
+} from "../constants/auth";
 
 export default (state = { authData: null }, action) => {
   console.log("Iam in the auth reducer", action?.payload);
@@ -17,6 +23,9 @@ export default (state = { authData: null }, action) => {
 
     case CHANGE_PASSWORD:
       return { ...state, authData: action?.payload };
+
+    case SEND_EMAIL:
+      return state;
     default:
       return state;
   }
