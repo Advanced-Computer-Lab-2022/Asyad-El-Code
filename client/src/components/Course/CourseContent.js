@@ -29,6 +29,9 @@ import { useHistory } from "react-router-dom";
 import { RatingAndReviewPopup } from "./RatingAndReviewPopup";
 import { addRating, addReview, getCourse } from "../../actions/courses.js";
 import courseImage from "../../images/point.png";
+import { getTrainee } from "../../actions/individualTrainees.js";
+import * as individualTraineeApi from "../../api/individualTrainees.js";
+
 const contentInitialForm = {
   subtitle: "",
   minutes: 0,
@@ -47,12 +50,23 @@ export const CourseContent = () => {
     }
   }
   const user = parseJson();
+
   const [content, setContent] = useState(contentInitialForm);
   const [exercise, setExercise] = useState(exerciseInitialForm);
   const [exerciseId, setExerciseId] = useState("");
   const [ratingOpen, setRatingOpen] = useState(false);
-  const [submitRatingandReview, setSubmitRatingandReview] = useState(false);
+  const [userObject, setUserObject] = useState({});
   const dispatch = useDispatch();
+
+  const getIndividualTrainee = async () => {
+    const data = await individualTraineeApi.getTrainee(user.result._id);
+    setUserObject(data);
+  };
+  useEffect(() => {
+    getIndividualTrainee();
+  }, []);
+
+  console.log("I am user Object", userObject);
   const { classes } = useStyles();
   const history = useHistory();
   const theme = createTheme({
@@ -101,7 +115,7 @@ export const CourseContent = () => {
   const handleHome = () => {
     dispatch(getCourse(course._id, history, course?.title));
   };
-
+  //in line 212 check if the user (individualTrainee) has already answered an exercise and if so show the grade as score/total
   return (
     <div>
       <RatingAndReviewPopup
@@ -191,7 +205,16 @@ export const CourseContent = () => {
                               <QuizIcon />
                             </ListItemIcon>
 
-                            <ListItemText>Exercise</ListItemText>
+                            <ListItemText>
+                              {/* {`Exercise ${
+                                userObject?.courses
+                                  .filter((c) => c._id === course._id)[0]
+                                  .grades.filter(
+                                    (g) => (g._id = outline._id)
+                                  )[0].score
+                              }`} */}
+                              {/* {`Exercise ${userObject?.courses[0].grades[0].score}/${userObject?.courses[0].grades[0].total}`} */}
+                            </ListItemText>
                           </ListItem>
                         )}
                       </List>
@@ -211,6 +234,8 @@ export const CourseContent = () => {
                     content={content}
                     exercise={exercise}
                     exerciseId={exerciseId}
+                    courseId={course?._id}
+                    user={userObject}
                   ></VideoAndExercise>
                 </Grid>
               </Grid>
