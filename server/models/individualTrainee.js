@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import Joi from "joi";
+import Joi, { boolean } from "joi";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 
@@ -96,6 +96,9 @@ const individualTraineeSchema = mongoose.Schema({
           total: Number,
           exerciseId: mongoose.Schema.Types.ObjectId,
         },
+      ],
+      seenContent: [
+        { seen: Boolean, contentId: mongoose.Schema.Types.ObjectId },
       ],
     },
   ],
