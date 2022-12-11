@@ -55,7 +55,8 @@ export const getAllIndividualTrainees = async (req, res) => {
 //findbyid or just find?
 export const getIndividualTrainees = async (req, res) => {
   try {
-    const indvidTrainee = await IndividualTrainee.findById(req.params.id);
+    const { id } = req.params;
+    const indvidTrainee = await IndividualTrainee.findById(id);
     if (!indvidTrainee) return res.status(404).send("This id doesnt exist");
     res.send(indvidTrainee);
   } catch (error) {
@@ -159,5 +160,45 @@ export const enrollCourse = async (req, res) => {
     } else res.status(200).send(updatedUser);
   } catch (err) {
     res.status(401).json({ error: err.message });
+  }
+};
+
+export const addGrade = async (req, res) => {
+  try {
+    const { individualTraineeId, courseId, outlineId, score, total } =
+      req.query;
+    console.log("Sabaaaahooo");
+    console.log("This is the outlineId from frontend ", outlineId);
+    const castedOutlineId = await mongoose.Types.ObjectId(outlineId);
+    console.log("Casted id ", castedOutlineId);
+    // results.userId.equals(AnotherMongoDocument._id)
+    const user = await IndividualTrainee.findById(individualTraineeId);
+    // search in trainee courses for the course using courseId
+    const course = user.courses.find((course) => course._id == courseId);
+    const courseFromMongo = await Course.findById(courseId);
+    console.log("This is course from mongo", courseFromMongo);
+    //find outline from courseFromMongo using outlineId
+    console.log("just before _id");
+    const outline = courseFromMongo.outlines.find(
+      (outline) => outline._id.toString() === outlineId
+    );
+    console.log("This is outline", outline);
+    console.log("this is the course", course);
+    //get outline from course using outlineId
+    course.grades.push({ score, total, _id });
+    // update the trainee
+    const updatedUser = await IndividualTrainee.findByIdAndUpdate(
+      individualTraineeId,
+      { courses: user.courses },
+      { new: true }
+    );
+    console.log("This is updated user", updatedUser);
+    if (!updatedUser) {
+      console.log("Couldnt finddd");
+      res.status(401).send("Couldn't add grade");
+    } else res.status(200).send(updatedUser);
+  } catch (error) {
+    console.log("Im in the errorrrr");
+    res.status(401).json({ error: error.message });
   }
 };
