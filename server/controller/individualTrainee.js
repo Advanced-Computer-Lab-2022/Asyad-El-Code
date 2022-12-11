@@ -171,22 +171,19 @@ export const addGrade = async (req, res) => {
     console.log("This is the outlineId from frontend ", outlineId);
     const castedOutlineId = await mongoose.Types.ObjectId(outlineId);
     console.log("Casted id ", castedOutlineId);
-    // results.userId.equals(AnotherMongoDocument._id)
     const user = await IndividualTrainee.findById(individualTraineeId);
-    // search in trainee courses for the course using courseId
+
     const course = user.courses.find((course) => course._id == courseId);
-    const courseFromMongo = await Course.findById(courseId);
-    console.log("This is course from mongo", courseFromMongo);
-    //find outline from courseFromMongo using outlineId
-    console.log("just before _id");
-    const outline = courseFromMongo.outlines.find(
-      (outline) => outline._id.toString() === outlineId
-    );
-    console.log("This is outline", outline);
-    console.log("this is the course", course);
-    //get outline from course using outlineId
-    course.grades.push({ score, total, _id });
-    // update the trainee
+
+    const grade = course.grades.find((grade) => grade._id == outlineId);
+    if (grade) {
+      grade.score = score;
+      grade.total = total;
+    } else {
+      course.grades.push({ score, total, _id: castedOutlineId });
+    }
+
+    console.log("USER COURSES ", user.courses);
     const updatedUser = await IndividualTrainee.findByIdAndUpdate(
       individualTraineeId,
       { courses: user.courses },
