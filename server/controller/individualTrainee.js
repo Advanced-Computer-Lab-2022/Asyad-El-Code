@@ -24,7 +24,7 @@ export const createIndvidualTrainee = async (req, res) => {
   } = req.body;
 
   try {
-    const individualtrainee = await new indvidualTrainee({
+    const individualtrainee = await new IndividualTrainee({
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -43,6 +43,7 @@ export const createIndvidualTrainee = async (req, res) => {
     await individualtrainee.save();
     res.status(200).json(individualtrainee);
   } catch (error) {
+    console.log(error.message);
     res.send(error.message);
   }
 };

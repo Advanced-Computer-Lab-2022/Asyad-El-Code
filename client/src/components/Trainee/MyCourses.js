@@ -45,7 +45,6 @@ const MyCourses = () => {
     dispatch(getTrainee());
   }, []);
 
-  dispatch(getTrainee());
   return (
     <Container style={{ backgroundColor: "aqua", marginTop: 150 }}>
       <Grid container>

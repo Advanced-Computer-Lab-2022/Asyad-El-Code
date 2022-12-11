@@ -23,10 +23,11 @@ export default function CourseCard({ isCourseInUserCourses, course }) {
   return (
     <Card sx={{ width: 345 }}>
       <CardMedia
-        component="img"
-        height="240px"
-        image={image}
+        component="iframe"
+        image="https://www.youtube.com/embed/Ro26B394ZBM"
+        controls
         alt="green iguana"
+        sx={{ width: "100%", height: "230px" }}
       />
       <CardContent>
         <Typography

@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
@@ -11,9 +10,6 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { Grid, TextField } from "@mui/material";
 import { useState } from "react";
-
-
-
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -62,11 +58,7 @@ const initialFormState = {
     },
   ],
 };
-export default function Exercise({
-  open,
-  submitContent,
-  handleClose,
-}) {
+export default function Exercise({ open, submitContent, handleClose }) {
   const [initialForm, setInitialForm] = useState(initialFormState);
   const [answerArray, setAnswerArray] = useState(["", "", "", ""]);
 
@@ -226,4 +218,3 @@ export default function Exercise({
     </div>
   );
 }
-

@@ -18,3 +18,10 @@ export const signup = async (formData) => {
 export const signin = async (formData) => {
   return await API.post("/signin", formData);
 };
+
+export const changePassword = async (formData, id) => {
+  return await API.post(`/confirmPassword/${id}`, formData);
+};
+export const sendEmail = async (formData) => {
+  return await API.post("/sendEmail", formData);
+};
