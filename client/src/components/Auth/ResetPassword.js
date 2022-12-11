@@ -26,10 +26,11 @@ export const ResetPassword = () => {
   const history = useHistory();
   const [passwordError, setPasswordError] = React.useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = React.useState(false);
+  const [messageSent, setMessageSent] = React.useState("");
   const dispatch = useDispatch();
   const { id } = useParams();
-  const message = useSelector((state) => state.authReducer);
-  console.log("MESSAGE ", message?.authData?.message);
+  const authReducer = useSelector((state) => state.authReducer);
+  console.log("MESSAGE ");
 
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);
@@ -56,7 +57,7 @@ export const ResetPassword = () => {
         dispatch(changePasword(form, id));
       }
     }
-
+    setMessageSent(true);
     console.log(form);
   };
 
@@ -105,13 +106,27 @@ export const ResetPassword = () => {
                 Passwords don't match
               </Typography>
             )}
-            {message?.authData?.message && (
-              <Alert severity="success">
-                <AlertTitle>Success</AlertTitle>
-                Your password changed succesfully —{" "}
-                <strong>check it out!</strong>
+            {messageSent
+              ? authReducer.authData?.user && (
+                  <Alert
+                    onClose={() => {
+                      setMessageSent(false);
+                    }}
+                  >
+                    Your password has been changed successfully
+                  </Alert>
+                )
+              : null}
+            {/*                 
+            {authReducer.authData?.user && (
+              <Alert
+                onClose={() => {
+                  setMessageSent(false);
+                }}
+              >
+                Your password has been changed successfully
               </Alert>
-            )}
+            )} */}
             <Grid mt={2} item sm={12}>
               <Button
                 type="submit"

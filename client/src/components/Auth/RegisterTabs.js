@@ -14,11 +14,13 @@ import {
   IconButton,
   InputAdornment,
   FormHelperText,
+  Alert,
+  AlertTitle,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useState } from "react";
 import Input from "./Input";
-import { signin, signup } from "../../actions/auth";
+import { sendEmail, signin, signup } from "../../actions/auth";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -74,8 +76,9 @@ export default function RegisterTabs() {
   const [passwordError, setPasswordError] = useState(false);
   const [message, setMessage] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
+  const [messageSent, setMessageSent] = useState(false);
   const { authData } = useSelector((state) => state.authReducer);
-  console.log("AUTH DATA REDUCER", authData?.message);
+  console.log("AUTH DATA REDUCER", authData);
 
   // console.log("MESSAgE", message.authData.message);
   const handleChange = (event, newValue) => {
@@ -85,6 +88,23 @@ export default function RegisterTabs() {
   const handleChangeValues = (e) => {
     const val = e.target.value;
     const key = e.target.name;
+    switch (key) {
+      case "firstName":
+        if (key === "firstName") setFirstNameError(false);
+        break;
+      case "lastName":
+        if (key === "lastName") setLastNameError(false);
+        break;
+      case "email":
+        if (key === "email") setEmailError(false);
+        break;
+      case "password":
+        if (key === "password") setPasswordError(false);
+        break;
+      default:
+        break;
+    }
+
     setForm({ ...form, [key]: val });
   };
 
@@ -120,6 +140,16 @@ export default function RegisterTabs() {
     setMessage(null);
     //Clear the form
   }, [value]);
+  const handleSendEmail = () => {
+    console.log("FORM EMAIL ", form.email);
+    if (form.email === "") {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+      dispatch(sendEmail(form));
+    }
+    setMessageSent(true);
+  };
 
   function parseJson() {
     try {
@@ -169,12 +199,26 @@ export default function RegisterTabs() {
                   error={emailError}
                 ></Input>
               </Grid>
+
+              {messageSent && (
+                <>
+                  {" "}
+                  <Alert
+                    onClose={() => {
+                      setMessageSent(false);
+                    }}
+                  >
+                    This is a success alert — check it out!
+                  </Alert>
+                </>
+              )}
               <Grid mt={2} item sm={12}>
                 <Button
                   type="submit"
                   color="error"
                   variant="contained"
                   size="large"
+                  onClick={handleSendEmail}
                 >
                   Submit
                 </Button>
