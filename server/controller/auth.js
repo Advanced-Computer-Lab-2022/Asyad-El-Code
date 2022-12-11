@@ -2,6 +2,7 @@ import IndividualTrainee from "../models/individualTrainee.js";
 import Instructor from "../models/instructor.js";
 import CorporateTrainee from "../models/corporateTrainee.js";
 import bcrypt from "bcryptjs";
+import nodemailer from "nodemailer";
 
 //Make function to return if it is same password or not
 async function checkPassword(password, hashedPassword) {
@@ -82,4 +83,68 @@ export const signup = async (req, res) => {
     type: "individualTrainee",
     token: token,
   });
+};
+
+export const passwordReset = async (req, res) => {
+  try {
+    console.log("iam i nthe password Reset");
+    const { email } = req.body;
+    const individualTrainee = await IndividualTrainee.findOne({ email });
+    if (!individualTrainee) {
+      return res.status(404).json({ message: "User doesn't exist" });
+    }
+    let transporter = nodemailer.createTransport({
+      host: process.env.HOST,
+      port: 587,
+      secure: false,
+      service: "gmail", // true for 465, false for other ports
+      auth: {
+        user: "robyamama55@gmail.com", // generated ethereal user
+        pass: "mjuzqpeqivvllzoz", // generated ethereal password
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+    //create html for password reset
+    let html = `<div>
+    <h1>Reset Password</h1>
+    <p>Click on the link below to reset your password</p>
+    <a href="http://localhost:3000/users/confirmPassword/${individualTrainee._id}">Reset Password</a>
+    </div>`;
+
+    // send mail with defined transport object
+    let info = await transporter.sendMail({
+      from: "robyamama55@gmail.com", // sender address
+      to: email, // list of receivers
+      subject: "Reset Password", // Subject line
+      text: "Hello world?", // plain text body
+      html: html, // html body
+    });
+    console.log("INFO ", info);
+    res
+      .status(200)
+      .send(`Click on the link sent to ${email} to reset password`);
+  } catch (error) {
+    console.log("the error part");
+    res.status(400).json({ message: error.message });
+  }
+};
+export const confirmPasswordReset = async (req, res) => {
+  try {
+    console.log("REQUEST BODY", req.body);
+    const { password } = req.body;
+    console.log("The new password ", password);
+    const individualTrainee = await IndividualTrainee.findById(req.params.id);
+    if (!individualTrainee) {
+      return res.status(404).json({ message: "User doesn't exist" });
+    }
+    const hashPassword = await bcrypt.hash(password, 12);
+    individualTrainee.password = password;
+    await individualTrainee.save();
+    //Return the user and a message to indictate
+    res.status(200).json({ message: "Password reset successful" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };

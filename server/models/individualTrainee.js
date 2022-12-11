@@ -117,17 +117,16 @@ export function validate(individualTrainee) {
     firstName: Joi.string().min(3).required(),
     lastName: Joi.string().min(3).required(),
     email: Joi.string().email().required(),
-    phoneNumber: Joi.number().required().min(10),
+    phoneNumber: Joi.number().min(10),
     dateOfBirth: Joi.date().required(),
     password: Joi.string().required(),
-    address: Joi.object().required(),
-    country: Joi.string().required(),
-    university: Joi.string().required(),
+    address: Joi.object(),
+    country: Joi.string(),
+    university: Joi.string(),
     billingDetails: Joi.object({
       masterCardNumber: Joi.string().required(),
       expiryDate: Joi.date().required(),
       cvv: Joi.string().required(),
-      cardOwner: Joi.string().required(),
     }),
   });
   return schema.validate(individualTrainee);

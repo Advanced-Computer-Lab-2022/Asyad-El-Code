@@ -19,12 +19,22 @@ import Profile from "./components/Profile/Profile";
 import { InstructorProfile } from "./components/InstructorPofile/InstructorProfile";
 import { Auth } from "./components/Auth/Auth";
 import SplashScreen from "./components/Splash/test.js";
+import { ConfirmPassword } from "./components/Auth/SendEmail";
+import { createTheme, ThemeProvider } from "@mui/material";
+import PersistentDrawerLeft from "./components/Course/test";
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#1C1D1F",
+    },
+    secondary: {
+      main: "#f50057",
+    },
+  },
+});
 export const App = () => {
   return (
-    <>
-      {/* <MenuAppBar></MenuAppBar>
-      <Home></Home> */}
-
+    <ThemeProvider theme={theme}>
       <ScrollToTop>
         <Switch>
           <Route exact path="/">
@@ -32,6 +42,12 @@ export const App = () => {
           </Route>
           <Route exact path="/auth">
             <Auth></Auth>
+          </Route>
+          <Route exact path="/users/confirmPassword/:id">
+            <ConfirmPassword></ConfirmPassword>
+          </Route>
+          <Route exact path="/test">
+            <PersistentDrawerLeft></PersistentDrawerLeft>
           </Route>
 
           <Route>
@@ -74,7 +90,7 @@ export const App = () => {
           </Route>
         </Switch>
       </ScrollToTop>
-    </>
+    </ThemeProvider>
   );
 };
 
