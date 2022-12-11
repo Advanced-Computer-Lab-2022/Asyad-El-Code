@@ -37,7 +37,7 @@ export const createCourse = async (req, res) => {
       image,
       rating,
       previewVideo,
-      outlines: outlines,
+      outlines: [...outlines],
       price,
       instructor,
       discount,

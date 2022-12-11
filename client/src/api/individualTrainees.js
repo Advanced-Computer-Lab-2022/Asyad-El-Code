@@ -18,3 +18,8 @@ export const fetchTrainee = async () =>
 
 export const updateTrainee = async (id, trainee) =>
   await API.put(`/${id}`, trainee);
+
+export const getTrainee = async (id) => {
+  const { data } = await API.get(`/${id}`);
+  return data;
+};

@@ -36,9 +36,9 @@ export default function ButtonAppBar() {
   const [search, setSearch] = useState("");
   const [openMenu, setOpenMenu] = useState(false);
   const { isLoading, courses } = useSelector((state) => state.courses);
+  const [user, setUser] = useState(parseJson());
   console.log("Iam the courses ", courses);
   console.log("Iam the isLoading State ", isLoading);
-
   const rates = useSelector((state) => state.currencyRates);
   const [selected, setSelected] = useState("");
   const selectedCourse = courses?.find((c) => c.title === selected);
@@ -73,7 +73,11 @@ export default function ButtonAppBar() {
       return "";
     }
   }
-  const user = parseJson();
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+    history.push("/home");
+    setUser(null);
+  };
 
   return (
     <CssBaseline>
@@ -197,29 +201,41 @@ export default function ButtonAppBar() {
 
             {user?.result ? (
               //Create avatar
-              <Grid item>
-                <Link href="/profile">
-                  <Avatar alt={user?.result?.name}>
-                    {user?.result?.firstName.charAt(0)}
-                  </Avatar>
-                </Link>
-              </Grid>
+              <>
+                {/* <Grid container>
+                  <Grid item>
+                    <Link onClick={() => logout()}>Logout</Link>
+                  </Grid> */}
+                <Grid item>
+                  <Link href="/profile">
+                    <Avatar alt={user?.result?.name}>
+                      {user?.result?.firstName.charAt(0)}
+                    </Avatar>
+                  </Link>
+                </Grid>
+                {/* </Grid> */}
+              </>
             ) : (
               <>
                 <Grid alignSelf="center" item>
-                  <MyLink href="#" underline="none">
+                  <MyLink href="/auth" underline="none">
                     Login
                   </MyLink>
                 </Grid>
                 <Grid alignSelf="center" item>
-                  <MyLink color="white" underline="none">
+                  <MyLink href="/auth" color="white" underline="none">
                     Sign Up
                   </MyLink>
                 </Grid>
               </>
             )}
+            {user?.result && (
+              <Grid item>
+                <Link onClick={() => logout()}>Logout</Link>
+              </Grid>
+            )}
           </Grid>
-          <DownloadLink to="/files/myfi22le.pdf" target="_blank" download>
+          {/* <DownloadLink to="/files/myfi22le.pdf" target="_blank" download>
             Download
           </DownloadLink>
           <Button
@@ -228,7 +244,7 @@ export default function ButtonAppBar() {
             className={classes.navButtons}
           >
             Course content
-          </Button>
+          </Button> */}
           {/* <Button
               onClick={() => history.push("/createcourse")}
               variant="contained"

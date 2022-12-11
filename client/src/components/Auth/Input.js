@@ -1,7 +1,15 @@
-import { IconButton, InputAdornment, TextField, Grid } from "@mui/material";
+import {
+  IconButton,
+  InputAdornment,
+  TextField,
+  Grid,
+  createMuiTheme,
+  createTheme,
+} from "@mui/material";
 import React from "react";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+
 const Input = ({
   autoFocus,
   type,
@@ -9,6 +17,8 @@ const Input = ({
   name,
   label,
   handleShowPassword,
+  value,
+  error,
 }) => {
   return (
     <Grid item xs={12}>
@@ -16,11 +26,14 @@ const Input = ({
         name={name}
         onChange={handleChangeValues}
         fullWidth
-        required
         size="medium"
         label={label}
         autoFocus={autoFocus}
+        color="primary"
         type={type}
+        value={value}
+        error={error}
+        helperText={error ? "This field is required" : ""}
         InputProps={
           name === "password"
             ? {

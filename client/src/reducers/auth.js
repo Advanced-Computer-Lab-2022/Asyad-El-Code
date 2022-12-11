@@ -1,4 +1,4 @@
-import { AUTH, LOGOUT, AUTH_ERROR } from "../constants/auth";
+import { AUTH, LOGOUT, AUTH_ERROR, CHANGE_PASSWORD } from "../constants/auth";
 
 export default (state = { authData: null }, action) => {
   console.log("Iam in the auth reducer", action?.payload);
@@ -12,6 +12,11 @@ export default (state = { authData: null }, action) => {
       localStorage.clear();
       return { ...state, authData: null };
 
+    case AUTH_ERROR:
+      return { ...state, authData: action?.payload };
+
+    case CHANGE_PASSWORD:
+      return { ...state, authData: action?.payload };
     default:
       return state;
   }
