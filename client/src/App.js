@@ -21,6 +21,7 @@ import { Auth } from "./components/Auth/Auth";
 import SplashScreen from "./components/Splash/test.js";
 import { ConfirmPassword } from "./components/Auth/SendEmail";
 import { createTheme, ThemeProvider } from "@mui/material";
+import PersistentDrawerLeft from "./components/Course/test";
 const theme = createTheme({
   palette: {
     primary: {
@@ -44,6 +45,9 @@ export const App = () => {
           </Route>
           <Route exact path="/users/confirmPassword/:id">
             <ConfirmPassword></ConfirmPassword>
+          </Route>
+          <Route exact path="/test">
+            <PersistentDrawerLeft></PersistentDrawerLeft>
           </Route>
 
           <Route>
