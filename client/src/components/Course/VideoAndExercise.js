@@ -8,8 +8,15 @@ import FormLabel from "@mui/material/FormLabel";
 import useStyles from "../../css/courseContent.js";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+import * as individualTraineeApi from "../../api/individualTrainees.js";
 
-export const VideoAndExercise = ({ content, exercise, exerciseId }) => {
+export const VideoAndExercise = ({
+  content,
+  exercise,
+  exerciseId,
+  courseId,
+  user,
+}) => {
   const [value, setValue] = useState(new Map());
   const [correct, setCorrect] = useState(new Map());
   const [show, setShow] = useState(new Map());
@@ -39,15 +46,23 @@ export const VideoAndExercise = ({ content, exercise, exerciseId }) => {
   useEffect(() => {
     setTotal(exercise.length);
   }, []);
-
+  const addGrade = async () => {
+    const { data } = await individualTraineeApi.addGrade(
+      user._id,
+      courseId,
+      exerciseId,
+      grade,
+      total
+    );
+  };
   useEffect(() => {
     if (correct.size === total && total !== 0) {
       setShowGrade(true);
+      addGrade();
     }
   }, [correct, total]);
 
   useEffect(() => {
-
     if (content.videoUrl !== "") {
       setValue(new Map());
       setCorrect(new Map());
@@ -59,8 +74,6 @@ export const VideoAndExercise = ({ content, exercise, exerciseId }) => {
   }, [content.videoUrl]);
 
   useEffect(() => {
-
-
     setValue(new Map());
     setCorrect(new Map());
     setShow(new Map());

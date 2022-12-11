@@ -6,6 +6,7 @@ import {
   deleteIndividualTrainee,
   updateIndividualTrainee,
   enrollCourse,
+  addGrade,
 } from "../controller/individualTrainee.js";
 const router = express.Router();
 
@@ -15,5 +16,6 @@ router.get("/:id", getIndividualTrainees);
 router.delete("/:id", deleteIndividualTrainee);
 router.put("/:id", updateIndividualTrainee);
 router.post("/enroll", enrollCourse);
+router.post("/addGrade", addGrade);
 
 export default router;
