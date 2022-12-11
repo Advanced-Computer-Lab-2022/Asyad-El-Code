@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Accordion from "@mui/material/Accordion";
 import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Grid,
   IconButton,
   Link,
@@ -56,6 +62,10 @@ export const CourseContent = () => {
   const [exerciseId, setExerciseId] = useState("");
   const [ratingOpen, setRatingOpen] = useState(false);
   const [userObject, setUserObject] = useState({});
+  const [solved, setSolved] = useState(false);
+  const [retakeOpen, setRetakeOpen] = useState(false);
+  const [showExerciseContent, setShowExerciseContent] = useState(false);
+  const [showVideoContent, setShowVideoContent] = useState(false);
   const dispatch = useDispatch();
 
   const getIndividualTrainee = async () => {
@@ -91,13 +101,35 @@ export const CourseContent = () => {
   const handleClick = (subtitle) => {
     setContent(subtitle);
     setExercise(exerciseInitialForm);
+    setShowVideoContent(true);
+    setShowExerciseContent(false);
   };
 
   const handleClickEx = (exercise, exerciseId) => {
+    if (
+      userObject?.courses
+        .find((c) => c._id === course._id)
+        ?.grades?.find((g) => g._id === exerciseId)
+    ) {
+      setSolved(true);
+    }
     setExercise(exercise);
     setExerciseId(exerciseId);
     setContent(contentInitialForm);
   };
+  useEffect(() => {
+    if (!solved) {
+      setShowExerciseContent(true);
+      setShowVideoContent(false);
+    } else {
+      setRetakeOpen(true);
+    }
+  }, [solved]);
+  const handleRetake = async (exercise, exerciseId) => {
+    setSolved(false);
+    setRetakeOpen(false);
+  };
+
   const handleCancelRating = () => {
     setRatingOpen(false);
   };
@@ -115,7 +147,7 @@ export const CourseContent = () => {
   const handleHome = () => {
     dispatch(getCourse(course._id, history, course?.title));
   };
-  //in line 212 check if the user (individualTrainee) has already answered an exercise and if so show the grade as score/total
+
   return (
     <div>
       <RatingAndReviewPopup
@@ -206,14 +238,20 @@ export const CourseContent = () => {
                             </ListItemIcon>
 
                             <ListItemText>
-                              {/* {`Exercise ${
+                              Quiz{" "}
+                              {
                                 userObject?.courses
-                                  .filter((c) => c._id === course._id)[0]
-                                  .grades.filter(
-                                    (g) => (g._id = outline._id)
-                                  )[0].score
-                              }`} */}
-                              {/* {`Exercise ${userObject?.courses[0].grades[0].score}/${userObject?.courses[0].grades[0].total}`} */}
+                                  ?.find((c) => c._id === course?._id)
+                                  ?.grades?.find((g) => g._id === outline._id)
+                                  ?.score
+                              }
+                              /
+                              {
+                                userObject?.courses
+                                  ?.find((c) => c._id === course?._id)
+                                  ?.grades?.find((g) => g._id === outline._id)
+                                  ?.total
+                              }
                             </ListItemText>
                           </ListItem>
                         )}
@@ -226,7 +264,8 @@ export const CourseContent = () => {
           </Grid>
         </Grid>
         <Grid item xs={9}>
-          {content.videoUrl || exercise[0].question ? (
+          {(content.videoUrl && showVideoContent) ||
+          (exercise[0].question && showExerciseContent) ? (
             <>
               <Grid container direction="column">
                 <Grid item>
@@ -241,6 +280,24 @@ export const CourseContent = () => {
               </Grid>
             </>
           ) : null}
+          <Dialog open={retakeOpen} onClose={() => setRetakeOpen(false)}>
+            <DialogTitle>Retake Quiz</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                You have already solved this quiz. Do you want to retake it?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setRetakeOpen(false)}>Cancel</Button>
+              <Button
+                onClick={() => {
+                  handleRetake(exercise, exerciseId);
+                }}
+              >
+                Retake
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Grid>
       </Grid>
     </div>

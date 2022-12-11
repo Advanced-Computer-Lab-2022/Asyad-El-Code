@@ -176,7 +176,13 @@ export const addGrade = async (req, res) => {
 
     const course = user.courses.find((course) => course._id == courseId);
 
-    course.grades.push({ score, total, _id: castedOutlineId });
+    const grade = course.grades.find((grade) => grade._id == outlineId);
+    if (grade) {
+      grade.score = score;
+      grade.total = total;
+    } else {
+      course.grades.push({ score, total, _id: castedOutlineId });
+    }
 
     console.log("USER COURSES ", user.courses);
     const updatedUser = await IndividualTrainee.findByIdAndUpdate(
