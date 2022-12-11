@@ -85,7 +85,7 @@ export const signup = async (req, res) => {
   });
 };
 
-export const passwordReset = async (req, res) => {
+export const sendEmail = async (req, res) => {
   try {
     console.log("iam i nthe password Reset");
     const { email } = req.body;
@@ -140,11 +140,11 @@ export const confirmPasswordReset = async (req, res) => {
       return res.status(404).json({ message: "User doesn't exist" });
     }
     const hashPassword = await bcrypt.hash(password, 12);
-    individualTrainee.password = password;
+    individualTrainee.password = hashPassword;
     await individualTrainee.save();
     //Return the user and a message to indictate
-    res.status(200).json({ message: "Password reset successful" });
+    res.status(200).json({ user: individualTrainee, message: null });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ user: null, message: error.message });
   }
 };
