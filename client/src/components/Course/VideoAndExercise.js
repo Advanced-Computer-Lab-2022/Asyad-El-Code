@@ -16,6 +16,8 @@ export const VideoAndExercise = ({
   exerciseId,
   courseId,
   user,
+  videoOpen,
+  exerciseOpen,
 }) => {
   const [value, setValue] = useState(new Map());
   const [correct, setCorrect] = useState(new Map());
@@ -86,7 +88,7 @@ export const VideoAndExercise = ({
 
   return (
     <div>
-      {content.videoUrl !== "" ? (
+      {videoOpen ? (
         <>
           <Container>
             <Paper elevation={12} className={classes.videoPaper}>
@@ -95,7 +97,7 @@ export const VideoAndExercise = ({
               <iframe
                 width="100%"
                 height="500"
-                src={content.videoUrl}
+                src={`https://www.youtube.com/embed/${content.videoUrl}`}
                 title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -104,7 +106,8 @@ export const VideoAndExercise = ({
             </Paper>
           </Container>
         </>
-      ) : (
+      ) : null}
+      {exerciseOpen ? (
         <>
           {showGrade ? (
             <Container>
@@ -119,7 +122,7 @@ export const VideoAndExercise = ({
             </Container>
           ) : null}{" "}
           <Container>
-            {exercise.map((ex, ind) => {
+            {exercise?.map((ex, ind) => {
               return (
                 <>
                   <Paper elevation={12} className={classes.exercisePaper}>
@@ -208,7 +211,7 @@ export const VideoAndExercise = ({
             })}
           </Container>
         </>
-      )}
+      ) : null}
     </div>
   );
 };

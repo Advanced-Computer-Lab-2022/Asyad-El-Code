@@ -7,13 +7,19 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Grid, Rating, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function RatingCourse({ isOpen, handleClose }) {
-  const [rate, setRate] = React.useState(0);
+export default function RatingCourse({ isOpen, handleClose, handleSubmit }) {
+  const [rate, setRate] = useState(0);
+  const [review, setReview] = useState("");
+
+  const handleSave = () => {
+    handleSubmit(rate, review);
+  };
   return (
     <div>
       <Dialog
@@ -55,6 +61,9 @@ export default function RatingCourse({ isOpen, handleClose }) {
                     color="grey"
                     rows={6}
                     label="Tell us about your own personal experience taking this course"
+                    onChange={(e) => {
+                      setReview(e.target.value);
+                    }}
                   ></TextField>
                 </Grid>
               </Grid>
@@ -63,6 +72,9 @@ export default function RatingCourse({ isOpen, handleClose }) {
         </DialogContent>
         <DialogActions>
           <Button color="primary" variant="contained" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button color="primary" variant="contained" onClick={handleSave}>
             Save And Continue
           </Button>
         </DialogActions>

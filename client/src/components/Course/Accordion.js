@@ -5,6 +5,7 @@ import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
+import QuizIcon from "@mui/icons-material/Quiz";
 import {
   Checkbox,
   List,
@@ -53,13 +54,28 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
-export default function AccordionSet({ index, outline }) {
+export default function AccordionSet({
+  index,
+  outline,
+  course,
+  userObject,
+  handleVideoClick,
+  handleExerciseClick,
+}) {
   const [expanded, setExpanded] = React.useState("panel1");
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
+  const handleVidClick = (subtitle) => {
+    handleVideoClick(subtitle);
+  };
+  const handleClickEx = (exercise, exerciseId) => {
+    handleExerciseClick(exercise, exerciseId);
+  };
+
+  console.log("this is outline", outline);
   return (
     <div>
       <Accordion
@@ -68,7 +84,7 @@ export default function AccordionSet({ index, outline }) {
       >
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Typography fontWeight="bold" display="block">
-            Section {index + 1}: Introduction
+            Section {index + 1}: {outline?.outline}
             <br />
             <Typography fontWeight="normal" color="grey" display="block">
               15/5 | 2hrs
@@ -76,13 +92,13 @@ export default function AccordionSet({ index, outline }) {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {[1, 2, 3].map((item) => {
+          {outline?.subtitles.map((sub) => {
             return (
               <Stack ml={-2} direction="row">
-                <ListItemButton>
+                <ListItemButton onClick={() => handleVidClick(sub)}>
                   <Checkbox sx={{ mb: 3 }}></Checkbox>
                   <Typography f display="block">
-                    Introduction To Science
+                    {sub.subtitle}
                     <br />
                     <Typography
                       fontWeight="normal"
@@ -96,6 +112,31 @@ export default function AccordionSet({ index, outline }) {
               </Stack>
             );
           })}
+          <Stack ml={-2} direction="row">
+            <ListItemButton
+              onClick={() => handleClickEx(outline?.exercises, outline?._id)}
+            >
+              <Checkbox sx={{ mb: 3 }}></Checkbox>
+              <Typography f display="block">
+                Quiz
+                <br />
+                <Typography fontWeight="normal" color="grey" display="block">
+                  <QuizIcon fontSize="10"></QuizIcon> 2mins{" "}
+                  {
+                    userObject?.courses
+                      ?.find((c) => c._id === course?._id)
+                      ?.grades?.find((g) => g._id === outline._id)?.score
+                  }
+                  /
+                  {
+                    userObject?.courses
+                      ?.find((c) => c._id === course?._id)
+                      ?.grades?.find((g) => g._id === outline._id)?.total
+                  }
+                </Typography>
+              </Typography>
+            </ListItemButton>
+          </Stack>
         </AccordionDetails>
       </Accordion>
     </div>

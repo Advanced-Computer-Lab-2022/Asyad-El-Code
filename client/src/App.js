@@ -21,7 +21,7 @@ import { Auth } from "./components/Auth/Auth";
 import SplashScreen from "./components/Splash/test.js";
 import { ConfirmPassword } from "./components/Auth/SendEmail";
 import { createTheme, ThemeProvider } from "@mui/material";
-import PersistentDrawerLeft from "./components/Course/test";
+import PersistentDrawerLeft from "./components/Course/CourseContents";
 const theme = createTheme({
   palette: {
     primary: {
