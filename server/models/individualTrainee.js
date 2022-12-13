@@ -97,6 +97,12 @@ const individualTraineeSchema = mongoose.Schema({
           exerciseId: mongoose.Schema.Types.ObjectId,
         },
       ],
+      notes: [
+        {
+          subtitleId: mongoose.Schema.Types.ObjectId,
+          note: [{ value: String, time: Number }],
+        },
+      ],
     },
   ],
 });

@@ -9,7 +9,7 @@ import useStyles from "../../css/courseContent.js";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import * as individualTraineeApi from "../../api/individualTrainees.js";
-
+import ReactPlayer from "react-player/lazy";
 export const VideoAndExercise = ({
   content,
   exercise,
@@ -87,23 +87,28 @@ export const VideoAndExercise = ({
   return (
     <div>
       {content.videoUrl !== "" ? (
-        <>
+        <div>
           <Container>
             <Paper elevation={12} className={classes.videoPaper}>
               <Typography variant="h3">{content.subtitle}</Typography>
-
-              <iframe
+              <ReactPlayer
+                //Take the fullwidth of the player
                 width="100%"
-                height="500"
-                src={content.videoUrl}
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
+                url={content.videoUrl}
+                // title="YouTube video player"
+                // frameborder="0"
+                // allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                // allowfullscreen
+                controls={true}
+                onPause={() => console.log("onPause")}
+                playbackRate={1}
+                onProgress={(state) =>
+                  console.log("onProgress", state.playedSeconds)
+                }
+              ></ReactPlayer>
             </Paper>
           </Container>
-        </>
+        </div>
       ) : (
         <>
           {showGrade ? (
