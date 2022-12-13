@@ -43,7 +43,7 @@ export default function CourseCard({ isCourseInUserCourses, course }) {
             {isCourseInUserCourses ? (
               <Button
                 fullWidth
-                onClick={() => history.push("/courseContent")}
+                onClick={() => history.push("/test")}
                 sx={{
                   "&:hover": { backgroundColor: "#2F2B2E" },
                   backgroundColor: "#2F2B2E",

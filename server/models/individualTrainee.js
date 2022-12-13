@@ -103,6 +103,9 @@ const individualTraineeSchema = mongoose.Schema({
           note: [{ value: String, time: Number }],
         },
       ],
+      seenContent: [
+        { seen: Boolean, contentId: mongoose.Schema.Types.ObjectId },
+      ],
     },
   ],
 });

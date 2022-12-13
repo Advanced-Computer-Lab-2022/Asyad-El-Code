@@ -33,3 +33,12 @@ export const getTrainee = async (id) => {
   const { data } = await API.get(`/${id}`);
   return data;
 };
+
+export const addSeenContent = async (
+  individualTraineeId,
+  courseId,
+  outlineId
+) =>
+  await API.post(
+    `/addSeenContent?individualTraineeId=${individualTraineeId}&courseId=${courseId}&outlineId=${outlineId}`
+  );

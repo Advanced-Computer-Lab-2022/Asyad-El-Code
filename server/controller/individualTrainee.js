@@ -176,7 +176,13 @@ export const addGrade = async (req, res) => {
 
     const course = user.courses.find((course) => course._id == courseId);
 
-    course.grades.push({ score, total, _id: castedOutlineId });
+    const grade = course.grades.find((grade) => grade._id == outlineId);
+    if (grade) {
+      grade.score = score;
+      grade.total = total;
+    } else {
+      course.grades.push({ score, total, _id: castedOutlineId });
+    }
 
     console.log("USER COURSES ", user.courses);
     const updatedUser = await IndividualTrainee.findByIdAndUpdate(
@@ -191,6 +197,26 @@ export const addGrade = async (req, res) => {
     } else res.status(200).send(updatedUser);
   } catch (error) {
     console.log("Im in the errorrrr");
+    res.status(401).json({ error: error.message });
+  }
+};
+
+export const addSeenContent = async (req, res) => {
+  try {
+    const { individualTraineeId, courseId, outlineId } = req.query;
+    const user = await IndividualTrainee.findById(individualTraineeId);
+    const course = user.courses.find((course) => course._id == courseId);
+    const test = true;
+    course.seenContent.push({ test, _id: outlineId });
+    const updatedUser = await IndividualTrainee.findByIdAndUpdate(
+      individualTraineeId,
+      { courses: user.courses },
+      { new: true }
+    );
+    if (!updatedUser) {
+      res.status(401).send("Couldn't add seen content");
+    } else res.status(200).send(updatedUser);
+  } catch (error) {
     res.status(401).json({ error: error.message });
   }
 };
