@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import Joi, { boolean } from "joi";
+import Joi from "joi";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 
