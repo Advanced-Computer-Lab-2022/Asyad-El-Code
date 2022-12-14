@@ -36,7 +36,7 @@ import Payments from "./Payments.js";
 import Photo from "./Photo.js";
 import { getTrainee } from "../../actions/individualTrainees";
 const Profile = () => {
-  const [page, setPage] = useState("");
+  const [page, setPage] = useState("myProfile");
   const dispatch = useDispatch();
 
   useEffect(() => {

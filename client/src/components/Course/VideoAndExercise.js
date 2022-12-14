@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Paper, Typography } from "@mui/material";
+import { Button, Container, Fab, Paper, Typography } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -9,6 +9,8 @@ import useStyles from "../../css/courseContent.js";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import * as individualTraineeApi from "../../api/individualTrainees.js";
+import ReactPlayer from "react-player";
+import CreateIcon from "@mui/icons-material/Create";
 
 export const VideoAndExercise = ({
   content,
@@ -93,16 +95,15 @@ export const VideoAndExercise = ({
           <Container>
             <Paper elevation={12} className={classes.videoPaper}>
               <Typography variant="h3">{content.subtitle}</Typography>
-
-              <iframe
+              <ReactPlayer
                 width="100%"
-                height="500"
-                src={`https://www.youtube.com/embed/${content.videoUrl}`}
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
+                onProgress={(state) => {
+                  console.log(state);
+                }}
+                url={`https://www.youtube.com/embed/${content.videoUrl}`}
+                height="500px"
+                controls={true}
+              ></ReactPlayer>
             </Paper>
           </Container>
         </>

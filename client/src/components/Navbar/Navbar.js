@@ -4,7 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Avatar, Button, InputAdornment, Link, SvgIcon } from "@mui/material";
 import { CssBaseline, Grid, TextField } from "@mui/material";
-import useStyles from "../css/navbar";
+import useStyles from "../../css/navbar";
 import {
   Menu,
   MenuItem,
@@ -17,17 +17,18 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { US, EG, CA } from "country-flag-icons/react/3x2";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrencyRates } from "../actions/currencyRates";
-import { changeSelectedCountry } from "../actions/selectedCountry";
+import { getCurrencyRates } from "../../actions/currencyRates";
+import { changeSelectedCountry } from "../../actions/selectedCountry";
 import { useHistory } from "react-router-dom";
 import LanguageIcon from "@mui/icons-material/Language";
 import { Link as DownloadLink } from "react-router-dom";
 
-import "./Header.css";
+import "../Header.css";
 import styled from "@emotion/styled";
 import { Box } from "@mui/system";
-import { getCourse, getCourses } from "../actions/courses";
-import * as courseApi from "../api/course";
+import { getCourse, getCourses } from "../../actions/courses";
+import * as courseApi from "../../api/course";
+import DropDownMenuProfile from "./DropDownProfileMenu";
 export default function ButtonAppBar() {
   const dispatch = useDispatch();
   const { classes } = useStyles();
@@ -217,11 +218,7 @@ export default function ButtonAppBar() {
                     <Link onClick={() => logout()}>Logout</Link>
                   </Grid> */}
                 <Grid item>
-                  <Link href="/profile">
-                    <Avatar alt={user?.result?.name}>
-                      {user?.result?.firstName.charAt(0)}
-                    </Avatar>
-                  </Link>
+                  <DropDownMenuProfile user={user}></DropDownMenuProfile>
                 </Grid>
                 {/* </Grid> */}
               </>

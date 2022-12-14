@@ -76,6 +76,7 @@ export default function AccordionSet({
   };
 
   console.log("this is outline", outline);
+  console.log("IDNEX IS ", index);
   return (
     <div>
       <Accordion
