@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "./components/Navbar";
-import MenuAppBar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
+import MenuAppBar from "./components/Navbar/Navbar";
 import Home from "./components/HomePage/Home";
 import ViewAllCourses from "./components/ViewAllCoursesPage/ViewAllCourses";
 import { InstructorCourses } from "./components/Instructor/InstructorCourses";
@@ -8,7 +8,6 @@ import { Switch, Route } from "react-router-dom";
 import CourseStructure from "./components/Instructor/CourseStructure";
 import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
-import { CourseContent } from "./components/Course/CourseContent";
 import CoursePage from "./components/Course/CoursePage";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -77,10 +76,6 @@ export const App = () => {
               </Route>
               <Route exact path="/profile">
                 <Profile></Profile>
-              </Route>
-
-              <Route exact path="/courseContent">
-                <CourseContent></CourseContent>
               </Route>
 
               <Route exact path="/instructorProfile">

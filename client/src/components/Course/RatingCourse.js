@@ -14,7 +14,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function RatingCourse({ isOpen, handleClose, handleSubmit }) {
-  const [rate, setRate] = useState(0);
+  const [rate, setRate] = useState(null);
   const [review, setReview] = useState("");
 
   const handleSave = () => {
