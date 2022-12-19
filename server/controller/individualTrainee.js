@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import IndividualTrainee, { validate } from "../models/individualTrainee.js";
 import Course from "../models/course.js";
+import pdf from "html-pdf";
 
 export const createIndvidualTrainee = async (req, res) => {
   const { error } = validate(req.body);
@@ -57,6 +58,7 @@ export const getAllIndividualTrainees = async (req, res) => {
 export const getIndividualTrainees = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log("id is ", id);
     const indvidTrainee = await IndividualTrainee.findById(id);
     if (!indvidTrainee) return res.status(404).send("This id doesnt exist");
     res.send(indvidTrainee);
@@ -220,3 +222,84 @@ export const addSeenContent = async (req, res) => {
     res.status(401).json({ error: error.message });
   }
 };
+
+export const addNote = async (req, res) => {
+  try {
+    console.log("Iam adding note");
+    const { individualTraineeId, courseId, lectureId, note, playedMinutes } =
+      req.query;
+    const user = await IndividualTrainee.findById(individualTraineeId);
+    const course = user.courses.find((course) => course._id == courseId);
+    const notes = course.notes.find((note) => note.subtitleId == lectureId);
+    if (notes) {
+      notes.note.push({ value: note, time: playedMinutes });
+    } else {
+      course.notes.push({
+        note: [{ value: note, time: playedMinutes }],
+        subtitleId: lectureId,
+      });
+    }
+    const updatedUser = await IndividualTrainee.findByIdAndUpdate(
+      individualTraineeId,
+      { courses: user.courses },
+      { new: true }
+    );
+    if (!updatedUser) {
+      res.status(401).send("Couldn't add note");
+    } else res.status(200).send(updatedUser);
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+};
+
+export const createPdf = (notes) => {
+  try {
+    console.log("THE NOTES IN BACKED", notes);
+    return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        </head>
+        <body>
+        <h1>Notes</h1>
+        <ul>
+        ${notes.map((note) => {
+          return `<li>${note.value + " " + note.time}</li>`;
+        })}
+        </ul>
+        </body>
+        </html>
+    `;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getNotes = async (req, res) => {
+  // console.log("getNotes fucntion here");
+  console.log("PLEASE");
+  try {
+    console.log("IAM IN THE BACK OF GETNOTES");
+    const { userId, courseId, lectureId } = req.query;
+    console.log(req.query);
+    const user = await IndividualTrainee.findById(userId);
+    console.log("USER IN BACKEND ", user);
+    console.log(user);
+
+    const course = user.courses.find((course) => course._id == courseId);
+    console.log("COURSE IN BACKEND ", course);
+    const notes = course.notes.find((note) => note.subtitleId == lectureId);
+
+    if (!notes) {
+      res.status(401).send("Couldn't find notes");
+    }
+    res.status(200).send(notes);
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+};
+//TODO gettingAllNotesOfthecourse
