@@ -20,6 +20,7 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import AccordionSet from "./Accordion";
+import Linear from "./LinearProgress.js";
 import {
   DialogActions,
   Button,
@@ -128,6 +129,7 @@ export default function CourseContents() {
   const [showVideoContent, setShowVideoContent] = useState(false);
   const [solved, setSolved] = useState({});
   const [retakeOpen, setRetakeOpen] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -201,6 +203,20 @@ export default function CourseContents() {
     setRetakeOpen(false);
     setSolved({});
   };
+
+  useEffect(() => {
+    calculateAndSetProgress();
+  }, [userObject?.courses?.find((c) => c._id === course._id)?.seenContent]);
+
+  const calculateAndSetProgress = () => {
+    let totalDuration = 0;
+    userObject?.courses
+      ?.find((c) => c._id === course._id)
+      ?.seenContent?.forEach((g) => {
+        totalDuration += g.duration;
+      });
+    setProgress((totalDuration / (course?.duration * 60)) * 100);
+  };
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -221,6 +237,7 @@ export default function CourseContents() {
               style={{ fill: "#ffffff" }}
             ></HomeSharpIcon>
           </IconButton>
+          <Linear progress={progress}></Linear>
 
           {/* Add Review button to the end of appbar */}
           <Link

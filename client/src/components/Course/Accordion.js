@@ -6,6 +6,7 @@ import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import QuizIcon from "@mui/icons-material/Quiz";
+
 import {
   Checkbox,
   List,
@@ -17,6 +18,9 @@ import {
 } from "@mui/material";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import { useState } from "react";
+import { useEffect } from "react";
+import * as individualTraineeApi from "../../api/individualTrainees.js";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -63,6 +67,7 @@ export default function AccordionSet({
   handleExerciseClick,
 }) {
   const [expanded, setExpanded] = React.useState("panel1");
+  const [checked, setChecked] = React.useState(new Map());
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -74,9 +79,43 @@ export default function AccordionSet({
   const handleClickEx = (exercise, exerciseId) => {
     handleExerciseClick(exercise, exerciseId);
   };
+  const handleCheck = (e, ind) => {
+    e.stopPropagation();
+    individualTraineeApi.addSeenContent(
+      userObject._id,
+      course._id,
+      outline.subtitles[ind]._id,
+      outline.subtitles[ind].minutes
+    );
+    setChecked((prev) => new Map(prev).set(`outline${index}index${ind}`, true));
+  };
 
-  console.log("this is outline", outline);
-  console.log("IDNEX IS ", index);
+  useEffect(() => {
+    updateChecked();
+  }, [userObject?.courses?.find((c) => c._id === course._id)?.seenContent]);
+
+  const updateChecked = () => {
+    const co = userObject?.courses?.find((c) => c._id === course?._id);
+    for (let i = 0; i < outline?.subtitles.length; i++) {
+      let seen = co?.seenContent?.find(
+        (s) => s._id === outline?.subtitles[i]._id
+      );
+      if (seen) {
+        setChecked((prev) =>
+          new Map(prev).set(`outline${index}index${i}`, true)
+        );
+      } else {
+        setChecked((prev) =>
+          new Map(prev).set(`outline${index}index${i}`, false)
+        );
+      }
+    }
+  };
+  const getChecked = (ind) => {
+    const booleanValue = checked.get(`outline${index}index${ind}`);
+    return booleanValue;
+  };
+  console.log("boolean value is ", checked.get(`outline${index}index0`));
   return (
     <div>
       <Accordion
@@ -88,16 +127,20 @@ export default function AccordionSet({
             Section {index + 1}: {outline?.outline}
             <br />
             <Typography fontWeight="normal" color="grey" display="block">
-              15/5 | 2hrs
+              15/5 | 2 hrs
             </Typography>
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {outline?.subtitles.map((sub) => {
+          {outline?.subtitles.map((sub, ind) => {
             return (
               <Stack ml={-2} direction="row">
                 <ListItemButton onClick={() => handleVidClick(sub)}>
-                  <Checkbox sx={{ mb: 3 }}></Checkbox>
+                  <Checkbox
+                    sx={{ mb: 3 }}
+                    onClick={(e) => handleCheck(e, ind)}
+                    checked={() => getChecked(ind)}
+                  ></Checkbox>
                   <Typography f display="block">
                     {sub.subtitle}
                     <br />
@@ -106,7 +149,8 @@ export default function AccordionSet({
                       color="grey"
                       display="block"
                     >
-                      <PlayCircleIcon fontSize="10"></PlayCircleIcon> 2mins{" "}
+                      <PlayCircleIcon fontSize="10"></PlayCircleIcon>{" "}
+                      {sub.minutes} mins
                     </Typography>
                   </Typography>
                 </ListItemButton>
