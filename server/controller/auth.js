@@ -3,6 +3,7 @@ import Instructor from "../models/instructor.js";
 import CorporateTrainee from "../models/corporateTrainee.js";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
+import Administrator from "../models/administrator.js";
 
 //Make function to return if it is same password or not
 async function checkPassword(password, hashedPassword) {
@@ -20,7 +21,20 @@ export const signin = async (req, res) => {
     if (!instructor) {
       const corporateTrainee = await CorporateTrainee.findOne({ email });
       if (!corporateTrainee) {
-        return res.status(404).json({ message: "User doesn't exist" });
+        const admin = await Administrator.findOne({ email });
+        if (!admin) {
+          return res.status(404).json({ message: "User doesn't exist" });
+        }
+        const isValidPassword = await checkPassword(password, admin.password);
+        if (!isValidPassword) {
+          return res.status(400).json({ message: "Invalid credentials" });
+        }
+        const token = await admin.generateAuthToken();
+        res.status(200).json({
+          result: admin,
+          type: "admin",
+          token: token,
+        });
       }
       const isValidPassword = checkPassword(
         password,
