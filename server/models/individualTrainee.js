@@ -104,7 +104,7 @@ const individualTraineeSchema = mongoose.Schema({
         },
       ],
       seenContent: [
-        { seen: Boolean, contentId: mongoose.Schema.Types.ObjectId },
+        { duration: Number, contentId: mongoose.Schema.Types.ObjectId },
       ],
     },
   ],
