@@ -79,9 +79,12 @@ export default function DropDownMenuProfile({ user }) {
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             variant="dot"
           >
-            <Avatar alt="Remy Sharp">{`${user?.result?.firstName.charAt(
-              0
-            )}${user?.result?.lastName.charAt(0)}`}</Avatar>
+             
+            {user?.type === "admin" ? 
+              <Avatar alt="Remy Sharp">{`${user?.result?.userName.charAt(0)}${user?.result?.userName.charAt(1)}`}</Avatar>  :
+              <Avatar alt="Remy Sharp">{`${user?.result?.firstName.charAt(0)}${user?.result?.lastName.charAt(0)}`}</Avatar>  
+            }
+            
           </StyledBadge>
         </IconButton>
       </Tooltip>

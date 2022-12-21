@@ -2,13 +2,15 @@ import Administrator from "../models/administrator.js";
 import { validate } from "../models/administrator.js"
 import CorporateTrainee from "../models/corporateTrainee.js";
 import Instructor from "../models/instructor.js";
+import bcrypt from "bcryptjs";
+
 
 // export const createAdministrator = async (req, res) => {
 //     const { error } = validate(req.body);
 //     if (error) return res.status(400).send(error.details[0].message);
 
 //     const {
-//         firstName,
+//         userName,
 //         lastName,
 //         email,
 //         password,
@@ -40,9 +42,12 @@ export const createAdministrator = async (req,res)=>{
       } = req.body;
     
       try {
+        
+        const hashPassword = await bcrypt.hash(password, 12);
+
         const administrator = await new Administrator({
           userName,
-          password,
+          password: hashPassword,
           email
         });
         await administrator.save();
@@ -52,6 +57,29 @@ export const createAdministrator = async (req,res)=>{
         res.status(401).send(error.message); 
       }
 }
+
+// export const createAdministrator = async (req, res) => {
+//     const { email, password, userName } = req.body;
+  
+//     const admin = await Administrator.findOne({ email });
+//     if (admin) {
+//       return res
+//         .status(400)
+//         .json({ message: "Admin with this email already exists" });
+//     }
+//     const hashPassword = await bcrypt.hash(password, 12);
+//     const newAdmin = await Administrator.create({
+//       email,
+//       password: hashPassword,
+//       userName,
+//     });
+//     const token = await newAdmin.generateAuthToken();
+//     res.status(200).json({
+//       result: newAdmin,
+//       type: "admin",
+//       token: token,
+//     });
+//   };
 
 export const getAdministrators = async (_req, res) => {
     console.log("I am in the admin controller")
