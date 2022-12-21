@@ -1,13 +1,14 @@
-import { FETCH_CURRENCY_RATES} from "../constants/currencyRates";
+import { FETCH_CURRENCY_RATES, START_LOADING, END_LOADING } from "../constants/currencyRates";
 
-export default (currencyRates = [], action) => {
-    console.log("Iam here in the currency reducer");
+export default (state = {isLoading: true, currencyRates : []}, action) => {
     switch (action.type) {
+        case START_LOADING:
+            return { ...state, isLoading: true };
+        case END_LOADING:
+            return { ...state, isLoading: false };
         case FETCH_CURRENCY_RATES:
-            console.log(action.payload)
-            
-            return action.payload;
+            return { ...state, currencyRates: action.payload };
         default:
-            return currencyRates;
+            return state;
     }
 };
