@@ -5,6 +5,7 @@ import instructors from "./instructor";
 import currencyRates from "./currencyRates";
 import selectedCountry from "./selectedCountry";
 import individualTrainee from "./individualTrainee";
+import requests from "./requests";
 import authReducer from "./auth";
 import { combineReducers } from "redux";
 
@@ -17,4 +18,6 @@ export default combineReducers({
   selectedCountry,
   individualTrainee,
   authReducer,
+  requests,
+
 });

@@ -160,9 +160,9 @@ export const SimpleSlider = () => {
                     ></Rating>
                     <p style={{ alignSelf: "center" }}>n5332</p>
                   </Stack>
-                  <Typography variant="body1" fontWeight="bold">
+                  {/* <Typography variant="body1" fontWeight="bold">
                     {getRate(selectedCountry, course.price, rates)}
-                  </Typography>
+                  </Typography> */}
                 </CardContent>
                 <CardActions>
                   <Button
