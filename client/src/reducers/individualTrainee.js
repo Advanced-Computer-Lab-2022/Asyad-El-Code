@@ -11,6 +11,7 @@ export default (individualTrainee = {}, action) => {
       return action.payload;
     case UPDATE_TRAINEE:
       return action.payload;
+
     default:
       return individualTrainee;
   }

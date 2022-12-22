@@ -91,6 +91,7 @@ const contentInitialForm = {
   subtitle: "",
   minutes: 0,
   videoUrl: "",
+  _id: "",
 };
 const exerciseInitialForm = [
   { question: "", answers: [{ answer: "", correct: false }] },
@@ -165,7 +166,7 @@ export default function CourseContents() {
   const handleVideoClick = (subtitle) => {
     const url = subtitle.videoUrl;
     const videoId = url.split("/").pop();
-    const content = { ...subtitle, videoUrl: videoId };
+    const content = { ...subtitle, videoUrl: videoId, _id: subtitle._id };
     setContent(content);
     setExercise(exerciseInitialForm);
     setShowVideoContent(true);

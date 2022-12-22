@@ -10,6 +10,7 @@ import { Grid, Link } from "@mui/material";
 import useStyles from "../../css/course";
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
+import { payCourse } from "../../api/individualTrainees";
 
 import { useHistory } from "react-router-dom";
 export default function CourseCard({ isCourseInUserCourses, course }) {
@@ -20,6 +21,15 @@ export default function CourseCard({ isCourseInUserCourses, course }) {
     fontSize: 12,
   });
   console.log("IS HERE COURSE ? : ", isCourseInUserCourses);
+
+  const payForCourse = async () => {
+    try {
+      const { data } = await payCourse(course);
+      window.location = data.url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Card sx={{ width: 345 }}>
       <CardMedia
@@ -60,6 +70,7 @@ export default function CourseCard({ isCourseInUserCourses, course }) {
                   backgroundColor: "#2F2B2E",
                 }}
                 variant="contained"
+                onClick={payForCourse}
               >
                 {" "}
                 {/* TODO Checking if he has the course */}

@@ -16,6 +16,7 @@ import {
   FormHelperText,
   Alert,
   AlertTitle,
+  CircularProgress,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useState } from "react";
@@ -331,8 +332,9 @@ export default function RegisterTabs() {
                       color="error"
                       variant="contained"
                     >
-                      Sign in
+                      Sign in{"   "}
                     </Button>
+
                     <Button
                       // color="#FFFFF"
                       sx={{ color: "#000000" }}
