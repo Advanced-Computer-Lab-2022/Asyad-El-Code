@@ -22,6 +22,7 @@ import { ConfirmPassword } from "./components/Auth/SendEmail";
 import { createTheme, ThemeProvider } from "@mui/material";
 import PersistentDrawerLeft from "./components/Course/CourseContents";
 import Testo from "./components/Trainee/test";
+import { SuccessPage } from "./components/Trainee/SuccessPage";
 const theme = createTheme({
   palette: {
     primary: {
@@ -80,6 +81,9 @@ export const App = () => {
               </Route>
               <Route exact path="/ta">
                 <Testo></Testo>
+              </Route>
+              <Route exact path="/success/:courseId">
+                <SuccessPage></SuccessPage>
               </Route>
 
               <Route exact path="/instructorProfile">

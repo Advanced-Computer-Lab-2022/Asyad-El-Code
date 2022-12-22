@@ -26,7 +26,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTrainee } from "../../actions/individualTrainees";
 import image from "../../images/point.png";
 import { useHistory } from "react-router-dom";
-import { getCourse } from "../../actions/courses.js";
+import { getCourse, getCourses } from "../../actions/courses.js";
+import { getAllInstructorCourses } from "../../actions/instructor.js";
 
 const bull = (
   <Box
@@ -48,9 +49,12 @@ const MyCourses = () => {
 
   useEffect(() => {
     dispatch(getTrainee());
+    dispatch(getCourses());
   }, []);
 
   const handleClick = (courseTitle, courseId) => {
+    console.log("THE COURSE ID IS ", courseId);
+    console.log("THE COURSE TITLE IS ", courseTitle);
     dispatch(getCourse(courseId, history, courseTitle));
   };
 
@@ -71,7 +75,7 @@ const MyCourses = () => {
       >
         {courses.map((course, index) => {
           return (
-            <Grid item xs={3}>
+            <Grid key={index} item xs={3}>
               <Card
                 onClick={() => handleClick(course.title, course._id)}
                 sx={{ width: 300, height: 250 }}

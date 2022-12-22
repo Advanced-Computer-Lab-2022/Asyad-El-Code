@@ -68,3 +68,11 @@ export const getNotes = async (userId, courseId, lectureId) =>
 // //TODO
 // export const getAllNotes = async (lectureId, courseId) =>
 //   await API.get(`/getAllNotes?lectureId=${lectureId}&courseId=${courseId}`);
+
+export const enrollCourse = async (courseId, individualTraineeId) =>
+  await API.post(
+    `/enrollCourse?courseId=${courseId}&id=${individualTraineeId}`
+  );
+
+export const payCourse = async (courses) =>
+  await API.post(`/payCourse`, courses);

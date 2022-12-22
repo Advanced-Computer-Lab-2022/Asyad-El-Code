@@ -47,6 +47,7 @@ router.get("/getPdf", (req, res) => {
 router.get("/getNotes", getNotes);
 //TODO
 // router.get("/getAllNotes",getAllNotes);
-router.post("/checkout", payCourse);
+router.post("/enrollCourse", enrollCourse);
+router.post("/payCourse", payCourse);
 
 export default router;

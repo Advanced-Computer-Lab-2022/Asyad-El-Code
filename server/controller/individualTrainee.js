@@ -126,7 +126,7 @@ export const selectCountry = async (req, res) => {
 };
 export const enrollCourse = async (req, res) => {
   try {
-    const { id, courseId } = req.body;
+    const { id, courseId } = req.query;
     const courseIdCasted = await mongoose.Types.ObjectId(courseId);
     const idCasted = await mongoose.Types.ObjectId(id);
     console.log(id);
@@ -315,14 +315,14 @@ export const payCourse = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: "http://localhost:3000/success",
+      success_url: `http://localhost:3000/success/${courses[0]._id}`,
       cancel_url: "http://localhost:3000/cancel",
       line_items: courses.map((course) => {
         return {
           price_data: {
             currency: "usd",
             product_data: {
-              name: course.name,
+              name: course.title,
             },
             unit_amount: course.price * 100,
           },
