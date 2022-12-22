@@ -15,14 +15,18 @@ import {
   Box,
   Grid,
   Container,
+  Paper,
+  CardActionArea,
 } from "@mui/material";
 import useStyles from "../../css/slider.js";
 import { Stack } from "@mui/system";
 import { useRef } from "react";
 import "../../css/card.css";
-import image from "../../images/course.jpeg";
 import { useDispatch, useSelector } from "react-redux";
 import { getTrainee } from "../../actions/individualTrainees";
+import image from "../../images/point.png";
+import { useHistory } from "react-router-dom";
+import { getCourse } from "../../actions/courses.js";
 
 const bull = (
   <Box
@@ -40,26 +44,84 @@ const MyCourses = () => {
   const courses = trainee.courses;
   console.log(courses);
   console.log("OH MYG ODD ", trainee);
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getTrainee());
   }, []);
 
+  const handleClick = (courseTitle, courseId) => {
+    dispatch(getCourse(courseId, history, courseTitle));
+  };
+
   return (
-    <Container style={{ backgroundColor: "aqua", marginTop: 150 }}>
-      <Grid container>
-        <Grid item xs={12} md={6}>
-          <h1>Helloworld</h1>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <h1>Helloworld</h1>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <h1>Helloworld</h1>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <h1>Helloworld</h1>
-        </Grid>
+    <Container>
+      <Typography mt={10} gutterBottom fontWeight="bold" variant="h3">
+        My courses
+      </Typography>
+      <Grid
+        mt={10}
+        style={{ backgroundColor: "#F4F7F8" }}
+        container
+        diection="column"
+        justifyContent="center"
+        alignItems="center"
+        rowGap={3}
+        columnGap={3}
+      >
+        {courses.map((course, index) => {
+          return (
+            <Grid item xs={3}>
+              <Card
+                onClick={() => handleClick(course.title, course._id)}
+                sx={{ width: 300, height: 250 }}
+              >
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={image}
+                    alt="green iguana"
+                  />
+                  <CardContent>
+                    <Typography
+                      fontWeight="bold"
+                      gutterBottom
+                      variant="body1"
+                      component="div"
+                    >
+                      {course.title}
+                    </Typography>
+                    <Typography
+                      gutterBottom
+                      variant="body2"
+                      color="text.secondary"
+                    >
+                      Dr.Walter
+                      {/* It should be the instructor name !!! */}
+                    </Typography>
+                    <Stack mb={2} spacing={1} direction="row">
+                      <Rating
+                        style={{ alignSelf: "center", marginLeft: -5 }}
+                        name="read-only"
+                        value={parseInt(course.rating)}
+                        readOnly
+                      />
+                      <Typography
+                        gutterBottom
+                        variant="body2"
+                        color="text.secondary"
+                      >
+                        {course.rating}
+                      </Typography>
+                      {/* Price */}
+                    </Stack>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          );
+        })}
       </Grid>
     </Container>
 

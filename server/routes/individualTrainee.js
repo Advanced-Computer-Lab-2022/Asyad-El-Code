@@ -11,6 +11,7 @@ import {
   addNote,
   createPdf,
   getNotes,
+  payCourse,
 } from "../controller/individualTrainee.js";
 const router = express.Router();
 import pdf from "html-pdf";
@@ -46,5 +47,6 @@ router.get("/getPdf", (req, res) => {
 router.get("/getNotes", getNotes);
 //TODO
 // router.get("/getAllNotes",getAllNotes);
+router.post("/checkout", payCourse);
 
 export default router;

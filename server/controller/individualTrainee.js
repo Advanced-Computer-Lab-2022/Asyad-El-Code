@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import IndividualTrainee, { validate } from "../models/individualTrainee.js";
 import Course from "../models/course.js";
 import pdf from "html-pdf";
+import Stripe from "stripe";
+import "dotenv/config";
+
+const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
 export const createIndvidualTrainee = async (req, res) => {
   const { error } = validate(req.body);
@@ -302,4 +306,33 @@ export const getNotes = async (req, res) => {
     res.status(401).json({ error: error.message });
   }
 };
-//TODO gettingAllNotesOfthecourse
+
+export const payCourse = async (req, res) => {
+  try {
+    console.log("PAY" + req.body);
+    const courses = [req.body];
+    console.log("COURSES", courses);
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      success_url: "http://localhost:3000/success",
+      cancel_url: "http://localhost:3000/cancel",
+      line_items: courses.map((course) => {
+        return {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: course.name,
+            },
+            unit_amount: course.price * 100,
+          },
+          quantity: courses.length,
+        };
+      }),
+    });
+
+    res.send({ url: session.url });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
