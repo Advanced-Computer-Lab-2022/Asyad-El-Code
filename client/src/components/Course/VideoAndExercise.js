@@ -37,6 +37,7 @@ export const VideoAndExercise = ({
   const [total, setTotal] = useState(0);
   const [showGrade, setShowGrade] = useState(false);
   const [playedMinutes, setPlayedMinutes] = useState(0);
+
   const { classes } = useStyles();
 
   const handleChange = (index, ind) => {
@@ -109,7 +110,9 @@ export const VideoAndExercise = ({
               <ReactPlayer
                 width="100%"
                 onProgress={(state) => {
+
                   setPlayedMinutes((state.playedSeconds / 60).toFixed(2) - 0.1);
+
                 }}
                 url={`https://www.youtube.com/embed/${content.videoUrl}`}
                 height="500px"

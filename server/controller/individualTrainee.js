@@ -209,19 +209,26 @@ export const addGrade = async (req, res) => {
 
 export const addSeenContent = async (req, res) => {
   try {
-    const { individualTraineeId, courseId, outlineId } = req.query;
+    const { individualTraineeId, courseId, outlineId, minutes } = req.query;
     const user = await IndividualTrainee.findById(individualTraineeId);
     const course = user.courses.find((course) => course._id == courseId);
-    const test = true;
-    course.seenContent.push({ test, _id: outlineId });
-    const updatedUser = await IndividualTrainee.findByIdAndUpdate(
-      individualTraineeId,
-      { courses: user.courses },
-      { new: true }
+    //check if already exists
+    const seenContent = course.seenContent.find(
+      (seenContent) => seenContent._id == outlineId
     );
-    if (!updatedUser) {
-      res.status(401).send("Couldn't add seen content");
-    } else res.status(200).send(updatedUser);
+    if (!seenContent) {
+      course.seenContent.push({ duration: minutes, _id: outlineId });
+      const updatedUser = await IndividualTrainee.findByIdAndUpdate(
+        individualTraineeId,
+        { courses: user.courses },
+        { new: true }
+      );
+      if (!updatedUser) {
+        res.status(401).send("Couldn't add seen content");
+      } else res.status(200).send(updatedUser);
+    } else {
+      res.status(200).send("Already exists");
+    }
   } catch (error) {
     res.status(401).json({ error: error.message });
   }

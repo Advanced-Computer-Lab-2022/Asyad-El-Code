@@ -39,10 +39,11 @@ export const getTrainee = async (id) => {
 export const addSeenContent = async (
   individualTraineeId,
   courseId,
-  outlineId
+  outlineId,
+  minutes
 ) =>
   await API.post(
-    `/addSeenContent?individualTraineeId=${individualTraineeId}&courseId=${courseId}&outlineId=${outlineId}`
+    `/addSeenContent?individualTraineeId=${individualTraineeId}&courseId=${courseId}&outlineId=${outlineId}&minutes=${minutes}`
   );
 
 export const addNote = async (
