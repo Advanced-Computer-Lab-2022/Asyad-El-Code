@@ -11,6 +11,7 @@ import administratorRoutes from "./routes/administrator.js";
 
 import corporateRoutes from "./routes/corporateTrainee.js";
 import userRoutes from "./routes/userRoutes.js";
+import reportedProblems from "./routes/reportedProblems.js";
 
 const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -23,6 +24,7 @@ app.use("/individualTrainee", indvidualRoutes);
 app.use("/administrator", administratorRoutes);
 app.use("/corporateTrainee", corporateRoutes);
 app.use("/users", userRoutes);
+app.use("/reportedProblems", reportedProblems);
 
 const port = process.env.PORT || 8000;
 const MONGO_URI = process.env.MONGO_URI;
