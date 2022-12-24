@@ -8,6 +8,17 @@ export const reportedProblemsSchema = mongoose.Schema({
         required: true
     },
 
+    courseId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+        required: true
+    },
+
+    courseName: {
+        type: String,
+        required: true
+    },
+
     type: {
         type: String,
         required: true
@@ -35,7 +46,9 @@ export function validate(user) {
         type: Joi.string().required(),
         details: Joi.string().required(),
         status: Joi.string(),
-        date: Joi.date()
+        date: Joi.date(),
+        courseId: Joi.string().required(),
+        courseName: Joi.string().required()
     });
     return schema.validate(user);
 }

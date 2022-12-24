@@ -5,11 +5,13 @@ import { validate } from "../models/reportedProblems.js";
 export const createReportedProblem = async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
-    const { reporterEmail, type, details } = req.body;
+    const { reporterEmail,courseId, courseName, type, details } = req.body;
 
     try {
         const reportedProblem = await new ReportedProblems({
             reporterEmail: reporterEmail,
+            courseId: courseId,
+            courseName: courseName,
             type: type,
             details: details,
         });
@@ -17,7 +19,7 @@ export const createReportedProblem = async (req, res) => {
         await reportedProblem.save();
         res.status(200).json(reportedProblem);
     } catch (error) {
-        res.status(401).send({ error: err.message }); 
+        res.status(401).send({ error: error.message }); 
     }
 }
 
