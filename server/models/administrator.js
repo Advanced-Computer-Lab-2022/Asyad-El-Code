@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Joi from "joi";
 import { reportedProblemsSchema } from "./reportedProblems.js";
+import jwt from "jsonwebtoken";
 
 const administratorSchema = new mongoose.Schema({
   firstName: {
