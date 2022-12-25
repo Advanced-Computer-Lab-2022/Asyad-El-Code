@@ -79,9 +79,10 @@ export default function DropDownMenuProfile({ user }) {
             variant="dot"
           >
 
-            {user?.type === "admin" ?
-              <Avatar alt="Remy Sharp">{`${user?.result?.userName.charAt(0)}${user?.result?.userName.charAt(1)}`}</Avatar> :
-              <Avatar alt="Remy Sharp">{`${user?.result?.firstName.charAt(0)}${user?.result?.lastName.charAt(0)}`}</Avatar>
+            {user?.type === "individualTrainee" ?
+              <Avatar alt="Remy Sharp">{`${user?.result?.firstName.charAt(0)}${user?.result?.lastName.charAt(0)}`}</Avatar> :
+              <Avatar alt="Remy Sharp">{`${user?.result?.userName.charAt(0)}${user?.result?.userName.charAt(1)}`}</Avatar> 
+              
             }
 
           </StyledBadge>
