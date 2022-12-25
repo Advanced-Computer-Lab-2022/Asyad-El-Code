@@ -13,6 +13,7 @@ import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
 import { useHistory } from "react-router-dom";
 import RuleFolderIcon from '@mui/icons-material/RuleFolder';
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -77,12 +78,12 @@ export default function DropDownMenuProfile({ user }) {
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             variant="dot"
           >
-             
-            {user?.type === "admin" ? 
-              <Avatar alt="Remy Sharp">{`${user?.result?.userName.charAt(0)}${user?.result?.userName.charAt(1)}`}</Avatar>  :
-              <Avatar alt="Remy Sharp">{`${user?.result?.firstName.charAt(0)}${user?.result?.lastName.charAt(0)}`}</Avatar>  
+
+            {user?.type === "admin" ?
+              <Avatar alt="Remy Sharp">{`${user?.result?.userName.charAt(0)}${user?.result?.userName.charAt(1)}`}</Avatar> :
+              <Avatar alt="Remy Sharp">{`${user?.result?.firstName.charAt(0)}${user?.result?.lastName.charAt(0)}`}</Avatar>
             }
-            
+
           </StyledBadge>
         </IconButton>
       </Tooltip>
@@ -129,13 +130,22 @@ export default function DropDownMenuProfile({ user }) {
         </MenuItem>
         <Divider />
         {
-          user?.type === "admin" ? 
-          <MenuItem onClick={() => history.push("/courseRequests")}>
-            <ListItemIcon>
-              <RuleFolderIcon fontSize="small" />
-            </ListItemIcon>
-             Requests
-          </MenuItem> : null
+          user?.type === "admin" ?
+            <MenuItem onClick={() => history.push("/courseRequests")}>
+              <ListItemIcon>
+                <RuleFolderIcon fontSize="small" />
+              </ListItemIcon>
+              Requests
+            </MenuItem> : null
+        }
+        {
+          user?.type === "admin" ?
+            <MenuItem onClick={() => history.push("/reportedProblems")}>
+              <ListItemIcon>
+                <ReportProblemIcon fontSize="small" />
+              </ListItemIcon>
+              Reported Problems
+            </MenuItem> : null
         }
         <MenuItem>
           <ListItemIcon>

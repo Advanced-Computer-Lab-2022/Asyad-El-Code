@@ -51,22 +51,17 @@ export const getReportedProblem = async (req, res) => {
 }
 
 export const updateReportedProblem = async (req, res) => {
-    const { error } = validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-    const { reporterEmail, type, details, status } = req.body;
-
+    const { response, status } = req.body;
+    const castedId = mongoose.Types.ObjectId(req.params.id);
     try {
         const reportedProblem = await ReportedProblems.findByIdAndUpdate(
-            req.params.id,
+            castedId,
             {
-                reporterEmail: reporterEmail,
-                type: type,
-                details: details,
                 status: status,
+                response: response,
             },
             { new: true }
         );
-
         res.status(200).json(reportedProblem);
     } catch (error) {
         res.status(401).send({ error: err.message });

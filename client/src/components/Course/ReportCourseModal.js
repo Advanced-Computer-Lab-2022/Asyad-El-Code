@@ -126,9 +126,9 @@ export default function AdminModal(props) {
                         label="Type"
                         required
                     >
-                        <MenuItem value="technical">Technical issue</MenuItem>
-                        <MenuItem value="content">Content issue</MenuItem>
-                        <MenuItem value="other">Other</MenuItem>
+                        <MenuItem value="Technical">Technical issue</MenuItem>
+                        <MenuItem value="Content">Content issue</MenuItem>
+                        <MenuItem value="Other">Other</MenuItem>
                     </Select>
                 </FormControl>
                 <TextField

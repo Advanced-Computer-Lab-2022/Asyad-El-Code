@@ -101,7 +101,7 @@ const CourseRequests = () => {
                                             {request?.userName} has requested to take {request?.courseName}
                                         </Typography>
                                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                            {request?.date?.substring(0, 10)  + ",     " + request?.date?.substring(11, 16)}
+                                            {request?.date?.substring(0, 10)  + ",     " + request?.date?.substring(11, 16) + " GMT"}
                                         </Typography>
                                         <Typography variant="body2">
                                             {request?.request}

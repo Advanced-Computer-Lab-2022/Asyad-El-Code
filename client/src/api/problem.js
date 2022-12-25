@@ -14,3 +14,6 @@ API.interceptors.request.use((req) => {
 export const reportProblem = async (problem) => await API.post(`/`, problem);
 
 export const getAllProblems = async () => await API.get(`/`);
+
+export const updateProblem = async (id, problem) =>
+  await API.put(`/${id}`, problem);
