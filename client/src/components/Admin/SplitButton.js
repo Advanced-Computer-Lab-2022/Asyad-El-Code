@@ -23,13 +23,13 @@ export default function SplitButton(props) {
         console.log(`You clicked ${options[selectedIndex]}`);
         console.log("YOUR RESPONSE IS : ", props.response);
         const problem = {
+            reporterEmail: props.problem.reporterEmail,
+            courseId: props.problem.courseId,
+            courseName: props.problem.courseName,
+            type: props.problem.type,
+            details: props.problem.details,
             status: options[selectedIndex],
             response: props.problem.response,
-            courseName: props.problem.courseName,
-            reporterEmail: props.problem.reporterEmail,
-            details: props.problem.details,
-            courseId: props.problem.courseId,
-            type: props.problem.type,
         }
         dispatch(updateProblem(props.problem._id, problem));
     };

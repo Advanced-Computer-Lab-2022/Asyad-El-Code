@@ -3,16 +3,23 @@ import React from 'react';
 import SplitButton from './SplitButton';
 
 const ReportedProblems = (props) => {
-    const reportedProblems = props.reportedProblems;
+    const [reportedProblems, setReportedProblems] = React.useState(props.reportedProblems);
 
 
 
     const onChange = (e) => {
-        reportedProblems.map((problem) => {
+        // reportedProblems.map((problem) => {
+        //     if (problem._id === e.target.id) {
+        //         setReportedProblems(reportedProblems.map((problem) => {
+
+        //     }
+        // })
+        setReportedProblems(reportedProblems.map((problem) => {
             if (problem._id === e.target.id) {
                 problem.response = e.target.value;
             }
-        })
+            return problem;
+        }));
         console.log(e.target.value);
         console.log(reportedProblems);
     }
@@ -56,7 +63,7 @@ const ReportedProblems = (props) => {
                                     rows={3}
                                     variant="outlined"
                                     sx={{ width: '100%', marginTop: 2, marginBottom: 1 }}
-                                    value={problem?.response}
+                                    value={problem.response}
                                     onChange={onChange}
                                 >
                                 </TextField>
