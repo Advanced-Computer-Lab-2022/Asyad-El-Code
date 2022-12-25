@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState, useRef } from "react";
 import {
   Button,
   Card,
@@ -19,13 +19,15 @@ import { getRate } from "../util.js";
 export const CoursesGrid = () => {
   const [detailsBox, setDetailsBox] = useState(false);
   const [title, setTitle] = useState("");
-  const courses = useSelector((c) => c.courses);
+  const { isLoading, courses } = useSelector((c) => c.courses);
   const selectedCountry = useSelector((c) => c.selectedCountry);
   const rates = useSelector((c) => c.currencyRates);
   const handleClick = () => {
     console.log("CLICKED");
   };
   const { classes } = useStyles();
+  const cardRef = useRef();
+  const cardHeight = cardRef.current ? cardRef.current.offsetHeight : 0;
   return (
     <Container maxWidth="md" sx={{ backgroundColor: "#F2F0EF" }}>
       <Grid container spacing={2} marginTop="20px" justifyContent={"center"}>
@@ -33,6 +35,7 @@ export const CoursesGrid = () => {
           return (
             <Grid item xs={4}>
               <Card
+                ref={cardRef}
                 onClick={handleClick}
                 elevation={0}
                 className={classes.cardGrid}

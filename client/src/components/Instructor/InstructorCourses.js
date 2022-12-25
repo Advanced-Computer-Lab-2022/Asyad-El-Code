@@ -8,10 +8,6 @@ import { FilterBar } from "../ViewAllCoursesPage/FilterBar";
 import { CoursesGrid } from "../ViewAllCoursesPage/CoursesGrid";
 import { Typography } from "@mui/material";
 
-
-
-
-
 export const InstructorCourses = () => {
   const dispatch = useDispatch();
   useEffect(() => {

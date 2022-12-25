@@ -21,6 +21,8 @@ import SplashScreen from "./components/Splash/test.js";
 import { ConfirmPassword } from "./components/Auth/SendEmail";
 import { createTheme, ThemeProvider } from "@mui/material";
 import PersistentDrawerLeft from "./components/Course/CourseContents";
+import Testo from "./components/Trainee/test";
+import { SuccessPage } from "./components/Trainee/SuccessPage";
 import CourseRequests from "./components/Admin/CourseRequest";
 import Problems from "./components/Admin/Problems";
 
@@ -80,6 +82,12 @@ export const App = () => {
               </Route>
               <Route exact path="/profile">
                 <Profile></Profile>
+              </Route>
+              <Route exact path="/ta">
+                <Testo></Testo>
+              </Route>
+              <Route exact path="/success/:courseId">
+                <SuccessPage></SuccessPage>
               </Route>
 
               <Route exact path="/instructorProfile">
