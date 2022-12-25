@@ -38,7 +38,8 @@ export default function CourseCard({ isCourseInUserCourses, course }) {
     <Card sx={{ width: 345 }}>
       <CardMedia
         component="iframe"
-        image="https://www.youtube.com/embed/Ro26B394ZBM"
+        image="https://www.youtube.com/embed/TpWqNqNv2AQ"
+        title="YouTube video player"
         controls
         alt="green iguana"
         sx={{ width: "100%", height: "230px" }}

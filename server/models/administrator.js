@@ -4,7 +4,6 @@ import Joi from "joi";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 import { reportedProblemsSchema } from "./reportedProblems.js";
-import jwt from "jsonwebtoken";
 
 const administratorSchema = new mongoose.Schema({
   firstName: {
