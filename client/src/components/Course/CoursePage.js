@@ -21,6 +21,7 @@ import ReportCourseModal from "./ReportCourseModal";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getTrainee } from "../../actions/individualTrainees";
+import { getAllProblems } from "../../actions/reportedProblems";
 
 export const CoursePage = () => {
   const { isLoading, courses } = useSelector((state) => state.courses);
@@ -41,6 +42,7 @@ export const CoursePage = () => {
   console.log("Iam the user", user);
   useEffect(() => {
     dispatch(getTrainee());
+    dispatch(getAllProblems());
   }, []);
   const [reportCourseModal, setReportCourseModal] = useState(false);
   const handleCloseReportCourseModal = () => {
@@ -56,6 +58,9 @@ export const CoursePage = () => {
   );
 
   console.log("Iam the isCourseInUserCourses", isCourseInUserCourses);
+
+  const reportedProblems = useSelector((state) => state?.reportedProblems);
+  console.log("The reported problems are", reportedProblems);
 
   return (
     <>

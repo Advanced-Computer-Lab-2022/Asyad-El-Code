@@ -31,7 +31,12 @@ export const reportedProblemsSchema = mongoose.Schema({
 
     status: {
         type: String,
-        default: "pending"
+        default: "reported"
+    },
+
+    response: {
+        type: String,
+        default: "No response yet"
     },
 
     date: {
