@@ -2,14 +2,43 @@ import mongoose from 'mongoose'
 import Joi from 'joi'
 
 export const reportedProblemsSchema = mongoose.Schema({
-    problem: {
+
+    reporterEmail: {
         type: String,
         required: true
     },
-    reporter: {
+
+    courseId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+        required: true
+    },
+
+    courseName: {
         type: String,
         required: true
     },
+
+    type: {
+        type: String,
+        required: true
+    },
+
+    details: {
+        type: String,
+        required: true
+    },
+
+    status: {
+        type: String,
+        default: "reported"
+    },
+
+    response: {
+        type: String,
+        default: "No response yet"
+    },
+
     date: {
         type: Date,
         default: Date.now
@@ -18,9 +47,13 @@ export const reportedProblemsSchema = mongoose.Schema({
 
 export function validate(user) {
     const schema = Joi.object({
-        problem: Joi.string().required(),
-        reporter: Joi.string().required(),
-        date: Joi.date()
+        reporterEmail: Joi.string().required(),
+        type: Joi.string().required(),
+        details: Joi.string().required(),
+        status: Joi.string(),
+        date: Joi.date(),
+        courseId: Joi.string().required(),
+        courseName: Joi.string().required()
     });
     return schema.validate(user);
 }

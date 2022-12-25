@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import MenuAppBar from "./components/Navbar/Navbar";
 import Home from "./components/HomePage/Home";
@@ -23,6 +23,9 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import PersistentDrawerLeft from "./components/Course/CourseContents";
 import Testo from "./components/Trainee/test";
 import { SuccessPage } from "./components/Trainee/SuccessPage";
+import CourseRequests from "./components/Admin/CourseRequest";
+import Problems from "./components/Admin/Problems";
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -34,6 +37,7 @@ const theme = createTheme({
   },
 });
 export const App = () => {
+
   return (
     <ThemeProvider theme={theme}>
       <ScrollToTop>
@@ -88,6 +92,14 @@ export const App = () => {
 
               <Route exact path="/instructorProfile">
                 <InstructorProfile></InstructorProfile>
+              </Route>
+
+              <Route exact path="/courseRequests">
+                <CourseRequests></CourseRequests>
+              </Route>
+
+              <Route exact path="/reportedProblems">
+                <Problems></Problems>
               </Route>
             </Switch>
           </Route>

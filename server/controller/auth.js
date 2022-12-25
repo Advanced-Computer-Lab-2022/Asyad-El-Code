@@ -22,6 +22,7 @@ export const signin = async (req, res) => {
       const corporateTrainee = await CorporateTrainee.findOne({ email });
       if (!corporateTrainee) {
         const admin = await Administrator.findOne({ email });
+        console.log("THIS IS THE ADMIN", admin);
         if (!admin) {
           return res.status(404).json({ message: "User doesn't exist" });
         }
@@ -30,12 +31,14 @@ export const signin = async (req, res) => {
           return res.status(400).json({ message: "Invalid credentials" });
         }
         const token = await admin.generateAuthToken();
-        res.status(200).json({
+        console.log("THIS IS THE TOKEN", token);
+        return res.status(200).json({
           result: admin,
           type: "admin",
           token: token,
         });
       }
+      console.log("THIS IS THE CORPORATE TRAINNEE", corporateTrainee);
       const isValidPassword = checkPassword(
         password,
         corporateTrainee.password

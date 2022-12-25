@@ -1,5 +1,8 @@
 import getRates from "../api/currencyRates";
-import {GET_SELECTED_COUNTRY, CHANGE_SELECTED_COUNTRY } from "../constants/currencyRates";
+import {
+  GET_SELECTED_COUNTRY, CHANGE_SELECTED_COUNTRY, START_LOADING,
+  END_LOADING
+} from "../constants/currencyRates";
 
 export const getSelectedCountry = () => async (dispatch) => {
   try {
@@ -11,10 +14,10 @@ export const getSelectedCountry = () => async (dispatch) => {
 };
 
 export const changeSelectedCountry = (country) => async (dispatch) => {
-    try {
-        
-      dispatch({ type: CHANGE_SELECTED_COUNTRY, payload: country });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  try {
+
+    dispatch({ type: CHANGE_SELECTED_COUNTRY, payload: country });
+  } catch (error) {
+    console.log(error);
+  }
+};
