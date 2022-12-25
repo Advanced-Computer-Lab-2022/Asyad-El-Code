@@ -1,20 +1,18 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
-import Stack from "@mui/material/Stack";
 import { useHistory } from "react-router-dom";
+import RuleFolderIcon from '@mui/icons-material/RuleFolder';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -79,9 +77,12 @@ export default function DropDownMenuProfile({ user }) {
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             variant="dot"
           >
-            <Avatar alt="Remy Sharp">{`${user?.result?.firstName.charAt(
-              0
-            )}${user?.result?.lastName.charAt(0)}`}</Avatar>
+             
+            {user?.type === "admin" ? 
+              <Avatar alt="Remy Sharp">{`${user?.result?.userName.charAt(0)}${user?.result?.userName.charAt(1)}`}</Avatar>  :
+              <Avatar alt="Remy Sharp">{`${user?.result?.firstName.charAt(0)}${user?.result?.lastName.charAt(0)}`}</Avatar>  
+            }
+            
           </StyledBadge>
         </IconButton>
       </Tooltip>
@@ -127,6 +128,15 @@ export default function DropDownMenuProfile({ user }) {
           <Avatar /> My account
         </MenuItem>
         <Divider />
+        {
+          user?.type === "admin" ? 
+          <MenuItem onClick={() => history.push("/courseRequests")}>
+            <ListItemIcon>
+              <RuleFolderIcon fontSize="small" />
+            </ListItemIcon>
+             Requests
+          </MenuItem> : null
+        }
         <MenuItem>
           <ListItemIcon>
             <PersonAdd fontSize="small" />

@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 import CorporateTrainee from "../models/corporateTrainee.js";
 import Course from "../models/course.js";
+import CourseRequests from "../models/courseRequests.js";
 import { validate } from "../models/corporateTrainee.js";
+
 
 export const createCorporateTrainee = async (req, res) => {
   const { error } = validate(req.body);
@@ -44,6 +46,28 @@ export const createCorporateTrainee = async (req, res) => {
     });
     await corporatetrainee.save();
     res.status(200).json(corporatetrainee);
+  } catch (error) {
+    res.status(401).send(error.message);
+  }
+};
+
+// create a course request
+export const createCourseRequest = async (req, res) => {
+  const { courseId, courseName, userId, userName, email, request } = req.body;
+
+  try {
+    const courseRequest = await new CourseRequests({
+      courseId: courseId,
+      courseName: courseName,
+      userId: userId,
+      userName: userName,
+      email: email,
+      request: request,
+      date: Date.now(),
+    });
+    await courseRequest.save();
+    res.status(200).json(courseRequest);
+
   } catch (error) {
     res.status(401).send(error.message);
   }

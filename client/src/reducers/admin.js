@@ -1,4 +1,4 @@
-import { FETCH_ALL,ADD_ADMIN } from "../constants/admins";
+import { FETCH_ALL, ADD_ADMIN } from "../constants/admins";
 
 export default (admins = [], action) => {
   console.log("Iam here in the admin reducer");
