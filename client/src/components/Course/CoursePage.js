@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getTrainee } from "../../actions/individualTrainees";
 import { getAllProblems } from "../../actions/reportedProblems";
+import { getCorporate } from "../../actions/corporate";
 
 export const CoursePage = () => {
   const { isLoading, courses } = useSelector((state) => state.courses);
@@ -39,25 +40,55 @@ export const CoursePage = () => {
     color: "white",
   });
   const user = JSON.parse(localStorage.getItem("profile"));
+  const [traineeType, setTraineeType] = useState(user?.type);
+  console.log("Iam the traineeType", traineeType);
   console.log("Iam the user", user);
   useEffect(() => {
-    dispatch(getTrainee());
+    if (traineeType === "corporateTrainee") {
+      dispatch(getCorporate());
+    } else {
+      dispatch(getTrainee());
+    }
     dispatch(getAllProblems());
   }, []);
+
+
   const [reportCourseModal, setReportCourseModal] = useState(false);
   const handleCloseReportCourseModal = () => {
     setReportCourseModal(false);
   };
-
+  console.log("ASDFGHJKLZXCVBNMQWERTYUIOP");
+  const corporateTrainee = useSelector((state) => state?.corporates);
   const individualTrainee = useSelector((state) => state?.individualTrainee);
   console.log("The state is ", individualTrainee);
   console.log(individualTrainee?.courses);
-  console.log("COURSE[0] is ", courses[0]);
-  const isCourseInUserCourses = individualTrainee?.courses?.find(
-    (c) => c._id === courses[0]?._id
-  );
+  console.log("The corporate trainee is ", corporateTrainee);
+  console.log(corporateTrainee?.courses);
+  let isCourseInUserCourses = false;
 
-  console.log("Iam the isCourseInUserCourses", isCourseInUserCourses);
+
+  // const isCourseInUserCourses = traineeType === "corporateTrainee" ? 
+  // corporateTrainee?.courses?.find(
+  //   (c) => c._id === courses[0]?._id
+  // ) : 
+  // individualTrainee?.courses?.find(
+  //   (c) => c._id === courses[0]?._id
+  // );
+  if (traineeType === "individualTrainee") {
+    if (individualTrainee?.courses.length > 0) {
+      isCourseInUserCourses = individualTrainee?.courses?.find(
+        (c) => c._id === courses[0]?._id
+      );
+    }
+  } else {
+    if (corporateTrainee?.courses.length > 0) {
+      isCourseInUserCourses = corporateTrainee?.courses?.find(
+        (c) => c._id === courses[0]?._id
+      );
+    }
+  }
+  console.log("isCourseInUserCourses", isCourseInUserCourses);
+  console.log("ASDFGHJKLZXCVBNMQWERTYUIOP");
 
   const reportedProblems = useSelector((state) => state?.reportedProblems);
   console.log("The reported problems are", reportedProblems);
@@ -116,6 +147,7 @@ export const CoursePage = () => {
                   <CourseCard
                     course={courses[0]}
                     isCourseInUserCourses={isCourseInUserCourses}
+                    traineeType={traineeType}
                   ></CourseCard>
                 </Grid>
               </Grid>
@@ -148,16 +180,16 @@ export const CoursePage = () => {
                         fontWeight: "bold",
                       }}
                       variant="contained"
-                      onClick={() => {setReportCourseModal(true)}}
+                      onClick={() => { setReportCourseModal(true) }}
                     >
                       {" "}
                       Report this course
                     </Button>
                   </Grid>
                 </Grid>
-              ): null
+              ) : null
             }
-          <ReportCourseModal open={reportCourseModal} handleClose={handleCloseReportCourseModal} course={courses[0]} reporterEmail={user.result.email} />
+            <ReportCourseModal open={reportCourseModal} handleClose={handleCloseReportCourseModal} course={courses[0]} reporterEmail={user.result.email} />
           </Container>{" "}
         </>
       )}
