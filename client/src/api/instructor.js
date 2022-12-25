@@ -28,3 +28,9 @@ export const fetchInstructor = async () =>
 export const addInstructor = async (instructor) => {
   return await API.post(`/`, instructor);
 };
+
+// export const addMoneyToInstructorWallet = async (courseId, instructorId) => {
+//   return await API.post(
+//     `/addMoneyToInstructorWallet?courseId=${courseId}&instructorId=${instructorId}`
+//   );
+// };

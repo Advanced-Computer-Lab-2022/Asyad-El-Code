@@ -21,10 +21,14 @@ export default function CourseCard({ isCourseInUserCourses, course }) {
     fontSize: 12,
   });
   console.log("IS HERE COURSE ? : ", isCourseInUserCourses);
+  console.log("THE CoURSE IS  : ", course);
 
   const payForCourse = async () => {
     try {
-      const { data } = await payCourse(course);
+      const { data } = await payCourse({
+        course,
+        instructorId: course.instructor.instructorId,
+      });
       window.location = data.url;
     } catch (error) {
       console.log(error);

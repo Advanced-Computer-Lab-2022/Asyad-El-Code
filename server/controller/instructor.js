@@ -3,6 +3,8 @@ import Instructor from "../models/instructor.js";
 import Course from "../models/course.js";
 import { validateInstructor } from "../models/instructor.js";
 import { validateCourse } from "../models/course.js";
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
 export const createInstructor = async (req, res) => {
   const { error } = validateInstructor(req.body);
@@ -53,7 +55,9 @@ export const getInstructors = async (_req, res) => {
 
 export const getInstructor = async (req, res) => {
   try {
-    const instructor = await Instructor.findById(mongoose.Types.ObjectId(req.params.id));
+    const instructor = await Instructor.findById(
+      mongoose.Types.ObjectId(req.params.id)
+    );
     if (!instructor) return res.status(404).send("Instructor not found");
     return res.status(200).send(instructor);
   } catch (error) {
@@ -237,14 +241,13 @@ export const searchByTitleOrSubject = async (req, res) => {
 };
 export const updateRating = async (req, res) => {
   try {
-    const id  = mongoose.Types.ObjectId(req.params.id);
+    const id = mongoose.Types.ObjectId(req.params.id);
     const { rating } = req.body;
     const instructor = await Instructor.findById(id);
     if (!instructor) return res.status(404).send("instructor not found");
     const updatedInstructor = await Instructor.findByIdAndUpdate(
       id,
-      { rating
-        : rating },
+      { rating: rating },
       { new: true }
     );
     res.status(200).send(updatedInstructor);
@@ -252,3 +255,19 @@ export const updateRating = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
+
+// export const addMoneyToInstructorWallet = async (req, res) => {
+//   try{
+//     const{courseId,instructorId} = req.params;
+//     console.log("INSTRUCTOR ID ");
+//     const charges = await stripe.charges.list({
+//       limit: 1,
+//       created: "desc",
+//     });
+//     const charge = charges.data[0];
+//     const amount = charge.amount;
+
+//   }catch(error){
+//     res.status(400).send(error.message);
+//   }
+// }

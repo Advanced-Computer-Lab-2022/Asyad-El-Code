@@ -130,7 +130,6 @@ export default function ButtonAppBar() {
                 borderRadius: 1,
                 borderStyle: "solid",
                 borderWidth: 1,
-                borderColor: "aqua",
                 opacity: 0.5,
               }}
               renderInput={(params) => (
@@ -218,7 +217,10 @@ export default function ButtonAppBar() {
                     <Link onClick={() => logout()}>Logout</Link>
                   </Grid> */}
                 <Grid item>
-                  <DropDownMenuProfile user={user}></DropDownMenuProfile>
+                  <DropDownMenuProfile
+                    logout={logout}
+                    user={user}
+                  ></DropDownMenuProfile>
                 </Grid>
                 {/* </Grid> */}
               </>
@@ -235,11 +237,6 @@ export default function ButtonAppBar() {
                   </MyLink>
                 </Grid>
               </>
-            )}
-            {user?.result && (
-              <Grid item>
-                <Link onClick={() => logout()}>Logout</Link>
-              </Grid>
             )}
           </Grid>
           {/* <DownloadLink to="/files/myfi22le.pdf" target="_blank" download>

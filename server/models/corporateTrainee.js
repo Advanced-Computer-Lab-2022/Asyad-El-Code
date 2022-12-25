@@ -58,7 +58,7 @@ const corporateTraineeSchema = mongoose.Schema({
 
 corporateTraineeSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { email: this.email, id: this._id },
+    { email: this.email, id: this._id, role: "corporateTrainee" },
     process.env.TOKEN_KEY,
     {
       expiresIn: "1h",

@@ -2,16 +2,13 @@ import express from "express";
 import {
   createInstructor,
   filterCourseBySubjectAndPrice,
-
   filterInstructorCourses,
   getAllInstructorCourses,
-
   searchByTitleOrSubject,
-
   updateInformation,
   getInstructors,
   getInstructor,
-  updateRating
+  updateRating,
 } from "../controller/instructor.js";
 import { viewCourseTitles } from "../controller/instructor.js";
 import { addNewCourse } from "../controller/instructor.js";
