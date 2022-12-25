@@ -1,11 +1,11 @@
 import * as api from "../api/corporate";
-import { FETCH_CORPORATES, ADD_CORPORATE } from "../constants/corporate";
+import { FETCH_CORPORATES, ADD_CORPORATE, GET_TRAINEE } from "../constants/corporate";
 
 export const getCorporates = () => async (dispatch) => {
   try {
     const { data } = await api.fetchCorporates();
     console.log(data);
-    console.log("aSDSDASDSDASDSDAD");
+    console.log("GET ALL CORPORATE TRAINEES");
     dispatch({ type: FETCH_CORPORATES, payload: data });
   } catch (error) {
     console.log(error);
@@ -23,3 +23,12 @@ export const addCorporate = (corporate) => async (dispatch) => {
       console.log(error);
     }
   };
+
+export const getCorporate = () => async (dispatch) => {
+    try {
+      const { data } = await api.getCorporate();
+      dispatch({ type: GET_TRAINEE, payload: data });
+    } catch (error) {
+      console.log(error);
+    }
+  }

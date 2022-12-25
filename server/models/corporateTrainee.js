@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-
+import "dotenv/config";
+import jwt from "jsonwebtoken";
 import Joi from "joi";
 
 const corporateTraineeSchema = mongoose.Schema({
@@ -47,6 +48,59 @@ const corporateTraineeSchema = mongoose.Schema({
     streetNumber: String,
   },
 
+  courses: [
+    {
+      courseId: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+      title: {
+        type: String,
+        required: true,
+      },
+      summary: {
+        type: String,
+        required: true,
+      },
+      duration: {
+        type: Number,
+        required: true,
+      },
+      releaseDate: {
+        type: Date,
+        required: true,
+      },
+      image: {
+        type: String,
+        required: true,
+      },
+      rating: {
+        type: Number,
+        default: 0.0,
+      },
+      instructor: {
+        instructorId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Instructor",
+        },
+        name: String,
+      },
+      grades: [
+        {
+          score: Number,
+          total: Number,
+          exerciseId: mongoose.Schema.Types.ObjectId,
+        },
+      ],
+      notes: [
+        {
+          subtitleId: mongoose.Schema.Types.ObjectId,
+          note: [{ value: String, time: Number }],
+        },
+      ],
+      seenContent: [
+        { duration: Number, contentId: mongoose.Schema.Types.ObjectId },
+      ],
+    },
+  ],
+
   // COURSES WITH ACCESS TO
 
   // accessRequest:{
@@ -78,7 +132,6 @@ export function validate(corporateTrainee) {
     address: Joi.object(),
     country: Joi.string(),
     userName: Joi.string().required(),
-    //problems: Joi.array().required(),
     //certificate: Joi.array().required(),
   });
   return schema.validate(corporateTrainee);
