@@ -13,6 +13,20 @@ API.interceptors.request.use((req) => {
 
 export const fetchAdmins = async () => await API.get(`/`);
 
+export const getAllCourseRequests = async () => await API.get(`/courseRequests`);
+
+export const acceptCourseRequest = async (request) => {
+  return await API.post(`/acceptCourseRequest`, request);
+}
+
+export const rejectCourseRequest = async (request) => {
+  return await API.post(`/rejectCourseRequest`, request);
+}
+
+export const deleteCourseRequest = async (id) => {
+  return await API.delete(`/deleteCourseRequest/${id}`);
+}
+
 export const addAdmin = async (admin) => {
   return await API.post(`/`, admin);
 };

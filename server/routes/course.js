@@ -1,5 +1,4 @@
 import express from "express";
-import { convert } from "../controller/currencyConversion.js";
 
 import {
   createCourse,

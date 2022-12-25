@@ -23,7 +23,6 @@ import image from "../images/point.png";
 import CoursePopup from "../components/Course/CoursePopup";
 
 import { useDispatch, useSelector } from "react-redux";
-import currencyRates from "../reducers/currencyRates";
 import { getCourse } from "../actions/courses.js";
 import { useHistory } from "react-router-dom";
 
@@ -133,8 +132,8 @@ export const SimpleSlider = () => {
                   component="img"
                   image={image}
                   className={classes.cardMedia}
-                  // onMouseOver={(event) => handleMouseOver(event, item.title)}
-                  // onMouseOut={handleMouseOut}
+                // onMouseOver={(event) => handleMouseOver(event, item.title)}
+                // onMouseOut={handleMouseOut}
                 ></CardMedia>
 
                 <CardContent>
@@ -161,7 +160,9 @@ export const SimpleSlider = () => {
                     <p style={{ alignSelf: "center" }}>n5332</p>
                   </Stack>
                   <Typography variant="body1" fontWeight="bold">
-                    {getRate(selectedCountry, course.price, rates)}
+
+                    {rates.isLoading? <CircularProgress></CircularProgress>:
+                    getRate(selectedCountry, course.price, rates.currencyRates)}
                   </Typography>
                 </CardContent>
                 <CardActions>

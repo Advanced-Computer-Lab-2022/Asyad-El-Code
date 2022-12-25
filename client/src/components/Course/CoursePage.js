@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import LanguageIcon from "@mui/icons-material/Language";
 
 import useStyles from "../../css/course";
@@ -17,9 +17,11 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { styled } from "@mui/material";
 import CourseBenefits from "./CourseBenefits";
 import CourseContent from "./CourseSections";
+import ReportCourseModal from "./ReportCourseModal";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getTrainee } from "../../actions/individualTrainees";
+import { getAllProblems } from "../../actions/reportedProblems";
 
 export const CoursePage = () => {
   const { isLoading, courses } = useSelector((state) => state.courses);
@@ -40,7 +42,12 @@ export const CoursePage = () => {
   console.log("Iam the user", user);
   useEffect(() => {
     dispatch(getTrainee());
+    dispatch(getAllProblems());
   }, []);
+  const [reportCourseModal, setReportCourseModal] = useState(false);
+  const handleCloseReportCourseModal = () => {
+    setReportCourseModal(false);
+  };
 
   const individualTrainee = useSelector((state) => state?.individualTrainee);
   console.log("The state is ", individualTrainee);
@@ -51,6 +58,9 @@ export const CoursePage = () => {
   );
 
   console.log("Iam the isCourseInUserCourses", isCourseInUserCourses);
+
+  const reportedProblems = useSelector((state) => state?.reportedProblems);
+  console.log("The reported problems are", reportedProblems);
 
   return (
     <>
@@ -125,6 +135,29 @@ export const CoursePage = () => {
                 <CourseContent course={courses[0]}></CourseContent>
               </Grid>
             </Grid>
+            {
+              user ? (
+                <Grid container justifyContent="center">
+                  <Grid item md={10} border={1} margin={3}>
+                    <Button
+                      fullWidth
+                      sx={{
+                        "&:hover": { backgroundColor: "#FAF9F6" },
+                        backgroundColor: "#FFFFFF",
+                        color: "#2F2B2E",
+                        fontWeight: "bold",
+                      }}
+                      variant="contained"
+                      onClick={() => {setReportCourseModal(true)}}
+                    >
+                      {" "}
+                      Report this course
+                    </Button>
+                  </Grid>
+                </Grid>
+              ): null
+            }
+          <ReportCourseModal open={reportCourseModal} handleClose={handleCloseReportCourseModal} course={courses[0]} reporterEmail={user.result.email} />
           </Container>{" "}
         </>
       )}

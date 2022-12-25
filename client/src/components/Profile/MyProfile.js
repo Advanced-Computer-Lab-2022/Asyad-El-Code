@@ -23,7 +23,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+//import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { getTrainee } from "../../actions/individualTrainees";
 import { updateTrainee } from "../../actions/individualTrainees";
 
