@@ -1,18 +1,20 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import image from "../../images/point.png";
 import { Grid, Link } from "@mui/material";
 import useStyles from "../../css/course";
 import styled from "@emotion/styled";
-import { useSelector } from "react-redux";
+import { payCourse } from "../../api/individualTrainees";
 
 import { useHistory } from "react-router-dom";
-export default function CourseCard({ isCourseInUserCourses, course }) {
+export default function CourseCard({
+  isCourseInUserCourses,
+  course,
+  traineeType,
+}) {
   const { classes } = useStyles();
   const history = useHistory();
   const MyInfo = styled(Typography)({
@@ -20,52 +22,105 @@ export default function CourseCard({ isCourseInUserCourses, course }) {
     fontSize: 12,
   });
   console.log("IS HERE COURSE ? : ", isCourseInUserCourses);
+  console.log("THE CoURSE IS  : ", course);
+
+  const payForCourse = async () => {
+    try {
+      const { data } = await payCourse({
+        course,
+        instructorId: course.instructor.instructorId,
+      });
+      window.location = data.url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const requestCourse = () => {
+    console.log("Request Course");
+  };
+
+  let button;
+  if (isCourseInUserCourses) {
+    button = (
+      <Button
+        fullWidth
+        onClick={() => history.push("/test")}
+        sx={{
+          "&:hover": { backgroundColor: "#2F2B2E" },
+          backgroundColor: "#2F2B2E",
+        }}
+        variant="contained"
+      >
+        Go to Course
+      </Button>
+    );
+  } else if (traineeType === "corporateTrainee") {
+    button = (
+      <Button
+        fullWidth
+        sx={{
+          "&:hover": { backgroundColor: "#2F2B2E" },
+          backgroundColor: "#2F2B2E",
+        }}
+        variant="contained"
+        onClick={requestCourse}
+      >
+        {" "}
+        Request Course
+      </Button>
+    );
+  } else {
+    button = (
+      <Button
+        fullWidth
+        sx={{
+          "&:hover": { backgroundColor: "#2F2B2E" },
+          backgroundColor: "#2F2B2E",
+        }}
+        variant="contained"
+        onClick={payForCourse}
+      >
+        {" "}
+        Add to Cart
+      </Button>
+    );
+  }
+
   return (
     <Card sx={{ width: 345 }}>
       <CardMedia
         component="iframe"
-        image="https://www.youtube.com/embed/Ro26B394ZBM"
+        image="https://www.youtube.com/embed/TpWqNqNv2AQ"
+        title="YouTube video player"
         controls
         alt="green iguana"
         sx={{ width: "100%", height: "230px" }}
       />
       <CardContent>
+        {course.price !== course.discountedPrice && (
+          <Typography className={classes.courseOldPrice}>
+            <span style={{ textDecoration: "line-through" }}>
+              ${course.price}
+            </span>
+            <span style={{ color: "red", fontWeight: "normal" }}>
+              {"  "}
+              Valid Until {course.promotion.endDate.substring(0, 10)}
+            </span>
+          </Typography>
+        )}
         <Typography
           className={classes.coursePrice}
           gutterBottom
           variant="h5"
           component="div"
         >
-          ${course.price}
+          ${course.discountedPrice}
         </Typography>
         <Grid columnSpacing={4} container direction="row">
           <Grid item md={12}>
-            {isCourseInUserCourses ? (
-              <Button
-                fullWidth
-                onClick={() => history.push("/test")}
-                sx={{
-                  "&:hover": { backgroundColor: "#2F2B2E" },
-                  backgroundColor: "#2F2B2E",
-                }}
-                variant="contained"
-              >
-                Go to Course
-              </Button>
-            ) : (
-              <Button
-                fullWidth
-                sx={{
-                  "&:hover": { backgroundColor: "#2F2B2E" },
-                  backgroundColor: "#2F2B2E",
-                }}
-                variant="contained"
-              >
-                {" "}
-                {/* TODO Checking if he has the course */}
-                Add to Cart
-              </Button>
-            )}
+            {" "}
+            {button}{" "}
           </Grid>
 
           <Grid mt={2} item md={12}>

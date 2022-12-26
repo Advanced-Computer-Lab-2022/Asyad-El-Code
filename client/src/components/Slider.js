@@ -132,8 +132,8 @@ export const SimpleSlider = () => {
                   component="img"
                   image={image}
                   className={classes.cardMedia}
-                // onMouseOver={(event) => handleMouseOver(event, item.title)}
-                // onMouseOut={handleMouseOut}
+                  // onMouseOver={(event) => handleMouseOver(event, item.title)}
+                  // onMouseOut={handleMouseOut}
                 ></CardMedia>
 
                 <CardContent>
@@ -160,9 +160,8 @@ export const SimpleSlider = () => {
                     <p style={{ alignSelf: "center" }}>n5332</p>
                   </Stack>
                   <Typography variant="body1" fontWeight="bold">
-
-                    {rates.isLoading? <CircularProgress></CircularProgress>:
-                    getRate(selectedCountry, course.price, rates.currencyRates)}
+                    {/* {rates.isLoading? <CircularProgress></CircularProgress>:
+                    getRate(selectedCountry, course.price, rates.currencyRates)} */}
                   </Typography>
                 </CardContent>
                 <CardActions>

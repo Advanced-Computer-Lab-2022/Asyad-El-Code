@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Fab, Paper, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Fab,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -11,6 +19,7 @@ import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import * as individualTraineeApi from "../../api/individualTrainees.js";
 import ReactPlayer from "react-player";
 import CreateIcon from "@mui/icons-material/Create";
+import Notes from "./Notes.js";
 
 export const VideoAndExercise = ({
   content,
@@ -27,8 +36,8 @@ export const VideoAndExercise = ({
   const [grade, setGrade] = useState(0);
   const [total, setTotal] = useState(0);
   const [showGrade, setShowGrade] = useState(false);
-  const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(0);
+  const [playedMinutes, setPlayedMinutes] = useState(0);
+
   const { classes } = useStyles();
 
   const handleChange = (index, ind) => {
@@ -89,6 +98,7 @@ export const VideoAndExercise = ({
   }, [exerciseId]);
 
   console.log("This is the current exefcise id", exerciseId);
+  console.log("THE CONTENT IS ", content);
 
   return (
     <div>
@@ -100,8 +110,9 @@ export const VideoAndExercise = ({
               <ReactPlayer
                 width="100%"
                 onProgress={(state) => {
-                  setSeconds(Math.floor(state.playedSeconds % 60));
-                  setMinutes(Math.floor(state.playedSeconds / 60));
+
+                  setPlayedMinutes((state.playedSeconds / 60).toFixed(2) - 0.1);
+
                 }}
                 url={`https://www.youtube.com/embed/${content.videoUrl}`}
                 height="500px"
@@ -109,6 +120,14 @@ export const VideoAndExercise = ({
               ></ReactPlayer>
             </Paper>
           </Container>
+
+          <Notes
+            courseId={courseId}
+            lectureId={content._id}
+            playedMinutes={playedMinutes}
+            userId={user?._id}
+            content={content}
+          ></Notes>
         </>
       ) : null}
       {exerciseOpen ? (
@@ -117,7 +136,7 @@ export const VideoAndExercise = ({
             <Container>
               <Paper elevation={12} className={classes.exercisePaper}>
                 <Typography variant="h4" sx={{ color: "#000000" }}>
-                  You Scored
+                  You Scored {content._id}
                 </Typography>
                 <Typography variant="h6" sx={{ color: "#000000" }}>
                   {grade}/{total}

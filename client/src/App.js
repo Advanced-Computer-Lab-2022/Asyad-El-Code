@@ -21,9 +21,12 @@ import SplashScreen from "./components/Splash/test.js";
 import { ConfirmPassword } from "./components/Auth/SendEmail";
 import { createTheme, ThemeProvider } from "@mui/material";
 import PersistentDrawerLeft from "./components/Course/CourseContents";
+import Testo from "./components/Trainee/test";
+import { SuccessPage } from "./components/Trainee/SuccessPage";
 import CourseRequests from "./components/Admin/CourseRequest";
 import Problems from "./components/Admin/Problems";
 import PendingProblems from "./components/Profile/PendingProblems";
+import PrimarySearchAppBar from "./components/Navbar/tst";
 
 const theme = createTheme({
   palette: {
@@ -36,11 +39,13 @@ const theme = createTheme({
   },
 });
 export const App = () => {
-
   return (
     <ThemeProvider theme={theme}>
       <ScrollToTop>
         <Switch>
+          <Route exact path="/ta">
+            <PrimarySearchAppBar></PrimarySearchAppBar>
+          </Route>
           <Route exact path="/">
             <SplashScreen></SplashScreen>
           </Route>
@@ -81,6 +86,12 @@ export const App = () => {
               </Route>
               <Route exact path="/profile">
                 <Profile></Profile>
+              </Route>
+              <Route exact path="/ta">
+                <Testo></Testo>
+              </Route>
+              <Route exact path="/success/:courseId">
+                <SuccessPage></SuccessPage>
               </Route>
 
               <Route exact path="/instructorProfile">

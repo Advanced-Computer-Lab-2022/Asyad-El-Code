@@ -11,7 +11,8 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchCourses = async () => await API.get(`/getCourses`);
+export const fetchCourses = async () =>
+  await API.get(`/getCoursesWithPromotion`);
 export const filterCourses = async (filterData) =>
   await API.get(
     `/filterAllCourses/?subject=${filterData.Subject}&price=${filterData.Price}&rating=${filterData.Rating}`
