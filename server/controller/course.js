@@ -174,14 +174,64 @@ export const filterAllCourses = async (req, res) => {
     const priceArray = price.split(/[,]+/);
     const ratingArray = rating.split(/[,]+/);
 
-    const courses = await Course.find({
-      subject: { $in: subjectArray },
-    })
-      .and({ price: { $lte: parseInt(priceArray[1]) } })
-      .and({ price: { $gte: parseInt(priceArray[0]) } })
-      .and({ rating: { $lte: parseInt(ratingArray[1]) } })
-      .and({ rating: { $gte: parseInt(ratingArray[0]) } });
-    res.status(200).send(courses);
+    // const courses = await Course.find({
+    //   subject: { $in: subjectArray },
+    // })
+    //   .and({ price: { $lte: parseInt(priceArray[1]) } })
+    //   .and({ price: { $gte: parseInt(priceArray[0]) } })
+    //   .and({ rating: { $lte: parseInt(ratingArray[1]) } })
+    //   .and({ rating: { $gte: parseInt(ratingArray[0]) } });
+    // res.status(200).send(courses);
+    const c = await Course.aggregate([
+      {
+        $match: {
+          subject: { $in: subjectArray },
+        },
+      },
+      {
+        $match: {
+          price: { $lte: parseInt(priceArray[1]) },
+        },
+      },
+      {
+        $match: {
+          price: { $gte: parseInt(priceArray[0]) },
+        },
+      },
+      {
+        $match: {
+          rating: { $lte: parseInt(ratingArray[1]) },
+        },
+      },
+      {
+        $match: {
+          rating: { $gte: parseInt(ratingArray[0]) },
+        },
+      },
+      {
+        $addFields: {
+          discountedPrice: {
+            $cond: [
+              {
+                $and: [
+                  { $lte: ["$promotion.startDate", new Date(Date.now())] },
+                  { $gte: ["$promotion.endDate", new Date(Date.now())] },
+                ],
+              },
+              {
+                $multiply: [
+                  "$price",
+                  { $subtract: [1, "$promotion.discount"] },
+                ],
+              },
+              "$price",
+            ],
+          },
+        },
+      },
+    ]);
+    if (!c) return res.status(200).send({ message: "No course found" });
+    res.status(200).send(c);
   } catch (err) {
     res.status(401).send(err);
   }
@@ -326,6 +376,38 @@ export const addReview = async (req, res) => {
       await course.save();
       return res.status(200).json(course);
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCoursesWithPromotion = async (req, res) => {
+  try {
+    const courses = await Course.aggregate([
+      {
+        $addFields: {
+          discountedPrice: {
+            $cond: [
+              {
+                $and: [
+                  { $lte: ["$promotion.startDate", new Date(Date.now())] },
+                  { $gte: ["$promotion.endDate", new Date(Date.now())] },
+                ],
+              },
+              {
+                $multiply: [
+                  "$price",
+                  { $subtract: [1, "$promotion.discount"] },
+                ],
+              },
+              "$price",
+            ],
+          },
+        },
+      },
+    ]);
+    if (!courses) return res.status(404).send({ message: "Courses not found" });
+    res.status(200).send(courses);
   } catch (error) {
     console.log(error);
   }

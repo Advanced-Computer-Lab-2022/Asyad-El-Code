@@ -9,6 +9,7 @@ import {
   Rating,
   Typography,
   Grid,
+  CircularProgress,
 } from "@mui/material";
 import { Container, Stack } from "@mui/system";
 import useStyles from "../../css/slider.js";
@@ -28,7 +29,9 @@ export const CoursesGrid = () => {
   const { classes } = useStyles();
   const cardRef = useRef();
   const cardHeight = cardRef.current ? cardRef.current.offsetHeight : 0;
-  return (
+  return isLoading ? (
+    <CircularProgress></CircularProgress>
+  ) : (
     <Container maxWidth="md" sx={{ backgroundColor: "#F2F0EF" }}>
       <Grid container spacing={2} marginTop="20px" justifyContent={"center"}>
         {courses.map((course, index) => {
@@ -77,8 +80,24 @@ export const CoursesGrid = () => {
                       return <li>{item.outline}</li>;
                     })}
                   </ul>
+                  {course.price !== course.discountedPrice && (
+                    <Typography>
+                      <span
+                        style={{
+                          color: "grey",
+                          textDecoration: "line-through",
+                        }}
+                      >
+                        {getRate(selectedCountry, course.price, rates)}
+                      </span>
+                      <span style={{ color: "red" }}>
+                        {" "}
+                        Valid Until {course.promotion.endDate.substring(0, 10)}
+                      </span>
+                    </Typography>
+                  )}
                   <Typography variant="body1" fontWeight="bold">
-                    {getRate(selectedCountry, course.price, rates)}
+                    {getRate(selectedCountry, course.discountedPrice, rates)}
                   </Typography>
                 </CardContent>
                 <CardActions>

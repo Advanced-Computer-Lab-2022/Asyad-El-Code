@@ -73,10 +73,11 @@ export const courseSchema = mongoose.Schema({
     },
     name: String,
   },
-  // promotion: {
-  //   type: Number,
-  //   default: 0.0,
-  // },later
+  promotion: {
+    discount: { type: Number, default: 0.0 },
+    startDate: Date,
+    endDate: Date,
+  },
   // add instructor
   discount: [{ country: String, percent: Number }],
   ratings: [

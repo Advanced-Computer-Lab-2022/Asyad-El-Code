@@ -9,12 +9,13 @@ import {
   getInstructors,
   getInstructor,
   updateRating,
+  definePromotion,
 } from "../controller/instructor.js";
 import { viewCourseTitles } from "../controller/instructor.js";
 import { addNewCourse } from "../controller/instructor.js";
 import { searchByTitleOrSubjectOrInstructor } from "../controller/course.js";
 const router = express.Router();
-
+router.get("/filterInstructorCourses", filterInstructorCourses);
 router.post("/", createInstructor);
 router.get("/", getInstructors);
 router.get("/:id", getInstructor);
@@ -27,7 +28,8 @@ router.patch("/updateInformation/:id", updateInformation);
 router.get("/searchByTitleOrSubject/:id", searchByTitleOrSubject);
 
 router.get("/getAllInstructorCourses/:id", getAllInstructorCourses);
-router.get("/filterInstructorCourses", filterInstructorCourses);
+
 router.post("/updateRating/:id", updateRating);
+router.patch("/definePromotion", definePromotion);
 
 export default router;
