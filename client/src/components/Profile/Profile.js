@@ -34,7 +34,10 @@ import { useDispatch } from "react-redux";
 import Admin from "../Admin/Admin.js";
 import Payments from "./Payments.js";
 import Photo from "./Photo.js";
+import PendingProblems from "./PendingProblems.js";
+import ResolvedProblems from "./ResolvedProblems.js";
 import { getTrainee } from "../../actions/individualTrainees";
+import { getUnresolvedProblems, getResolvedProblems } from "../../api/problem.js";
 const Profile = () => {
   const [page, setPage] = useState("myProfile");
   const dispatch = useDispatch();
@@ -43,18 +46,18 @@ const Profile = () => {
     dispatch(getTrainee());
   }, []);
   const trainee = useSelector((state) => state?.individualTrainee);
-
+  const [unResolvedProblems, setUnResolvedProblems] = useState([]);
+  const [resolvedProblems, setResolvedProblems] = useState([]);
   console.log("I AM THE TRAINEEEEE", trainee);
   console.log("first character of trainee", trainee.firstName);
   return (
-    // <h1>{trainee.firstName.charAt(0)}</h1>
-
     <Grid
       container
       justifyContent="center"
       marginTop={4}
       sx={{ border: "ActiveBorder" }}
-      height={700}
+      height={650}
+      alignItems="center"
     >
       <Grid
         item
@@ -68,23 +71,26 @@ const Profile = () => {
         rowSpacing={2}
         alignItems="center"
       >
-        <Grid item marginTop={5} xs={1}>
-          <Avatar
-            sx={{
-              width: 150,
-              height: 150,
-              bgcolor: "#1C1D1F",
-              fontSize: "40px",
-            }}
-          >
-            {trainee.firstName ? (
-              <b>
-                {trainee.firstName.charAt(0) + "" + trainee.lastName.charAt(0)}
-              </b>
-            ) : null}
-          </Avatar>
-
-          <Grid item borderBottom={1} borderColor="silver" width="100%">
+        <Grid item marginTop={3} xs={1}>
+          <Grid container justifyContent="center">
+            <Avatar
+              sx={{
+                width: 150,
+                height: 150,
+                bgcolor: "#1C1D1F",
+                fontSize: "40px",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {trainee.firstName ? (
+                <b>
+                  {trainee.firstName.charAt(0) + "" + trainee.lastName.charAt(0)}
+                </b>
+              ) : null}
+            </Avatar>
+          </Grid>
+          <Grid item borderBottom={1} borderColor="silver" width="100%" marginTop={1}>
             <Typography sx={{ fontWeight: "bold" }} textAlign="center">
               {trainee.firstName} {trainee.lastName}
             </Typography>
@@ -141,6 +147,39 @@ const Profile = () => {
                   </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
+                  <ListItemButton component="a" href="#simple-list"
+                    onClick={() => {
+                      getResolvedProblems({ "reporterEmail": trainee?.email }).then((res) => {
+                        console.log("RES", res.data);
+                        setResolvedProblems(res.data);
+                        setPage("ResolvedProblems");
+                      });
+                    }}
+                  >
+                    <ListItemText
+                      primary="Resolved Problems"
+                      sx={{ textAlign: "center", lineHeight: 1 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                  <ListItemButton component="a" href="#asdasds"
+                    onClick={() => {
+                      console.log("trainee email", trainee?.email);
+                      getUnresolvedProblems({ "reporterEmail": trainee?.email }).then((res) => {
+                        console.log("RES", res.data);
+                        setUnResolvedProblems(res.data);
+                        setPage("PendingProblems");
+                      });
+                    }}
+                  >
+                    <ListItemText
+                      primary="Pending Problems"
+                      sx={{ textAlign: "center", lineHeight: 1 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
                   <ListItemButton component="a" href="#simple-list">
                     <ListItemText
                       primary="Notifications"
@@ -166,6 +205,9 @@ const Profile = () => {
         item
         xs={8}
         sx={{ borderStyle: "solid", borderWidth: "1px", borderColor: "silver" }}
+        height={700}
+        marginTop={0}
+        overflow="hidden"
       >
         {page === "myProfile" ? (
           <MyProfile trainee={trainee}></MyProfile>
@@ -173,6 +215,10 @@ const Profile = () => {
           <Payments></Payments>
         ) : page === "Photo" ? (
           <Photo></Photo>
+        ) : page === "PendingProblems" ? (
+          <PendingProblems unResolvedProblems={unResolvedProblems}></PendingProblems>
+        ) : page === "ResolvedProblems" ? (
+          <ResolvedProblems resolvedProblems={resolvedProblems}></ResolvedProblems>
         ) : null}
       </Grid>
     </Grid>

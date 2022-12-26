@@ -23,6 +23,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import PersistentDrawerLeft from "./components/Course/CourseContents";
 import CourseRequests from "./components/Admin/CourseRequest";
 import Problems from "./components/Admin/Problems";
+import PendingProblems from "./components/Profile/PendingProblems";
 
 const theme = createTheme({
   palette: {
@@ -92,6 +93,9 @@ export const App = () => {
 
               <Route exact path="/reportedProblems">
                 <Problems></Problems>
+              </Route>
+              <Route exact path="/pendingProblems">
+                <PendingProblems></PendingProblems>
               </Route>
             </Switch>
           </Route>
