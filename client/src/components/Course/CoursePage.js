@@ -52,7 +52,6 @@ export const CoursePage = () => {
     dispatch(getAllProblems());
   }, []);
 
-
   const [reportCourseModal, setReportCourseModal] = useState(false);
   const handleCloseReportCourseModal = () => {
     setReportCourseModal(false);
@@ -66,22 +65,21 @@ export const CoursePage = () => {
   console.log(corporateTrainee?.courses);
   let isCourseInUserCourses = false;
 
-
-  // const isCourseInUserCourses = traineeType === "corporateTrainee" ? 
+  // const isCourseInUserCourses = traineeType === "corporateTrainee" ?
   // corporateTrainee?.courses?.find(
   //   (c) => c._id === courses[0]?._id
-  // ) : 
+  // ) :
   // individualTrainee?.courses?.find(
   //   (c) => c._id === courses[0]?._id
   // );
   if (traineeType === "individualTrainee") {
-    if (individualTrainee?.courses.length > 0) {
+    if (individualTrainee?.courses?.length > 0) {
       isCourseInUserCourses = individualTrainee?.courses?.find(
         (c) => c._id === courses[0]?._id
       );
     }
   } else {
-    if (corporateTrainee?.courses.length > 0) {
+    if (corporateTrainee?.courses?.length > 0) {
       isCourseInUserCourses = corporateTrainee?.courses?.find(
         (c) => c._id === courses[0]?._id
       );
@@ -167,29 +165,34 @@ export const CoursePage = () => {
                 <CourseContent course={courses[0]}></CourseContent>
               </Grid>
             </Grid>
-            {
-              user ? (
-                <Grid container justifyContent="center">
-                  <Grid item md={10} border={1} margin={3}>
-                    <Button
-                      fullWidth
-                      sx={{
-                        "&:hover": { backgroundColor: "#FAF9F6" },
-                        backgroundColor: "#FFFFFF",
-                        color: "#2F2B2E",
-                        fontWeight: "bold",
-                      }}
-                      variant="contained"
-                      onClick={() => { setReportCourseModal(true) }}
-                    >
-                      {" "}
-                      Report this course
-                    </Button>
-                  </Grid>
+            {user ? (
+              <Grid container justifyContent="center">
+                <Grid item md={10} border={1} margin={3}>
+                  <Button
+                    fullWidth
+                    sx={{
+                      "&:hover": { backgroundColor: "#FAF9F6" },
+                      backgroundColor: "#FFFFFF",
+                      color: "#2F2B2E",
+                      fontWeight: "bold",
+                    }}
+                    variant="contained"
+                    onClick={() => {
+                      setReportCourseModal(true);
+                    }}
+                  >
+                    {" "}
+                    Report this course
+                  </Button>
                 </Grid>
-              ) : null
-            }
-            <ReportCourseModal open={reportCourseModal} handleClose={handleCloseReportCourseModal} course={courses[0]} reporterEmail={user.result.email} />
+              </Grid>
+            ) : null}
+            <ReportCourseModal
+              open={reportCourseModal}
+              handleClose={handleCloseReportCourseModal}
+              course={courses[0]}
+              reporterEmail={user?.result?.email}
+            />
           </Container>{" "}
         </>
       )}

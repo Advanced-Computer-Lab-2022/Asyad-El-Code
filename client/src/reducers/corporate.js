@@ -1,4 +1,8 @@
-import { FETCH_CORPORATES, ADD_CORPORATE, GET_TRAINEE } from "../constants/corporate";
+import {
+  FETCH_CORPORATES,
+  ADD_CORPORATE,
+  GET_CORPORATE,
+} from "../constants/corporate";
 
 export default (corporates = [], action) => {
   console.log("Iam here in the corperate reducer");
@@ -7,7 +11,7 @@ export default (corporates = [], action) => {
       return action.payload;
     case ADD_CORPORATE:
       return [...corporates, action.payload];
-    case GET_TRAINEE:
+    case GET_CORPORATE:
       return action.payload;
     default:
       return corporates;

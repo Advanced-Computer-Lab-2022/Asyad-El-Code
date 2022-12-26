@@ -25,6 +25,7 @@ import Testo from "./components/Trainee/test";
 import { SuccessPage } from "./components/Trainee/SuccessPage";
 import CourseRequests from "./components/Admin/CourseRequest";
 import Problems from "./components/Admin/Problems";
+import PrimarySearchAppBar from "./components/Navbar/tst";
 
 const theme = createTheme({
   palette: {
@@ -37,11 +38,13 @@ const theme = createTheme({
   },
 });
 export const App = () => {
-
   return (
     <ThemeProvider theme={theme}>
       <ScrollToTop>
         <Switch>
+          <Route exact path="/ta">
+            <PrimarySearchAppBar></PrimarySearchAppBar>
+          </Route>
           <Route exact path="/">
             <SplashScreen></SplashScreen>
           </Route>

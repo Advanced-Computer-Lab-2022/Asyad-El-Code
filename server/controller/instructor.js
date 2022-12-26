@@ -3,6 +3,8 @@ import Instructor from "../models/instructor.js";
 import Course from "../models/course.js";
 import { validateInstructor } from "../models/instructor.js";
 import { validateCourse } from "../models/course.js";
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
 export const createInstructor = async (req, res) => {
   const { error } = validateInstructor(req.body);
@@ -313,6 +315,22 @@ export const updateRating = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
+
+// export const addMoneyToInstructorWallet = async (req, res) => {
+//   try{
+//     const{courseId,instructorId} = req.params;
+//     console.log("INSTRUCTOR ID ");
+//     const charges = await stripe.charges.list({
+//       limit: 1,
+//       created: "desc",
+//     });
+//     const charge = charges.data[0];
+//     const amount = charge.amount;
+
+//   }catch(error){
+//     res.status(400).send(error.message);
+//   }
+// }
 export const definePromotion = async (req, res) => {
   try {
     const { courseId, discount, startDate, endDate } = req.query;

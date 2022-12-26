@@ -10,18 +10,26 @@ import styled from "@emotion/styled";
 import { payCourse } from "../../api/individualTrainees";
 
 import { useHistory } from "react-router-dom";
-export default function CourseCard({ isCourseInUserCourses, course, traineeType }) {
+export default function CourseCard({
+  isCourseInUserCourses,
+  course,
+  traineeType,
+}) {
   const { classes } = useStyles();
   const history = useHistory();
   const MyInfo = styled(Typography)({
     color: "#757071",
     fontSize: 12,
   });
-
+  console.log("IS HERE COURSE ? : ", isCourseInUserCourses);
+  console.log("THE CoURSE IS  : ", course);
 
   const payForCourse = async () => {
     try {
-      const { data } = await payCourse(course);
+      const { data } = await payCourse({
+        course,
+        instructorId: course.instructor.instructorId,
+      });
       window.location = data.url;
     } catch (error) {
       console.log(error);
@@ -32,52 +40,59 @@ export default function CourseCard({ isCourseInUserCourses, course, traineeType 
     console.log("Request Course");
   };
 
-
   let button;
   if (isCourseInUserCourses) {
-    button = <Button
-      fullWidth
-      onClick={() => history.push("/test")}
-      sx={{
-        "&:hover": { backgroundColor: "#2F2B2E" },
-        backgroundColor: "#2F2B2E",
-      }}
-      variant="contained"
-    >
-      Go to Course
-    </Button>
+    button = (
+      <Button
+        fullWidth
+        onClick={() => history.push("/test")}
+        sx={{
+          "&:hover": { backgroundColor: "#2F2B2E" },
+          backgroundColor: "#2F2B2E",
+        }}
+        variant="contained"
+      >
+        Go to Course
+      </Button>
+    );
   } else if (traineeType === "corporateTrainee") {
-    button = <Button
-    fullWidth
-    sx={{
-      "&:hover": { backgroundColor: "#2F2B2E" },
-      backgroundColor: "#2F2B2E",
-    }}
-    variant="contained" onClick={requestCourse}>
-    {" "}
-    Request Course
-  </Button>
+    button = (
+      <Button
+        fullWidth
+        sx={{
+          "&:hover": { backgroundColor: "#2F2B2E" },
+          backgroundColor: "#2F2B2E",
+        }}
+        variant="contained"
+        onClick={requestCourse}
+      >
+        {" "}
+        Request Course
+      </Button>
+    );
   } else {
-    button = <Button
-      fullWidth
-      sx={{
-        "&:hover": { backgroundColor: "#2F2B2E" },
-        backgroundColor: "#2F2B2E",
-      }}
-      variant="contained"
-      onClick={payForCourse}
-    >
-      {" "}
-      Add to Cart
-    </Button>
+    button = (
+      <Button
+        fullWidth
+        sx={{
+          "&:hover": { backgroundColor: "#2F2B2E" },
+          backgroundColor: "#2F2B2E",
+        }}
+        variant="contained"
+        onClick={payForCourse}
+      >
+        {" "}
+        Add to Cart
+      </Button>
+    );
   }
-
 
   return (
     <Card sx={{ width: 345 }}>
       <CardMedia
         component="iframe"
-        image="https://www.youtube.com/embed/Ro26B394ZBM"
+        image="https://www.youtube.com/embed/TpWqNqNv2AQ"
+        title="YouTube video player"
         controls
         alt="green iguana"
         sx={{ width: "100%", height: "230px" }}
@@ -103,7 +118,10 @@ export default function CourseCard({ isCourseInUserCourses, course, traineeType 
           ${course.discountedPrice}
         </Typography>
         <Grid columnSpacing={4} container direction="row">
-          <Grid item md={12}> {button} </Grid>
+          <Grid item md={12}>
+            {" "}
+            {button}{" "}
+          </Grid>
 
           <Grid mt={2} item md={12}>
             <div className={classes.buyNow}>

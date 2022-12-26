@@ -4,6 +4,7 @@ import Course from "../models/course.js";
 import pdf from "html-pdf";
 import Stripe from "stripe";
 import "dotenv/config";
+import Instructor from "../models/instructor.js";
 
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
@@ -316,9 +317,19 @@ export const getNotes = async (req, res) => {
 
 export const payCourse = async (req, res) => {
   try {
-    console.log("PAY" + req.body);
-    const courses = [req.body];
+    const courses = [req.body.course];
     console.log("COURSES", courses);
+
+    const instructorPrecentage = 0.86;
+    const instructorProfit = parseInt(courses[0].price) * instructorPrecentage;
+    const stripeProfit = parseInt(courses[0].price) - instructorProfit;
+    const instructorId = req.body.instructorId;
+    console.log("INSTRUCTOR ID", instructorId);
+
+    const instructor = await Instructor.findById(instructorId);
+    instructor.wallet = instructor.wallet + instructorProfit;
+    await instructor.save();
+    console.log("INSTRUCTOR WALLET", instructor.wallet);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -329,13 +340,22 @@ export const payCourse = async (req, res) => {
           price_data: {
             currency: "usd",
             product_data: {
+              description: course.sumary,
+
               name: course.title,
             },
+
             unit_amount: course.price * 100,
           },
           quantity: courses.length,
         };
       }),
+
+      custom_text: {
+        submit: {
+          message: "Pay Now",
+        },
+      },
     });
 
     res.send({ url: session.url });
@@ -343,3 +363,5 @@ export const payCourse = async (req, res) => {
     res.status(500).send(error.message);
   }
 };
+
+//Refunding the course if the progress of course is lessThan 50%

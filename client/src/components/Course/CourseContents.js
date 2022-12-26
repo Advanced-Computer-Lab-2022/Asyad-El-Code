@@ -306,6 +306,7 @@ export default function CourseContents() {
         {course?.outlines.map((outline, index) => {
           return (
             <AccordionSet
+              key={index}
               index={index}
               outline={outline}
               userObject={userObject}

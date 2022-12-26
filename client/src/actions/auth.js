@@ -21,15 +21,19 @@ export const signup = (formData, history) => async (dispatch) => {
   }
 };
 
-export const signin = (formData, history) => async (dispatch) => {
+export const signin = (formData, history, setIsLoading) => async (dispatch) => {
   try {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
     dispatch({ type: START_LOADING });
 
     const result = await userApi.signin(formData);
     dispatch({ type: AUTH, payload: result.data });
     dispatch({ type: END_LOADING });
-
-    history.push("/");
+    setTimeout(() => {
+      history.push("/");
+    }, 3000);
   } catch (error) {
     console.log("Iam here mannnnnn");
     dispatch({ type: AUTH_ERROR, payload: error.response.data });

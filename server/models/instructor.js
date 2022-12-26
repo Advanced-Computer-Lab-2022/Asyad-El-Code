@@ -51,7 +51,7 @@ const instructorSchema = mongoose.Schema({
 
 instructorSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { email: this.email, id: this._id },
+    { email: this.email, id: this._id, role: "instructor" },
     process.env.TOKEN_KEY,
     {
       expiresIn: "1h",
