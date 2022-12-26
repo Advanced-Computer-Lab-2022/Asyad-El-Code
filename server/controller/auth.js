@@ -22,7 +22,6 @@ export const signin = async (req, res) => {
       const corporateTrainee = await CorporateTrainee.findOne({ email });
       if (!corporateTrainee) {
         const admin = await Administrator.findOne({ email });
-        console.log("THIS IS THE ADMIN", admin);
         if (!admin) {
           return res.status(404).json({ message: "User doesn't exist" });
         }
@@ -31,14 +30,12 @@ export const signin = async (req, res) => {
           return res.status(400).json({ message: "Invalid credentials" });
         }
         const token = await admin.generateAuthToken();
-        console.log("THIS IS THE TOKEN", token);
         return res.status(200).json({
           result: admin,
           type: "admin",
           token: token,
         });
       }
-      console.log("THIS IS THE CORPORATE TRAINNEE", corporateTrainee);
       const isValidPassword = checkPassword(
         password,
         corporateTrainee.password
@@ -47,18 +44,19 @@ export const signin = async (req, res) => {
         return res.status(400).json({ message: "Invalid credentials" });
       }
       const token = await corporateTrainee.generateAuthToken();
-      res.status(200).json({
+      return res.status(200).json({
         result: corporateTrainee,
         type: "corporateTrainee",
         token: token,
       });
     }
+    console.log("WHY YOU HERE");
     const isValidPassword = checkPassword(password, instructor.password);
     if (!isValidPassword) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
     const token = await instructor.generateAuthToken();
-    res
+    return res
       .status(200)
       .json({ result: instructor, type: "instructor", token: token });
   }
@@ -71,7 +69,7 @@ export const signin = async (req, res) => {
     return res.status(400).json({ message: "Invalid credentials" });
   }
   const token = await individualTrainee.generateAuthToken();
-  res.status(200).json({
+  return res.status(200).json({
     result: individualTrainee,
     type: "individualTrainee",
     token: token,

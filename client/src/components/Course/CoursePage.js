@@ -73,13 +73,13 @@ export const CoursePage = () => {
   //   (c) => c._id === courses[0]?._id
   // );
   if (traineeType === "individualTrainee") {
-    if (individualTrainee?.courses.length > 0) {
+    if (individualTrainee?.courses?.length > 0) {
       isCourseInUserCourses = individualTrainee?.courses?.find(
         (c) => c._id === courses[0]?._id
       );
     }
   } else {
-    if (corporateTrainee?.courses.length > 0) {
+    if (corporateTrainee?.courses?.length > 0) {
       isCourseInUserCourses = corporateTrainee?.courses?.find(
         (c) => c._id === courses[0]?._id
       );
