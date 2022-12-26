@@ -83,13 +83,24 @@ export default function CourseCard({ isCourseInUserCourses, course, traineeType 
         sx={{ width: "100%", height: "230px" }}
       />
       <CardContent>
+        {course.price !== course.discountedPrice && (
+          <Typography className={classes.courseOldPrice}>
+            <span style={{ textDecoration: "line-through" }}>
+              ${course.price}
+            </span>
+            <span style={{ color: "red", fontWeight: "normal" }}>
+              {"  "}
+              Valid Until {course.promotion.endDate.substring(0, 10)}
+            </span>
+          </Typography>
+        )}
         <Typography
           className={classes.coursePrice}
           gutterBottom
           variant="h5"
           component="div"
         >
-          ${course.price}
+          ${course.discountedPrice}
         </Typography>
         <Grid columnSpacing={4} container direction="row">
           <Grid item md={12}> {button} </Grid>

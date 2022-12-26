@@ -46,6 +46,11 @@ const useStyles = makeStyles()((theme) => {
       borderColor: "#D6CFD1",
       marginTop: 30,
     },
+    courseOldPrice: {
+      color: "#D6CFD1",
+      fontSize: 20,
+      fontWeight: "bold",
+    },
   };
 });
 export default useStyles;

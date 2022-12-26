@@ -53,7 +53,9 @@ export const getInstructors = async (_req, res) => {
 
 export const getInstructor = async (req, res) => {
   try {
-    const instructor = await Instructor.findById(mongoose.Types.ObjectId(req.params.id));
+    const instructor = await Instructor.findById(
+      mongoose.Types.ObjectId(req.params.id)
+    );
     if (!instructor) return res.status(404).send("Instructor not found");
     return res.status(200).send(instructor);
   } catch (error) {
@@ -192,7 +194,34 @@ export const updateInformation = async (req, res) => {
 export const getAllInstructorCourses = async (req, res) => {
   try {
     const { id } = req.params;
-    const courses = await Course.find({ "instructor.instructorId": id });
+    const castedid = mongoose.Types.ObjectId(id);
+    console.log(id);
+    // const courses = await Course.find({ "instructor.instructorId": id });
+    const courses = await Course.aggregate([
+      { $match: { "instructor.instructorId": castedid } },
+      {
+        $addFields: {
+          discountedPrice: {
+            $cond: [
+              {
+                $and: [
+                  { $lte: ["$promotion.startDate", new Date(Date.now())] },
+                  { $gte: ["$promotion.endDate", new Date(Date.now())] },
+                ],
+              },
+              {
+                $multiply: [
+                  "$price",
+                  { $subtract: [1, "$promotion.discount"] },
+                ],
+              },
+              "$price",
+            ],
+          },
+        },
+      },
+    ]);
+    console.log(courses);
     if (!courses) {
       res.status(404).send("Cannot find Courses for this instructor");
     }
@@ -208,14 +237,47 @@ export const filterInstructorCourses = async (req, res) => {
     const subjectArray = subject.split(/[,]+/);
     const priceArray = price.split(/[,]+/);
     const ratingArray = rating.split(/[,]+/);
-    const courses = await Course.find({ "instructor.instructorId": id })
-      .and({
-        subject: { $in: subjectArray },
-      })
-      .and({ price: { $lte: parseInt(priceArray[1]) } })
-      .and({ price: { $gte: parseInt(priceArray[0]) } })
-      .and({ rating: { $lte: parseInt(ratingArray[1]) } })
-      .and({ rating: { $gte: parseInt(ratingArray[0]) } });
+    // const courses = await Course.find({ "instructor.instructorId": id })
+    //   .and({
+    //     subject: { $in: subjectArray },
+    //   })
+    //   .and({ price: { $lte: parseInt(priceArray[1]) } })
+    //   .and({ price: { $gte: parseInt(priceArray[0]) } })
+    //   .and({ rating: { $lte: parseInt(ratingArray[1]) } })
+    //   .and({ rating: { $gte: parseInt(ratingArray[0]) } });
+    const courses = await Course.aggregate([
+      { $match: { "instructor.instructorId": mongoose.Types.ObjectId(id) } },
+      { $match: { subject: { $in: subjectArray } } },
+      { $match: { price: { $lte: parseInt(priceArray[1]) } } },
+      { $match: { price: { $gte: parseInt(priceArray[0]) } } },
+      { $match: { rating: { $lte: parseInt(ratingArray[1]) } } },
+      { $match: { rating: { $gte: parseInt(ratingArray[0]) } } },
+      {
+        $addFields: {
+          discountedPrice: {
+            $cond: [
+              {
+                $and: [
+                  { $lte: ["$promotion.startDate", new Date(Date.now())] },
+                  { $gte: ["$promotion.endDate", new Date(Date.now())] },
+                ],
+              },
+              {
+                $multiply: [
+                  "$price",
+                  { $subtract: [1, "$promotion.discount"] },
+                ],
+              },
+              "$price",
+            ],
+          },
+        },
+      },
+    ]);
+
+    if (!courses) {
+      res.status(404).send("Cannot find Courses for this instructor");
+    }
     res.status(200).send(courses);
   } catch (err) {
     res.status(401).send(err);
@@ -237,17 +299,40 @@ export const searchByTitleOrSubject = async (req, res) => {
 };
 export const updateRating = async (req, res) => {
   try {
-    const id  = mongoose.Types.ObjectId(req.params.id);
+    const id = mongoose.Types.ObjectId(req.params.id);
     const { rating } = req.body;
     const instructor = await Instructor.findById(id);
     if (!instructor) return res.status(404).send("instructor not found");
     const updatedInstructor = await Instructor.findByIdAndUpdate(
       id,
-      { rating
-        : rating },
+      { rating: rating },
       { new: true }
     );
     res.status(200).send(updatedInstructor);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+export const definePromotion = async (req, res) => {
+  try {
+    const { courseId, discount, startDate, endDate } = req.query;
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const updatedCourse = await Course.findByIdAndUpdate(
+      courseId,
+      {
+        $set: {
+          promotion: {
+            discount: discount,
+            startDate: start,
+            endDate: end,
+          },
+        },
+      },
+      { new: true }
+    );
+    if (!updatedCourse) return res.status(404).send("course not found");
+    res.status(200).send(updatedCourse);
   } catch (error) {
     res.status(400).send(error.message);
   }
