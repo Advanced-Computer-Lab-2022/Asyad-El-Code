@@ -34,13 +34,15 @@ import {
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import RatingCourse from "./RatingCourse";
 import { useDispatch, useSelector } from "react-redux";
-import { addRating, addReview, getCourse } from "../../actions/courses";
+import { addRating, addReview, getCourse } from "../../../actions/courses";
 import { useEffect } from "react";
-import * as individualTraineeApi from "../../api/individualTrainees.js";
+import * as individualTraineeApi from "../../../api/individualTrainees.js";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { VideoAndExercise } from "./VideoAndExercise";
-import { CourseContentWelcomePage } from "./CourseContentWelcomePage";
+import { CourseContentWelcomePage } from "../CourseContentWelcomePage";
+import { CourseWelcome } from "./CourseWelcome";
+import { CE } from "./Certificate/Certificate";
 
 const drawerWidth = 300;
 
@@ -133,6 +135,7 @@ export default function CourseContents() {
   const [solved, setSolved] = useState({});
   const [retakeOpen, setRetakeOpen] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [certificateState, setCitificateState] = useState(false);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -303,6 +306,7 @@ export default function CourseContents() {
         <Divider />
 
         <Divider />
+
         {course?.outlines.map((outline, index) => {
           return (
             <AccordionSet
@@ -354,7 +358,13 @@ export default function CourseContents() {
             exerciseOpen={showExerciseContent}
           ></VideoAndExercise>
         ) : (
-          <CourseContentWelcomePage progress={80}></CourseContentWelcomePage>
+          <>
+            <CourseWelcome
+              course={course}
+              courseTitle={course?.title}
+              progress={progress}
+            ></CourseWelcome>
+          </>
         )}
       </Main>
     </Box>
