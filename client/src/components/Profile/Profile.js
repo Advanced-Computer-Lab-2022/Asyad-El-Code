@@ -38,6 +38,7 @@ import Photo from "./Photo.js";
 import PendingProblems from "./PendingProblems.js";
 import ResolvedProblems from "./ResolvedProblems.js";
 import Password from "./Password.js";
+import Instructor from "./Instructor.js";
 import { getUnresolvedProblems, getResolvedProblems } from "../../api/problem.js";
 const Profile = () => {
   const [page, setPage] = useState("myProfile");
@@ -52,7 +53,11 @@ const Profile = () => {
     if (auth?.isloading) {
       return <CircularProgress />
     } else {
+      console.log("the auth", auth);
       let trainee = auth?.authData?.result;
+      if (trainee === undefined) {
+        trainee = auth?.authData;
+      }
       if (trainee === undefined) {
         trainee = auth?.authData?.user;
       }
@@ -249,9 +254,13 @@ const Profile = () => {
     if (auth?.isloading) {
       return <CircularProgress />
     } else {
-      let instructor = auth?.authData?.result;
+      console.log("auth", auth)
+      let instructor = auth?.authData.result;
       if (instructor === undefined) {
         instructor = auth?.authData?.user;
+      }
+      if (instructor === undefined) {
+        instructor = auth?.authData;
       }
       return (
         <Grid
@@ -295,8 +304,12 @@ const Profile = () => {
               </Grid>
               <Grid item borderBottom={1} borderColor="silver" width="100%" marginTop={1}>
                 <Typography sx={{ fontWeight: "bold" }} textAlign="center">
-                  {instructor?.firstName} {instructor?.lastName}
+                  {instructor?.firstName !== null && instructor?.lastName !== null ? <>{instructor?.firstName} {instructor?.lastName}</> : (instructor?.firstName !== null) ? <>{instructor?.firstName}</> : (instructor?.lastName !== null) ? <>{instructor?.lastName}</> : <>{instructor?.email}</>
+                  }
                 </Typography>
+              </Grid>
+              <Grid item borderBottom={1} borderColor="silver" width="100%" marginTop={1} textAlign="center" >
+                <Rating name="read-only" value={instructor?.rating} readOnly />
               </Grid>
               <Grid item width="100%">
                 <nav aria-label="secondary mailbox folders">
@@ -420,13 +433,13 @@ const Profile = () => {
             item
             xs={8}
             sx={{ borderStyle: "solid", borderWidth: "1px", borderColor: "silver" }}
-            height={700}
+            minheight={700}
             marginTop={0}
             paddingTop={0}
             overflow="hidden"
           >
             {page === "myProfile" ? (
-              <MyProfile instructor={instructor}></MyProfile>
+              <Instructor instructor={instructor}></Instructor>
             ) : page === "Payment" ? (
               <Payments></Payments>
             ) : page === "Photo" ? (

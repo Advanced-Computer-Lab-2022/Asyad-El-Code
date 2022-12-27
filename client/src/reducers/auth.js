@@ -25,6 +25,8 @@ export default (state = { authData: null,isLoading: false }, action) => {
 
     case CHANGE_PASSWORD:
       return { ...state, authData: action?.payload };
+    case "UPDATE_INSTRUCTOR":
+      return { ...state, authData: action?.payload };
 
     case SEND_EMAIL:
       return state;
