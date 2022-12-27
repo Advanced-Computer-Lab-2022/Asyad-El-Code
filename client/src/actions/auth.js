@@ -30,6 +30,7 @@ export const signin = (formData, history, setIsLoading) => async (dispatch) => {
     dispatch({ type: START_LOADING });
 
     const result = await userApi.signin(formData);
+    console.log("I ALREADY IN FRIEND??");
     dispatch({ type: AUTH, payload: result.data });
     dispatch({ type: END_LOADING });
     setTimeout(() => {
@@ -37,6 +38,7 @@ export const signin = (formData, history, setIsLoading) => async (dispatch) => {
     }, 3000);
   } catch (error) {
     console.log("Iam here mannnnnn");
+    console.log("FUC FUCK FUCK ERROR");
     dispatch({ type: AUTH_ERROR, payload: error.response.data });
     history.push("/auth");
   }

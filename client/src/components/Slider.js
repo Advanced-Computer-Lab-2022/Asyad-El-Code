@@ -14,6 +14,8 @@ import {
   Modal,
   Box,
   CircularProgress,
+  Skeleton,
+  Grid,
 } from "@mui/material";
 import useStyles from "../css/slider.js";
 import { Stack } from "@mui/system";
@@ -119,7 +121,22 @@ export const SimpleSlider = () => {
     ],
   };
   return isLoading ? (
-    <CircularProgress></CircularProgress>
+    <>
+      <Grid container columnSpacing={20}>
+        {[1, 2, 3, 4].map((e) => {
+          return (
+            <Grid mb={15} item xs={3}>
+              <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+
+              {/* For other variants, adjust the size with `width` and `height` */}
+              <Skeleton variant="circular" width={40} height={40} />
+              <Skeleton variant="rectangular" width={210} height={60} />
+              <Skeleton variant="rounded" width={210} height={100} />
+            </Grid>
+          );
+        })}
+      </Grid>
+    </>
   ) : (
     <div positon="relative">
       <div style={{ width: "1200px" }}>
@@ -203,7 +220,6 @@ export const SimpleSlider = () => {
           <CoursePopup courseData={courseDetails}></CoursePopup>
         </Box>
       </Modal>
-      <h1>Hello</h1>
     </div>
   );
 };

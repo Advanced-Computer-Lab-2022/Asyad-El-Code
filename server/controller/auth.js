@@ -7,6 +7,13 @@ import Administrator from "../models/administrator.js";
 
 //Make function to return if it is same password or not
 async function checkPassword(password, hashedPassword) {
+  console.log("CHECKING PASSWORD");
+  console.log(
+    `password: ${password} hashedPassword: ${hashedPassword} decrypted: ${await bcrypt.compare(
+      password,
+      hashedPassword
+    )}`
+  );
   return await bcrypt.compare(password, hashedPassword);
 }
 
@@ -36,7 +43,7 @@ export const signin = async (req, res) => {
           token: token,
         });
       }
-      const isValidPassword = checkPassword(
+      const isValidPassword = await checkPassword(
         password,
         corporateTrainee.password
       );
@@ -51,8 +58,13 @@ export const signin = async (req, res) => {
       });
     }
     console.log("WHY YOU HERE");
-    const isValidPassword = checkPassword(password, instructor.password);
+    console.log("SO YOU ARE INSTRUCTOR");
+    console.log("password", password);
+    //Decrypt the hashed password
+    const isValidPassword = await checkPassword(password, instructor.password);
+    console.log("isValidPassword", isValidPassword);
     if (!isValidPassword) {
+      console.log("StATUS 400 friend");
       return res.status(400).json({ message: "Invalid credentials" });
     }
     const token = await instructor.generateAuthToken();

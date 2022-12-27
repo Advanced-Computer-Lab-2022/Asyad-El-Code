@@ -21,6 +21,7 @@ import { getCourses } from "../../actions/courses";
 import "./home.css";
 import background from "../../images/code.jpg";
 import styled from "@emotion/styled";
+import { Reviews } from "./Reviews/Reviews";
 
 const MyTypography = styled(Typography)({
   color: "white",
@@ -89,8 +90,17 @@ export const Home = () => {
         </Container>
       </div>
       <Container>
+        <Typography
+          fontWeight="bold"
+          gutterBottom
+          sx={{ marginTop: 5, marginBottom: 5, textAlignLast: "center" }}
+          variant="h3"
+        >
+          Popular courses
+        </Typography>
         <PopularCourses></PopularCourses>
       </Container>
+      <Reviews></Reviews>
     </div>
   );
 };

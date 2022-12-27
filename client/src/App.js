@@ -38,6 +38,9 @@ const theme = createTheme({
     secondary: {
       main: "#f50057",
     },
+    grey: {
+      main: "#eeeeee",
+    },
   },
 });
 export const App = () => {
