@@ -8,6 +8,7 @@ import {
 
 export default (state = { authData: null }, action) => {
   console.log("Iam in the auth reducer", action?.payload);
+
   switch (action.type) {
     case AUTH:
       console.log("AUTH REDUCER", action?.payload);

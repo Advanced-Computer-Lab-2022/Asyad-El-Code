@@ -27,6 +27,7 @@ import { getCourse } from "../actions/courses.js";
 import { useHistory } from "react-router-dom";
 
 import { getRate } from "./util.js";
+import CardCourse from "./Course/PopularCourses/CourseCard.js";
 
 export const SimpleSlider = () => {
   const [detailsBox, setDetailsBox] = useState(false);
@@ -126,54 +127,58 @@ export const SimpleSlider = () => {
           {courses?.map((course, index) => {
             console.log(course.image);
             return (
-              <Card elevation={0} className={classes.cardGrid} key={index}>
-                <CardMedia
-                  onClick={() => handleClick(course._id, course.title)}
-                  component="img"
-                  image={image}
-                  className={classes.cardMedia}
-                  // onMouseOver={(event) => handleMouseOver(event, item.title)}
-                  // onMouseOut={handleMouseOut}
-                ></CardMedia>
+              // <Card elevation={0} className={classes.cardGrid} key={index}>
+              //   <CardMedia
+              //     onClick={() => handleClick(course._id, course.title)}
+              //     component="img"
+              //     image={image}
+              //     className={classes.cardMedia}
+              //     // onMouseOver={(event) => handleMouseOver(event, item.title)}
+              //     // onMouseOut={handleMouseOut}
+              //   ></CardMedia>
 
-                <CardContent>
-                  <Typography
-                    className={classes.cardHeader}
-                    gutterBottom
-                    variant="h6"
-                    component="div"
-                  >
-                    {course.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {course.summary}
-                  </Typography>
+              //   <CardContent>
+              //     <Typography
+              //       className={classes.cardHeader}
+              //       gutterBottom
+              //       variant="h6"
+              //       component="div"
+              //     >
+              //       {course.title}
+              //     </Typography>
+              //     <Typography variant="body2" color="text.secondary">
+              //       {course.summary}
+              //     </Typography>
 
-                  <Stack spacing={1} direction="row">
-                    <p>{parseFloat(course.rating)}</p>
-                    <Rating
-                      precision={0.5}
-                      defaultValue={parseFloat(course.rating)}
-                      readOnly
-                      sx={{ alignItems: "center" }}
-                    ></Rating>
-                    <p style={{ alignSelf: "center" }}>n5332</p>
-                  </Stack>
-                  <Typography variant="body1" fontWeight="bold">
-                    {/* {rates.isLoading? <CircularProgress></CircularProgress>:
-                    getRate(selectedCountry, course.price, rates.currencyRates)} */}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    onClick={() => handleOpen(course)}
-                    variant="outlined"
-                    size="small"
-                  >
-                    View
-                  </Button>
-                </CardActions>
-              </Card>
+              //     <Stack spacing={1} direction="row">
+              //       <p>{parseFloat(course.rating)}</p>
+              //       <Rating
+              //         precision={0.5}
+              //         defaultValue={parseFloat(course.rating)}
+              //         readOnly
+              //         sx={{ alignItems: "center" }}
+              //       ></Rating>
+              //       <p style={{ alignSelf: "center" }}>n5332</p>
+              //     </Stack>
+              //     <Typography variant="body1" fontWeight="bold">
+              //       {/* {rates.isLoading? <CircularProgress></CircularProgress>:
+              //       getRate(selectedCountry, course.price, rates.currencyRates)} */}
+              //     </Typography>
+              //   </CardContent>
+              //   <CardActions>
+              //     <Button
+              //       onClick={() => handleOpen(course)}
+              //       variant="outlined"
+              //       size="small"
+              //     >
+              //       View
+              //     </Button>
+              //   </CardActions>
+              // </Card>
+              <CardCourse
+                course={course}
+                handleClick={handleClick}
+              ></CardCourse>
             );
           })}
         </Slider>
@@ -198,6 +203,7 @@ export const SimpleSlider = () => {
           <CoursePopup courseData={courseDetails}></CoursePopup>
         </Box>
       </Modal>
+      <h1>Hello</h1>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 import React from "react";
-import useStyles from "../../css/course";
+import useStyles from "../../../css/course";
 import DoneIcon from "@mui/icons-material/Done";
 export default function CourseBenefits() {
   const { classes } = useStyles();

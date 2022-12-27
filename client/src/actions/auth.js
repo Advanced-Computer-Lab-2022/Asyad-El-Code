@@ -3,6 +3,7 @@ import {
   AUTH_ERROR,
   CHANGE_PASSWORD,
   SEND_EMAIL,
+  GET_LOGGED_USER,
 } from "../constants/auth";
 import * as userApi from "../api/auth.js";
 import { END_LOADING, START_LOADING } from "../constants/courses";
@@ -59,6 +60,19 @@ export const changePasword = (formData, id) => async (dispatch) => {
     dispatch({ type: CHANGE_PASSWORD, payload: data });
     dispatch({ type: END_LOADING });
   } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const getLoggedUser = () => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
+    const result = await userApi.getLoggedUser();
+    console.log("RESULT?????", result);
+    dispatch({ type: GET_LOGGED_USER, payload: result.data });
+    dispatch({ type: END_LOADING });
+  } catch (error) {
+    console.log("HERE ERROR");
     console.log(error.message);
   }
 };

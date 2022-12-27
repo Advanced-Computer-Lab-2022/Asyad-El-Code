@@ -20,8 +20,8 @@ import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import { useState } from "react";
 import { useEffect } from "react";
-import * as individualTraineeApi from "../../api/individualTrainees.js";
-import { CourseContentWelcomePage } from "./CourseContentWelcomePage.js";
+import * as individualTraineeApi from "../../../api/individualTrainees.js";
+import { CourseContentWelcomePage } from "../CourseContentWelcomePage.js";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />

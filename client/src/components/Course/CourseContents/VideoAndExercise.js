@@ -13,10 +13,10 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import useStyles from "../../css/courseContent.js";
+import useStyles from "../../../css/courseContent.js";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
-import * as individualTraineeApi from "../../api/individualTrainees.js";
+import * as individualTraineeApi from "../../../api/individualTrainees.js";
 import ReactPlayer from "react-player";
 import CreateIcon from "@mui/icons-material/Create";
 import Notes from "./Notes.js";
@@ -110,9 +110,7 @@ export const VideoAndExercise = ({
               <ReactPlayer
                 width="100%"
                 onProgress={(state) => {
-
                   setPlayedMinutes((state.playedSeconds / 60).toFixed(2) - 0.1);
-
                 }}
                 url={`https://www.youtube.com/embed/${content.videoUrl}`}
                 height="500px"

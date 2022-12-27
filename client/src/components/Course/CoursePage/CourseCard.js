@@ -5,15 +5,21 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Grid, Link } from "@mui/material";
-import useStyles from "../../css/course";
+import useStyles from "../../../css/course";
 import styled from "@emotion/styled";
-import { payCourse } from "../../api/individualTrainees";
+import { payCourse } from "../../../api/individualTrainees";
+import { useState, useEffect } from "react";
 
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getLoggedUser } from "../../../actions/auth";
+import * as individualTraineeApi from "../../../api/individualTrainees.js";
+
 export default function CourseCard({
   isCourseInUserCourses,
   course,
   traineeType,
+  userObject,
 }) {
   const { classes } = useStyles();
   const history = useHistory();
@@ -23,7 +29,52 @@ export default function CourseCard({
   });
   console.log("IS HERE COURSE ? : ", isCourseInUserCourses);
   console.log("THE CoURSE IS  : ", course);
+  const [progress, setProgress] = useState(0);
 
+  const calculateAndSetProgress = () => {
+    let totalDuration = 0;
+    userObject?.courses
+      ?.find((c) => c._id === course._id)
+      ?.seenContent?.forEach((g) => {
+        totalDuration += g.duration;
+      });
+    userObject?.courses
+      ?.find((c) => c._id === course._id)
+      ?.grades?.forEach((g) => {
+        totalDuration += g.total * 5;
+      });
+
+    console.log("This is total Duration", totalDuration);
+    console.log("this is course duration", course?.duration);
+
+    setProgress(Math.ceil(totalDuration / (course?.duration * 60)) * 100);
+  };
+  useEffect(() => {
+    calculateAndSetProgress();
+  }, [userObject?.courses?.find((c) => c._id === course._id)?.seenContent]);
+
+  const requestRefund = () => {
+    //make the refund request here
+  };
+  const calculateProgressAndCheckUserInCourses = () => {
+    if (isCourseInUserCourses) {
+      if (progress <= 50) {
+        return (
+          <Grid mt={2} item md={12}>
+            <div onClick={requestRefund} className={classes.buyNow}>
+              <Typography
+                sx={{ fontWeight: "bold", padding: 1, textAlign: "center" }}
+                variant="body1"
+              >
+                {/* TODO Checking if he has the course */}
+                Request Refund
+              </Typography>
+            </div>
+          </Grid>
+        );
+      } else return null;
+    } else return null;
+  };
   const payForCourse = async () => {
     try {
       const { data } = await payCourse({
@@ -123,17 +174,7 @@ export default function CourseCard({
             {button}{" "}
           </Grid>
 
-          <Grid mt={2} item md={12}>
-            <div className={classes.buyNow}>
-              <Typography
-                sx={{ fontWeight: "bold", padding: 1, textAlign: "center" }}
-                variant="body1"
-              >
-                {/* TODO Checking if he has the course */}
-                Buy Now
-              </Typography>
-            </div>
-          </Grid>
+          {calculateProgressAndCheckUserInCourses()}
           <Grid container alignItems="center" direction="column" item>
             <Grid mt={1} item>
               <MyInfo>30-Day Money-Back Guarantee</MyInfo>

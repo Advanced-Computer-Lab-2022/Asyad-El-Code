@@ -1,7 +1,7 @@
 import { Card, Container, Grid, Typography } from "@mui/material";
 import React from "react";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import CircularProgressWithLabel from "./CircularProgressWithLabel.js";
+import CircularProgressWithLabel from "./CourseContents/CircularProgressWithLabel.js";
 import { useState } from "react";
 import { useEffect } from "react";
 

@@ -11,7 +11,7 @@ import {
   Fab,
   Alert,
 } from "@mui/material";
-import * as individualTraineeApi from "../../api/individualTrainees.js";
+import * as individualTraineeApi from "../../../api/individualTrainees.js";
 import DownloadIcon from "@mui/icons-material/Download";
 import { saveAs } from "file-saver";
 import axios from "axios";

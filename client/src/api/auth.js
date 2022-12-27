@@ -25,3 +25,13 @@ export const changePassword = async (formData, id) => {
 export const sendEmail = async (formData) => {
   return await API.post("/sendEmail", formData);
 };
+
+export const getLoggedUser = async () => {
+  return await API.get(
+    `/getLoggedUser?id=${
+      JSON.parse(localStorage.getItem("profile")).result._id
+    }&token=${JSON.parse(localStorage.getItem("profile")).token}&type=${
+      JSON.parse(localStorage.getItem("profile")).type
+    }`
+  );
+};

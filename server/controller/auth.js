@@ -243,3 +243,12 @@ const changePassword = async (type, id, password) => {
     await admin.save();
   }
 };
+
+export const getLoggedUser = async (req, res) => {
+  const { id, type, token } = req.query;
+  console.log("THE ID ", id);
+  console.log("THE TYPE ", type);
+  const user = await getUser(type, id);
+  console.log("THE USER S", user);
+  res.status(200).json({ result: user, type: type, token: token });
+};
