@@ -9,6 +9,7 @@ import { END_LOADING, START_LOADING } from "../constants/courses";
 
 export default (state = { authData: null,isLoading: false }, action) => {
   console.log("Iam in the auth reducer", action?.payload);
+
   switch (action.type) {
     case AUTH:
       console.log("AUTH REDUCER", action?.payload);

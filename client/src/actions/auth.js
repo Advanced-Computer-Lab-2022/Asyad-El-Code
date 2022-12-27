@@ -3,6 +3,7 @@ import {
   AUTH_ERROR,
   CHANGE_PASSWORD,
   SEND_EMAIL,
+  GET_LOGGED_USER,
 } from "../constants/auth";
 import * as userApi from "../api/auth.js";
 import { END_LOADING, START_LOADING } from "../constants/courses";
@@ -29,6 +30,7 @@ export const signin = (formData, history, setIsLoading) => async (dispatch) => {
     dispatch({ type: START_LOADING });
 
     const result = await userApi.signin(formData);
+    console.log("I ALREADY IN FRIEND??");
     dispatch({ type: AUTH, payload: result.data });
     dispatch({ type: END_LOADING });
     setTimeout(() => {
@@ -36,6 +38,7 @@ export const signin = (formData, history, setIsLoading) => async (dispatch) => {
     }, 3000);
   } catch (error) {
     console.log("Iam here mannnnnn");
+    console.log("FUC FUCK FUCK ERROR");
     dispatch({ type: AUTH_ERROR, payload: error.response.data });
     history.push("/auth");
   }
@@ -59,6 +62,19 @@ export const changePasword = (formData, id) => async (dispatch) => {
     dispatch({ type: CHANGE_PASSWORD, payload: data });
     dispatch({ type: END_LOADING });
   } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const getLoggedUser = () => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
+    const result = await userApi.getLoggedUser();
+    console.log("RESULT?????", result);
+    dispatch({ type: GET_LOGGED_USER, payload: result.data });
+    dispatch({ type: END_LOADING });
+  } catch (error) {
+    console.log("HERE ERROR");
     console.log(error.message);
   }
 };

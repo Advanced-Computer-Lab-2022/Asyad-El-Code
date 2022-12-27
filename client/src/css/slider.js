@@ -37,6 +37,13 @@ const useStyles = makeStyles()((theme) => {
       left: "370px",
       top: "500px",
     },
+    slide: {
+      height: "30px",
+      backgroundColor: "black",
+      borderRadius: "40px",
+      borderStyle: "solid",
+      position: "relative",
+    },
   };
 });
 export default useStyles;

@@ -8,7 +8,7 @@ import { Switch, Route } from "react-router-dom";
 import CourseStructure from "./components/Instructor/CourseStructure";
 import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
-import CoursePage from "./components/Course/CoursePage";
+import CoursePage from "./components/Course/CoursePage/CoursePage";
 import ScrollToTop from "./components/ScrollToTop";
 
 import MyCourses from "./components/Trainee/MyCourses";
@@ -20,13 +20,16 @@ import { Auth } from "./components/Auth/Auth";
 import SplashScreen from "./components/Splash/test.js";
 import { ConfirmPassword } from "./components/Auth/SendEmail";
 import { createTheme, ThemeProvider } from "@mui/material";
-import PersistentDrawerLeft from "./components/Course/CourseContents";
+import PersistentDrawerLeft from "./components/Course/CourseContents/CourseContents";
 import Testo from "./components/Trainee/test";
 import { SuccessPage } from "./components/Trainee/SuccessPage";
 import CourseRequests from "./components/Admin/CourseRequest";
 import Problems from "./components/Admin/Problems";
 import PendingProblems from "./components/Profile/PendingProblems";
 import PrimarySearchAppBar from "./components/Navbar/tst";
+import { CourseWelcome } from "./components/Course/CourseContents/CourseWelcome";
+import CardCourse from "./components/Course/PopularCourses/CourseCard";
+import { CE } from "./components/Course/CourseContents/Certificate/Certificate";
 
 const theme = createTheme({
   palette: {
@@ -35,6 +38,9 @@ const theme = createTheme({
     },
     secondary: {
       main: "#f50057",
+    },
+    grey: {
+      main: "#eeeeee",
     },
   },
 });
@@ -45,6 +51,9 @@ export const App = () => {
         <Switch>
           <Route exact path="/ta">
             <PrimarySearchAppBar></PrimarySearchAppBar>
+          </Route>
+          <Route exact path="/ha">
+            <CE></CE>
           </Route>
           <Route exact path="/">
             <SplashScreen></SplashScreen>
