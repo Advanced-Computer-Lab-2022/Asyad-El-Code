@@ -125,35 +125,6 @@ const MyProfile = ({ trainee }) => {
               <Grid item></Grid>
               <Grid item xs={5}>
                 <FormControl variant="outlined" margin="10" fullWidth>
-                  <InputLabel htmlFor="outlined-adornment-password">
-                    Password
-                  </InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-password"
-                    type={showPassword ? "text" : "password"}
-                    defaultValue={password}
-                    onChange={(newValue) => {
-                      setPassword(newValue.target.value);
-                      console.log(newValue.target.value);
-                    }}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    label="Password"
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={5}>
-                <FormControl variant="outlined" margin="10" fullWidth>
                   <TextField
                     id="counrty"
                     name="country"
@@ -168,7 +139,6 @@ const MyProfile = ({ trainee }) => {
                   />
                 </FormControl>
               </Grid>
-              <Grid item></Grid>
               <Grid item xs={5}>
                 <FormControl variant="outlined" margin="10" fullWidth>
                   <TextField

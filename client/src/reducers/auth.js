@@ -5,8 +5,9 @@ import {
   CHANGE_PASSWORD,
   SEND_EMAIL,
 } from "../constants/auth";
+import { END_LOADING, START_LOADING } from "../constants/courses";
 
-export default (state = { authData: null }, action) => {
+export default (state = { authData: null,isLoading: false }, action) => {
   console.log("Iam in the auth reducer", action?.payload);
   switch (action.type) {
     case AUTH:
@@ -26,6 +27,10 @@ export default (state = { authData: null }, action) => {
 
     case SEND_EMAIL:
       return state;
+    case START_LOADING:
+      return { ...state, isLoading: true };
+    case END_LOADING:
+      return { ...state, isLoading: false };
     default:
       return state;
   }
