@@ -123,7 +123,7 @@ export const CoursePage = () => {
                     {courses[0].title}
                   </MyTypography>
                   <Typography className={classes.courseSubtitle} variant="h6">
-                    {courses[0].summary}
+                    sdnbmsdnba
                   </Typography>
 
                   <Stack spacing={1} direction="row">
@@ -151,7 +151,7 @@ export const CoursePage = () => {
                     <MyTypography variant="body2">
                       Created by{" "}
                       <MyLink underline="always" href="#">
-                        {courses[0].in}
+                        {courses[0].instructor.name}
                       </MyLink>
                     </MyTypography>
                   </Stack>
