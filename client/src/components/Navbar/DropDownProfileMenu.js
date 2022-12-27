@@ -15,6 +15,7 @@ import { useHistory } from "react-router-dom";
 import RuleFolderIcon from "@mui/icons-material/RuleFolder";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import image from "../../images/img1.jpeg";
+import DiscountIcon from '@mui/icons-material/Discount';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -150,6 +151,14 @@ export default function DropDownMenuProfile({ user, logout }) {
               <ReportProblemIcon fontSize="small" />
             </ListItemIcon>
             Reported Problems
+          </MenuItem>
+        ) : null}
+        {user?.type === "admin" ? (
+          <MenuItem onClick={() => history.push("/coursesPromo")}>
+            <ListItemIcon>
+              <DiscountIcon fontSize="small" />
+            </ListItemIcon>
+            Promotions
           </MenuItem>
         ) : null}
         <MenuItem>

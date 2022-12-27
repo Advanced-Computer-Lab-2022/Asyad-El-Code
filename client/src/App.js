@@ -29,6 +29,7 @@ import PrimarySearchAppBar from "./components/Navbar/tst";
 import { CourseWelcome } from "./components/Course/CourseContents/CourseWelcome";
 import CardCourse from "./components/Course/PopularCourses/CourseCard";
 import { CE } from "./components/Course/CourseContents/Certificate/Certificate";
+import { Courses } from "./components/Admin/Courses";
 
 const theme = createTheme({
   palette: {
@@ -112,6 +113,10 @@ export const App = () => {
 
               <Route exact path="/reportedProblems">
                 <Problems></Problems>
+              </Route>
+
+              <Route exact path="/coursesPromo">
+                <Courses></Courses>
               </Route>
             </Switch>
           </Route>
