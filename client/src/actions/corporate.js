@@ -1,4 +1,5 @@
 import * as api from "../api/corporate";
+import * as adminApi from "../api/admin";
 import {
   FETCH_CORPORATES,
   ADD_CORPORATE,
@@ -18,7 +19,7 @@ export const getCorporates = () => async (dispatch) => {
 
 export const addCorporate = (corporate) => async (dispatch) => {
   try {
-    const res = await api.addCorporate(corporate);
+    const res = await adminApi.addCorporate(corporate);
     console.log(res.data);
     if (res.status === 200)
       dispatch({ type: ADD_CORPORATE, payload: res.data });

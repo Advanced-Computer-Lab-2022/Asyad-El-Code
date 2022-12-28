@@ -1,7 +1,6 @@
 import express from "express";
-import { createAdministrator,getAdministrators, getAdministratorByUserName,
-    deleteAdministrator, updateAdministrator,getAdministratorById,createInstructor, getCourseRequests, acceptCourseRequest, deleteCourseRequest, rejectCourseRequest } from "../controller/administrator.js";
-import {createCorporateTrainee} from "../controller/corporateTrainee.js";
+import { createAdministrator,getAdministrators, getAdministratorByUserName, addCorporateTrainee,
+    deleteAdministrator, updateAdministrator,getAdministratorById,addInstructor, getCourseRequests, acceptCourseRequest, deleteCourseRequest, rejectCourseRequest } from "../controller/administrator.js";
 
 const router = express.Router();
 
@@ -11,8 +10,9 @@ router.get("/",getAdministrators);
 router.get("/:userName",getAdministratorByUserName);
 router.get("/:id",getAdministratorById);
 router.delete("/:id",deleteAdministrator);
-router.post("/addInstructor",createInstructor);
-router.post("/AddCorperateTrainee",createCorporateTrainee);
+router.post("/addAdmin",createAdministrator);
+router.post("/addInstructor",addInstructor);
+router.post("/addCorporate",addCorporateTrainee);
 router.put("/:id",updateAdministrator);
 router.post("/acceptCourseRequest",acceptCourseRequest);
 router.delete("/deleteCourseRequest/:id",deleteCourseRequest);

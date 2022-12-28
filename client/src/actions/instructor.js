@@ -1,5 +1,6 @@
 import { FETCH_ALL, FETCH_INSTRUCTORS, ADD_INSTRUCTOR } from "../constants/instructors";
 import * as instructorApi from "../api/instructor";
+import * as adminApi from "../api/admin";
 
 export const getInstructors = () => async (dispatch) => {
   try {
@@ -44,7 +45,7 @@ export const filterInstructorCourses = (filterData) => async (dispatch) => {
 export const addInstructor = (instructor) => async (dispatch) => {
   try {
 
-    const res = await instructorApi.addInstructor(instructor);
+    const res = await adminApi.addInstructor(instructor);
     console.log(res.data);
     if (res.status === 200)
       dispatch({ type: ADD_INSTRUCTOR, payload: res.data });

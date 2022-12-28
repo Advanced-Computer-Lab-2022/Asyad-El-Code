@@ -15,9 +15,9 @@ export const getAdmins = () => async (dispatch) => {
 
 export const addAdmin = (admin) => async (dispatch) => {
     try {
-        
+      console.log(admin);
       const res = await api.addAdmin(admin);
-      console.log(res.data);
+      console.log("HEHEHEH",res);
       if(res.status===200)
         dispatch({ type: ADD_ADMIN, payload: res.data});
     } catch (error) {
