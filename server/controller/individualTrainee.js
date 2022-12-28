@@ -30,7 +30,7 @@ export const createIndvidualTrainee = async (req, res) => {
   } = req.body;
 
   try {
-    const individualtrainee = await new IndividualTrainee({
+    const individualtrainee = new IndividualTrainee({
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -88,6 +88,7 @@ export const deleteIndividualTrainee = async (req, res) => {
 
 export const updateIndividualTrainee = async (req, res) => {
   try {
+    console.log("IAM HERE SO ");
     const id = req.params.id;
     const castedId = mongoose.Types.ObjectId(id);
     const IndvidTrainee = await IndividualTrainee.findById(castedId);
@@ -97,7 +98,6 @@ export const updateIndividualTrainee = async (req, res) => {
       {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        password: req.body.password,
         phoneNumber: req.body.phoneNumber,
         country: req.body.country,
       },
