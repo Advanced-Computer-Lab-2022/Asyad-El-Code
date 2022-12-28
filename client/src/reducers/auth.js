@@ -7,7 +7,10 @@ import {
 } from "../constants/auth";
 import { END_LOADING, START_LOADING } from "../constants/courses";
 
-export default (state = { authData: null,isLoading: false }, action) => {
+export default (
+  state = { authData: null, error: null, isLoading: false },
+  action
+) => {
   console.log("Iam in the auth reducer", action?.payload);
 
   switch (action.type) {
@@ -15,16 +18,16 @@ export default (state = { authData: null,isLoading: false }, action) => {
       console.log("AUTH REDUCER", action?.payload);
       console.log(action?.payload.type);
       localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
-      return { ...state, authData: action?.payload };
+      return { ...state, authData: action?.payload, error: null };
     case LOGOUT:
       localStorage.clear();
-      return { ...state, authData: null };
+      return { ...state, authData: null, error: null };
 
     case AUTH_ERROR:
-      return { ...state, authData: action?.payload };
+      return { ...state, error: action?.payload };
 
     case CHANGE_PASSWORD:
-      return { ...state, authData: action?.payload };
+      return { ...state, authData: action?.payload, error: null };
     case "UPDATE_INSTRUCTOR":
       return { ...state, authData: action?.payload };
 
