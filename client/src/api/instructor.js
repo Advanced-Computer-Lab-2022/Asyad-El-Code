@@ -28,6 +28,9 @@ export const fetchInstructor = async () =>
 export const addInstructor = async (instructor) => {
   return await API.post(`/`, instructor);
 };
+export const updateInstructor = async (id, instructor) => {
+  return await API.patch(`/updateInformation/${id}`, instructor);
+};
 
 // export const addMoneyToInstructorWallet = async (courseId, instructorId) => {
 //   return await API.post(
