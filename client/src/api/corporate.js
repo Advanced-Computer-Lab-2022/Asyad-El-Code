@@ -17,4 +17,5 @@ export const addCorporate = async (corporate) => {
   return await API.post(`/`, corporate);
 };
 
-export const getCorporate = async () => await API.get(`/${JSON.parse(localStorage.getItem("profile")).result._id}`);
+export const getCorporate = async () =>
+  await API.get(`/${JSON.parse(localStorage.getItem("profile")).result._id}`);

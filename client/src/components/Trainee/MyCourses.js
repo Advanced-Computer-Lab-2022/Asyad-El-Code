@@ -73,7 +73,7 @@ const MyCourses = () => {
         rowGap={3}
         columnGap={3}
       >
-        {courses.map((course, index) => {
+        {courses?.map((course, index) => {
           return (
             <Grid key={index} item xs={3}>
               <Card
