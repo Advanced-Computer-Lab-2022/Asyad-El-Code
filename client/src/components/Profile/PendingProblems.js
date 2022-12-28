@@ -28,9 +28,12 @@ const PendingProblems = (props) => {
             direction="column"
             alignContent="center"
             color="#1C1D1F"
+            minheight={700}
+
 
         >
-            <Grid item borderBottom={1} borderColor="silver" width="100%" padding={3}>
+            <Grid item borderBottom={1} borderColor="silver" width="100%" padding={3} bgcolor="#1C1D1F"
+                color="white">
                 <Typography fontWeight="bold" fontSize={35} textAlign="center">
                     Pending Problems
                 </Typography>
@@ -38,16 +41,16 @@ const PendingProblems = (props) => {
                     View your pending problems
                 </Typography>
             </Grid>
-            <Grid item borderColor="silver" width="100%" padding={3}>
+            <Grid item borderColor="silver" width="100%" padding={3} >
                 {reportedProblems?.length === 0 ?
                     <Typography fontSize={20} textAlign="center" marginTop={5}>
                         No Pending problems to show
                     </Typography> :
-                    <Grid container spacing={5} padding={1} marginTop={1} marginBottom={4} paddingBottom={1} direction="row" justifyContent="center" alignItems="center" maxHeight={550} sx={{ overflowY: "scroll" }}>
+                    <Grid container spacing={5} padding={1} marginTop={1} marginBottom={4} paddingBottom={1} direction="row" justifyContent="center" alignItems="center" >
                         {reportedProblems?.map((problem) => (
                             <>
                                 <Grid item xs={10} key={problem._id}>
-                                    <Card sx={{ minWidth: 500 }}>
+                                    <Card sx={{ minWidth: 500, backgroundColor:"#EEEEEE" }}>
                                         <CardContent>
                                             <Typography variant="h6" component="div">
                                                 {problem?.courseName}

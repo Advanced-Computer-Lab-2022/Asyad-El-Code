@@ -56,24 +56,25 @@ const Profile = () => {
       console.log("the auth", auth);
       let trainee = auth?.authData?.result;
       if (trainee === undefined) {
-        trainee = auth?.authData;
+        trainee = auth?.authData?.user;
       }
       if (trainee === undefined) {
-        trainee = auth?.authData?.user;
+        trainee = auth?.authData;
       }
       return (
         <Grid
           container
           justifyContent="start"
           marginTop={4}
-          sx={{ border: "ActiveBorder" }}
+          sx={{ border: "ActiveBorder", borderWidth: "1px", borderColor: "silver", borderBottom: "1" }}
           height={650}
           alignItems="start"
+          overflow={"auto"}
         >
           <Grid
             item
             xs={2.5}
-            sx={{ borderStyle: "solid", borderWidth: "1px", borderColor: "silver" }}
+            sx={{ borderStyle: "solid", borderWidth: "1px", borderColor: "silver", borderBottom: "none" }}
             mr={0}
             ml={0}
             container
@@ -81,6 +82,7 @@ const Profile = () => {
             direction="column"
             rowSpacing={2}
             alignItems="center"
+            minheight={700}
           >
             <Grid item marginTop={3} xs={1}>
               <Grid container justifyContent="center">
@@ -145,7 +147,7 @@ const Profile = () => {
                         />
                       </ListItemButton>
                     </ListItem>
-                    <ListItem disablePadding>
+                    {/* <ListItem disablePadding>
                       <ListItemButton
                         onClick={() => {
                           setPage("Photo");
@@ -156,7 +158,7 @@ const Profile = () => {
                           sx={{ textAlign: "center", lineHeight: 1 }}
                         />
                       </ListItemButton>
-                    </ListItem>
+                    </ListItem> */}
                     <ListItem disablePadding>
                       <ListItemButton
                         onClick={() => {
@@ -228,7 +230,7 @@ const Profile = () => {
             item
             xs={8}
             sx={{ borderStyle: "solid", borderWidth: "1px", borderColor: "silver" }}
-            height={700}
+            minheight={700}
             marginTop={0}
             paddingTop={0}
             overflow="hidden"

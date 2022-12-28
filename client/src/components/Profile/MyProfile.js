@@ -16,6 +16,7 @@ import {
   MenuItem,
   Select,
   InputAdornment,
+  Alert
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -36,6 +37,7 @@ const MyProfile = ({ trainee }) => {
   const [country, setCountry] = useState(trainee?.country);
   const [date, setDate] = useState(trainee?.dateOfBirth);
   const [showPassword, setShowPassword] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -52,6 +54,7 @@ const MyProfile = ({ trainee }) => {
     trainee.phoneNumber = phone;
     trainee.country = country;
     dispatch(updateTrainee(trainee._id, trainee));
+    setIsUpdated(true);
     console.log(trainee);
   };
 
@@ -184,6 +187,13 @@ const MyProfile = ({ trainee }) => {
                   />
                 </FormControl>
               </Grid>
+              {isUpdated && (
+                <Grid item xs={12}>
+                  <Alert severity="success">
+                    Your profile has been updated successfully
+                  </Alert>
+                </Grid>
+              )}
               <Grid item xs={4}></Grid>
               <Grid item xs={3} alignItems="center" justifyItems="center">
                 <Button
