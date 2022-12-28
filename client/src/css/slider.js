@@ -9,6 +9,9 @@ const useStyles = makeStyles()((theme) => {
 
     cardGrid: {
       padding: "10px",
+      borderRadius: "1",
+      borderStyle: "solid",
+      borderColor: "black",
 
       // paddingRight: "40px",
       height: 500,
@@ -19,6 +22,13 @@ const useStyles = makeStyles()((theme) => {
       fontWeight: "bold",
     },
     cardHeader: {
+      // [theme.breakpoints.down("sm")]: {
+      //   fontSize: 24,
+      // },
+      // [theme.breakpoints.up("lg")]: {
+      //   fontSize: 20,
+      // },
+
       fontWeight: "800",
       fontSize: "15px",
     },
@@ -26,6 +36,13 @@ const useStyles = makeStyles()((theme) => {
       position: "absolute",
       left: "370px",
       top: "500px",
+    },
+    slide: {
+      height: "30px",
+      backgroundColor: "black",
+      borderRadius: "40px",
+      borderStyle: "solid",
+      position: "relative",
     },
   };
 });

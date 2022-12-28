@@ -7,19 +7,22 @@ import {
   Typography,
 } from "@mui/material";
 import { Stack } from "@mui/system";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import LanguageIcon from "@mui/icons-material/Language";
 
-import useStyles from "../../css/course";
+import useStyles from "../../../css/course";
 import CourseCard from "./CourseCard";
 import Link from "@mui/material/Link";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { styled } from "@mui/material";
 import CourseBenefits from "./CourseBenefits";
 import CourseContent from "./CourseSections";
+import ReportCourseModal from "./ReportCourseModal";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getTrainee } from "../../actions/individualTrainees";
+import { getTrainee } from "../../../actions/individualTrainees";
+import { getAllProblems } from "../../../actions/reportedProblems";
+import { getCorporate } from "../../../actions/corporate";
 
 export const CoursePage = () => {
   const { isLoading, courses } = useSelector((state) => state.courses);
@@ -36,21 +39,75 @@ export const CoursePage = () => {
   const MyTypography = styled(Typography)({
     color: "white",
   });
+
   const user = JSON.parse(localStorage.getItem("profile"));
+  const [traineeType, setTraineeType] = useState(user?.type);
+  const [progress, setProgress] = useState(0);
+  const [reportCourseModal, setReportCourseModal] = useState(false);
+
+  const corporateTrainee = useSelector((state) => state?.corporates);
+  const individualTrainee = useSelector((state) => state?.individualTrainee);
+  const reportedProblems = useSelector((state) => state?.reportedProblems);
+
+  console.log("Iam the traineeType", traineeType);
   console.log("Iam the user", user);
+
   useEffect(() => {
-    dispatch(getTrainee());
+    if (traineeType === "corporateTrainee") {
+      dispatch(getCorporate());
+    } else {
+      dispatch(getTrainee());
+    }
+    dispatch(getAllProblems());
+
+    calculateAndSetProgress();
   }, []);
 
-  const individualTrainee = useSelector((state) => state?.individualTrainee);
+  const handleCloseReportCourseModal = () => {
+    setReportCourseModal(false);
+  };
+  console.log("ASDFGHJKLZXCVBNMQWERTYUIOP");
   console.log("The state is ", individualTrainee);
   console.log(individualTrainee?.courses);
-  console.log("COURSE[0] is ", courses[0]);
-  const isCourseInUserCourses = individualTrainee?.courses?.find(
-    (c) => c._id === courses[0]?._id
-  );
+  console.log("The corporate trainee is ", corporateTrainee);
+  console.log(corporateTrainee?.courses);
+  let isCourseInUserCourses = false;
+  //Create a function to get the user
 
-  console.log("Iam the isCourseInUserCourses", isCourseInUserCourses);
+  if (traineeType === "individualTrainee") {
+    if (individualTrainee?.courses?.length > 0) {
+      isCourseInUserCourses = individualTrainee?.courses?.find(
+        (c) => c._id === courses[0]?._id
+      );
+    }
+  } else {
+    if (corporateTrainee?.courses?.length > 0) {
+      isCourseInUserCourses = corporateTrainee?.courses?.find(
+        (c) => c._id === courses[0]?._id
+      );
+    }
+  }
+  console.log("isCourseInUserCourses", isCourseInUserCourses);
+  console.log("ASDFGHJKLZXCVBNMQWERTYUIOP");
+
+  console.log("The reported problems are", reportedProblems);
+
+  const calculateAndSetProgress = () => {
+    let totalDuration = 0;
+    individualTrainee?.courses
+      ?.find((c) => c._id === courses[0]?._id)
+      ?.seenContent?.forEach((g) => {
+        totalDuration += g.duration;
+      });
+    individualTrainee?.courses
+      ?.find((c) => c._id === courses[0]?._id)
+      ?.grades?.forEach((g) => {
+        totalDuration += g.total * 5;
+      });
+    console.log("This is total Duration", totalDuration);
+    console.log("this is course duration", courses[0]?.duration);
+    setProgress(Math.ceil(totalDuration / (courses[0]?.duration * 60)) * 100);
+  };
 
   return (
     <>
@@ -66,7 +123,7 @@ export const CoursePage = () => {
                     {courses[0].title}
                   </MyTypography>
                   <Typography className={classes.courseSubtitle} variant="h6">
-                    {courses[0].summary}
+                    sdnbmsdnba
                   </Typography>
 
                   <Stack spacing={1} direction="row">
@@ -84,6 +141,7 @@ export const CoursePage = () => {
                       readOnly
                       sx={{ alignItems: "center" }}
                     ></Rating>
+                    {/* Create a grid  */}
 
                     <MyLink underline="always" href="#">
                       (154.223 ratings)
@@ -93,7 +151,7 @@ export const CoursePage = () => {
                     <MyTypography variant="body2">
                       Created by{" "}
                       <MyLink underline="always" href="#">
-                        {courses[0].in}
+                        {courses[0].instructor.name}
                       </MyLink>
                     </MyTypography>
                   </Stack>
@@ -104,8 +162,12 @@ export const CoursePage = () => {
                 </Grid>
                 <Grid item mt={5}>
                   <CourseCard
+                    userObject={
+                      individualTrainee ? individualTrainee : corporateTrainee
+                    }
                     course={courses[0]}
                     isCourseInUserCourses={isCourseInUserCourses}
+                    traineeType={traineeType}
                   ></CourseCard>
                 </Grid>
               </Grid>
@@ -125,6 +187,34 @@ export const CoursePage = () => {
                 <CourseContent course={courses[0]}></CourseContent>
               </Grid>
             </Grid>
+            {user ? (
+              <Grid container justifyContent="center">
+                <Grid item md={10} border={1} margin={3}>
+                  <Button
+                    fullWidth
+                    sx={{
+                      "&:hover": { backgroundColor: "#FAF9F6" },
+                      backgroundColor: "#FFFFFF",
+                      color: "#2F2B2E",
+                      fontWeight: "bold",
+                    }}
+                    variant="contained"
+                    onClick={() => {
+                      setReportCourseModal(true);
+                    }}
+                  >
+                    {" "}
+                    Report this course
+                  </Button>
+                </Grid>
+              </Grid>
+            ) : null}
+            <ReportCourseModal
+              open={reportCourseModal}
+              handleClose={handleCloseReportCourseModal}
+              course={courses[0]}
+              reporterEmail={user?.result?.email}
+            />
           </Container>{" "}
         </>
       )}

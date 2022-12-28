@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import MenuAppBar from "./components/Navbar/Navbar";
 import Home from "./components/HomePage/Home";
@@ -8,7 +8,7 @@ import { Switch, Route } from "react-router-dom";
 import CourseStructure from "./components/Instructor/CourseStructure";
 import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
-import CoursePage from "./components/Course/CoursePage";
+import CoursePage from "./components/Course/CoursePage/CoursePage";
 import ScrollToTop from "./components/ScrollToTop";
 import InstructorPage from "./components/Instructor/instructorPage";
 import MyCourses from "./components/Trainee/MyCourses";
@@ -20,7 +20,17 @@ import { Auth } from "./components/Auth/Auth";
 import SplashScreen from "./components/Splash/test.js";
 import { ConfirmPassword } from "./components/Auth/SendEmail";
 import { createTheme, ThemeProvider } from "@mui/material";
-import PersistentDrawerLeft from "./components/Course/CourseContents";
+import PersistentDrawerLeft from "./components/Course/CourseContents/CourseContents";
+import Testo from "./components/Trainee/test";
+import { SuccessPage } from "./components/Trainee/SuccessPage";
+import CourseRequests from "./components/Admin/CourseRequest";
+import Problems from "./components/Admin/Problems";
+import PendingProblems from "./components/Profile/PendingProblems";
+import PrimarySearchAppBar from "./components/Navbar/tst";
+import { CourseWelcome } from "./components/Course/CourseContents/CourseWelcome";
+import CardCourse from "./components/Course/PopularCourses/CourseCard";
+import { CE } from "./components/Course/CourseContents/Certificate/Certificate";
+
 import RequestAccess from "./components/RequestAccess";
 const theme = createTheme({
   palette: {
@@ -30,6 +40,9 @@ const theme = createTheme({
     secondary: {
       main: "#f50057",
     },
+    grey: {
+      main: "#eeeeee",
+    },
   },
 });
 export const App = () => {
@@ -37,7 +50,13 @@ export const App = () => {
     <ThemeProvider theme={theme}>
       <ScrollToTop>
         <Switch>
-          {/* <Route exact path="/">
+          <Route exact path="/ta">
+            <PrimarySearchAppBar></PrimarySearchAppBar>
+          </Route>
+          <Route exact path="/ha">
+            <CE></CE>
+          </Route>
+          <Route exact path="/">
             <SplashScreen></SplashScreen>
           </Route>
           <Route exact path="/auth">
@@ -83,11 +102,28 @@ export const App = () => {
               <Route exact path="/profile">
                 <Profile></Profile>
               </Route>
+              <Route exact path="/ta">
+                <Testo></Testo>
+              </Route>
+              <Route exact path="/success/:courseId">
+                <SuccessPage></SuccessPage>
+              </Route>
 
               <Route exact path="/instructorProfile">
                 <InstructorProfile></InstructorProfile>
               </Route>
-            </Switch> */}
+
+              <Route exact path="/courseRequests">
+                <CourseRequests></CourseRequests>
+              </Route>
+
+              <Route exact path="/reportedProblems">
+                <Problems></Problems>
+              </Route>
+              <Route exact path="/pendingProblems">
+                <PendingProblems></PendingProblems>
+              </Route>
+            </Switch>
           </Route>
         </Switch>
       </ScrollToTop>

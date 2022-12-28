@@ -20,7 +20,8 @@ import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import { useState } from "react";
 import { useEffect } from "react";
-import * as individualTraineeApi from "../../api/individualTrainees.js";
+import * as individualTraineeApi from "../../../api/individualTrainees.js";
+import { CourseContentWelcomePage } from "../CourseContentWelcomePage.js";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -65,6 +66,7 @@ export default function AccordionSet({
   userObject,
   handleVideoClick,
   handleExerciseClick,
+  updateUserObject,
 }) {
   const [expanded, setExpanded] = React.useState("panel1");
   const [checked, setChecked] = React.useState(new Map());
@@ -88,6 +90,10 @@ export default function AccordionSet({
       outline.subtitles[ind].minutes
     );
     setChecked((prev) => new Map(prev).set(`outline${index}index${ind}`, true));
+    updateUserObject(
+      outline.subtitles[ind].minutes,
+      outline.subtitles[ind]._id
+    );
   };
 
   useEffect(() => {
@@ -139,7 +145,9 @@ export default function AccordionSet({
                   <Checkbox
                     sx={{ mb: 3 }}
                     onClick={(e) => handleCheck(e, ind)}
-                    checked={() => getChecked(ind)}
+                    checked={
+                      checked.get(`outline${index}index${ind}`) ? true : false
+                    }
                   ></Checkbox>
                   <Typography f display="block">
                     {sub.subtitle}
@@ -161,7 +169,16 @@ export default function AccordionSet({
             <ListItemButton
               onClick={() => handleClickEx(outline?.exercises, outline?._id)}
             >
-              <Checkbox sx={{ mb: 3 }}></Checkbox>
+              <Checkbox
+                sx={{ mb: 3 }}
+                checked={
+                  userObject?.courses
+                    ?.find((c) => c._id === course?._id)
+                    ?.grades?.find((g) => g._id === outline._id)?.score
+                    ? true
+                    : false
+                }
+              ></Checkbox>
               <Typography f display="block">
                 Quiz
                 <br />

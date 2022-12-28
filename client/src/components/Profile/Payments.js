@@ -22,8 +22,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+//import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+//import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { getTrainee } from "../../actions/individualTrainees";
 import { updateTrainee } from "../../actions/individualTrainees";
 
@@ -68,7 +68,7 @@ const Payments = () => {
       alignContent="center"
       color="#1C1D1F"
     >
-      <Grid item borderBottom={1} borderColor="silver" width="100%" padding={3}>
+      <Grid item borderBottom={1} borderColor="silver" width="100%" padding={3} bgcolor="#1C1D1F" color="white">
         <Typography fontWeight="bold" fontSize={35} textAlign="center">
           Payments
         </Typography>

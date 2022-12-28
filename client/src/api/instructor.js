@@ -53,5 +53,14 @@
 //     `/addReview?instructorId=${instructorId}&corporateTraineeId=${corporateTraineeId}&individualTraineeId=${individualTraineeId}&review=${review}`
 //   );
 // };
+export const updateInstructor = async (id, instructor) => {
+  return await API.patch(`/updateInformation/${id}`, instructor);
+};
+
+// export const addMoneyToInstructorWallet = async (courseId, instructorId) => {
+//   return await API.post(
+//     `/addMoneyToInstructorWallet?courseId=${courseId}&instructorId=${instructorId}`
+//   );
+// };
 // =======
 // >>>>>>> f651592bbefa6cf712e4c07ac326a96e01261c0f

@@ -1,5 +1,4 @@
 import express from "express";
-import { convert } from "../controller/currencyConversion.js";
 
 import {
   createCourse,
@@ -15,6 +14,7 @@ import {
   getCourse,
   addRating,
   addReview,
+  getCoursesWithPromotion,
 } from "../controller/course.js";
 
 const router = express.Router();
@@ -35,5 +35,6 @@ router.get("/findCourse", searchByTitleOrSubjectOrInstructor);
 router.get("/getCourseData/:id", getCourseData);
 router.post("/addRating", addRating);
 router.post("/addReview", addReview);
+router.get("/getCoursesWithPromotion", getCoursesWithPromotion);
 
 export default router;

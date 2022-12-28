@@ -60,6 +60,15 @@ export const addInstructor = (instructor) => async (dispatch) => {
   }
 };
 
+export const updateInstructor = (id, instructor) => async (dispatch) => {
+  try {
+    const { data } = await instructorApi.updateInstructor(id, instructor);
+    dispatch({ type: "UPDATE_INSTRUCTOR", payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 //add rating for course by trainee
 export const addRating =
   (instructorId, corporateTraineeId, individualTraineeId, rating) =>

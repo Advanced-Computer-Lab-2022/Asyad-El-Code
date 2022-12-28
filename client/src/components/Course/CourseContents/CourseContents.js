@@ -29,16 +29,20 @@ import {
   DialogContentText,
   DialogTitle,
   Link,
+  Grid,
 } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import RatingCourse from "./RatingCourse";
 import { useDispatch, useSelector } from "react-redux";
-import { addRating, addReview, getCourse } from "../../actions/courses";
+import { addRating, addReview, getCourse } from "../../../actions/courses";
 import { useEffect } from "react";
-import * as individualTraineeApi from "../../api/individualTrainees.js";
+import * as individualTraineeApi from "../../../api/individualTrainees.js";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { VideoAndExercise } from "./VideoAndExercise";
+import { CourseContentWelcomePage } from "../CourseContentWelcomePage";
+import { CourseWelcome } from "./CourseWelcome";
+import { CE } from "./Certificate/Certificate";
 
 const drawerWidth = 300;
 
@@ -91,6 +95,7 @@ const contentInitialForm = {
   subtitle: "",
   minutes: 0,
   videoUrl: "",
+  _id: "",
 };
 const exerciseInitialForm = [
   { question: "", answers: [{ answer: "", correct: false }] },
@@ -130,6 +135,7 @@ export default function CourseContents() {
   const [solved, setSolved] = useState({});
   const [retakeOpen, setRetakeOpen] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [certificateState, setCitificateState] = useState(false);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -165,7 +171,7 @@ export default function CourseContents() {
   const handleVideoClick = (subtitle) => {
     const url = subtitle.videoUrl;
     const videoId = url.split("/").pop();
-    const content = { ...subtitle, videoUrl: videoId };
+    const content = { ...subtitle, videoUrl: videoId, _id: subtitle._id };
     setContent(content);
     setExercise(exerciseInitialForm);
     setShowVideoContent(true);
@@ -215,7 +221,21 @@ export default function CourseContents() {
       ?.seenContent?.forEach((g) => {
         totalDuration += g.duration;
       });
-    setProgress((totalDuration / (course?.duration * 60)) * 100);
+    userObject?.courses
+      ?.find((c) => c._id === course._id)
+      ?.grades?.forEach((g) => {
+        totalDuration += g.total * 5;
+      });
+
+    console.log("This is total Duration", totalDuration);
+    console.log("this is course duration", course?.duration);
+    setProgress(Math.ceil(totalDuration / (course?.duration * 60)) * 100);
+  };
+  const updateUserObject = (duration, id) => {
+    userObject.courses
+      .find((c) => c._id === course._id)
+      .seenContent.push({ duration: duration, _id: id });
+    calculateAndSetProgress();
   };
   return (
     <Box sx={{ display: "flex" }}>
@@ -286,15 +306,18 @@ export default function CourseContents() {
         <Divider />
 
         <Divider />
+
         {course?.outlines.map((outline, index) => {
           return (
             <AccordionSet
+              key={index}
               index={index}
               outline={outline}
               userObject={userObject}
               course={course}
               handleVideoClick={handleVideoClick}
               handleExerciseClick={handleClickEx}
+              updateUserObject={updateUserObject}
             ></AccordionSet>
           );
         })}
@@ -334,7 +357,15 @@ export default function CourseContents() {
             videoOpen={showVideoContent}
             exerciseOpen={showExerciseContent}
           ></VideoAndExercise>
-        ) : null}
+        ) : (
+          <>
+            <CourseWelcome
+              course={course}
+              courseTitle={course?.title}
+              progress={progress}
+            ></CourseWelcome>
+          </>
+        )}
       </Main>
     </Box>
   );

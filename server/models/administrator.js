@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 import Joi from "joi";
+
+import "dotenv/config";
+import jwt from "jsonwebtoken";
 import { reportedProblemsSchema } from "./reportedProblems.js";
 
 const administratorSchema = new mongoose.Schema({
@@ -40,7 +43,7 @@ export function validate(user) {
 }
 administratorSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { email: this.email, id: this._id },
+    { email: this.email, id: this._id, role: "administrator" },
     process.env.TOKEN_KEY,
     {
       expiresIn: "1h",

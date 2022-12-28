@@ -4,6 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+
 import {
   Grid,
   TextField,
@@ -16,6 +17,7 @@ import {
   FormHelperText,
   Alert,
   AlertTitle,
+  CircularProgress,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useState } from "react";
@@ -79,6 +81,7 @@ export default function RegisterTabs() {
   const [messageSent, setMessageSent] = useState(false);
   const { authData } = useSelector((state) => state.authReducer);
   console.log("AUTH DATA REDUCER", authData);
+  const [isLoading, setIsLoading] = useState(false);
 
   // console.log("MESSAgE", message.authData.message);
   const handleChange = (event, newValue) => {
@@ -124,7 +127,8 @@ export default function RegisterTabs() {
     if (form.firstName && form.lastName && form.email && form.password) {
       dispatch(signup(form, history));
     } else if (form.email && form.password) {
-      dispatch(signin(form, history));
+      setIsLoading(true);
+      dispatch(signin(form, history, setIsLoading));
     }
   };
   const handleShowPassword = () => {
@@ -331,8 +335,18 @@ export default function RegisterTabs() {
                       color="error"
                       variant="contained"
                     >
-                      Sign in
+                      Sign in{"   "}
+                      {isLoading && (
+                        <>
+                          <div style={{ width: "20px" }}></div>
+                          <CircularProgress
+                            size={20}
+                            sx={{ color: "#fff" }}
+                          ></CircularProgress>
+                        </>
+                      )}
                     </Button>
+
                     <Button
                       // color="#FFFFF"
                       sx={{ color: "#000000" }}

@@ -11,6 +11,8 @@ export const getAdmins = () => async (dispatch) => {
   }
 };
 
+
+
 export const addAdmin = (admin) => async (dispatch) => {
     try {
         
@@ -22,3 +24,5 @@ export const addAdmin = (admin) => async (dispatch) => {
       console.log(error);
     }
   };
+
+  

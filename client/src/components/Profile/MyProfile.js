@@ -16,6 +16,7 @@ import {
   MenuItem,
   Select,
   InputAdornment,
+  Alert
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -23,7 +24,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+//import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { getTrainee } from "../../actions/individualTrainees";
 import { updateTrainee } from "../../actions/individualTrainees";
 
@@ -36,6 +37,7 @@ const MyProfile = ({ trainee }) => {
   const [country, setCountry] = useState(trainee?.country);
   const [date, setDate] = useState(trainee?.dateOfBirth);
   const [showPassword, setShowPassword] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -52,6 +54,7 @@ const MyProfile = ({ trainee }) => {
     trainee.phoneNumber = phone;
     trainee.country = country;
     dispatch(updateTrainee(trainee._id, trainee));
+    setIsUpdated(true);
     console.log(trainee);
   };
 
@@ -125,35 +128,6 @@ const MyProfile = ({ trainee }) => {
               <Grid item></Grid>
               <Grid item xs={5}>
                 <FormControl variant="outlined" margin="10" fullWidth>
-                  <InputLabel htmlFor="outlined-adornment-password">
-                    Password
-                  </InputLabel>
-                  <OutlinedInput
-                    id="outlined-adornment-password"
-                    type={showPassword ? "text" : "password"}
-                    defaultValue={password}
-                    onChange={(newValue) => {
-                      setPassword(newValue.target.value);
-                      console.log(newValue.target.value);
-                    }}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    label="Password"
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={5}>
-                <FormControl variant="outlined" margin="10" fullWidth>
                   <TextField
                     id="counrty"
                     name="country"
@@ -168,7 +142,6 @@ const MyProfile = ({ trainee }) => {
                   />
                 </FormControl>
               </Grid>
-              <Grid item></Grid>
               <Grid item xs={5}>
                 <FormControl variant="outlined" margin="10" fullWidth>
                   <TextField
@@ -214,6 +187,13 @@ const MyProfile = ({ trainee }) => {
                   />
                 </FormControl>
               </Grid>
+              {isUpdated && (
+                <Grid item xs={12}>
+                  <Alert severity="success">
+                    Your profile has been updated successfully
+                  </Alert>
+                </Grid>
+              )}
               <Grid item xs={4}></Grid>
               <Grid item xs={3} alignItems="center" justifyItems="center">
                 <Button

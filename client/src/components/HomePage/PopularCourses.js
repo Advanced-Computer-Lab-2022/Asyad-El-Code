@@ -8,14 +8,6 @@ export const PopularCourses = () => {
   return (
     <Grid className={classes.members} container>
       <Grid item>
-        <Typography
-          fontWeight="bold"
-          gutterBottom
-          sx={{ textAlignLast: "center" }}
-          variant="h3"
-        >
-          Popular courses
-        </Typography>
         <SimpleSlider></SimpleSlider>
       </Grid>
     </Grid>
