@@ -39,6 +39,7 @@ export const signin = (formData, history, setIsLoading) => async (dispatch) => {
   } catch (error) {
     console.log("Iam here mannnnnn");
     console.log("FUC FUCK FUCK ERROR");
+    console.log(error);
     dispatch({ type: AUTH_ERROR, payload: error.response.data });
     history.push("/auth");
   }

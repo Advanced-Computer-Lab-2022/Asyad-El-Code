@@ -6,7 +6,7 @@ import {
   SEND_EMAIL,
 } from "../constants/auth";
 
-export default (state = { authData: null }, action) => {
+export default (state = { authData: null, error: null }, action) => {
   console.log("Iam in the auth reducer", action?.payload);
 
   switch (action.type) {
@@ -14,16 +14,16 @@ export default (state = { authData: null }, action) => {
       console.log("AUTH REDUCER", action?.payload);
       console.log(action?.payload.type);
       localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
-      return { ...state, authData: action?.payload };
+      return { ...state, authData: action?.payload, error: null };
     case LOGOUT:
       localStorage.clear();
-      return { ...state, authData: null };
+      return { ...state, authData: null, error: null };
 
     case AUTH_ERROR:
-      return { ...state, authData: action?.payload };
+      return { ...state, error: action?.payload };
 
     case CHANGE_PASSWORD:
-      return { ...state, authData: action?.payload };
+      return { ...state, authData: action?.payload, error: null };
 
     case SEND_EMAIL:
       return state;

@@ -107,7 +107,7 @@ export const ResetPassword = () => {
               </Typography>
             )}
             {messageSent
-              ? authReducer.authData?.user && (
+              ? authReducer.authData?.result && (
                   <Alert
                     onClose={() => {
                       setMessageSent(false);
