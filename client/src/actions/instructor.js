@@ -1,13 +1,11 @@
-import { FETCH_ALL, FETCH_INSTRUCTORS, ADD_INSTRUCTOR } from "../constants/instructors";
+import { FETCH_INSTRUCTORS, ADD_INSTRUCTOR, FETCH_INSTRUCTOR } from "../constants/instructors";
+import { UPDATE_INSTRUCTOR } from "../constants/auth";
 import * as instructorApi from "../api/instructor";
 import * as adminApi from "../api/admin";
 
 export const getInstructors = () => async (dispatch) => {
   try {
-    console.log("IAM HERE");
     const { data } = await instructorApi.fetchInstructors();
-    console.log(data);
-    console.log("INSTRUCTOR FETCH_ALL ACTION");
     dispatch({ type: FETCH_INSTRUCTORS, payload: data });
   } catch (err) {
     console.log(err)
@@ -15,11 +13,8 @@ export const getInstructors = () => async (dispatch) => {
 }
 export const getInstructor = () => async (dispatch) => {
   try {
-    console.log("IAM HERE");
     const { data } = await instructorApi.fetchInstructor();
-    console.log(data);
-    console.log("INSTRUCTOR FETCH_INSTRUCTOR ACTION");
-    dispatch({ type: "FETCH_INSTRUCTOR", payload: data });
+    dispatch({ type: FETCH_INSTRUCTOR, payload: data });
   } catch (err) {
     console.log(err)
   }
@@ -46,7 +41,6 @@ export const addInstructor = (instructor) => async (dispatch) => {
   try {
 
     const res = await adminApi.addInstructor(instructor);
-    console.log(res.data);
     if (res.status === 200)
       dispatch({ type: ADD_INSTRUCTOR, payload: res.data });
   } catch (error) {
@@ -57,7 +51,7 @@ export const addInstructor = (instructor) => async (dispatch) => {
 export const updateInstructor = (id, instructor) => async (dispatch) => {
   try {
     const { data } = await instructorApi.updateInstructor(id, instructor);
-    dispatch({ type: "UPDATE_INSTRUCTOR", payload: data });
+    dispatch({ type: UPDATE_INSTRUCTOR, payload: data });
   } catch (error) {
     console.log(error);
   }
