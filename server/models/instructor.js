@@ -47,6 +47,9 @@ const instructorSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  biography: {
+    type: String,
+  },
 });
 
 instructorSchema.methods.generateAuthToken = function () {

@@ -5,7 +5,7 @@ import { validate } from "../models/reportedProblems.js";
 export const createReportedProblem = async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
-    const { reporterEmail,courseId, courseName, type, details } = req.body;
+    const { reporterEmail, courseId, courseName, type, details } = req.body;
 
     try {
         const reportedProblem = await new ReportedProblems({
@@ -19,7 +19,7 @@ export const createReportedProblem = async (req, res) => {
         await reportedProblem.save();
         res.status(200).json(reportedProblem);
     } catch (error) {
-        res.status(401).send({ error: error.message }); 
+        res.status(401).send({ error: error.message });
     }
 }
 
@@ -35,6 +35,39 @@ export const getAllReportedProblems = async (req, res) => {
 export const getReportedProblemByReporterEmail = async (req, res) => {
     try {
         const reportedProblem = await ReportedProblems.find({ reporterEmail: req.body.reporterEmail });
+        res.status(200).json(reportedProblem);
+    } catch (error) {
+        res.status(401).send({ error: err.message });
+    }
+}
+
+export const getReportedProblemUnresolved = async (req, res) => {
+    try {
+        const reportedProblem = await ReportedProblems.find({
+            $and: [
+                { reporterEmail: req.body.reporterEmail },
+                {
+                    $or: [
+                        { status: "Pending" },
+                        { status: "Unseen" }
+                    ]
+                }
+            ]
+        });
+        res.status(200).json(reportedProblem);
+    } catch (error) {
+        res.status(401).send({ error: err.message });
+    }
+}
+
+export const getReportedProblemResolved = async (req, res) => {
+    try {
+        const reportedProblem = await ReportedProblems.find({
+            $and: [
+                { reporterEmail: req.body.reporterEmail },
+                {status: "Resolved"}
+            ]
+        });
         res.status(200).json(reportedProblem);
     } catch (error) {
         res.status(401).send({ error: err.message });
