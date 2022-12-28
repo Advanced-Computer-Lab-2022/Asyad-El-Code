@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Paper, Typography } from "@mui/material";
+import { Button, Container, Fab, Paper, Typography } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -8,13 +8,27 @@ import FormLabel from "@mui/material/FormLabel";
 import useStyles from "../../css/courseContent.js";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
-export const VideoAndExercise = ({ content, exercise }) => {
+import * as individualTraineeApi from "../../api/individualTrainees.js";
+import ReactPlayer from "react-player";
+import CreateIcon from "@mui/icons-material/Create";
+
+export const VideoAndExercise = ({
+  content,
+  exercise,
+  exerciseId,
+  courseId,
+  user,
+  videoOpen,
+  exerciseOpen,
+}) => {
   const [value, setValue] = useState(new Map());
   const [correct, setCorrect] = useState(new Map());
   const [show, setShow] = useState(new Map());
   const [grade, setGrade] = useState(0);
   const [total, setTotal] = useState(0);
   const [showGrade, setShowGrade] = useState(false);
+  const [seconds, setSeconds] = useState(0);
+  const [minutes, setMinutes] = useState(0);
   const { classes } = useStyles();
 
   const handleChange = (index, ind) => {
@@ -35,34 +49,69 @@ export const VideoAndExercise = ({ content, exercise }) => {
   useEffect(() => {
     setTotal(exercise.length);
   }, [exercise]);
-
+  useEffect(() => {
+    setTotal(exercise.length);
+  }, []);
+  const addGrade = async () => {
+    const { data } = await individualTraineeApi.addGrade(
+      user._id,
+      courseId,
+      exerciseId,
+      grade,
+      total
+    );
+  };
   useEffect(() => {
     if (correct.size === total && total !== 0) {
       setShowGrade(true);
+      addGrade();
     }
   }, [correct, total]);
 
+  useEffect(() => {
+    if (content.videoUrl !== "") {
+      setValue(new Map());
+      setCorrect(new Map());
+      setShow(new Map());
+      setGrade(0);
+      setTotal(0);
+      setShowGrade(false);
+    }
+  }, [content.videoUrl]);
+
+  useEffect(() => {
+    setValue(new Map());
+    setCorrect(new Map());
+    setShow(new Map());
+    setGrade(0);
+    // setTotal(0);
+    setShowGrade(false);
+  }, [exerciseId]);
+
+  console.log("This is the current exefcise id", exerciseId);
+
   return (
     <div>
-      {content.videoUrl !== "" ? (
+      {videoOpen ? (
         <>
           <Container>
             <Paper elevation={12} className={classes.videoPaper}>
               <Typography variant="h3">{content.subtitle}</Typography>
-
-              <iframe
+              <ReactPlayer
                 width="100%"
-                height="500"
-                src={content.videoUrl}
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
+                onProgress={(state) => {
+                  setSeconds(Math.floor(state.playedSeconds % 60));
+                  setMinutes(Math.floor(state.playedSeconds / 60));
+                }}
+                url={`https://www.youtube.com/embed/${content.videoUrl}`}
+                height="500px"
+                controls={true}
+              ></ReactPlayer>
             </Paper>
           </Container>
         </>
-      ) : (
+      ) : null}
+      {exerciseOpen ? (
         <>
           {showGrade ? (
             <Container>
@@ -77,7 +126,7 @@ export const VideoAndExercise = ({ content, exercise }) => {
             </Container>
           ) : null}{" "}
           <Container>
-            {exercise.map((ex, ind) => {
+            {exercise?.map((ex, ind) => {
               return (
                 <>
                   <Paper elevation={12} className={classes.exercisePaper}>
@@ -166,7 +215,7 @@ export const VideoAndExercise = ({ content, exercise }) => {
             })}
           </Container>
         </>
-      )}
+      ) : null}
     </div>
   );
 };

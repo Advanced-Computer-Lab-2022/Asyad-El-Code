@@ -13,6 +13,7 @@ import {
   Typography,
   Modal,
   Box,
+  CircularProgress,
 } from "@mui/material";
 import useStyles from "../css/slider.js";
 import { Stack } from "@mui/system";
@@ -28,11 +29,11 @@ import { useHistory } from "react-router-dom";
 
 import { getRate } from "./util.js";
 
-
 export const SimpleSlider = () => {
   const [detailsBox, setDetailsBox] = useState(false);
   const [title, setTitle] = useState("");
-  const courses = useSelector((c) => c.courses);
+  const { isLoading, courses } = useSelector((state) => state.courses);
+  console.log("THE COURSES IS ", courses);
   const selectedCountry = useSelector((c) => c.selectedCountry);
   const rates = useSelector((c) => c.currencyRates);
   const [courseDetails, setCourseDetails] = useState(null);
@@ -117,11 +118,13 @@ export const SimpleSlider = () => {
       },
     ],
   };
-  return (
+  return isLoading ? (
+    <CircularProgress></CircularProgress>
+  ) : (
     <div positon="relative">
       <div style={{ width: "1200px" }}>
         <Slider {...settings}>
-          {courses.map((course, index) => {
+          {courses?.map((course, index) => {
             console.log(course.image);
             return (
               <Card elevation={0} className={classes.cardGrid} key={index}>
@@ -130,8 +133,8 @@ export const SimpleSlider = () => {
                   component="img"
                   image={image}
                   className={classes.cardMedia}
-                // onMouseOver={(event) => handleMouseOver(event, item.title)}
-                // onMouseOut={handleMouseOut}
+                  // onMouseOver={(event) => handleMouseOver(event, item.title)}
+                  // onMouseOut={handleMouseOut}
                 ></CardMedia>
 
                 <CardContent>
@@ -158,7 +161,7 @@ export const SimpleSlider = () => {
                     <p style={{ alignSelf: "center" }}>n5332</p>
                   </Stack>
                   <Typography variant="body1" fontWeight="bold">
-                    {getRate(selectedCountry,course.price,rates)}
+                    {getRate(selectedCountry, course.price, rates)}
                   </Typography>
                 </CardContent>
                 <CardActions>

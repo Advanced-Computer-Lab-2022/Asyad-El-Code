@@ -6,33 +6,43 @@ import {
   GET_COURSE,
   ADD_RATING,
   ADD_REVIEW,
+  START_LOADING,
+  END_LOADING,
 } from "../constants/courses";
 
-export default (courses = [], action) => {
+export default (state = { isLoading: true, courses: [] }, action) => {
   console.log("Iam here");
   switch (action.type) {
+    case START_LOADING:
+      return { ...state, isLoading: true };
+    case END_LOADING:
+      return { ...state, isLoading: false };
+
     case FILTER_COURSES:
-      return action.payload;
-    case "FETCH_ALL":
-      return action.payload;
+      return { ...state, courses: action.payload };
+
+    case FETCH_ALL:
+      return { ...state, courses: action.payload };
+
     case "FILTER_SUBJECT_RATING":
-      return action.payload;
     case "FETCH_ALL_INSTRUCTOR_COURSES":
-      return action.payload;
     case "FILTER_INSTRUCTOR_COURSES":
-      return action.payload;
+      return { ...state, courses: action.payload };
+
     case CREATE_COURSE:
-      return [...courses, action.payload];
+      return { ...state, courses: [...state.courses, action.payload] };
     case GET_COURSE_DATA:
-      return courses.filter((course) => course._id === action.payload._id);
     case GET_COURSE:
-      return courses.filter((course) => course._id === action.payload._id);
     case ADD_RATING:
-      console.log("Im in reducer add rating");
-      return courses.filter((course) => course._id === action.payload._id);
     case ADD_REVIEW:
-      return courses.filter((course) => course._id === action.payload._id);
+      return {
+        ...state,
+        courses: state.courses.filter(
+          (course) => course._id === action.payload._id
+        ),
+      };
+
     default:
-      return courses;
+      return state;
   }
 };

@@ -4,23 +4,11 @@ import * as individualTraineeApi from "../api/individualTrainees";
 export const getTrainee = () => async (dispatch) => {
   try {
     const { data } = await individualTraineeApi.fetchTrainee();
-    console.log("YESSS");
-    console.log(data);
+    console.log("The data of trainne in backend is  ", data);
     dispatch({ type: FETCH_TRAINEE, payload: data });
+    console.log("IT IS PASSED FRIEND");
   } catch (err) {
-    console.log("FUCKK");
-    console.log(err);
-  }
-};
-
-export const fetchTrainee = () => async (dispatch) => {
-  try {
-    const { data } = await individualTraineeApi.fetchTrainee();
-    console.log("YESSS");
-    console.log(data);
-    dispatch({ type: "GET_TRAINEE", payload: data });
-  } catch (err) {
-    console.log("FUCKK");
+    console.log("ERROR HAPPENS FRIEND");
     console.log(err);
   }
 };

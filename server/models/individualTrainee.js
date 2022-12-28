@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 
 import Joi from "joi";
+import "dotenv/config";
+import jwt from "jsonwebtoken";
 
 const individualTraineeSchema = mongoose.Schema({
   firstName: {
@@ -28,7 +30,6 @@ const individualTraineeSchema = mongoose.Schema({
 
   country: {
     type: String,
-    required: true,
   },
 
   billingDetails: {
@@ -38,36 +39,16 @@ const individualTraineeSchema = mongoose.Schema({
     cardOwner: String,
   },
 
-  // certificate:{
-  //     type: [String]
-  // },
-
-  // problems:{
-  //     type:[String]  //problem related to specific course
-  // },
-
-  // grades:[{
-  //     grade:Number  //excercises:
-  // }],
-
-  // percentageCompleted:{
-  //     type: Number,
-  //     default:0
-  // },
-
   dateOfBirth: {
     type: Date,
-    required: true,
   },
 
   phoneNumber: {
     type: String,
-    required: true,
   },
 
   university: {
     type: String,
-    required: true,
   },
 
   address: {
@@ -75,61 +56,86 @@ const individualTraineeSchema = mongoose.Schema({
     streetName: String,
     streetNumber: String,
   },
-  courses: [{
-        courseId: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
-        title: {
-            type: String,
-            required: true,
+  courses: [
+    {
+      courseId: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
+      title: {
+        type: String,
+        required: true,
+      },
+      summary: {
+        type: String,
+        required: true,
+      },
+      duration: {
+        type: Number,
+        required: true,
+      },
+      releaseDate: {
+        type: Date,
+        required: true,
+      },
+      image: {
+        type: String,
+        required: true,
+      },
+      rating: {
+        type: Number,
+        default: 0.0,
+      },
+      instructor: {
+        instructorId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Instructor",
         },
-        summary: {
-            type: String,
-            required: true,
+        name: String,
+      },
+      grades: [
+        {
+          score: Number,
+          total: Number,
+          exerciseId: mongoose.Schema.Types.ObjectId,
         },
-        duration: {
-            type: Number,
-            required: true,
+      ],
+      notes: [
+        {
+          subtitleId: mongoose.Schema.Types.ObjectId,
+          note: [{ value: String, time: Number }],
         },
-        releaseDate: {
-            type: Date,
-            required: true,
-        },
-        image: {
-            type: String,
-            required: true,
-        },
-        rating: {
-            type: Number,
-            default: 0.0,
-        },
-        instructor: {
-
-            instructorId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Instructor",
-            },
-            name: String,
-        },
-    }]
+      ],
+      seenContent: [
+        { duration: Number, contentId: mongoose.Schema.Types.ObjectId },
+      ],
+    },
+  ],
 });
+
+individualTraineeSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign(
+    { email: this.email, id: this._id },
+    process.env.TOKEN_KEY,
+    {
+      expiresIn: "1h",
+    }
+  );
+  return token;
+};
 
 export function validate(individualTrainee) {
   const schema = Joi.object({
     firstName: Joi.string().min(3).required(),
     lastName: Joi.string().min(3).required(),
     email: Joi.string().email().required(),
-    phoneNumber: Joi.number().required().min(10),
+    phoneNumber: Joi.number().min(10),
     dateOfBirth: Joi.date().required(),
     password: Joi.string().required(),
-    address: Joi.object().required(),
-    country: Joi.string().required(),
-    university: Joi.string().required(),
-    //problems: Joi.array().required(),
-    //certificate: Joi.array().required(),
+    address: Joi.object(),
+    country: Joi.string(),
+    university: Joi.string(),
     billingDetails: Joi.object({
       masterCardNumber: Joi.string().required(),
       expiryDate: Joi.date().required(),
       cvv: Joi.string().required(),
-      cardOwner: Joi.string().required(),
     }),
   });
   return schema.validate(individualTrainee);

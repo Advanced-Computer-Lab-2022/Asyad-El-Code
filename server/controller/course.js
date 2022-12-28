@@ -20,11 +20,12 @@ export const createCourse = async (req, res) => {
     rating,
     previewVideo,
     price,
+    outlines,
     instructor,
     discount,
   } = req.body;
-  const { outlines } = req.body.outlines;
-  console.log(req.body);
+
+  console.log(req.body.outlines);
   try {
     const course = await new Course({
       title,
@@ -36,7 +37,7 @@ export const createCourse = async (req, res) => {
       image,
       rating,
       previewVideo,
-      outlines: outlines,
+      outlines: [...outlines],
       price,
       instructor,
       discount,
@@ -214,6 +215,10 @@ export const addRating = async (req, res) => {
       );
       if (index !== -1) {
         course.ratings[index].rating = rating;
+        const newRating =
+          course.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
+          course.ratings.length;
+        course.rating = newRating;
         await course.save();
         return res.status(200).json(course);
       }
@@ -223,6 +228,10 @@ export const addRating = async (req, res) => {
         rating,
         corporateTraineeId: null,
       });
+      const newRating =
+        course.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
+        course.ratings.length;
+      course.rating = newRating;
       await course.save();
       return res.status(200).json(course);
     }

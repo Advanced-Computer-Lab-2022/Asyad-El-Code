@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Joi from "joi";
+import jwt from "jsonwebtoken";
 
 const instructorSchema = mongoose.Schema({
   userName: {
@@ -76,6 +77,17 @@ const instructorSchema = mongoose.Schema({
     type: String,
   },
 });
+
+instructorSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign(
+    { email: this.email, id: this._id },
+    process.env.TOKEN_KEY,
+    {
+      expiresIn: "1h",
+    }
+  );
+  return token;
+};
 
 export function validateInstructor(user) {
   const schema = Joi.object({

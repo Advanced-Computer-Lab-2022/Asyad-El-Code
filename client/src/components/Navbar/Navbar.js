@@ -2,9 +2,9 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Button, InputAdornment, Link, SvgIcon } from "@mui/material";
+import { Avatar, Button, InputAdornment, Link, SvgIcon } from "@mui/material";
 import { CssBaseline, Grid, TextField } from "@mui/material";
-import useStyles from "../css/navbar";
+import useStyles from "../../css/navbar";
 import {
   Menu,
   MenuItem,
@@ -14,19 +14,21 @@ import {
   Autocomplete,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { US, EG, CA, SA, GB, DE, CN, AE } from "country-flag-icons/react/3x2";
+import { US, EG, CA } from "country-flag-icons/react/3x2";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrencyRates } from "../actions/currencyRates";
-import { changeSelectedCountry } from "../actions/selectedCountry";
+import { getCurrencyRates } from "../../actions/currencyRates";
+import { changeSelectedCountry } from "../../actions/selectedCountry";
 import { useHistory } from "react-router-dom";
 import LanguageIcon from "@mui/icons-material/Language";
+import { Link as DownloadLink } from "react-router-dom";
 
-import "./Header.css";
+import "../Header.css";
 import styled from "@emotion/styled";
 import { Box } from "@mui/system";
-import { getCourse, getCourses } from "../actions/courses";
-import { getTrainee } from "../actions/individualTrainees";
+import { getCourse, getCourses } from "../../actions/courses";
+import * as courseApi from "../../api/course";
+import DropDownMenuProfile from "./DropDownProfileMenu";
 export default function ButtonAppBar() {
   const dispatch = useDispatch();
   const { classes } = useStyles();
@@ -35,18 +37,32 @@ export default function ButtonAppBar() {
   const open = anchorEl;
   const [search, setSearch] = useState("");
   const [openMenu, setOpenMenu] = useState(false);
-  const courses = useSelector((c) => c.courses);
-  const rates = useSelector((state) => state.currencyRates);
-  const [selectedCourse, setSelected] = useState(null);
-  console.log(rates);
+  const [courses, setCourses] = useState([]);
 
+  const fetchAllCourses = async () => {
+    const { data } = await courseApi.fetchCourses();
+    setCourses(data);
+  };
   useEffect(() => {
-    dispatch(getCurrencyRates());
-  }, [country]);
+    fetchAllCourses();
+  }, []);
+
+  const [user, setUser] = useState(parseJson());
+  // IMPORTANT TODO We can use here a simple API to get the courses
+  console.log("Iam the courses ", courses);
+  const rates = useSelector((state) => state.currencyRates);
+
+  const [selected, setSelected] = useState("");
+  const selectedCourse = courses?.find((c) => c.title === selected);
+  // useEffect(() => {
+  //   dispatch(getCurrencyRates());
+  // }, [country]);
 
   const history = useHistory();
 
   const handleSelect = (courseId, courseTitle) => {
+    if (courseTitle === undefined) return;
+    if (courseId === undefined) return;
     dispatch(getCourse(courseId, history, courseTitle));
   };
   const handleCountry = (event) => {
@@ -60,16 +76,30 @@ export default function ButtonAppBar() {
     fontWeight: "bold",
     fontSize: 20,
   });
+
+  function parseJson() {
+    try {
+      return JSON.parse(localStorage.getItem("profile"));
+    } catch (ex) {
+      return "";
+    }
+  }
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+    history.push("/home");
+    setUser(null);
+  };
+
   return (
     <CssBaseline>
       <AppBar className={classes.appBar} position="sticky">
         <Toolbar>
-          <MyLink underline="none" href="/">
+          <MyLink underline="none" href="/home">
             Home
           </MyLink>
           {/* <Typography color="black" variant="h6" component="div">
-            Logo
-          </Typography> */}
+              Logo
+            </Typography> */}
 
           <MyLink sx={{ ml: 4, mr: 3 }} href="/viewAll" underline="none">
             Explore
@@ -94,7 +124,7 @@ export default function ButtonAppBar() {
                 }
               }}
               onClose={() => setOpenMenu(false)}
-              options={courses.map((course) => course.title)}
+              options={courses?.map((course) => course.title)}
               sx={{
                 width: 300,
                 borderRadius: 1,
@@ -116,33 +146,34 @@ export default function ButtonAppBar() {
             />
           </div>
           {/* <Button
-            onClick={() => {
-              history.push("/instructorpage");
-            }}
-            className={classes.instructor}
-            variant="outlined"
-          >
-            Instructor
-          </Button>
+              onClick={() => {
+                history.push("/instructorpage");
+              }}
+              className={classes.instructor}
+              variant="outlined"
+            >
+              Instructor
+            </Button>
 
-          <Button
-            onClick={() => {
-              history.push("/coursePage");
-            }}
-            className={classes.instructor}
-            variant="outlined"
-          >
-            coursePage
-          </Button>
-          <Button
-            onClick={() => {
-              history.push("/adminPage");
-            }}
-            variant="outlined"
-            className={classes.admin}
-          >
-            Admin
-          </Button> */}
+            <Button
+              onClick={() => {
+                history.push("/coursePage");
+              }}
+              className={classes.instructor}
+              variant="outlined"
+            >
+              coursePage
+            </Button>
+
+            <Button
+              onClick={() => {
+                history.push("/adminPage");
+              }}
+              variant="outlined"
+              className={classes.admin}
+            >
+              Admin
+            </Button> */}
           <Grid spacing={2} container className={classes.rightSection}>
             <Grid item xs={2}>
               <FormControl fullWidth size="small">
@@ -163,77 +194,70 @@ export default function ButtonAppBar() {
                     );
                   }}
                 >
-                  <MenuItem value={"EGP"}>
+                  <MenuItem value={"EGYPT"}>
                     <EG title="Egypt" width={20} st />
                     <span style={{ marginLeft: "10px" }}>Egypt</span>
                   </MenuItem>
-                  <MenuItem value={"CAD"}>
+                  <MenuItem value={"CANADA"}>
                     <CA title="Canada" width={20} />
                     <span style={{ marginLeft: "10px" }}>Canada</span>
                   </MenuItem>
-                  <MenuItem value={"USD"}>
+                  <MenuItem value={"USA"}>
                     <US title="USA" width={20} />
                     <span style={{ marginLeft: "10px" }}>USA</span>
-                  </MenuItem>
-                  <MenuItem value={"EUR"}>
-                    <DE title="EUR" width={20} />
-                    <span style={{ marginLeft: "10px" }}>Germany</span>
-                  </MenuItem>
-                  <MenuItem value={"SAR"}>
-                    <SA title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>KSA</span>
-                  </MenuItem>
-                  <MenuItem value={"AED"}>
-                    <AE title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>UAE</span>
-                  </MenuItem>
-                  <MenuItem value={"GBP"}>
-                    <GB title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>UK</span>
-                  </MenuItem>
-                  <MenuItem value={"CNY"}>
-                    <CN title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>China</span>
                   </MenuItem>
                 </Select>
               </FormControl>
             </Grid>
-            <Grid alignSelf="center" item>
-              {/* <Button variant="outlined" className={classes.navButtons}>
-                Login
-              </Button> */}
-              <MyLink href="#" underline="none">
-                Login
-              </MyLink>
-            </Grid>
-            <Grid alignSelf="center" item>
-              <MyLink
-                onClick={() => dispatch(getTrainee())}
-                color="white"
-                underline="none"
-                href="/profile"
-              >
-                Sign Up
-              </MyLink>
-            </Grid>
-            <Grid alignSelf="center" item>
-              <MyLink
-                underline="none"
-                onClick={() => history.push("/courseContent")}
-              >
-                Course Content
-              </MyLink>
-            </Grid>
-          </Grid>
 
-          {/* <Button
-            onClick={() => history.push("/createcourse")}
-            variant="contained"
+            {user?.result ? (
+              //Create avatar
+              <>
+                {/* <Grid container>
+                  <Grid item>
+                    <Link onClick={() => logout()}>Logout</Link>
+                  </Grid> */}
+                <Grid item>
+                  <DropDownMenuProfile user={user}></DropDownMenuProfile>
+                </Grid>
+                {/* </Grid> */}
+              </>
+            ) : (
+              <>
+                <Grid alignSelf="center" item>
+                  <MyLink href="/auth" underline="none">
+                    Login
+                  </MyLink>
+                </Grid>
+                <Grid alignSelf="center" item>
+                  <MyLink href="/auth" color="white" underline="none">
+                    Sign Up
+                  </MyLink>
+                </Grid>
+              </>
+            )}
+            {user?.result && (
+              <Grid item>
+                <Link onClick={() => logout()}>Logout</Link>
+              </Grid>
+            )}
+          </Grid>
+          {/* <DownloadLink to="/files/myfi22le.pdf" target="_blank" download>
+            Download
+          </DownloadLink>
+          <Button
+            onClick={() => history.push("/courseContent")}
+            variant="outlined"
+            className={classes.navButtons}
           >
-            Create course
-          </Button>
-          
+            Course content
           </Button> */}
+          {/* <Button
+              onClick={() => history.push("/createcourse")}
+              variant="contained"
+            >
+              Create course
+            </Button> */}
         </Toolbar>
       </AppBar>
     </CssBaseline>

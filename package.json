@@ -5,9 +5,11 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.10",
     "dotenv": "^16.0.3",
+    "jsonwebtoken": "^8.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.2",
-    "reactstrap": "^9.1.4"
+    "reactstrap": "^9.1.4",
+    "redux-persist": "^6.0.0"
   }
 }

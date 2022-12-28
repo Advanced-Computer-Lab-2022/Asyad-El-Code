@@ -11,20 +11,23 @@ import useStyles from "../../css/course";
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
 
-export default function CourseCard() {
-  const course = useSelector((c) => c.courses)[0];
+import { useHistory } from "react-router-dom";
+export default function CourseCard({ isCourseInUserCourses, course }) {
   const { classes } = useStyles();
+  const history = useHistory();
   const MyInfo = styled(Typography)({
     color: "#757071",
     fontSize: 12,
   });
+  console.log("IS HERE COURSE ? : ", isCourseInUserCourses);
   return (
     <Card sx={{ width: 345 }}>
       <CardMedia
-        component="img"
-        height="240px"
-        image={image}
+        component="iframe"
+        image="https://www.youtube.com/embed/Ro26B394ZBM"
+        controls
         alt="green iguana"
+        sx={{ width: "100%", height: "230px" }}
       />
       <CardContent>
         <Typography
@@ -37,18 +40,32 @@ export default function CourseCard() {
         </Typography>
         <Grid columnSpacing={4} container direction="row">
           <Grid item md={12}>
-            <Button
-              fullWidth
-              sx={{
-                "&:hover": { backgroundColor: "#2F2B2E" },
-                backgroundColor: "#2F2B2E",
-              }}
-              variant="contained"
-            >
-              {" "}
-              {/* TODO Checking if he has the course */}
-              Add to Cart
-            </Button>
+            {isCourseInUserCourses ? (
+              <Button
+                fullWidth
+                onClick={() => history.push("/test")}
+                sx={{
+                  "&:hover": { backgroundColor: "#2F2B2E" },
+                  backgroundColor: "#2F2B2E",
+                }}
+                variant="contained"
+              >
+                Go to Course
+              </Button>
+            ) : (
+              <Button
+                fullWidth
+                sx={{
+                  "&:hover": { backgroundColor: "#2F2B2E" },
+                  backgroundColor: "#2F2B2E",
+                }}
+                variant="contained"
+              >
+                {" "}
+                {/* TODO Checking if he has the course */}
+                Add to Cart
+              </Button>
+            )}
           </Grid>
 
           <Grid mt={2} item md={12}>
