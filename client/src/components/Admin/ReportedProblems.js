@@ -3,8 +3,8 @@ import React from 'react';
 import SplitButton from './SplitButton';
 
 const ReportedProblems = (props) => {
-    const [reportedProblems, setReportedProblems] = React.useState(props.reportedProblems);
-
+    const [reportedProblems, setReportedProblems] = React.useState(props?.reportedProblems);
+    console.log(props)
 
 
     const onChange = (e) => {
@@ -14,7 +14,7 @@ const ReportedProblems = (props) => {
 
         //     }
         // })
-        setReportedProblems(reportedProblems.map((problem) => {
+        setReportedProblems(reportedProblems?.map((problem) => {
             if (problem._id === e.target.id) {
                 problem.response = e.target.value;
             }

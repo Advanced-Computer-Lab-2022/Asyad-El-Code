@@ -1,12 +1,12 @@
 import * as api from "../api/admin";
-import { FETCH_ALL, DELETE_REQUEST, ACCEPT, REJECT } from "../constants/requests";
+import { FETCH_REQUESTS, DELETE_REQUEST, ACCEPT, REJECT } from "../constants/requests";
 
 
 export const getCourseRequests = () => async (dispatch) => {
     try {
         const { data } = await api.getAllCourseRequests();
         console.log(data);
-        dispatch({ type: FETCH_ALL, payload: data });
+        dispatch({ type: FETCH_REQUESTS, payload: data });
     } catch (error) {
         console.log(error);
     }
