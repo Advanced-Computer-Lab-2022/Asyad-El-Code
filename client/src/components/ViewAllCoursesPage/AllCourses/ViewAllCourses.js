@@ -14,8 +14,6 @@ export const Courses = () => {
   const queryParams = new URLSearchParams(location.search);
   const search = queryParams.get("source");
 
-  const { isLoading, courses } = useSelector((c) => c.courses);
-
   const dispatch = useDispatch();
   useEffect(() => {
     if (search === "instructor") {
@@ -41,7 +39,7 @@ export const Courses = () => {
     <div>
       <FilterBar handleClick={handleClick}></FilterBar>
 
-      <CoursesGrid></CoursesGrid>
+      <CoursesGrid type={search}></CoursesGrid>
 
       <Grid container justifyContent="center" marginTop="40px"></Grid>
     </div>

@@ -17,10 +17,10 @@ import useStyles from "../../../css/slider.js";
 import image from "../../../images/course.jpeg";
 import { useSelector } from "react-redux";
 import { getRate } from "../../util.js";
-import { UdacityCard } from "../../UdacityCard/UdacityCard.js";
+import { UdacityCard } from "./UdacityCard/UdacityCard.js";
 import { SearchBar } from "./SearchBar.js";
 
-export const CoursesGrid = () => {
+export const CoursesGrid = ({ type }) => {
   const [detailsBox, setDetailsBox] = useState(false);
   const [title, setTitle] = useState("");
   const { isLoading, courses } = useSelector((c) => c.courses);
@@ -50,7 +50,7 @@ export const CoursesGrid = () => {
         {filteredCoursesBySubjectOrTitleOrInstructor.map((course, index) => {
           return (
             <Grid key={index} item xs={6}>
-              <UdacityCard course={course}></UdacityCard>
+              <UdacityCard type={type} course={course}></UdacityCard>
             </Grid>
           );
         })}

@@ -11,15 +11,33 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import image from "../../images/coding.jpeg";
-import { getRate } from "../util";
+import image from "../../../../images/coding.jpeg";
+import { getRate } from "../../../util";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getCourse } from "../../../../actions/courses";
 
-export const UdacityCard = ({ course }) => {
+export const UdacityCard = ({ course, type }) => {
   const traineeType = JSON.parse(localStorage.getItem("profile"))?.type;
   const selectedCountry = useSelector((c) => c.selectedCountry);
   const rates = useSelector((c) => c.currencyRates);
+  const dispatch = useDispatch();
   console.log("UDACITY CARD" + " " + course);
-  console.log(course);
+  const history = useHistory();
+
+  const handleClick = (courseId, courseTitle) => {
+    dispatch(getCourse(courseId, history, courseTitle));
+  };
+
+  const definePromotion = () => {
+    if (
+      type == "instructor" &&
+      (traineeType == "instructor" || traineeType == "admin")
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <Card style={{ width: "600px", height: "430px" }}>
@@ -67,28 +85,35 @@ export const UdacityCard = ({ course }) => {
                 backgroundColor: "#205295",
               }}
               variant="contained"
+              onClick={() => handleClick(course._id, course.title)}
             >
               Program Details
             </Button>
           </Grid>
-          <Grid item>
-            <Button
-              fullWidth
-              style={{
-                padding: "12px",
-                borderColor: "#205295",
-                borderStyle: "solid",
-                borderWidth: "2px",
-                color: "#205295",
-                textTransform: "none",
-              }}
-              variant="outlined"
-            >
-              {traineeType === "instructor" || traineeType === "administrator"
-                ? "Define Promotion"
-                : "Buy Now"}
-            </Button>
-          </Grid>
+
+          {definePromotion() ? (
+            <Grid item>
+              <Button
+                fullWidth
+                style={{
+                  padding: "12px",
+                  borderColor: "#205295",
+                  borderStyle: "solid",
+                  borderWidth: "2px",
+                  color: "#205295",
+                  textTransform: "none",
+                }}
+                variant="outlined"
+              >
+                {definePromotion()
+                  ? "Define Promotion"
+                  : traineeType == "individualTrainee" ||
+                    traineeType == "corporateTrainee"
+                  ? "Enroll Now"
+                  : "Download"}
+              </Button>
+            </Grid>
+          ) : null}
         </Grid>
         <Grid rowSpacing={2} item xs={8} container direction="column">
           <Grid item>
