@@ -2,12 +2,10 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 export const authMiddeleware = (req, res, next) => {
-  console.log(req.headers);
   const token = req.headers?.authorization?.split(" ")[1];
 
-  const isCustomAuth = token.length < 500;
   let decodedData;
-  if (token && isCustomAuth) {
+  if (token) {
     console.log("Iam inside the function");
     try {
       decodedData = jwt.verify(token, process.env.TOKEN_KEY);

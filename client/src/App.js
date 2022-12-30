@@ -29,16 +29,13 @@ import PrimarySearchAppBar from "./components/Navbar/tst";
 import { CourseWelcome } from "./components/Course/CourseContents/CourseWelcome";
 import CardCourse from "./components/Course/PopularCourses/CourseCard";
 import { CE } from "./components/Course/CourseContents/Certificate/Certificate";
-<<<<<<< HEAD
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getTrainee } from "./actions/individualTrainees";
 import { getCorporate } from "./actions/corporate";
 import { UdacityCard } from "./components/test/UdacityCard";
-=======
 import AdminDashboard from "./components/Admin/Dashboard";
->>>>>>> 290139e5c6675d5075a1ed46c82a0c61cd37a99c
 
 const theme = createTheme({
   palette: {
