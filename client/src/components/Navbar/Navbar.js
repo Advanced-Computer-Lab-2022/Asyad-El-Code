@@ -29,7 +29,6 @@ import { Box } from "@mui/system";
 import { getCourse, getCourses } from "../../actions/courses";
 import * as courseApi from "../../api/course";
 import DropDownMenuProfile from "./DropDownProfileMenu";
-import SearchIcon from "@mui/icons-material/Search";
 export default function ButtonAppBar() {
   const dispatch = useDispatch();
   const { classes } = useStyles();
@@ -95,98 +94,102 @@ export default function ButtonAppBar() {
     <CssBaseline>
       <AppBar className={classes.appBar} position="sticky">
         <Toolbar>
-          <MyLink underline="none" href="/home">
-            Home
-          </MyLink>
-          {/* <Typography color="black" variant="h6" component="div">
-              Logo
-            </Typography> */}
+          {user?.type !== "admin" && (
 
-          <MyLink sx={{ ml: 4, mr: 3 }} href="/viewAll" underline="none">
-            Explore
-          </MyLink>
+            <MyLink underline="none" href="/home">
+              Home
+            </MyLink>
+          )}
 
-          <div className={classes.headerOptions}>
-            <Autocomplete
-              open={openMenu}
-              onChange={(event, value) => setSelected(value)}
-              onSelect={() =>
-                handleSelect(selectedCourse?._id, selectedCourse?.title)
-              }
-              onInputChange={(_, value) => {
-                if (value.length === 0) {
-                  if (openMenu) {
-                    setOpenMenu(false);
-                  }
-                } else {
-                  if (!openMenu) {
-                    setOpenMenu(true);
-                  }
+          {user?.type !== "admin" && (
+
+            <MyLink sx={{ ml: 4, mr: 3 }} href="/viewAll" underline="none">
+              Explore
+            </MyLink>
+          )}
+          {user?.type !== "admin" && (
+
+            <div className={classes.headerOptions}>
+              <Autocomplete
+                open={openMenu}
+                onChange={(event, value) => setSelected(value)}
+                onSelect={() =>
+                  handleSelect(selectedCourse?._id, selectedCourse?.title)
                 }
-              }}
-              onClose={() => setOpenMenu(false)}
-              options={courses?.map((course) => course.title)}
-              sx={{
-                opacity: 0.5,
-                width: 300,
-                height: 3,
-                mb: 5,
-                //INeed you to remove the autocomplete border
-                "& .MuiAutocomplete-inputRoot": {
-                  border: "none",
-                },
-                "& .MuiAutocomplete-input": {
-                  border: "none",
-                },
-                "& .MuiAutocomplete-input:first-child": {
-                  border: "none",
-                },
-                "& .MuiAutocomplete-inputAdornmentPositionStart": {
-                  border: "none",
-                },
-                "& .MuiAutocomplete-inputAdornment": {
-                  border: "none",
-                },
-                //Then set a border to my autocomplete to be of radius 10px and gray color
-                "& .MuiAutocomplete-inputRoot": {
-                  border: "1px solid gray",
-                  borderRadius: "40px",
-                  border: "none",
-                  backgroundColor: "#555555",
-                },
-                "& .MuiAutocomplete-input": {
-                  border: "1px solid gray",
-                  borderRadius: "40px",
-                  border: "none",
-                  backgroundColor: "#555555",
-                },
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  fullWidth
-                  InputLabelProps={{
-                    className: "text_label",
-                  }}
-                  // InputProps={{
-                  //   startAdornment: (
-                  //     <InputAdornment position="start">
-                  //       <SearchIcon />
-                  //     </InputAdornment>
-                  //   ),
-                  // }}
-                  sx={{
-                    input: {
-                      height: 2,
-                      width: "400px",
-                      color: "aqua",
-                      mb: 1,
-                    },
-                  }}
-                />
-              )}
-            />
-          </div>
+                onInputChange={(_, value) => {
+                  if (value.length === 0) {
+                    if (openMenu) {
+                      setOpenMenu(false);
+                    }
+                  } else {
+                    if (!openMenu) {
+                      setOpenMenu(true);
+                    }
+                  }
+                }}
+                onClose={() => setOpenMenu(false)}
+                options={courses?.map((course) => course.title)}
+                sx={{
+                  opacity: 0.5,
+                  width: 300,
+                  height: 3,
+                  mb: 5,
+                  //INeed you to remove the autocomplete border
+                  "& .MuiAutocomplete-inputRoot": {
+                    border: "none",
+                  },
+                  "& .MuiAutocomplete-input": {
+                    border: "none",
+                  },
+                  "& .MuiAutocomplete-input:first-child": {
+                    border: "none",
+                  },
+                  "& .MuiAutocomplete-inputAdornmentPositionStart": {
+                    border: "none",
+                  },
+                  "& .MuiAutocomplete-inputAdornment": {
+                    border: "none",
+                  },
+                  //Then set a border to my autocomplete to be of radius 10px and gray color
+                  "& .MuiAutocomplete-inputRoot": {
+                    border: "1px solid gray",
+                    borderRadius: "40px",
+                    border: "none",
+                    backgroundColor: "#555555",
+                  },
+                  "& .MuiAutocomplete-input": {
+                    border: "1px solid gray",
+                    borderRadius: "40px",
+                    border: "none",
+                    backgroundColor: "#555555",
+                  },
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    InputLabelProps={{
+                      className: "text_label",
+                    }}
+                    // InputProps={{
+                    //   startAdornment: (
+                    //     <InputAdornment position="start">
+                    //       <SearchIcon />
+                    //     </InputAdornment>
+                    //   ),
+                    // }}
+                    sx={{
+                      input: {
+                        height: 2,
+                        width: "400px",
+                        color: "aqua",
+                        mb: 1,
+                      },
+                    }}
+                  />
+                )}
+              />
+            </div>)}
           {/* <Button
               onClick={() => {
                 history.push("/instructorpage");
@@ -302,9 +305,6 @@ export default function ButtonAppBar() {
               </>
             )}
           </Grid>
-          <div>
-            <SearchIcon fontSize="100"></SearchIcon>
-          </div>
           {/* <DownloadLink to="/files/myfi22le.pdf" target="_blank" download>
             Download
           </DownloadLink>

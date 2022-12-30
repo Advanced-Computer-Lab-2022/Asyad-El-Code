@@ -161,7 +161,7 @@ export const App = () => {
               </Route>
 
               <Route exact path="/courseRequests">
-                {user?.type === "administrator" ? (
+                {user?.type === "admin" ? (
                   <CourseRequests></CourseRequests>
                 ) : (
                   <Redirect to="/home" />
@@ -169,7 +169,7 @@ export const App = () => {
               </Route>
 
               <Route exact path="/reportedProblems">
-                {user?.type === "administrator" ? (
+                {user?.type === "admin" ? (
                   <Problems></Problems>
                 ) : (
                   <Redirect to="/home" />
@@ -194,6 +194,7 @@ export const App = () => {
                 <Courses></Courses>
               </Route>
             </Switch>
+
           </Route>
         </Switch>
       </ScrollToTop>

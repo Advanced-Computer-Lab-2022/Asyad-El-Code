@@ -29,15 +29,7 @@ const ReportedProblems = (props) => {
 
     return (
         <Grid container maxWidth="80%" marginTop={2} marginLeft={20} marginRight={20} marginBottom={5} spacing={5} direction="row" justifyContent="center" alignItems="center">
-            <Grid item xs={3}>
-            </Grid>
-            <Grid item xs={6} sx={{ textAlign: 'center' }}>
-                <Typography variant="h4" component="div" gutterBottom>
-                    Reported Problems
-                </Typography>
-            </Grid>
-            <Grid item xs={3}>
-            </Grid>
+
             {reportedProblems?.map((problem) => (
                 <>
                     <Grid item xs={3}>

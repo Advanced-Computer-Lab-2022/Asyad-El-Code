@@ -80,21 +80,13 @@ const CourseRequests = () => {
         <>
             <div>
 
-                <Grid container maxWidth="80%" marginTop={2} marginLeft={20} marginRight={20} marginBottom={5} spacing={5} direction="row" justifyContent="center" alignItems="center">
-                    <Grid item xs={3}>
-                    </Grid>
-                    <Grid item xs={6} sx={{ textAlign: 'center' }}>
-                        <Typography variant="h4" component="div" gutterBottom>
-                            Course Requests
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={3}>
-                    </Grid>
+                <Grid container maxWidth="100%"  spacing={5} direction="row" justifyContent="center" alignItems="center">
+
+
                     {requests?.map((request) => (
                         <>
-                            <Grid item xs={3}>
-                            </Grid>
-                            <Grid item xs={6} key={request._id}>
+                            
+                            <Grid item  md={5} mr={4} key={request._id}>
                                 <Card sx={{ minWidth: 500 }}>
                                     <CardContent>
                                         <Typography variant="h6" component="div">
@@ -109,7 +101,7 @@ const CourseRequests = () => {
                                     </CardContent>
                                     <CardActions>
                                         <Grid container spacing={1}>
-                                            <Grid item xs={8}>
+                                            <Grid item xs={7}>
                                             </Grid>
                                             <Grid item xs={2}>
                                                 <Button size="small" onClick={() => handleReject(request?._id, request?.email, request?.courseName)}>Reject</Button>
@@ -121,8 +113,8 @@ const CourseRequests = () => {
                                     </CardActions>
                                 </Card>
                             </Grid>
-                            <Grid item xs={3}>
-                            </Grid>
+                            
+
                         </>
                     ))}
                 </Grid>

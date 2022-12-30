@@ -13,7 +13,6 @@ export const Courses = () => {
 
   const handleClick = (e, course) => {
     e.preventDefault();
-    console.log("HELLO MUDAFUKA");
     console.log(course);
     if (courseList.find((c) => c.id === course.id)) {
       setCourseList(courseList.filter((c) => c.id !== course.id));
