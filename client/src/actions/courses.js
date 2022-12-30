@@ -8,6 +8,7 @@ import {
   ADD_REVIEW,
   START_LOADING,
   END_LOADING,
+  FILTER_SUBJECT_RATING,
 } from "../constants/courses";
 
 export const getCourses = () => async (dispatch) => {
@@ -24,7 +25,7 @@ export const filterCourses = (filterData) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
     const { data } = await courseApi.filterCourses(filterData);
-    dispatch({ type: "FILTER_SUBJECT_RATING", payload: data });
+    dispatch({ type: FILTER_SUBJECT_RATING, payload: data });
     dispatch({ type: END_LOADING });
   } catch (error) {
     console.log(error);
@@ -65,7 +66,6 @@ export const getCourseData = () => async (dispatch) => {
     console.log("im in action");
     dispatch({ type: START_LOADING });
     const { data } = await courseApi.getCourseData();
-    console.log("The data in the reducer", data);
     dispatch({ type: GET_COURSE_DATA, payload: data });
     dispatch({ type: END_LOADING });
   } catch (err) {

@@ -14,6 +14,7 @@ import {
 import { viewCourseTitles } from "../controller/instructor.js";
 import { addNewCourse } from "../controller/instructor.js";
 import { searchByTitleOrSubjectOrInstructor } from "../controller/course.js";
+import { authMiddeleware } from "../middlewares/auth.js";
 const router = express.Router();
 router.get("/filterInstructorCourses", filterInstructorCourses);
 router.post("/", createInstructor);
@@ -23,13 +24,13 @@ router.get("/viewTitles/:id", viewCourseTitles);
 
 router.get("/filterBySubjectAndPrice/:id", filterCourseBySubjectAndPrice);
 
-router.post("/addNewCourse/:id", addNewCourse);
-router.patch("/updateInformation/:id", updateInformation);
+router.post("/addNewCourse/:id", [authMiddeleware], addNewCourse);
+router.patch("/updateInformation/:id", authMiddeleware, updateInformation);
 router.get("/searchByTitleOrSubject/:id", searchByTitleOrSubject);
 
 router.get("/getAllInstructorCourses/:id", getAllInstructorCourses);
 
-router.post("/updateRating/:id", updateRating);
-router.patch("/definePromotion", definePromotion);
+router.post("/updateRating/:id", authMiddeleware, updateRating);
+router.patch("/definePromotion", authMiddeleware, definePromotion);
 
 export default router;

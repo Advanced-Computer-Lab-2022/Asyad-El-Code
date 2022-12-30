@@ -7,9 +7,9 @@ import ReportedProblems from './ReportedProblems';
 
 const Problems = () => {
     const dispatch = useDispatch();
-    const reportedProblems = useSelector((state) => state?.reportedProblems);
+    const reportedProblems = useSelector((state) => state?.reportedProblems?.problems);
     const [flag, setFlag] = useState(true);
-
+    console.log("Iam here in the problems page", reportedProblems);
     useEffect(() => {
         if (flag) {
             dispatch(getAllProblems());
@@ -19,7 +19,7 @@ const Problems = () => {
 
     return (
         <div>
-            <ReportedProblems reportedProblems={reportedProblems.problems}></ReportedProblems>
+            <ReportedProblems reportedProblems={reportedProblems}></ReportedProblems>
         </div>
     )
 }

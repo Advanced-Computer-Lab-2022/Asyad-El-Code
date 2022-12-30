@@ -16,6 +16,7 @@ import {
   addReview,
   getCoursesWithPromotion,
 } from "../controller/course.js";
+import { authMiddeleware } from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -33,8 +34,8 @@ router.get("/filterAllCourses", filterAllCourses);
 
 router.get("/findCourse", searchByTitleOrSubjectOrInstructor);
 router.get("/getCourseData/:id", getCourseData);
-router.post("/addRating", addRating);
-router.post("/addReview", addReview);
+router.post("/addRating", [authMiddeleware], addRating);
+router.post("/addReview", [authMiddeleware], addReview);
 router.get("/getCoursesWithPromotion", getCoursesWithPromotion);
 
 export default router;
