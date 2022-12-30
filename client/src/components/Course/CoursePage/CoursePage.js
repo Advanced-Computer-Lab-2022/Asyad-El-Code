@@ -47,6 +47,7 @@ export const CoursePage = () => {
 
   const corporateTrainee = useSelector((state) => state?.corporates);
   const individualTrainee = useSelector((state) => state?.individualTrainee);
+
   const reportedProblems = useSelector((state) => state?.reportedProblems);
 
   console.log("Iam the traineeType", traineeType);

@@ -31,7 +31,7 @@ export const reportedProblemsSchema = mongoose.Schema({
 
     status: {
         type: String,
-        default: "reported"
+        default: "Unseen"
     },
 
     response: {

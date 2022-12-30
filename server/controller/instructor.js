@@ -157,31 +157,25 @@ export const selectCountry = async (req, res) => {
 };
 
 export const updateInformation = async (req, res) => {
-  const { error } = validateInstructor(req.body);
-  if (error) res.status(401).send(error.details[0].message);
   try {
     const {
       firstName,
       lastName,
-      email,
-      password,
       country,
-      dateOfBirth,
       phoneNumber,
+      biography,
     } = req.body;
     const { id } = req.params;
-
+    const castedid = mongoose.Types.ObjectId(id);
     const updatedInstructor = await Instructor.findByIdAndUpdate(
-      id,
+      castedid,
       {
         $set: {
           firstName: firstName,
           lastName: lastName,
-          email: email,
-          password: password,
           country: country,
-          dateOfBirth: dateOfBirth,
           phoneNumber: phoneNumber,
+          biography: biography,
         },
       },
       { new: true }

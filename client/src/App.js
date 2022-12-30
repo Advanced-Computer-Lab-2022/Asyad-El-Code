@@ -25,6 +25,7 @@ import Testo from "./components/Trainee/test";
 import { SuccessPage } from "./components/Trainee/SuccessPage";
 import CourseRequests from "./components/Admin/CourseRequest";
 import Problems from "./components/Admin/Problems";
+import PendingProblems from "./components/Profile/PendingProblems";
 import PrimarySearchAppBar from "./components/Navbar/tst";
 import { CourseWelcome } from "./components/Course/CourseContents/CourseWelcome";
 import CardCourse from "./components/Course/PopularCourses/CourseCard";
@@ -112,6 +113,9 @@ export const App = () => {
 
               <Route exact path="/reportedProblems">
                 <Problems></Problems>
+              </Route>
+              <Route exact path="/pendingProblems">
+                <PendingProblems></PendingProblems>
               </Route>
             </Switch>
           </Route>

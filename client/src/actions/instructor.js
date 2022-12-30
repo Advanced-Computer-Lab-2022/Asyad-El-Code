@@ -52,3 +52,13 @@ export const addInstructor = (instructor) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const updateInstructor = (id, instructor) => async (dispatch) => {
+  try {
+    const { data } = await instructorApi.updateInstructor(id, instructor);
+    dispatch({ type: "UPDATE_INSTRUCTOR", payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
