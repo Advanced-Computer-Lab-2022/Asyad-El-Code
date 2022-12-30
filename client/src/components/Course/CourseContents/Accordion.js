@@ -81,19 +81,17 @@ export default function AccordionSet({
   const handleClickEx = (exercise, exerciseId) => {
     handleExerciseClick(exercise, exerciseId);
   };
-  const handleCheck = (e, ind) => {
-    e.stopPropagation();
-    individualTraineeApi.addSeenContent(
+  const handleCheck = async (e, ind) => {
+    if (e) e.stopPropagation();
+    const { data } = await individualTraineeApi.addSeenContent(
       userObject._id,
       course._id,
       outline.subtitles[ind]._id,
       outline.subtitles[ind].minutes
     );
+    console.log("This is the data after check", data);
     setChecked((prev) => new Map(prev).set(`outline${index}index${ind}`, true));
-    updateUserObject(
-      outline.subtitles[ind].minutes,
-      outline.subtitles[ind]._id
-    );
+    updateUserObject(data);
   };
 
   useEffect(() => {
@@ -117,11 +115,7 @@ export default function AccordionSet({
       }
     }
   };
-  const getChecked = (ind) => {
-    const booleanValue = checked.get(`outline${index}index${ind}`);
-    return booleanValue;
-  };
-  console.log("boolean value is ", checked.get(`outline${index}index0`));
+
   return (
     <div>
       <Accordion
@@ -174,7 +168,7 @@ export default function AccordionSet({
                 checked={
                   userObject?.courses
                     ?.find((c) => c._id === course?._id)
-                    ?.grades?.find((g) => g._id === outline._id)?.score
+                    ?.grades?.find((g) => g._id === outline._id)
                     ? true
                     : false
                 }
@@ -183,18 +177,27 @@ export default function AccordionSet({
                 Quiz
                 <br />
                 <Typography fontWeight="normal" color="grey" display="block">
-                  <QuizIcon fontSize="10"></QuizIcon> 2mins{" "}
-                  {
-                    userObject?.courses
-                      ?.find((c) => c._id === course?._id)
-                      ?.grades?.find((g) => g._id === outline._id)?.score
-                  }
-                  /
-                  {
-                    userObject?.courses
-                      ?.find((c) => c._id === course?._id)
-                      ?.grades?.find((g) => g._id === outline._id)?.total
-                  }
+                  <QuizIcon fontSize="10"></QuizIcon>{" "}
+                  {outline.exercises.length * 5}
+                  {" mins  "}
+                  {userObject?.courses
+                    ?.find((c) => c._id === course?._id)
+                    ?.grades?.find((g) => g._id === outline._id) && (
+                    <span style={{ fontSize: "12px" }}>
+                      Previous Grade:{" "}
+                      {
+                        userObject?.courses
+                          ?.find((c) => c._id === course?._id)
+                          ?.grades?.find((g) => g._id === outline._id).score
+                      }
+                      /
+                      {
+                        userObject?.courses
+                          ?.find((c) => c._id === course?._id)
+                          ?.grades?.find((g) => g._id === outline._id).total
+                      }
+                    </span>
+                  )}
                 </Typography>
               </Typography>
             </ListItemButton>
