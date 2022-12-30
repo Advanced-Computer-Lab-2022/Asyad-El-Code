@@ -34,7 +34,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getTrainee } from "./actions/individualTrainees";
 import { getCorporate } from "./actions/corporate";
-import { UdacityCard } from "./components/test/UdacityCard";
+import { UdacityCard } from "./components/UdacityCard/UdacityCard";
 import AdminDashboard from "./components/Admin/Dashboard";
 
 const theme = createTheme({
