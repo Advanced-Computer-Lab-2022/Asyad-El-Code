@@ -28,5 +28,13 @@ export const deleteCourseRequest = async (id) => {
 }
 
 export const addAdmin = async (admin) => {
-  return await API.post(`/`, admin);
+  return await API.post(`/addAdmin`, admin);
+};
+
+export const addInstructor = async (instructor) => {
+  return await API.post(`/addInstructor`, instructor);
+};
+
+export const addCorporate = async (corporate) => {
+  return await API.post(`/addCorporate`, corporate);
 };

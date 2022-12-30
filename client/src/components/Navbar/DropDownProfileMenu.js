@@ -152,7 +152,7 @@ export default function DropDownMenuProfile({ user, logout }) {
             Reported Problems
           </MenuItem>
         ) : null}
-        <MenuItem>
+        <MenuItem  onClick={() => history.push("/adminPage")}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>

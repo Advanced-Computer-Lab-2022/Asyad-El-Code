@@ -23,17 +23,6 @@ import { getCorporates } from '../../actions/corporate';
 import { getInstructors } from '../../actions/instructor';
 
 
-const arr = [
-    { id: "1", title: "7amada Bena" },
-    { id: "2", title: "Yalla yel3b" },
-    { id: "3", title: "Essam ElDeen" },
-    { id: "5", title: "ElDeen Ye3" },
-    { id: "6", title: "Khaled ABo" },
-    { id: "7", title: "ElWafaa kora" },
-    { id: "8", title: "Khaled Essam" },
-    { id: "9", title: "Heidar Khaled" },
-    { id: "10", title: "Ahmed Heidar" },
-];
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
