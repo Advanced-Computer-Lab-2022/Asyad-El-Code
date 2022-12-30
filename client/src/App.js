@@ -34,6 +34,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getTrainee } from "./actions/individualTrainees";
 import { getCorporate } from "./actions/corporate";
+import { UdacityCard } from "./components/test/UdacityCard";
 
 const theme = createTheme({
   palette: {
@@ -61,7 +62,7 @@ export const App = () => {
     } else if (user?.type === "coorporateTrainee") {
       dispatch(getCorporate());
     }
-  });
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -71,9 +72,8 @@ export const App = () => {
             <PrimarySearchAppBar></PrimarySearchAppBar>
           </Route>
           <Route exact path="/ha">
-            <CE></CE>
+            <UdacityCard></UdacityCard>
           </Route>
-
           <Route exact path="/auth">
             {user ? <Redirect to="/home" /> : <Auth></Auth>}
           </Route>
@@ -98,7 +98,11 @@ export const App = () => {
                 <ViewAllCourses />
               </Route>
               <Route exact path="/instructorpage">
-                <InstructorCourses></InstructorCourses>
+                {user?.type === "instructor" ? (
+                  <InstructorCourses></InstructorCourses>
+                ) : (
+                  <Redirect to="/home" />
+                )}
               </Route>
 
               <Route exact path="/adminPage">
@@ -163,7 +167,11 @@ export const App = () => {
               </Route>
 
               <Route exact path="/reportedProblems">
-                {user ? <Problems></Problems> : <Redirect to="/home" />}
+                {user?.type === "administrator" ? (
+                  <Problems></Problems>
+                ) : (
+                  <Redirect to="/home" />
+                )}
               </Route>
               <Route exact path="/pendingProblems">
                 {user ? (

@@ -1,4 +1,8 @@
-import { FETCH_ALL, FETCH_INSTRUCTORS, ADD_INSTRUCTOR } from "../constants/instructors";
+import {
+  FETCH_ALL,
+  FETCH_INSTRUCTORS,
+  ADD_INSTRUCTOR,
+} from "../constants/instructors";
 import * as instructorApi from "../api/instructor";
 
 export const getInstructors = () => async (dispatch) => {
@@ -9,9 +13,9 @@ export const getInstructors = () => async (dispatch) => {
     console.log("INSTRUCTOR FETCH_ALL ACTION");
     dispatch({ type: FETCH_INSTRUCTORS, payload: data });
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
+};
 export const getInstructor = () => async (dispatch) => {
   try {
     console.log("IAM HERE");
@@ -20,9 +24,9 @@ export const getInstructor = () => async (dispatch) => {
     console.log("INSTRUCTOR FETCH_INSTRUCTOR ACTION");
     dispatch({ type: "FETCH_INSTRUCTOR", payload: data });
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
+};
 
 export const getAllInstructorCourses = () => async (dispatch) => {
   try {
@@ -43,7 +47,6 @@ export const filterInstructorCourses = (filterData) => async (dispatch) => {
 
 export const addInstructor = (instructor) => async (dispatch) => {
   try {
-
     const res = await instructorApi.addInstructor(instructor);
     console.log(res.data);
     if (res.status === 200)
@@ -60,5 +63,4 @@ export const updateInstructor = (id, instructor) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
-}
-
+};
