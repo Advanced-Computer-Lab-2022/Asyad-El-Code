@@ -13,6 +13,9 @@ export const Courses = () => {
   const queryParams = new URLSearchParams(location.search);
   const search = queryParams.get("source");
   console.log("search", search);
+  console.log("LOCATION PATHNAME", location.pathname);
+  console.log("LOCATION SEARCH", location.search);
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (search === "instructor") {
@@ -22,6 +25,14 @@ export const Courses = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (search === "instructor") {
+      dispatch(getAllInstructorCourses());
+    } else {
+      dispatch(getCourses());
+    }
+  }, [location.search]);
+
   const handleClick = (e, filterData) => {
     dispatch(filterCourses(filterData));
   };
@@ -29,6 +40,7 @@ export const Courses = () => {
   return (
     <div>
       <FilterBar handleClick={handleClick}></FilterBar>
+
       <CoursesGrid></CoursesGrid>
 
       <Grid container justifyContent="center" marginTop="40px"></Grid>
