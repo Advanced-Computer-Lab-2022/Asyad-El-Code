@@ -42,7 +42,6 @@ export const createAdministrator = async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 12);
 
     const administrator = await new Administrator({
-      userName,
       password: hashPassword,
       email,
     });

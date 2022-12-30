@@ -8,6 +8,9 @@ import {
   ADD_REVIEW,
   START_LOADING,
   END_LOADING,
+  FILTER_SUBJECT_RATING,
+  FETCH_ALL_INSTRUCTOR_COURSES,
+  FILTER_INSTRUCTOR_COURSES,
 } from "../constants/courses";
 
 export default (state = { isLoading: true, courses: [] }, action) => {
@@ -24,9 +27,9 @@ export default (state = { isLoading: true, courses: [] }, action) => {
     case FETCH_ALL:
       return { ...state, courses: action.payload };
 
-    case "FILTER_SUBJECT_RATING":
-    case "FETCH_ALL_INSTRUCTOR_COURSES":
-    case "FILTER_INSTRUCTOR_COURSES":
+    case FILTER_SUBJECT_RATING:
+    case FETCH_ALL_INSTRUCTOR_COURSES:
+    case FILTER_INSTRUCTOR_COURSES:
       return { ...state, courses: action.payload };
 
     case CREATE_COURSE:
