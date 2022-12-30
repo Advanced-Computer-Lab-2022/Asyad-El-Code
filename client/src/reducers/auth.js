@@ -4,6 +4,7 @@ import {
   AUTH_ERROR,
   CHANGE_PASSWORD,
   SEND_EMAIL,
+  UPDATE_INSTRUCTOR
 } from "../constants/auth";
 import { END_LOADING, START_LOADING } from "../constants/courses";
 
@@ -28,7 +29,7 @@ export default (
 
     case CHANGE_PASSWORD:
       return { ...state, authData: action?.payload, error: null };
-    case "UPDATE_INSTRUCTOR":
+    case UPDATE_INSTRUCTOR:
       return { ...state, authData: action?.payload };
 
     case SEND_EMAIL:

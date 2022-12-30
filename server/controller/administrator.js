@@ -156,20 +156,39 @@ export const updateAdministrator = async (req, res) => {
 
 //TODO HEIDAR
 //ADD EMAIL TO HIS BODY
-export const createInstructor = async (req, res) => {
-  const { userName, password } = req.body;
+export const addInstructor = async (req, res) => {
+  const { userName, password,email } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 12);
     const instructor = new Instructor({
       userName: userName,
       password: hashedPassword,
+      email:email
     });
     await instructor.save();
     res.status(200).json(instructor);
   } catch (error) {
     res.send(error.message);
   }
+};
+export const addCorporateTrainee = async (req, res) => {
+  const { userName, password,email } = req.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const corporateTrainee = new CorporateTrainee({
+      userName: userName,
+      password: hashedPassword,
+      email:email
+    });
+    await corporateTrainee.save();
+    res.status(200).json(corporateTrainee);
+  } catch (error) {
+    res.send(error.message);
+  }
+
+
 };
 
 export const acceptCourseRequest = async (req, res) => {

@@ -1,9 +1,9 @@
-import { FETCH_ALL, ACCEPT, DELETE_REQUEST, REJECT } from "../constants/requests";
+import { ACCEPT, DELETE_REQUEST, REJECT, FETCH_REQUESTS } from "../constants/requests";
 
 export default (requests = [], action) => {
   console.log("Course Requests reducer");
   switch (action.type) {
-    case FETCH_ALL:
+    case FETCH_REQUESTS:
       return action.payload;
     case ACCEPT:
         return requests;
