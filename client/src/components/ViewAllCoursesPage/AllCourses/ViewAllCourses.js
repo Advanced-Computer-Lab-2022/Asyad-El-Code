@@ -12,6 +12,7 @@ import {
 } from "../../../actions/instructor";
 import { CoursesGrid } from "./CoursesGrid";
 import { SearchBar } from "./SearchBar";
+import { getLoggedUser } from "../../../actions/auth";
 export const Courses = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);

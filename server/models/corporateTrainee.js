@@ -115,7 +115,7 @@ corporateTraineeSchema.methods.generateAuthToken = function () {
     { email: this.email, id: this._id, role: "corporateTrainee" },
     process.env.TOKEN_KEY,
     {
-      expiresIn: "1h",
+      expiresIn: "2h",
     }
   );
   return token;

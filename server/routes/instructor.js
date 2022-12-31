@@ -28,7 +28,11 @@ router.post("/addNewCourse/:id", [authMiddeleware], addNewCourse);
 router.patch("/updateInformation/:id", authMiddeleware, updateInformation);
 router.get("/searchByTitleOrSubject/:id", searchByTitleOrSubject);
 
-router.get("/getAllInstructorCourses/:id", getAllInstructorCourses);
+router.get(
+  "/getAllInstructorCourses/:id",
+  [authMiddeleware],
+  getAllInstructorCourses
+);
 
 router.post("/updateRating/:id", authMiddeleware, updateRating);
 router.patch("/definePromotion", authMiddeleware, definePromotion);

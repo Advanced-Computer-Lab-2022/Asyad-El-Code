@@ -17,6 +17,7 @@ import { getRate } from "../../../util";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getCourse } from "../../../../actions/courses";
+import FeedbackDialog from "./RatingsAndReviews/FeedbackDialog";
 
 export const UdacityCard = ({ course, type }) => {
   const traineeType = JSON.parse(localStorage.getItem("profile"))?.type;
@@ -26,13 +27,21 @@ export const UdacityCard = ({ course, type }) => {
     (state) => state.currencyRates
   );
 
-  const [open, setOpen] = useState(false);
+  const [openPromotion, setOpenPromotion] = useState(false);
   const dispatch = useDispatch();
   console.log("UDACITY CARD" + " " + course);
   const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const [scroll, setScroll] = React.useState("paper");
 
-  const handleClick = (courseId, courseTitle) => {
-    dispatch(getCourse(courseId, history, courseTitle));
+  const handleClick = (courseId, courseTitle, scrollType) => {
+    // if (type !== "instructor") {
+    //   dispatch(getCourse(courseId, history, courseTitle));
+    // } else {
+    // }
+
+    setOpen(true);
+    setScroll(scrollType);
   };
 
   const definePromotion = () => {
@@ -43,6 +52,10 @@ export const UdacityCard = ({ course, type }) => {
       return true;
     }
     return false;
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -92,10 +105,17 @@ export const UdacityCard = ({ course, type }) => {
                 backgroundColor: "#205295",
               }}
               variant="contained"
-              onClick={() => handleClick(course._id, course.title)}
+              onClick={() => handleClick(course._id, course.title, "paper")}
             >
-              Program Details
+              {type === "instructor" ? "Feedback" : "Program Details "}
             </Button>
+          </Grid>
+          <Grid item>
+            <FeedbackDialog
+              course={course}
+              open={open}
+              handleClose={handleClose}
+            ></FeedbackDialog>
           </Grid>
 
           {definePromotion() ? (
@@ -111,7 +131,7 @@ export const UdacityCard = ({ course, type }) => {
                   textTransform: "none",
                 }}
                 variant="outlined"
-                onClick={() => setOpen(true)}
+                onClick={() => setOpenPromotion(true)}
               >
                 {definePromotion()
                   ? "Define Promotion"
@@ -138,6 +158,7 @@ export const UdacityCard = ({ course, type }) => {
           <Grid item>
             <Typography variant="h5">{course.title}</Typography>
           </Grid>
+          <Grid item></Grid>
           <Grid mt={-1} item>
             <Typography fontSize={17} color="text.secondary" variant="body2">
               {course.price !== course.discountedPrice ? (
@@ -189,7 +210,11 @@ export const UdacityCard = ({ course, type }) => {
           </Grid>
         </Grid>
       </Grid>
-      <PromotionPopUp open={open} setOpen={setOpen} courseId={course._id} />
+      <PromotionPopUp
+        open={openPromotion}
+        setOpen={setOpenPromotion}
+        courseId={course._id}
+      />
     </Card>
   );
 };

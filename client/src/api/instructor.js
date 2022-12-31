@@ -11,7 +11,7 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const getAllInstructorCourses = async () =>
+export const getAllInstructorCourses = async (id) =>
   await API.get(
     `/getAllInstructorCourses/${
       JSON.parse(localStorage.getItem("profile")).result._id

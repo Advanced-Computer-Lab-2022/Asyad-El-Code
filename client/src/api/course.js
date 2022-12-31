@@ -54,3 +54,9 @@ export const addReview = async (
     `/addReview?courseId=${courseId}&corporateTraineeId=${corporateTraineeId}&individualTraineeId=${individualTraineeId}&review=${review}`
   );
 };
+export const getUserNames = async (courseId) =>
+  await API.get(`/getUserNames?courseId=${courseId}`);
+
+export const requestRefund = async (dataObject) => {
+  return await API.post("/requestRefund", dataObject);
+};
