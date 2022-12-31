@@ -17,8 +17,10 @@ import { getRate } from "../../../util";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getCourse } from "../../../../actions/courses";
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
-export const UdacityCard = ({ course, type }) => {
+export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
   const traineeType = JSON.parse(localStorage.getItem("profile"))?.type;
   const selectedCountry = useSelector((c) => c.selectedCountry);
 
@@ -44,9 +46,10 @@ export const UdacityCard = ({ course, type }) => {
     }
     return false;
   };
+  let cardHeight = type == "admin" ? "250px" : "430px";
 
   return (
-    <Card style={{ width: "600px", height: "430px" }}>
+    <Card style={{ width: "600px", height: cardHeight }}>
       <Grid
         columnSpacing={2}
         padding={3}
@@ -83,20 +86,53 @@ export const UdacityCard = ({ course, type }) => {
               src={image}
             ></img>
           </Grid>
-          <Grid item>
+          {courseList.find((c) => c._id === course?._id) ? (
             <Button
               fullWidth
               style={{
                 padding: "12px",
                 textTransform: "none",
+                marginTop: "40px",
+              }}
+              color="success"
+              variant="contained"
+              startIcon={<CheckBoxIcon />}
+              onClick={(e) => handleSelect(e, course)}
+            >
+              Unselect Course
+            </Button>) :
+            (<Button
+              fullWidth
+              style={{
+                padding: "12px",
+                textTransform: "none",
                 backgroundColor: "#205295",
+                marginTop: "40px",
               }}
               variant="contained"
-              onClick={() => handleClick(course._id, course.title)}
+              startIcon={<CheckBoxOutlineBlankIcon />}
+              onClick={(e) => handleSelect(e, course)}
             >
-              Program Details
-            </Button>
-          </Grid>
+              Select Course
+            </Button>)
+          }
+          {type !== "admin" && (
+            <Grid item>
+              <Button
+                fullWidth
+                style={{
+                  padding: "12px",
+                  textTransform: "none",
+                  backgroundColor: "#205295",
+                }}
+                variant="contained"
+                onClick={() => handleClick(course._id, course.title)}
+              >
+                Program Details
+              </Button>
+            </Grid>
+          )
+          }
 
           {definePromotion() ? (
             <Grid item>
@@ -117,8 +153,8 @@ export const UdacityCard = ({ course, type }) => {
                   ? "Define Promotion"
                   : traineeType == "individualTrainee" ||
                     traineeType == "corporateTrainee"
-                  ? "Enroll Now"
-                  : "Download"}
+                    ? "Enroll Now"
+                    : "Download"}
               </Button>
             </Grid>
           ) : null}
@@ -132,7 +168,7 @@ export const UdacityCard = ({ course, type }) => {
                 backgroundColor: "#eeeeee",
                 color: "black",
               }}
-              // color="success"
+            // color="success"
             />
           </Grid>
           <Grid item>
@@ -179,14 +215,17 @@ export const UdacityCard = ({ course, type }) => {
               </Typography>
             </Stack>
           </Grid>
-          <Grid item>
-            <Typography variant="h7">Course Summary</Typography>
-          </Grid>
-          <Grid item>
-            <Typography fontSize={12} color="text.secondary" variant="body2">
-              {course.summary}
-            </Typography>
-          </Grid>
+          {type !== "admin" && (
+            <>
+              <Grid item>
+                <Typography variant="h7">Course Summary</Typography>
+              </Grid>
+              <Grid item>
+                <Typography fontSize={12} color="text.secondary" variant="body2">
+                  {course.summary}
+                </Typography>
+              </Grid>
+            </>)}
         </Grid>
       </Grid>
       <PromotionPopUp open={open} setOpen={setOpen} courseId={course._id} />

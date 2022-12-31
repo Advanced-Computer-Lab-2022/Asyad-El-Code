@@ -189,10 +189,6 @@ export const App = () => {
               <Route exact path="/coursesPromo">
                 <Courses></Courses>
               </Route>
-
-              <Route exact path="/coursesPromo">
-                <Courses></Courses>
-              </Route>
             </Switch>
 
           </Route>
