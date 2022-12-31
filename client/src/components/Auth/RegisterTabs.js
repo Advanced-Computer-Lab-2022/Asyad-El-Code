@@ -79,7 +79,7 @@ export default function RegisterTabs() {
   const [message, setMessage] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
   const [messageSent, setMessageSent] = useState(false);
-  const { authData } = useSelector((state) => state.authReducer);
+  const { authData, error } = useSelector((state) => state.authReducer);
   console.log("AUTH DATA REDUCER", authData);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -113,7 +113,7 @@ export default function RegisterTabs() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setMessage(authData?.message);
+    setMessage(error?.message ? error.message : null);
 
     if (form.firstName === "") setFirstNameError(true);
     else setFirstNameError(false);

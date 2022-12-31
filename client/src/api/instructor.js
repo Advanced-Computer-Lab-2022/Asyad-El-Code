@@ -11,8 +11,12 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const getAllInstructorCourses = async (id) =>
-  await API.get(`/getAllInstructorCourses/${id}`);
+export const getAllInstructorCourses = async () =>
+  await API.get(
+    `/getAllInstructorCourses/${
+      JSON.parse(localStorage.getItem("profile")).result._id
+    }`
+  );
 
 export const filterInstructorCourses = async (filterData) => {
   return await API.get(

@@ -21,6 +21,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import AccordionSet from "./Accordion";
 import Linear from "./LinearProgress.js";
+import { CircularProgress } from "@mui/material";
 import {
   DialogActions,
   Button,
@@ -109,6 +110,9 @@ export default function CourseContents() {
       return "";
     }
   }
+  function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
   const user = parseJson();
   const [userObject, setUserObject] = useState({});
 
@@ -120,9 +124,15 @@ export default function CourseContents() {
     getIndividualTrainee();
   }, []);
 
-  const { courses } = useSelector((state) => state.courses);
+  const { isLoading, courses } = useSelector((state) => state.courses);
   const course = courses[0];
-
+  useEffect(() => {
+    course.outlines.forEach((outline) => {
+      outline.exercises.forEach((exercise) => {
+        exercise.answers = shuffle(exercise.answers);
+      });
+    });
+  }, [course]);
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -219,7 +229,7 @@ export default function CourseContents() {
     userObject?.courses
       ?.find((c) => c._id === course._id)
       ?.seenContent?.forEach((g) => {
-        totalDuration += g.duration;
+        totalDuration += g?.duration;
       });
     userObject?.courses
       ?.find((c) => c._id === course._id)
@@ -229,144 +239,166 @@ export default function CourseContents() {
 
     console.log("This is total Duration", totalDuration);
     console.log("this is course duration", course?.duration);
-    setProgress(Math.ceil(totalDuration / (course?.duration * 60)) * 100);
+    setProgress(Math.ceil((totalDuration / (course?.duration * 60)) * 100));
   };
-  const updateUserObject = (duration, id) => {
-    userObject.courses
-      .find((c) => c._id === course._id)
-      .seenContent.push({ duration: duration, _id: id });
-    calculateAndSetProgress();
+  // const updateUserObject = (duration, id) => {
+  //   userObject.courses
+  //     .find((c) => c._id === course._id)
+  //     .seenContent.push({ duration: duration, _id: id });
+  //   calculateAndSetProgress();
+  // };
+  const updateUserObject = (user) => {
+    setUserObject(user);
+  };
+  useEffect(() => {
+    if (progress === 100) {
+      showCertificate();
+    }
+  }, [progress]);
+  const showCertificate = () => {
+    setShowVideoContent(false);
+    setShowExerciseContent(false);
   };
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <IconButton onClick={handleHome}>
-            <HomeSharpIcon
-              fontSize="large"
-              style={{ fill: "#ffffff" }}
-            ></HomeSharpIcon>
-          </IconButton>
-          <Linear progress={progress}></Linear>
+    <>
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <Box sx={{ display: "flex" }}>
+          <CssBaseline />
+          <AppBar position="fixed" open={open}>
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                sx={{ mr: 2, ...(open && { display: "none" }) }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <IconButton onClick={handleHome}>
+                <HomeSharpIcon
+                  fontSize="large"
+                  style={{ fill: "#ffffff" }}
+                ></HomeSharpIcon>
+              </IconButton>
+              <Linear progress={progress}></Linear>
 
-          {/* Add Review button to the end of appbar */}
-          <Link
-            variant="h6"
-            noWrap
-            fontSize={15}
-            onClick={handleClickOpen}
-            fontWeight="13"
+              {/* Add Review button to the end of appbar */}
+              <Link
+                variant="h6"
+                noWrap
+                fontSize={15}
+                onClick={handleClickOpen}
+                fontWeight="13"
+                sx={{
+                  flexGrow: 1,
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  marginRight: "10px",
+                  color: "white",
+                  cursor: "pointer",
+                }}
+              >
+                <StarBorderIcon fontSize="small" />
+                Leave Rating
+              </Link>
+            </Toolbar>
+          </AppBar>
+          <Drawer
             sx={{
-              flexGrow: 1,
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              marginRight: "10px",
-              color: "white",
-              cursor: "pointer",
+              width: drawerWidth,
+              flexShrink: 0,
+              "& .MuiDrawer-paper": {
+                width: drawerWidth,
+                boxSizing: "border-box",
+              },
             }}
+            variant="persistent"
+            anchor="left"
+            open={open}
           >
-            <StarBorderIcon fontSize="small" />
-            Leave Rating
-          </Link>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
+            <DrawerHeader>
+              <IconButton onClick={handleDrawerClose}>
+                {theme.direction === "ltr" ? (
+                  <ChevronLeftIcon />
+                ) : (
+                  <ChevronRightIcon />
+                )}
+              </IconButton>
+            </DrawerHeader>
+            <Divider />
+
+            <Divider />
+
+            {course?.outlines.map((outline, index) => {
+              return (
+                <AccordionSet
+                  key={index}
+                  index={index}
+                  outline={outline}
+                  userObject={userObject}
+                  course={course}
+                  handleVideoClick={handleVideoClick}
+                  handleExerciseClick={handleClickEx}
+                  updateUserObject={updateUserObject}
+                ></AccordionSet>
+              );
+            })}
+          </Drawer>
+          <Main open={open}>
+            <DrawerHeader />
+            <RatingCourse
+              isOpen={isOpen}
+              handleClose={handleClose}
+              handleSubmit={handleSubmitRatingAndReview}
+            ></RatingCourse>
+            <Dialog open={retakeOpen} onClose={() => setRetakeOpen(false)}>
+              <DialogTitle>Retake Quiz</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  You have already solved this quiz. Do you want to retake it?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => handleCancelRetake()}>Cancel</Button>
+                <Button
+                  onClick={() => {
+                    handleRetake(exercise, exerciseId);
+                  }}
+                >
+                  Retake
+                </Button>
+              </DialogActions>
+            </Dialog>
+            {showExerciseContent || showVideoContent ? (
+              <VideoAndExercise
+                content={content}
+                exercise={exercise}
+                exerciseId={exerciseId}
+                courseId={course?._id}
+                user={userObject}
+                videoOpen={showVideoContent}
+                exerciseOpen={showExerciseContent}
+                updateUserObject={updateUserObject}
+              ></VideoAndExercise>
             ) : (
-              <ChevronRightIcon />
+              <>
+                <CourseWelcome
+                  course={course}
+                  courseTitle={course?.title}
+                  progress={progress}
+                  showCertificate={showCertificate}
+                  userObject={userObject}
+                  handleVideoClick={handleVideoClick}
+                ></CourseWelcome>
+              </>
             )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-
-        <Divider />
-
-        {course?.outlines.map((outline, index) => {
-          return (
-            <AccordionSet
-              key={index}
-              index={index}
-              outline={outline}
-              userObject={userObject}
-              course={course}
-              handleVideoClick={handleVideoClick}
-              handleExerciseClick={handleClickEx}
-              updateUserObject={updateUserObject}
-            ></AccordionSet>
-          );
-        })}
-      </Drawer>
-      <Main open={open}>
-        <DrawerHeader />
-        <RatingCourse
-          isOpen={isOpen}
-          handleClose={handleClose}
-          handleSubmit={handleSubmitRatingAndReview}
-        ></RatingCourse>
-        <Dialog open={retakeOpen} onClose={() => setRetakeOpen(false)}>
-          <DialogTitle>Retake Quiz</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              You have already solved this quiz. Do you want to retake it?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => handleCancelRetake()}>Cancel</Button>
-            <Button
-              onClick={() => {
-                handleRetake(exercise, exerciseId);
-              }}
-            >
-              Retake
-            </Button>
-          </DialogActions>
-        </Dialog>
-        {showExerciseContent || showVideoContent ? (
-          <VideoAndExercise
-            content={content}
-            exercise={exercise}
-            exerciseId={exerciseId}
-            courseId={course?._id}
-            user={userObject}
-            videoOpen={showVideoContent}
-            exerciseOpen={showExerciseContent}
-          ></VideoAndExercise>
-        ) : (
-          <>
-            <CourseWelcome
-              course={course}
-              courseTitle={course?.title}
-              progress={progress}
-            ></CourseWelcome>
-          </>
-        )}
-      </Main>
-    </Box>
+          </Main>
+        </Box>
+      )}
+    </>
   );
 }

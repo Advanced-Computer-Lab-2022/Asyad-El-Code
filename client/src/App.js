@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import MenuAppBar from "./components/Navbar/Navbar";
 import Home from "./components/HomePage/Home";
-import ViewAllCourses from "./components/ViewAllCoursesPage/ViewAllCourses";
+import ViewAllCourses from "./components/ViewAllCoursesPage/AllCourses/ViewAllCourses";
 import { InstructorCourses } from "./components/Instructor/InstructorCourses";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import CourseStructure from "./components/Instructor/CourseStructure";
 import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
@@ -29,6 +29,13 @@ import PrimarySearchAppBar from "./components/Navbar/tst";
 import { CourseWelcome } from "./components/Course/CourseContents/CourseWelcome";
 import CardCourse from "./components/Course/PopularCourses/CourseCard";
 import { CE } from "./components/Course/CourseContents/Certificate/Certificate";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getTrainee } from "./actions/individualTrainees";
+import { getCorporate } from "./actions/corporate";
+import { UdacityCard } from "./components/ViewAllCoursesPage/AllCourses/UdacityCard/UdacityCard";
+import AdminDashboard from "./components/Admin/Dashboard";
 
 import RequestAccess from "./components/RequestAccess";
 const theme = createTheme({
@@ -44,7 +51,21 @@ const theme = createTheme({
     },
   },
 });
+
 export const App = () => {
+  const user = JSON.parse(localStorage.getItem("profile"));
+
+  const individualTrainee = useSelector((c) => c.individualTrainee);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user?.type === "individualTrainee") {
+      dispatch(getTrainee());
+    } else if (user?.type === "coorporateTrainee") {
+      dispatch(getCorporate());
+    }
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <ScrollToTop>
@@ -53,14 +74,17 @@ export const App = () => {
             <PrimarySearchAppBar></PrimarySearchAppBar>
           </Route>
           <Route exact path="/ha">
-            <CE></CE>
+            <UdacityCard></UdacityCard>
           </Route>
-
           <Route exact path="/auth">
-            <Auth></Auth>
+            {user ? <Redirect to="/home" /> : <Auth></Auth>}
           </Route>
           <Route exact path="/users/confirmPassword/:id">
-            <ConfirmPassword></ConfirmPassword>
+            {user?.result ? (
+              <Redirect to="/home" />
+            ) : (
+              <ConfirmPassword></ConfirmPassword>
+            )}
           </Route>
           <Route exact path="/test">
             <PersistentDrawerLeft></PersistentDrawerLeft>
@@ -80,44 +104,90 @@ export const App = () => {
                 <ViewAllCourses />
               </Route>
               <Route exact path="/instructorpage">
-                <InstructorCourses></InstructorCourses>
+                {user?.type === "instructor" ? (
+                  <InstructorCourses></InstructorCourses>
+                ) : (
+                  <Redirect to="/home" />
+                )}
               </Route>
 
               <Route exact path="/adminPage">
-                <Admin></Admin>
+                {user?.type === "administrator" ? (
+                  <Admin></Admin>
+                ) : (
+                  <Redirect to="/home" />
+                )}
               </Route>
               <Route exact path="/createCourse">
-                <CourseSteps></CourseSteps>
+                {user?.type == "instructor" ? (
+                  <CourseSteps></CourseSteps>
+                ) : (
+                  <Redirect to="/home" />
+                )}
               </Route>
               <Route exact path="/course/*">
                 <CoursePage></CoursePage>
               </Route>
               <Route exact path="/myCourses">
-                <MyCourses></MyCourses>
+                {user ? <MyCourses></MyCourses> : <Redirect to="/home" />}
               </Route>
               <Route exact path="/profile">
-                <Profile></Profile>
+                {user ? <Profile></Profile> : <Redirect to="/home" />}
               </Route>
               <Route exact path="/ta">
                 <Testo></Testo>
               </Route>
               <Route exact path="/success/:courseId">
-                <SuccessPage></SuccessPage>
+                {(props) => {
+                  const { courseId } = props.match.params;
+                  let isCourseInUserCourses = false;
+                  if (user?.type === "individualTrainee") {
+                    if (individualTrainee?.courses?.length > 0) {
+                      isCourseInUserCourses = individualTrainee?.courses?.find(
+                        (c) => c._id === courseId
+                      );
+                    }
+                  }
+                  return isCourseInUserCourses ? (
+                    <SuccessPage></SuccessPage>
+                  ) : (
+                    <Redirect to="/home" />
+                  );
+                }}
               </Route>
 
               <Route exact path="/instructorProfile">
-                <InstructorProfile></InstructorProfile>
+                {user?.type === "instructor" ? (
+                  <InstructorProfile></InstructorProfile>
+                ) : (
+                  <Redirect to="/home" />
+                )}
               </Route>
 
               <Route exact path="/courseRequests">
-                <CourseRequests></CourseRequests>
+                {user?.type === "administrator" ? (
+                  <CourseRequests></CourseRequests>
+                ) : (
+                  <Redirect to="/home" />
+                )}
               </Route>
 
               <Route exact path="/reportedProblems">
-                <Problems></Problems>
+                {user?.type === "administrator" ? (
+                  <Problems></Problems>
+                ) : (
+                  <Redirect to="/home" />
+                )}
               </Route>
               <Route exact path="/pendingProblems">
-                <PendingProblems></PendingProblems>
+                {user ? (
+                  <PendingProblems></PendingProblems>
+                ) : (
+                  <Redirect to="/home" />
+                )}
+              </Route>
+              <Route exact path="/dashboard">
+                <AdminDashboard></AdminDashboard>
               </Route>
             </Switch>
           </Route>

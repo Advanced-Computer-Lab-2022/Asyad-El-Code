@@ -21,8 +21,6 @@ const administratorSchema = new mongoose.Schema({
   },
   userName: {
     type: String,
-    unique: true,
-    required: true,
   },
   password: {
     type: String,
@@ -36,7 +34,6 @@ export function validate(user) {
     firstName: Joi.string().min(3),
     lastName: Joi.string().min(3),
     email: Joi.string().email().required(),
-    userName: Joi.string().required(),
     password: Joi.string().required(),
   });
   return schema.validate(user);

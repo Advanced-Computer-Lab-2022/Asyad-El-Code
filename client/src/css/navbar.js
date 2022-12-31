@@ -4,7 +4,6 @@ const useStyles = makeStyles()((theme) => {
   return {
     appBar: {
       backgroundColor: "black",
-      opacity: 0.89,
     },
     logo: {
       height: "60px",
