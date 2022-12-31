@@ -1,10 +1,20 @@
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import ClearAllIcon from "@mui/icons-material/ClearAll";
 import {
+  Box,
   Button,
   Container,
   createTheme,
+  Divider,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Rating,
+  Select,
+  Stack,
   Typography,
 } from "@mui/material";
 import { maxWidth } from "@mui/system";
@@ -31,12 +41,13 @@ export const FilterBar = ({ handleClick }) => {
   const [filterData, setFilterData] = useState(initialFilterData);
   const dispatch = useDispatch();
   const courses = useSelector((c) => c.courses);
-
+  const [rating, setRating] = useState(0);
   const handlePriceChange = (e, newValue) => {
     setFilterData({ ...filterData, Price: newValue });
   };
-  const handleRatingChange = (e, newValue) => {
-    setFilterData({ ...filterData, Rating: newValue });
+  const handleRatingChange = (e) => {
+    setRating(e.target.value);
+    setFilterData({ ...filterData, Rating: [e.target.value, 5] });
   };
   const handleChange = (e, newValue) => {
     if (newValue.length === 0) {
@@ -55,28 +66,24 @@ export const FilterBar = ({ handleClick }) => {
   // useEffect(() => {}, [courses]);
 
   return (
-    <Container sx={{ backgroundColor: "#F2F0EF" }} maxWidth="xl">
-      <Grid
-        container
-        columnSpacing={1}
-        rowSpacing={0}
-        justifyContent={"normal"}
-      >
-        <Grid
-          item
-          xs={12}
-          marginLeft="10px"
-          marginTop="20px"
-          marginBottom="10px"
-        >
-          <Typography variant="h4" color="black">
+    <Container
+      sx={{ backgroundColor: "#FFFFFF", height: "130px", maxHeight: "130px" }}
+    >
+      <Box marginBottom={2}>
+        <Stack direction="row" spacing={4} alignItems="center">
+          <Typography fontSize={15} fontWeight="bold" color="black">
             Filter By:
           </Typography>
-        </Grid>
-        <Grid container marginLeft="40px" spacing={2} marginBottom="20px">
+          <Button>Search</Button>
+        </Stack>
+      </Box>
+
+      <Divider />
+      <Box margin={2}>
+        <Grid container>
           <Grid item xs={3}>
             <CheckboxesTags
-              testawyy={[
+              subjectOptions={[
                 "Computer Science",
                 "Business",
                 "Management",
@@ -85,28 +92,52 @@ export const FilterBar = ({ handleClick }) => {
               ]}
               name={"Subject"}
               handleChange={handleChange}
+              filterData={filterData}
             ></CheckboxesTags>
           </Grid>
+          <Grid item xs={5}>
+            <Stack direction="row" spacing={4} alignItems="center">
+              <Divider orientation="vertical" flexItem />
 
-          <Grid item xs={2}>
-            <Typography variant="p">Price</Typography>
-            <PriceSlider form={handlePriceChange}></PriceSlider>
+              <Stack direction="row" spacing={3}>
+                {/* <Typography variant="p">Rating</Typography>
+                <RatingSlider form={handleRatingChange}></RatingSlider> */}
+
+                <Rating
+                  value={rating}
+                  onChange={handleRatingChange}
+                  sx={{ color: "black" }}
+                ></Rating>
+              </Stack>
+              <Divider orientation="vertical" flexItem />
+              <Stack direction="row" spacing={3}>
+                <Typography variant="p">Price</Typography>
+                <PriceSlider form={handlePriceChange}></PriceSlider>
+              </Stack>
+            </Stack>
           </Grid>
-          <Grid item xs={2}>
-            <Typography variant="p">Rating</Typography>
-            <RatingSlider form={handleRatingChange}></RatingSlider>
-          </Grid>
-          <Grid item xs={2}>
-            <Button
-              startIcon={<FilterAltIcon></FilterAltIcon>}
-              size="large"
-              onClick={(e) => handleClick(e, filterData)}
-            >
-              Filter
-            </Button>
+
+          <Grid item xs={4}>
+            <Stack direction="row-reverse" spacing={2} alignItems="center">
+              <Button
+                startIcon={<ClearAllIcon />}
+                size="small"
+                style={{ color: "#205294" }}
+              >
+                Clear all
+              </Button>
+              <Button
+                startIcon={<FilterAltIcon />}
+                size="small"
+                style={{ color: "#205294" }}
+                onClick={(e) => handleClick(e, filterData)}
+              >
+                Filter
+              </Button>
+            </Stack>
           </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </Container>
   );
 };

@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { InputLabel } from "@mui/material";
 
 function valuetext(value) {
   return `${value}°C`;
@@ -20,7 +21,8 @@ export default function RangeSlider(props) {
   };
 
   return (
-    <Box sx={{ width: 150 }}>
+    <Box sx={{ width: 100 }}>
+      {/* <InputLabel id="price-range-label">Price</InputLabel> */}
       <Slider
         aria-label="Price Range"
         getAriaLabel={() => "Price Range"}
@@ -28,13 +30,11 @@ export default function RangeSlider(props) {
         onChange={handleChange}
         valueLabelDisplay="auto"
         getAriaValueText={valuetext}
-
         max={
           selectedCountry === ""
             ? 10000
             : (10000 * rates[selectedCountry]).toFixed(0)
         }
-
       />
     </Box>
   );

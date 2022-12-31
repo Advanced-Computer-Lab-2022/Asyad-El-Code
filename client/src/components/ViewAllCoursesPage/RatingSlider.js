@@ -15,7 +15,7 @@ export default function RangeSlider(props) {
   };
 
   return (
-    <Box sx={{ width: 150 }}>
+    <Box sx={{ width: 100 }}>
       <Slider
         aria-label="Rating Range"
         getAriaLabel={() => "Rating Range"}
