@@ -34,11 +34,15 @@ export const Courses = () => {
   }, [location.search]);
 
   const handleClick = (e, filterData) => {
-    dispatch(filterCourses(filterData));
+    if (search === "instructor") {
+      dispatch(getAllInstructorCourses(filterData));
+    } else {
+      dispatch(filterCourses(filterData));
+    }
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#F2F0EF" }}>
       <FilterBar handleClick={handleClick}></FilterBar>
 
       <CoursesGrid></CoursesGrid>

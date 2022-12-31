@@ -13,11 +13,13 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import image from "../../images/coding.jpeg";
 import { getRate } from "../util";
+import PromotionPopUp from "../ViewAllCoursesPage/PromotionPopUp.js";
 
 export const UdacityCard = ({ course }) => {
   const traineeType = JSON.parse(localStorage.getItem("profile"))?.type;
   const selectedCountry = useSelector((c) => c.selectedCountry);
   const rates = useSelector((c) => c.currencyRates);
+  const [open, setOpen] = useState(false);
   console.log("UDACITY CARD" + " " + course);
   console.log(course);
 
@@ -51,6 +53,7 @@ export const UdacityCard = ({ course }) => {
                 height: "100%",
                 width: "100%",
                 objectFit: "cover",
+                borderTopRightRadius: "50px",
                 //I want you to cut frrom the top right using ellipse and clippath
                 //   clipPath: "ellipse(150% 80% at 0% 90%)",
                 // clipPath: "circle(100% at 100% 90%)",
@@ -83,6 +86,9 @@ export const UdacityCard = ({ course }) => {
                 textTransform: "none",
               }}
               variant="outlined"
+              onClick={() => {
+                setOpen(true);
+              }}
             >
               {traineeType === "instructor" || traineeType === "administrator"
                 ? "Define Promotion"
@@ -156,6 +162,7 @@ export const UdacityCard = ({ course }) => {
           </Grid>
         </Grid>
       </Grid>
+      <PromotionPopUp open={open} setOpen={setOpen} />
     </Card>
   );
 };
