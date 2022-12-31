@@ -4,9 +4,10 @@ import {
   AUTH_ERROR,
   CHANGE_PASSWORD,
   SEND_EMAIL,
-  UPDATE_INSTRUCTOR
+  UPDATE_INSTRUCTOR,
+  START_LOADING_AUTH,
+  END_LOADING_AUTH,
 } from "../constants/auth";
-import { END_LOADING, START_LOADING } from "../constants/courses";
 
 export default (
   state = { authData: null, error: null, isLoading: false },
@@ -34,9 +35,9 @@ export default (
 
     case SEND_EMAIL:
       return state;
-    case START_LOADING:
+    case START_LOADING_AUTH:
       return { ...state, isLoading: true };
-    case END_LOADING:
+    case END_LOADING_AUTH:
       return { ...state, isLoading: false };
     default:
       return state;

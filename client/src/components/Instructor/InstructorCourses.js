@@ -4,8 +4,8 @@ import {
   getAllInstructorCourses,
   filterInstructorCourses,
 } from "../../actions/instructor";
-import { FilterBar } from "../ViewAllCoursesPage/FilterBar";
-import { CoursesGrid } from "../ViewAllCoursesPage/CoursesGrid";
+import { FilterBar } from "../ViewAllCoursesPage/Filter/FilterBar";
+import { CoursesGrid } from "../ViewAllCoursesPage/AllCourses/CoursesGrid";
 import { Typography } from "@mui/material";
 
 export const InstructorCourses = () => {

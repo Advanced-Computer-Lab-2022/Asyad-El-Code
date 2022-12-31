@@ -22,6 +22,7 @@ import "./home.css";
 import background from "../../images/code.jpg";
 import styled from "@emotion/styled";
 import { Reviews } from "./Reviews/Reviews";
+import { SearchBar } from "../ViewAllCoursesPage/AllCourses/SearchBar";
 
 const MyTypography = styled(Typography)({
   color: "white",
