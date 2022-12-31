@@ -27,7 +27,6 @@ import { getCorporate } from "../../../actions/corporate";
 export const CoursePage = () => {
   const { isLoading, courses } = useSelector((state) => state.courses);
   console.log("courses in state now is", courses);
-  console.log("HHHHHH");
 
   const dispatch = useDispatch();
   const { classes } = useStyles();
@@ -49,7 +48,6 @@ export const CoursePage = () => {
   const individualTrainee = useSelector((state) => state?.individualTrainee);
   const reportedProblems = useSelector((state) => state?.reportedProblems);
 
-  console.log("Iam the traineeType", traineeType);
   console.log("Iam the user", user);
 
   useEffect(() => {
@@ -66,7 +64,6 @@ export const CoursePage = () => {
   const handleCloseReportCourseModal = () => {
     setReportCourseModal(false);
   };
-  console.log("ASDFGHJKLZXCVBNMQWERTYUIOP");
   console.log("The state is ", individualTrainee);
   console.log(individualTrainee?.courses);
   console.log("The corporate trainee is ", corporateTrainee);
@@ -87,8 +84,6 @@ export const CoursePage = () => {
       );
     }
   }
-  console.log("isCourseInUserCourses", isCourseInUserCourses);
-  console.log("ASDFGHJKLZXCVBNMQWERTYUIOP");
 
   console.log("The reported problems are", reportedProblems);
 
@@ -108,6 +103,7 @@ export const CoursePage = () => {
     console.log("this is course duration", courses[0]?.duration);
     setProgress(Math.ceil(totalDuration / (courses[0]?.duration * 60)) * 100);
   };
+  console.log("the course ZERO is ", courses[0]);
 
   return (
     <>
@@ -150,8 +146,11 @@ export const CoursePage = () => {
                   <Stack spacing={2} direction="row">
                     <MyTypography variant="body2">
                       Created by{" "}
-                      <MyLink underline="always" href="#">
-                        {courses[0].instructor.name}
+                      <MyLink
+                        underline="always"
+                        href={`/instructorProfile/${courses[0].instructor?.instructorId}`}
+                      >
+                        {courses[0].instructor?.name}
                       </MyLink>
                     </MyTypography>
                   </Stack>
@@ -163,7 +162,9 @@ export const CoursePage = () => {
                 <Grid item mt={5}>
                   <CourseCard
                     userObject={
-                      individualTrainee ? individualTrainee : corporateTrainee
+                      traineeType === "individualTrainee"
+                        ? individualTrainee
+                        : corporateTrainee
                     }
                     course={courses[0]}
                     isCourseInUserCourses={isCourseInUserCourses}

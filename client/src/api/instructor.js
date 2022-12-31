@@ -1,66 +1,62 @@
-// import axios from "axios";
+import axios from "axios";
 
-// const API = axios.create({ baseURL: "http://localhost:8000/instructor" });
+const API = axios.create({ baseURL: "http://localhost:8000/instructor" });
 
-// API.interceptors.request.use((req) => {
-//   if (localStorage.getItem("profile")) {
-//     req.headers.Authorization = `Bearer ${
-//       JSON.parse(localStorage.getItem("profile")).token
-//     }`;
-//   }
-//   return req;
-// });
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem("profile")) {
+    req.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("profile")).token
+    }`;
+  }
+  return req;
+});
 
-// export const getAllInstructorCourses = async () =>
-//   await API.get(`/getAllInstructorCourses/635c587e07f18b986c357bb7`);
+export const getAllInstructorCourses = async (id) =>
+  await API.get(`/getAllInstructorCourses/${id}`);
 
-// export const filterInstructorCourses = async (filterData) => {
-//   return await API.get(
-//     `/filterInstructorCourses/?id=635c587e07f18b986c357bb7&subject=${filterData.Subject}&price=${filterData.Price}&rating=${filterData.Rating}`
-//   );
-// };
+export const filterInstructorCourses = async (filterData) => {
+  return await API.get(
+    `/filterInstructorCourses/?id=635c587e07f18b986c357bb7&subject=${filterData.Subject}&price=${filterData.Price}&rating=${filterData.Rating}`
+  );
+};
 
-// export const fetchInstructors = async () => await API.get(`/`);
+export const fetchInstructors = async () => await API.get(`/`);
 
-// export const fetchInstructor = async () =>
-//   await API.get(`/635c587e07f18b986c357bb7`);
+export const fetchInstructor = async (id) => await API.get(`/${id}`);
 
-// export const addInstructor = async (instructor) => {
-//   return await API.post(`/`, instructor);
-// };
-// <<<<<<< HEAD
+export const addInstructor = async (instructor) => {
+  return await API.post(`/`, instructor);
+};
 
-// // add Rating for course by trainee sending courseId corporate Trainee id and individual trainee id and rating
-// export const addRating = async (
-//   instructorId,
-//   corporateTraineeId,
-//   individualTraineeId,
-//   rating
-// ) => {
-//   return await API.post(
-//     `/addRating?instructorId=${instructorId}&corporateTraineeId=${corporateTraineeId}&individualTraineeId=${individualTraineeId}&rating=${rating}`
-//   );
-// };
+// add Rating for course by trainee sending courseId corporate Trainee id and individual trainee id and rating
+export const addRating = async (
+  instructorId,
+  corporateTraineeId,
+  individualTraineeId,
+  rating
+) => {
+  return await API.post(
+    `/addRating?instructorId=${instructorId}&corporateTraineeId=${corporateTraineeId}&individualTraineeId=${individualTraineeId}&rating=${rating}`
+  );
+};
 
-// // add review for course by trainee sending courseId corporate Trainee id and individual trainee id and rating
-// export const addReview = async (
-//   instructorId,
-//   corporateTraineeId,
-//   individualTraineeId,
-//   review
-// ) => {
-//   return await API.post(
-//     `/addReview?instructorId=${instructorId}&corporateTraineeId=${corporateTraineeId}&individualTraineeId=${individualTraineeId}&review=${review}`
-//   );
-// };
+// add review for course by trainee sending courseId corporate Trainee id and individual trainee id and rating
+export const addReview = async (
+  instructorId,
+  corporateTraineeId,
+  individualTraineeId,
+  review
+) => {
+  return await API.post(
+    `/addReview?instructorId=${instructorId}&corporateTraineeId=${corporateTraineeId}&individualTraineeId=${individualTraineeId}&review=${review}`
+  );
+};
 export const updateInstructor = async (id, instructor) => {
   return await API.patch(`/updateInformation/${id}`, instructor);
 };
 
-// export const addMoneyToInstructorWallet = async (courseId, instructorId) => {
-//   return await API.post(
-//     `/addMoneyToInstructorWallet?courseId=${courseId}&instructorId=${instructorId}`
-//   );
-// };
-// =======
-// >>>>>>> f651592bbefa6cf712e4c07ac326a96e01261c0f
+export const addMoneyToInstructorWallet = async (courseId, instructorId) => {
+  return await API.post(
+    `/addMoneyToInstructorWallet?courseId=${courseId}&instructorId=${instructorId}`
+  );
+};

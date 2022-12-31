@@ -1,4 +1,10 @@
-import { FETCH_ALL, ACCEPT, DELETE_REQUEST, REJECT } from "../constants/requests";
+import {
+  FETCH_ALL,
+  ACCEPT,
+  DELETE_REQUEST,
+  REJECT,
+  ADD_REQUEST,
+} from "../constants/requests";
 
 export default (requests = [], action) => {
   console.log("Course Requests reducer");
@@ -6,11 +12,13 @@ export default (requests = [], action) => {
     case FETCH_ALL:
       return action.payload;
     case ACCEPT:
-        return requests;
+      return requests;
     case REJECT:
-        return requests;
+      return requests;
     case DELETE_REQUEST:
-        return requests.filter((request) => request._id !== action.payload);
+      return requests.filter((request) => request._id !== action.payload);
+    case ADD_REQUEST:
+      return [...requests, action.payload];
     default:
       return requests;
   }

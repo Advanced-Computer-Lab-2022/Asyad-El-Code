@@ -19,10 +19,10 @@ export const getInstructors = () => async (dispatch) => {
     console.log(err);
   }
 };
-export const getInstructor = () => async (dispatch) => {
+export const getInstructor = (id) => async (dispatch) => {
   try {
     console.log("IAM HERE");
-    const { data } = await instructorApi.fetchInstructor();
+    const { data } = await instructorApi.fetchInstructor(id);
     console.log(data);
     console.log("INSTRUCTOR FETCH_INSTRUCTOR ACTION");
     dispatch({ type: FETCH_INSTRUCTOR, payload: data });
@@ -31,10 +31,10 @@ export const getInstructor = () => async (dispatch) => {
   }
 };
 
-export const getAllInstructorCourses = () => async (dispatch) => {
+export const getAllInstructorCourses = (id) => async (dispatch) => {
   try {
     console.log("hhhhh");
-    const { data } = await instructorApi.getAllInstructorCourses();
+    const { data } = await instructorApi.getAllInstructorCourses(id);
     dispatch({ type: "FETCH_ALL_INSTRUCTOR_COURSES", payload: data });
   } catch (error) {
     console.log(error);

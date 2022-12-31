@@ -17,7 +17,6 @@ import CourseSteps from "./components/Instructor/CourseSteps";
 import Profile from "./components/Profile/Profile";
 import { InstructorProfile } from "./components/InstructorPofile/InstructorProfile";
 import { Auth } from "./components/Auth/Auth";
-import SplashScreen from "./components/Splash/test.js";
 import { ConfirmPassword } from "./components/Auth/SendEmail";
 import { createTheme, ThemeProvider } from "@mui/material";
 import PersistentDrawerLeft from "./components/Course/CourseContents/CourseContents";
@@ -56,9 +55,7 @@ export const App = () => {
           <Route exact path="/ha">
             <CE></CE>
           </Route>
-          <Route exact path="/">
-            <SplashScreen></SplashScreen>
-          </Route>
+
           <Route exact path="/auth">
             <Auth></Auth>
           </Route>
@@ -68,16 +65,15 @@ export const App = () => {
           <Route exact path="/test">
             <PersistentDrawerLeft></PersistentDrawerLeft>
           </Route>
-          <Route exact path="/instructorProfile">
+          <Route exact path="/instructorProfile/:id">
             <InstructorPage></InstructorPage>
-          </Route> */}
+          </Route>
 
           <Route>
             <Navbar></Navbar>
-            <RequestAccess></RequestAccess>
 
-            {/* <Switch>
-              <Route exact path="/home">
+            <Switch>
+              <Route exact path={["/home", "/"]}>
                 <Home />
               </Route>
               <Route exact path="/viewAll">

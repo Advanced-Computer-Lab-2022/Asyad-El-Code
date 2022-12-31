@@ -349,11 +349,13 @@ export const definePromotion = async (req, res) => {
 };
 
 export const addRating = async (req, res) => {
+  console.log("ADD rating", req.query);
   const { instructorId, corporateTraineeId, individualTraineeId, rating } =
     req.query;
 
   try {
     const instructor = await Instructor.findById(instructorId);
+    console.log("I founnd the instructot", instructor);
     if (!instructor)
       return res.status(404).send({ message: "Course not found" });
     //check if the trainee is individual or corporate
@@ -365,6 +367,7 @@ export const addRating = async (req, res) => {
       const index = instructor.ratings.findIndex(
         (rating) => rating.individualTraineeId == individualTraineeId
       );
+      console.log("index", index);
       if (index !== -1) {
         instructor.ratings[index].rating = rating;
         const newRating =
@@ -372,6 +375,7 @@ export const addRating = async (req, res) => {
           instructor.ratings.length;
         instructor.rating = newRating;
         await instructor.save();
+        console.log("Iam in the end");
         return res.status(200).json(instructor);
       }
       //if the trainee has not rated the course then add the rating and set corporateTraineeId to null
@@ -388,6 +392,7 @@ export const addRating = async (req, res) => {
       await instructor.save();
       return res.status(200).json(instructor);
     }
+    console.log("corporateTraineeId", corporateTraineeId);
     if (corporateTraineeId !== "") {
       const trainee = await CorporateTrainee.findById(corporateTraineeId);
       if (!trainee)

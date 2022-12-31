@@ -14,7 +14,6 @@ export default (instructors = [], action) => {
     case FETCH_INSTRUCTORS:
       return action.payload;
     case FETCH_INSTRUCTOR:
-      console.log("reduceeeeeeeeeeeeeeeeeeeeeeeer");
       return instructors.filter(
         (instructor) => instructor._id === action.payload._id
       );
