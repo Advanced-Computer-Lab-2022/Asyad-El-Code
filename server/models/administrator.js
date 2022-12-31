@@ -43,7 +43,7 @@ administratorSchema.methods.generateAuthToken = function () {
     { email: this.email, id: this._id, role: "administrator" },
     process.env.TOKEN_KEY,
     {
-      expiresIn: "1h",
+      expiresIn: "2h",
     }
   );
   return token;
