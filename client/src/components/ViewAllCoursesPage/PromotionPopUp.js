@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import {
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -18,6 +19,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useState } from "react";
 import { definePromotion } from "../../api/instructor";
+import { useDispatch } from "react-redux";
+import { getAllInstructorCourses } from "../../actions/instructor";
+import Alert from "@mui/material/Alert";
 
 const style = {
   position: "absolute",
@@ -37,6 +41,8 @@ export default function BasicModal({ open, setOpen, courseId }) {
   const [discount, setDiscount] = useState(0);
   const [discountError, setDiscountError] = useState(false);
   const [dateError, setDateError] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const dispatch = useDispatch();
 
   const handleChangeStart = (newValue) => {
     setStartDate(newValue);
@@ -57,12 +63,16 @@ export default function BasicModal({ open, setOpen, courseId }) {
     if (discountError || dateError) {
       console.log("error");
     } else {
-      console.log("Submitted");
-      console.log("Start Date", startDate.format("MM/DD/YYYY"));
-      console.log("End Date", endDate);
-      console.log("Discount", discount);
       definePromotion(courseId, discount, startDate, endDate);
-      setOpen(false);
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+
+      setTimeout(() => {
+        dispatch(getAllInstructorCourses());
+        setOpen(false);
+      }, 4000);
     }
   };
 
@@ -114,6 +124,21 @@ export default function BasicModal({ open, setOpen, courseId }) {
                         setDateError(true);
                       }}
                     />
+                    {success && (
+                      <Stack direction="row" spacing={1}>
+                        <Alert severity="success">
+                          Successfuly defined the promotion
+                        </Alert>
+                        <CircularProgress
+                          style={{
+                            color: "green",
+                            width: "20px",
+                            height: "20px",
+                            marginTop: "10px",
+                          }}
+                        />
+                      </Stack>
+                    )}
                   </Stack>
                 </LocalizationProvider>
               </DialogContentText>
