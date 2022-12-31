@@ -212,6 +212,7 @@ export const CoursePage = () => {
             ) : null}
             <ReportCourseModal
               open={reportCourseModal}
+              refund={false}
               handleClose={handleCloseReportCourseModal}
               course={courses[0]}
               reporterEmail={user?.result?.email}

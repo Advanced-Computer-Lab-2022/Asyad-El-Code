@@ -56,3 +56,7 @@ export const addReview = async (
 };
 export const getUserNames = async (courseId) =>
   await API.get(`/getUserNames?courseId=${courseId}`);
+
+export const requestRefund = async (dataObject) => {
+  return await API.post("/requestRefund", dataObject);
+};

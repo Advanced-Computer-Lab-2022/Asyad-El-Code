@@ -30,10 +30,10 @@ export const getInstructor = () => async (dispatch) => {
   }
 };
 
-export const getAllInstructorCourses = (id) => async (dispatch) => {
+export const getAllInstructorCourses = () => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
-    const { data } = await instructorApi.getAllInstructorCourses(id);
+    const { data } = await instructorApi.getAllInstructorCourses();
     dispatch({ type: FETCH_ALL_INSTRUCTOR_COURSES, payload: data });
     dispatch({ type: END_LOADING });
     console.log("I finished dispatching the action");

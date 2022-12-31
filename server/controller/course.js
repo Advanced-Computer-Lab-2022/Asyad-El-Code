@@ -4,6 +4,7 @@ import { validateCourse } from "../models/course.js";
 import Instructor from "../models/instructor.js";
 import IndividualTrainee from "../models/individualTrainee.js";
 import CorporateTrainee from "../models/corporateTrainee.js";
+import { Refund } from "../models/refund.js";
 
 export const createCourse = async (req, res) => {
   // const { error } = validateCourse(req.body);
@@ -422,7 +423,6 @@ export const getUserNames = async (req, res) => {
     const reviews = course.reviews;
     const ratings = course.ratings;
     const allReviews = [...reviews, ...ratings];
-    console.log(allReviews);
     const userNames = [];
     for (let i = 0; i < allReviews.length; i++) {
       if (allReviews[i].individualTraineeId) {
@@ -446,5 +446,41 @@ export const getUserNames = async (req, res) => {
     res.status(200).send(userNames);
   } catch (error) {
     res.status(400).send(error.message);
+  }
+};
+
+export const requestRefund = async (req, res) => {
+  const {
+    course,
+    type,
+    individualTraineeId,
+    coorporateTraineeId,
+    firstName,
+    lastName,
+    email,
+    refundReason,
+    refundType,
+  } = req.body;
+  console.log(req.body);
+  try {
+    const refund = new Refund({
+      individualTraineeId,
+      coorporateTraineeId,
+      courseId: course._id,
+      courseName: course.title,
+      refundReason: "7amada",
+      refundDate: new Date(Date.now()),
+      firstName,
+      lastName,
+      email,
+      refundReason,
+      refundType,
+    });
+    console.log("refund", refund);
+    await refund.save();
+    console.log("iam here");
+    res.status(200).send(refund);
+  } catch (error) {
+    res.status(401).send(error.message);
   }
 };

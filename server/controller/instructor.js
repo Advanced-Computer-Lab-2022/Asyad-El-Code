@@ -217,6 +217,7 @@ export const getAllInstructorCourses = async (req, res) => {
     }
     res.status(200).send(courses);
   } catch (err) {
+    console.log("LOOK");
     res.status(401).send(err.message);
   }
 };
