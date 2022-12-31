@@ -2,6 +2,7 @@ import {
   FETCH_INSTRUCTORS,
   ADD_INSTRUCTOR,
   FETCH_INSTRUCTOR,
+  FILTER_INSTRUCTOR_COURSES,
 } from "../constants/instructors";
 import {
   FETCH_ALL_INSTRUCTOR_COURSES,
@@ -43,12 +44,15 @@ export const getAllInstructorCourses = () => async (dispatch) => {
     console.log(error);
   }
 };
-export const filterInstructorCourses = (filterData) => async (dispatch) => {
+export const filterInstructorCourses = (id, filterData) => async (dispatch) => {
   try {
-    dispatch({ type: "START_LOADING" });
-    const { data } = await instructorApi.filterInstructorCourses(filterData);
-    dispatch({ type: "FILTER_INSTRUCTOR_COURSES", payload: data });
-    dispatch({ type: "START_LOADING" });
+    dispatch({ type: START_LOADING });
+    const { data } = await instructorApi.filterInstructorCourses(
+      id,
+      filterData
+    );
+    dispatch({ type: FILTER_INSTRUCTOR_COURSES, payload: data });
+    dispatch({ type: END_LOADING });
   } catch (error) {
     console.log(error);
   }
