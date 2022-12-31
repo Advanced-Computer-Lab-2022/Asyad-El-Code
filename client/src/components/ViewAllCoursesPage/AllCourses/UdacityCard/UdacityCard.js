@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import PromotionPopUp from "../../PromotionPopUp.js";
 import image from "../../../../images/coding.jpeg";
 import { getRate } from "../../../util";
 import { useHistory } from "react-router-dom";
@@ -20,7 +21,12 @@ import { getCourse } from "../../../../actions/courses";
 export const UdacityCard = ({ course, type }) => {
   const traineeType = JSON.parse(localStorage.getItem("profile"))?.type;
   const selectedCountry = useSelector((c) => c.selectedCountry);
-  const rates = useSelector((c) => c.currencyRates);
+
+  const { isLoading, currencyRates } = useSelector(
+    (state) => state.currencyRates
+  );
+
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   console.log("UDACITY CARD" + " " + course);
   const history = useHistory();
@@ -69,6 +75,7 @@ export const UdacityCard = ({ course, type }) => {
                 height: "100%",
                 width: "100%",
                 objectFit: "cover",
+                borderTopRightRadius: "50px",
                 //I want you to cut frrom the top right using ellipse and clippath
                 //   clipPath: "ellipse(150% 80% at 0% 90%)",
                 // clipPath: "circle(100% at 100% 90%)",
@@ -104,6 +111,7 @@ export const UdacityCard = ({ course, type }) => {
                   textTransform: "none",
                 }}
                 variant="outlined"
+                onClick={() => setOpen(true)}
               >
                 {definePromotion()
                   ? "Define Promotion"
@@ -132,13 +140,13 @@ export const UdacityCard = ({ course, type }) => {
           </Grid>
           <Grid mt={-1} item>
             <Typography fontSize={17} color="text.secondary" variant="body2">
-              {/* {course.price !== course.discountedPrice ? (
+              {course.price !== course.discountedPrice ? (
                 <span style={{ textDecoration: "line-through" }}>
-                  {getRate(selectedCountry, rates, course.price)}
+                  {getRate(selectedCountry, currencyRates, course.price)}
                 </span>
               ) : null}
-              {getRate(selectedCountry, rates, course.discountedPrice)} */}
-              {` ${course.discountedPrice} EGP`}
+              {getRate(selectedCountry, currencyRates, course.discountedPrice)}
+              {/* {` ${course.discountedPrice} EGP`} */}
             </Typography>
           </Grid>
           <Grid item>
@@ -181,6 +189,7 @@ export const UdacityCard = ({ course, type }) => {
           </Grid>
         </Grid>
       </Grid>
+      <PromotionPopUp open={open} setOpen={setOpen} />
     </Card>
   );
 };
