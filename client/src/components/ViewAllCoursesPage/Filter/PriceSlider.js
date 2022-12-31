@@ -37,12 +37,14 @@ export default function RangeSlider(props) {
     (state) => state.currencyRates
   );
   console.log("selected Country", selectedCountry);
-  const [max, setMax] = useState(10000);
+  const [max, setMax] = useState(1000);
 
   const [value, setValue] = React.useState([0, max]);
+  const [modifyValue, setModifyValue] = useState([0, max]);
   const handleChange = (event, newValue) => {
-    props.form(event, newValue);
     setValue(newValue);
+    setModifyValue(newValue);
+    props.form(event, modifyValue);
   };
 
   return (
@@ -57,8 +59,8 @@ export default function RangeSlider(props) {
         getAriaValueText={valuetext}
         max={
           selectedCountry === ""
-            ? 10000
-            : 10000 * currencyRates[getSign(selectedCountry)]
+            ? 1000
+            : 1000 * currencyRates[getSign(selectedCountry)]
         }
       />
     </Box>

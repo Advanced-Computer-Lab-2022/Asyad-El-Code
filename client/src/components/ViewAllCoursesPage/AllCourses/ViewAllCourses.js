@@ -6,13 +6,17 @@ import { FilterBar } from "../Filter/FilterBar";
 import { useDispatch, useSelector } from "react-redux";
 import { filterCourses, getCourses } from "../../../actions/courses";
 import { useLocation } from "react-router-dom";
-import { getAllInstructorCourses } from "../../../actions/instructor";
+import {
+  filterInstructorCourses,
+  getAllInstructorCourses,
+} from "../../../actions/instructor";
 import { CoursesGrid } from "./CoursesGrid";
 import { SearchBar } from "./SearchBar";
 export const Courses = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const search = queryParams.get("source");
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -33,7 +37,7 @@ export const Courses = () => {
 
   const handleClick = (e, filterData) => {
     if (search === "instructor") {
-      dispatch(getAllInstructorCourses(filterData));
+      dispatch(filterInstructorCourses(user.result._id, filterData));
     } else {
       dispatch(filterCourses(filterData));
     }

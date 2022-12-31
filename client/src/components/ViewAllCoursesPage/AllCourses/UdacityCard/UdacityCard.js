@@ -189,7 +189,7 @@ export const UdacityCard = ({ course, type }) => {
           </Grid>
         </Grid>
       </Grid>
-      <PromotionPopUp open={open} setOpen={setOpen} />
+      <PromotionPopUp open={open} setOpen={setOpen} courseId={course._id} />
     </Card>
   );
 };
