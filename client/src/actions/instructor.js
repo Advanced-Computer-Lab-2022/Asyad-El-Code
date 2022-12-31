@@ -6,11 +6,11 @@ import {
 import {
   FETCH_ALL_INSTRUCTOR_COURSES,
   START_LOADING,
+  END_LOADING,
 } from "../constants/courses";
 import { UPDATE_INSTRUCTOR } from "../constants/auth";
 import * as instructorApi from "../api/instructor";
 import * as adminApi from "../api/admin";
-import { END_LOADING } from "../constants/currencyRates";
 
 export const getInstructors = () => async (dispatch) => {
   try {

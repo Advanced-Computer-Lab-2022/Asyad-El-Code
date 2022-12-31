@@ -10,8 +10,33 @@ function valuetext(value) {
 }
 
 export default function RangeSlider(props) {
+  function getSign() {
+    switch (selectedCountry) {
+      case "USA":
+        return "USD";
+      case "Egypt":
+        return "EGP";
+      case "UAE":
+        return "AED";
+      case "Canada":
+        return "CAD";
+      case "Germany":
+        return "EUR";
+      case "China":
+        return "CNY";
+      case "UK":
+        return "GBP";
+      case "KSA":
+        return "SAR";
+      default:
+        return "EGP";
+    }
+  }
   const selectedCountry = useSelector((c) => c.selectedCountry);
-  const rates = useSelector((c) => c.currencyRates);
+  const { isLoading, currencyRates } = useSelector(
+    (state) => state.currencyRates
+  );
+  console.log("selected Country", selectedCountry);
   const [max, setMax] = useState(10000);
 
   const [value, setValue] = React.useState([0, max]);
@@ -33,7 +58,7 @@ export default function RangeSlider(props) {
         max={
           selectedCountry === ""
             ? 10000
-            : (10000 * rates[selectedCountry]).toFixed(0)
+            : 10000 * currencyRates[getSign(selectedCountry)]
         }
       />
     </Box>

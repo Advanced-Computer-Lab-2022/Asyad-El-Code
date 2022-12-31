@@ -1,4 +1,4 @@
-export const getRate = (selectedCountry, price, rates) => {
+export const getRate = (selectedCountry, rates, price) => {
   switch (selectedCountry) {
     case "USA":
       return "$" + (price * rates["USD"])?.toFixed(2) + " USD";

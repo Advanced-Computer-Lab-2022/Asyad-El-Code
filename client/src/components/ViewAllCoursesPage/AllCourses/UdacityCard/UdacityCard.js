@@ -11,17 +11,39 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import image from "../../images/coding.jpeg";
-import { getRate } from "../util";
-import PromotionPopUp from "../ViewAllCoursesPage/PromotionPopUp.js";
+import PromotionPopUp from "../../PromotionPopUp.js";
+import image from "../../../../images/coding.jpeg";
+import { getRate } from "../../../util";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getCourse } from "../../../../actions/courses";
 
-export const UdacityCard = ({ course }) => {
+export const UdacityCard = ({ course, type }) => {
   const traineeType = JSON.parse(localStorage.getItem("profile"))?.type;
   const selectedCountry = useSelector((c) => c.selectedCountry);
-  const rates = useSelector((c) => c.currencyRates);
+
+  const { isLoading, currencyRates } = useSelector(
+    (state) => state.currencyRates
+  );
+
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
   console.log("UDACITY CARD" + " " + course);
-  console.log(course);
+  const history = useHistory();
+
+  const handleClick = (courseId, courseTitle) => {
+    dispatch(getCourse(courseId, history, courseTitle));
+  };
+
+  const definePromotion = () => {
+    if (
+      type == "instructor" &&
+      (traineeType == "instructor" || traineeType == "admin")
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <Card style={{ width: "600px", height: "430px" }}>
@@ -70,31 +92,36 @@ export const UdacityCard = ({ course }) => {
                 backgroundColor: "#205295",
               }}
               variant="contained"
+              onClick={() => handleClick(course._id, course.title)}
             >
               Program Details
             </Button>
           </Grid>
-          <Grid item>
-            <Button
-              fullWidth
-              style={{
-                padding: "12px",
-                borderColor: "#205295",
-                borderStyle: "solid",
-                borderWidth: "2px",
-                color: "#205295",
-                textTransform: "none",
-              }}
-              variant="outlined"
-              onClick={() => {
-                setOpen(true);
-              }}
-            >
-              {traineeType === "instructor" || traineeType === "administrator"
-                ? "Define Promotion"
-                : "Buy Now"}
-            </Button>
-          </Grid>
+
+          {definePromotion() ? (
+            <Grid item>
+              <Button
+                fullWidth
+                style={{
+                  padding: "12px",
+                  borderColor: "#205295",
+                  borderStyle: "solid",
+                  borderWidth: "2px",
+                  color: "#205295",
+                  textTransform: "none",
+                }}
+                variant="outlined"
+                onClick={() => setOpen(true)}
+              >
+                {definePromotion()
+                  ? "Define Promotion"
+                  : traineeType == "individualTrainee" ||
+                    traineeType == "corporateTrainee"
+                  ? "Enroll Now"
+                  : "Download"}
+              </Button>
+            </Grid>
+          ) : null}
         </Grid>
         <Grid rowSpacing={2} item xs={8} container direction="column">
           <Grid item>
@@ -113,13 +140,13 @@ export const UdacityCard = ({ course }) => {
           </Grid>
           <Grid mt={-1} item>
             <Typography fontSize={17} color="text.secondary" variant="body2">
-              {/* {course.price !== course.discountedPrice ? (
+              {course.price !== course.discountedPrice ? (
                 <span style={{ textDecoration: "line-through" }}>
-                  {getRate(selectedCountry, rates, course.price)}
+                  {getRate(selectedCountry, currencyRates, course.price)}
                 </span>
               ) : null}
-              {getRate(selectedCountry, rates, course.discountedPrice)} */}
-              {` ${course.discountedPrice} EGP`}
+              {getRate(selectedCountry, currencyRates, course.discountedPrice)}
+              {/* {` ${course.discountedPrice} EGP`} */}
             </Typography>
           </Grid>
           <Grid item>
