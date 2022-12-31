@@ -1,12 +1,9 @@
 import {
-
-  
   FETCH_INSTRUCTORS,
- 
   FETCH_INSTRUCTOR,
   ADD_INSTRUCTOR,
   ADD_RATING,
-ADD_REVIEW,
+  ADD_REVIEW,
 } from "../constants/instructors";
 import {
   FETCH_ALL_INSTRUCTOR_COURSES,
@@ -38,12 +35,11 @@ export const getInstructor = (id) => async (dispatch) => {
     console.log(err);
   }
 };
-};
 
 export const getAllInstructorCourses = (id) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
-    const { data } = await instructorApi.getAllInstructorCourses();
+    const { data } = await instructorApi.getAllInstructorCourses(id);
     dispatch({ type: FETCH_ALL_INSTRUCTOR_COURSES, payload: data });
     dispatch({ type: END_LOADING });
     console.log("I finished dispatching the action");

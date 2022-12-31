@@ -24,23 +24,14 @@ import { useEffect } from "react";
 import { Stack } from "@mui/system";
 //import { useRef } from "react";
 import "../../css/card.css";
-import image from "../../images/course.jpeg";
 import { useState } from "react";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  TextField,
-} from "@mui/material";
 import { RatingAndReviewPopup } from "../Course/RatingAndReviewPopup";
 import { addRating, addReview } from "../../actions/instructor";
 import { useParams } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { styled } from "@mui/material/styles";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-
+import { UdacityCard } from "../ViewAllCoursesPage/AllCourses/UdacityCard/UdacityCard";
 const styles = {
   emptyStar: {
     color: "white",
@@ -123,15 +114,17 @@ function InstructorPage() {
   };
 
   return (
-    <Grid container direction="row" columnSpacing={3}>
+    <Grid
+      container
+      direction="row"
+      columnSpacing={3}
+      style={{ backgroundColor: "#fafafa" }}
+    >
       <Grid
         style={{ backgroundColor: "#1C1D1F" }}
         container
         spacing={0}
-        //marginLeft="30px"
-        // marginRight="30px"
         marginTop="5px"
-        //justifyContent="center"
       >
         <Grid item xs={9}>
           <Grid
@@ -203,21 +196,7 @@ function InstructorPage() {
               </Typography>
             </Grid>
           </Grid>
-          {/* <Grid item xs={1} marginLeft="200px">
-            <Typography sx={{ fontWeight: "bold", color: "white" }}>
-              {instructor?.rating}
-            </Typography>
-          </Grid>
 
-          <Grid item xs={2} marginLeft="200px">
-            <Rating name="read-only" value={value} readOnly precision={0.5} />
-          </Grid>
-          <Grid item marginLeft="200px">
-            <Typography sx={{ fontWeight: "bold", color: "#C70039" }}>
-              {instructor?.ratings?.length} Rating
-              {instructor?.ratings?.length > 1 ? "s" : ""}
-            </Typography>
-          </Grid> */}
           <Grid
             item
             xs={8}
@@ -293,28 +272,13 @@ function InstructorPage() {
       </Grid>
       {/* </Grid> */}
 
-      {/* <Grid
-        style={{ backgroundColor: "purple" }}
+      <Grid
         container
-        spacing={1}
-        //marginTop="15px"
-        marginLeft="30px"
-        marginRight="30px"
+        marginTop="15px"
+        rowSpacing={5}
         justifyContent="center"
-      > */}
-
-      {/* <Grid
-        container
-        spacing={1}
-        marginTop="3px"
-        marginLeft="300px"
-        style={{ backgroundColor: "purple" }}
-      > */}
-
-      {/* </Grid> */}
-
-      {/* </Grid>  */}
-      <Grid container marginLeft="330px" marginTop="15px" rowSpacing={5}>
+        marginBottom="30px"
+      >
         <Grid item xs={8}>
           <Typography variant="h6" sx={{ fontSize: "30px" }}>
             Explore <b>{instructor.userName}</b>s courses
@@ -322,54 +286,14 @@ function InstructorPage() {
         </Grid>
         {courses.courses.map((course, index) => {
           return (
-            <Grid item xs={9}>
-              <Card sx={{ overFlow: "hidden", display: "flex" }}>
-                <CardMedia
-                  sx={{
-                    maxWidth: 500,
-                    maxHeight: 300,
-                    maxInlineSize: 500,
-                    display: "inline-block",
-                  }}
-                  component="img"
-                  image={image}
-                />
-                <CardContent sx={{ display: "inline-block", maxWidth: 500 }}>
-                  <Typography variant="h5" component="div">
-                    {course.title}
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} variant="body2">
-                    {course.summary}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Updated{" "}
-                    <b>
-                      {new Intl.DateTimeFormat("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "2-digit",
-                      }).format(new Date(Date.parse(course.releaseDate)))}{" "}
-                    </b>
-                    {course.duration} total hours {bull} 52 lectures
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    By <b>{instructor.userName}</b>
-                  </Typography>
-                  <Stack spacing={1} direction="row">
-                    <p>{course.rating}</p>
-                    <Rating
-                      value={course.rating}
-                      readOnly
-                      sx={{ alignItems: "center" }}
-                    ></Rating>
-                    <p style={{ alignSelf: "center" }}></p>
-                  </Stack>
-                </CardContent>
-                <CardActions>
-                  <Button size="small">Go To Course</Button>
-                </CardActions>
-              </Card>
-            </Grid>
+            <>
+              <Grid item xs={5}>
+                <UdacityCard course={course} type={user?.type} />
+              </Grid>
+              <Grid item xs={5}>
+                <UdacityCard course={course} type={user?.type} />
+              </Grid>
+            </>
           );
         })}
       </Grid>
