@@ -27,7 +27,7 @@ export const UdacityCard = ({ course, type }) => {
     (state) => state.currencyRates
   );
 
-  const [open, setOpen] = useState(false);
+  const [openPromotion, setOpenPromotion] = useState(false);
   const dispatch = useDispatch();
   console.log("UDACITY CARD" + " " + course);
   const history = useHistory();
@@ -131,7 +131,7 @@ export const UdacityCard = ({ course, type }) => {
                   textTransform: "none",
                 }}
                 variant="outlined"
-                onClick={() => setOpen(true)}
+                onClick={() => setOpenPromotion(true)}
               >
                 {definePromotion()
                   ? "Define Promotion"
@@ -210,7 +210,11 @@ export const UdacityCard = ({ course, type }) => {
           </Grid>
         </Grid>
       </Grid>
-      <PromotionPopUp open={open} setOpen={setOpen} courseId={course._id} />
+      <PromotionPopUp
+        open={openPromotion}
+        setOpen={setOpenPromotion}
+        courseId={course._id}
+      />
     </Card>
   );
 };

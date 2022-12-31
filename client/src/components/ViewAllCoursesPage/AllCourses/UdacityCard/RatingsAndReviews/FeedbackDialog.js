@@ -99,7 +99,11 @@ export default function FeedbackDialog({ course, handleClose, open, scroll }) {
                           <p>
                             {userNames[index] ? userNames[index] : "Anonymous"}
                           </p>
-                          <Rating value={rate.rating} size="small"></Rating>
+                          <Rating
+                            readOnly
+                            value={rate.rating}
+                            size="small"
+                          ></Rating>
                         </Stack>
                       </Grid>
 

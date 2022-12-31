@@ -130,6 +130,7 @@ export const FilterBar = ({ handleClick }) => {
           <Grid item xs={4}>
             <Stack direction="row-reverse" spacing={2} alignItems="center">
               <Button
+                //TODO HANDLE IT
                 startIcon={<ClearAllIcon />}
                 size="small"
                 style={{ color: "#205294" }}
