@@ -121,7 +121,7 @@ export default function CourseCard({
         Request Course
       </Button>
     );
-  } else {
+  } else if (traineeType === "instructor") {
     button = (
       <Button
         fullWidth
@@ -133,6 +133,7 @@ export default function CourseCard({
         onClick={payForCourse}
       >
         {" "}
+        {/* TODO TO hide this button when the instructor that has the course in this page */}
         Add to Cart
       </Button>
     );

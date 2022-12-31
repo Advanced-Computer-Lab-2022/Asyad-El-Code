@@ -2,7 +2,13 @@ import {
   FETCH_INSTRUCTORS,
   ADD_INSTRUCTOR,
   FETCH_INSTRUCTOR,
+  FILTER_INSTRUCTOR_COURSES,
 } from "../constants/instructors";
+import {
+  FETCH_ALL_INSTRUCTOR_COURSES,
+  START_LOADING,
+  END_LOADING,
+} from "../constants/courses";
 import { UPDATE_INSTRUCTOR } from "../constants/auth";
 import * as instructorApi from "../api/instructor";
 import * as adminApi from "../api/admin";
@@ -26,16 +32,27 @@ export const getInstructor = () => async (dispatch) => {
 
 export const getAllInstructorCourses = () => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await instructorApi.getAllInstructorCourses();
-    dispatch({ type: "FETCH_ALL_INSTRUCTOR_COURSES", payload: data });
+    dispatch({ type: FETCH_ALL_INSTRUCTOR_COURSES, payload: data });
+    dispatch({ type: END_LOADING });
+    console.log("I finished dispatching the action");
+    console.log("I finished dispatching the action");
+    console.log("I finished dispatching the action");
   } catch (error) {
+    console.log("IAM IN THE ERROR??");
     console.log(error);
   }
 };
-export const filterInstructorCourses = (filterData) => async (dispatch) => {
+export const filterInstructorCourses = (id, filterData) => async (dispatch) => {
   try {
-    const { data } = await instructorApi.filterInstructorCourses(filterData);
-    dispatch({ type: "FILTER_INSTRUCTOR_COURSES", payload: data });
+    dispatch({ type: START_LOADING });
+    const { data } = await instructorApi.filterInstructorCourses(
+      id,
+      filterData
+    );
+    dispatch({ type: FILTER_INSTRUCTOR_COURSES, payload: data });
+    dispatch({ type: END_LOADING });
   } catch (error) {
     console.log(error);
   }

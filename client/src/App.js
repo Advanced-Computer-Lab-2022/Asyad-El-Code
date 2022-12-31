@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import MenuAppBar from "./components/Navbar/Navbar";
 import Home from "./components/HomePage/Home";
-import ViewAllCourses from "./components/ViewAllCoursesPage/ViewAllCourses";
+import ViewAllCourses from "./components/ViewAllCoursesPage/AllCourses/ViewAllCourses";
 import { InstructorCourses } from "./components/Instructor/InstructorCourses";
 import { Switch, Route, Redirect } from "react-router-dom";
 import CourseStructure from "./components/Instructor/CourseStructure";
@@ -34,7 +34,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getTrainee } from "./actions/individualTrainees";
 import { getCorporate } from "./actions/corporate";
-import { UdacityCard } from "./components/test/UdacityCard";
+import { UdacityCard } from "./components/ViewAllCoursesPage/AllCourses/UdacityCard/UdacityCard";
 import AdminDashboard from "./components/Admin/Dashboard";
 import { Courses } from "./components/Admin/Courses";
 

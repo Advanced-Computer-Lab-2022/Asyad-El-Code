@@ -18,7 +18,8 @@ export const getCourses = () => async (dispatch) => {
     dispatch({ type: "FETCH_ALL", payload: data });
     dispatch({ type: END_LOADING });
   } catch (error) {
-    console.log(error);
+    console.log("GET COURSES ERROR");
+    console.log("THE ERORR IS ", error);
   }
 };
 export const filterCourses = (filterData) => async (dispatch) => {
@@ -28,7 +29,7 @@ export const filterCourses = (filterData) => async (dispatch) => {
     dispatch({ type: FILTER_SUBJECT_RATING, payload: data });
     dispatch({ type: END_LOADING });
   } catch (error) {
-    console.log(error);
+    console.log("THE ERORR IS ", error);
   }
 };
 
@@ -44,7 +45,7 @@ export const filterByTilteOrSubjectOrInstructor =
       dispatch({ type: FILTER_COURSES, payload: data });
       dispatch({ type: END_LOADING });
     } catch (error) {
-      console.log(error);
+      console.log("THE ERORR IS ", error);
     }
   };
 
@@ -57,7 +58,7 @@ export const createCourse = (course) => async (dispatch) => {
     dispatch({ type: CREATE_COURSE, payload: data });
     dispatch({ type: END_LOADING });
   } catch (error) {
-    console.log(error);
+    console.log("THE ERORR IS ", error);
   }
 };
 
@@ -70,6 +71,8 @@ export const getCourseData = () => async (dispatch) => {
     dispatch({ type: END_LOADING });
   } catch (err) {
     console.log("Iam in the rrorr ");
+    console.log("GET COURSES5 ERROR");
+
     console.log(err);
   }
 };
@@ -84,7 +87,7 @@ export const getCourse =
       dispatch({ type: END_LOADING });
       history.push(`/course/${courseTitle}`);
     } catch (error) {
-      console.log(error);
+      console.log("THE ERORR IS ", error);
     }
   };
 //add rating for course by trainee
@@ -105,7 +108,7 @@ export const addRating =
       console.log(data);
       dispatch({ type: END_LOADING });
     } catch (error) {
-      console.log(error);
+      console.log("THE ERORR IS ", error);
     }
   };
 // add review for course by trainee
@@ -124,6 +127,6 @@ export const addReview =
       dispatch({ type: ADD_REVIEW, payload: data });
       dispatch({ type: END_LOADING });
     } catch (error) {
-      console.log(error);
+      console.log("THE ERORR IS ", error);
     }
   };
