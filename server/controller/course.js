@@ -188,16 +188,7 @@ export const filterAllCourses = async (req, res) => {
           subject: { $in: subjectArray },
         },
       },
-      {
-        $match: {
-          price: { $lte: parseInt(priceArray[1]) },
-        },
-      },
-      {
-        $match: {
-          price: { $gte: parseInt(priceArray[0]) },
-        },
-      },
+
       {
         $match: {
           rating: { $lte: parseInt(ratingArray[1]) },
@@ -227,6 +218,16 @@ export const filterAllCourses = async (req, res) => {
               "$price",
             ],
           },
+        },
+      },
+      {
+        $match: {
+          discountedPrice: { $lte: parseInt(priceArray[1]) },
+        },
+      },
+      {
+        $match: {
+          discountedPrice: { $gte: parseInt(priceArray[0]) },
         },
       },
     ]);

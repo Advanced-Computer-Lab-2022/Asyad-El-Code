@@ -24,6 +24,7 @@ import PriceSlider from "./PriceSlider";
 import RatingSlider from "./RatingSlider";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { getEGP } from "../../util";
 
 const initialFilterData = {
   Subject: [
@@ -38,12 +39,21 @@ const initialFilterData = {
 };
 
 export const FilterBar = ({ handleClick }) => {
+  const selectedCountry = useSelector((c) => c.selectedCountry);
+  const { isLoading, currencyRates } = useSelector(
+    (state) => state.currencyRates
+  );
   const [filterData, setFilterData] = useState(initialFilterData);
   const dispatch = useDispatch();
   const courses = useSelector((c) => c.courses);
   const [rating, setRating] = useState(0);
+
   const handlePriceChange = (e, newValue) => {
-    setFilterData({ ...filterData, Price: newValue });
+    const modifyValue = newValue;
+    modifyValue[0] = getEGP(selectedCountry, currencyRates, modifyValue[0]);
+    modifyValue[1] = getEGP(selectedCountry, currencyRates, modifyValue[1]);
+    console.log("new value", modifyValue);
+    setFilterData({ ...filterData, Price: modifyValue });
   };
   const handleRatingChange = (e) => {
     setRating(e.target.value);
