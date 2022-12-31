@@ -158,13 +158,7 @@ export const selectCountry = async (req, res) => {
 
 export const updateInformation = async (req, res) => {
   try {
-    const {
-      firstName,
-      lastName,
-      country,
-      phoneNumber,
-      biography,
-    } = req.body;
+    const { firstName, lastName, country, phoneNumber, biography } = req.body;
     const { id } = req.params;
     const castedid = mongoose.Types.ObjectId(id);
     const updatedInstructor = await Instructor.findByIdAndUpdate(
@@ -244,8 +238,6 @@ export const filterInstructorCourses = async (req, res) => {
     const courses = await Course.aggregate([
       { $match: { "instructor.instructorId": mongoose.Types.ObjectId(id) } },
       { $match: { subject: { $in: subjectArray } } },
-      { $match: { price: { $lte: parseInt(priceArray[1]) } } },
-      { $match: { price: { $gte: parseInt(priceArray[0]) } } },
       { $match: { rating: { $lte: parseInt(ratingArray[1]) } } },
       { $match: { rating: { $gte: parseInt(ratingArray[0]) } } },
       {
@@ -269,6 +261,8 @@ export const filterInstructorCourses = async (req, res) => {
           },
         },
       },
+      { $match: { discountedPrice: { $lte: parseInt(priceArray[1]) } } },
+      { $match: { discountedPrice: { $gte: parseInt(priceArray[0]) } } },
     ]);
 
     if (!courses) {
@@ -335,7 +329,7 @@ export const definePromotion = async (req, res) => {
       {
         $set: {
           promotion: {
-            discount: discount,
+            discount: discount / 100,
             startDate: start,
             endDate: end,
           },
