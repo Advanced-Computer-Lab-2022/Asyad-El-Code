@@ -15,6 +15,7 @@ import {
   addRating,
   addReview,
   getCoursesWithPromotion,
+  getUserNames,
 } from "../controller/course.js";
 import { authMiddeleware } from "../middlewares/auth.js";
 
@@ -37,5 +38,6 @@ router.get("/getCourseData/:id", getCourseData);
 router.post("/addRating", [authMiddeleware], addRating);
 router.post("/addReview", [authMiddeleware], addReview);
 router.get("/getCoursesWithPromotion", getCoursesWithPromotion);
+router.get("/getUserNames", getUserNames);
 
 export default router;

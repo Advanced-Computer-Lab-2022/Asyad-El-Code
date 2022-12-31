@@ -412,3 +412,38 @@ export const getCoursesWithPromotion = async (req, res) => {
     console.log(error);
   }
 };
+export const getUserNames = async (req, res) => {
+  const { courseId } = req.query;
+  //I want to get all userNames of people that has reviews or rating and return this array
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) return res.status(404).send({ message: "Course not found" });
+    const reviews = course.reviews;
+    const ratings = course.ratings;
+    const allReviews = [...reviews, ...ratings];
+    console.log(allReviews);
+    const userNames = [];
+    for (let i = 0; i < allReviews.length; i++) {
+      if (allReviews[i].individualTraineeId) {
+        const trainee = await IndividualTrainee.findById(
+          allReviews[i].individualTraineeId
+        );
+        if (userNames.includes(`${trainee.firstName} ${trainee.lastName}`))
+          continue;
+        userNames.push(`${trainee.firstName} ${trainee.lastName}`);
+      }
+      if (allReviews[i].corporateTraineeId) {
+        const trainee = await CorporateTrainee.findById(
+          allReviews[i].corporateTraineeId
+        );
+        //Before adding check if it has the same firstName and lastName
+        if (userNames.includes(`${trainee.firstName} ${trainee.lastName}`))
+          continue;
+        userNames.push(`${trainee.firstName} ${trainee.lastName}`);
+      }
+    }
+    res.status(200).send(userNames);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
