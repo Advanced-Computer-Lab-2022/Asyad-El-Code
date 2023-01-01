@@ -121,7 +121,7 @@ export default function CourseCard({
         Request Course
       </Button>
     );
-  } else if (traineeType === "instructor") {
+  } else if (traineeType === "individualTrainee") {
     button = (
       <Button
         fullWidth

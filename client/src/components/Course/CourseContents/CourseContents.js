@@ -229,12 +229,12 @@ export default function CourseContents() {
     userObject?.courses
       ?.find((c) => c._id === course._id)
       ?.seenContent?.forEach((g) => {
-        totalDuration += g?.duration;
+        if (g) totalDuration += g?.duration;
       });
     userObject?.courses
       ?.find((c) => c._id === course._id)
       ?.grades?.forEach((g) => {
-        totalDuration += g.total * 5;
+        if (g) totalDuration += g.total * 5;
       });
 
     console.log("This is total Duration", totalDuration);
