@@ -12,11 +12,7 @@ API.interceptors.request.use((req) => {
 });
 
 export const getAllInstructorCourses = async (id) =>
-  await API.get(
-    `/getAllInstructorCourses/${
-      JSON.parse(localStorage.getItem("profile")).result._id
-    }`
-  );
+  await API.get(`/getAllInstructorCourses/${id}`);
 
 export const filterInstructorCourses = async (id, filterData) => {
   return await API.get(
