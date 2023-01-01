@@ -29,7 +29,6 @@ export const UdacityCard = ({ course, type }) => {
 
   const [openPromotion, setOpenPromotion] = useState(false);
   const dispatch = useDispatch();
-  console.log("UDACITY CARD" + " " + course);
   const history = useHistory();
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");

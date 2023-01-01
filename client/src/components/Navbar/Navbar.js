@@ -53,7 +53,6 @@ export default function ButtonAppBar() {
 
   const [user, setUser] = useState(parseJson());
   // IMPORTANT TODO We can use here a simple API to get the courses
-  console.log("Iam the courses ", courses);
   const rates = useSelector((state) => state.currencyRates);
 
   const [selected, setSelected] = useState("");
@@ -70,7 +69,6 @@ export default function ButtonAppBar() {
     dispatch(getCourse(courseId, history, courseTitle));
   };
   const handleCountry = (event) => {
-    console.log(event.target.value);
     setCountry(event.target.value);
     dispatch(changeSelectedCountry(event.target.value));
   };

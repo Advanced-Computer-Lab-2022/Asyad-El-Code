@@ -19,8 +19,6 @@ export const CourseOutline = ({ submitOutlines }) => {
     // setPoints([...arr]);
     setPoints([...points, arr]);
     setCount(count + 1);
-    console.log(points.length);
-    console.log(count);
     setSd(sd + 1);
   };
 

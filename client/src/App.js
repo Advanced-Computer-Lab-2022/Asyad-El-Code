@@ -131,22 +131,19 @@ export const App = () => {
               <Route exact path="/ta">
                 <Testo></Testo>
               </Route>
-              <Route exact path="/success/:courseId">
+              <Route exact path="/success/:courseId/:traineeId">
                 {(props) => {
-                  const { courseId } = props.match.params;
-                  let isCourseInUserCourses = false;
-                  if (user?.type === "individualTrainee") {
-                    if (individualTrainee?.courses?.length > 0) {
-                      isCourseInUserCourses = individualTrainee?.courses?.find(
-                        (c) => c._id === courseId
-                      );
-                    }
+                  const { courseId, traineeId } = props.match.params;
+                  if (traineeId === user?.result._id) {
+                    return (
+                      <SuccessPage
+                        courseId={courseId}
+                        traineeId={traineeId}
+                      ></SuccessPage>
+                    );
+                  } else {
+                    return <Redirect to="/home" />;
                   }
-                  return isCourseInUserCourses ? (
-                    <SuccessPage></SuccessPage>
-                  ) : (
-                    <Redirect to="/home" />
-                  );
                 }}
               </Route>
 

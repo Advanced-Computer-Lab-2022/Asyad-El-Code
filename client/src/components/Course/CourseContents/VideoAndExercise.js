@@ -121,9 +121,6 @@ export const VideoAndExercise = ({
     updateUserObject(data);
   };
 
-  console.log("This is the current exefcise id", exerciseId);
-  console.log("THE CONTENT IS ", content);
-
   return (
     <div>
       {videoOpen ? (

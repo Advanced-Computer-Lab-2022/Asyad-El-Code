@@ -141,6 +141,7 @@ export default function CourseCard({
       const { data } = await payCourse({
         course,
         instructorId: course.instructor.instructorId,
+        traineeId: userObject._id,
       });
       window.location = data.url;
     } catch (error) {

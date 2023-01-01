@@ -14,12 +14,8 @@ export default (
   state = { authData: null, error: null, isLoading: false },
   action
 ) => {
-  console.log("Iam in the auth reducer", action?.payload);
-
   switch (action.type) {
     case AUTH:
-      console.log("AUTH REDUCER", action?.payload);
-      console.log(action?.payload.type);
       localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
       return { ...state, authData: action?.payload, error: null };
     case LOGOUT:
