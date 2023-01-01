@@ -16,6 +16,7 @@ const Problems = () => {
     }
   }, []);
 
+
   return (
     <div>
       <ReportedProblems reportedProblems={reportedProblems}></ReportedProblems>

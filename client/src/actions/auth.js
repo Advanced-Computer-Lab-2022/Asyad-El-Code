@@ -4,6 +4,8 @@ import {
   CHANGE_PASSWORD,
   SEND_EMAIL,
   GET_LOGGED_USER,
+  FIRST_TIME_INSTRUCTOR_START_LOADING,
+  FIRST_TIME_INSTRUCTOR_END_LOADING,
   START_LOADING_AUTH,
   END_LOADING_AUTH,
 } from "../constants/auth";
@@ -26,7 +28,7 @@ export const signup =
     }
   };
 
-export const signin = (formData, history, setIsLoading) => async (dispatch) => {
+export const signin = (formData, history, setIsLoading, setInstructorModal) => async (dispatch) => {
   try {
     setTimeout(() => {
       setIsLoading(false);
@@ -36,9 +38,14 @@ export const signin = (formData, history, setIsLoading) => async (dispatch) => {
     const result = await userApi.signin(formData);
     dispatch({ type: AUTH, payload: result.data });
     dispatch({ type: END_LOADING_AUTH });
-    setTimeout(() => {
-      history.push("/");
-    }, 3000);
+    if (result.data.type === "instructor") {
+      setInstructorModal(true);
+      // history.push("/firstTimeInstructor");
+    } else {
+      setTimeout(() => {
+        history.push("/");
+      }, 3000);
+    }
   } catch (error) {
     console.log(error);
     dispatch({ type: AUTH_ERROR, payload: error.response.data });
