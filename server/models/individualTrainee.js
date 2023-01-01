@@ -10,6 +10,10 @@ const individualTraineeSchema = mongoose.Schema({
     required: true,
     minLength: 3,
   },
+  gender: {
+    type: String,
+    required: true,
+  },
 
   lastName: {
     type: String,

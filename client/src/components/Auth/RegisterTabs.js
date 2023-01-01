@@ -18,6 +18,9 @@ import {
   Alert,
   AlertTitle,
   CircularProgress,
+  Select,
+  MenuItem,
+  InputLabel,
 } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useState } from "react";
@@ -64,6 +67,7 @@ const initialForm = {
   lastName: "",
   email: "",
   password: "",
+  gender: "",
 };
 
 export default function RegisterTabs() {
@@ -81,6 +85,10 @@ export default function RegisterTabs() {
   const [messageSent, setMessageSent] = useState(false);
   const { authData, error } = useSelector((state) => state.authReducer);
   const [isLoading, setIsLoading] = useState(false);
+  const [genderError, setGenderError] = useState(false);
+  const [isLoadingSignUp, setIsLoadingSignUp] = useState(false);
+
+  const [selectedValue, setSelectedValue] = useState("");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -89,6 +97,9 @@ export default function RegisterTabs() {
   const handleChangeValues = (e) => {
     const val = e.target.value;
     const key = e.target.name;
+    console.log("THE VALUE IS", val);
+    console.log("THE KEY IS", key);
+
     switch (key) {
       case "firstName":
         if (key === "firstName") setFirstNameError(false);
@@ -102,6 +113,11 @@ export default function RegisterTabs() {
       case "password":
         if (key === "password") setPasswordError(false);
         break;
+
+      case "gender":
+        if (key === "gender") setGenderError(false);
+        break;
+
       default:
         break;
     }
@@ -112,7 +128,7 @@ export default function RegisterTabs() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setMessage(error?.message ? error.message : null);
-
+    console.log("form", form);
     if (form.firstName === "") setFirstNameError(true);
     else setFirstNameError(false);
     if (form.lastName === "") setLastNameError(true);
@@ -121,10 +137,19 @@ export default function RegisterTabs() {
     else setEmailError(false);
     if (form.password === "") setPasswordError(true);
     else setPasswordError(false);
+    if (form.gender === "") setGenderError(true);
+    else setGenderError(false);
 
-    if (form.firstName && form.lastName && form.email && form.password) {
-      dispatch(signup(form, history));
-    } else if (form.email && form.password) {
+    if (
+      form.firstName &&
+      form.lastName &&
+      form.email &&
+      form.password &&
+      form.gender
+    ) {
+      setIsLoadingSignUp(true);
+      dispatch(signup(form, history, setIsLoadingSignUp));
+    } else if (form.email && form.password && value == 1) {
       setIsLoading(true);
       dispatch(signin(form, history, setIsLoading));
     }
@@ -268,14 +293,31 @@ export default function RegisterTabs() {
                     value={form.password}
                     error={passwordError}
                   ></Input>
-
+                  <Grid item sm={12}>
+                    <InputLabel id="demo-simple-select-label">
+                      Gender
+                    </InputLabel>
+                    <Select
+                      type="text"
+                      value={selectedValue}
+                      label="Gender"
+                      onChange={handleChangeValues}
+                      size="small"
+                      sx={{ width: "30%" }}
+                      name="gender"
+                      error={genderError}
+                    >
+                      <MenuItem value="Male">Male</MenuItem>
+                      <MenuItem value="Female">Female</MenuItem>
+                    </Select>
+                  </Grid>
                   <Grid item sm={12}>
                     <FormControlLabel
                       control={<Checkbox required />}
                       label="I agree on terms and conditions "
                     />
                   </Grid>
-                  <Grid item sm={12}>
+                  <Grid mt={-2} item sm={12}>
                     <Typography fontSize={12} s color="grey" variant="body2">
                       By creating an account, you agree to the Terms of Service
                       and Honor Codein a new tab and you acknowledge that edX
@@ -284,7 +326,7 @@ export default function RegisterTabs() {
                     </Typography>
                   </Grid>
                 </Grid>
-                s
+
                 <Grid mt={3} item sm={12}>
                   <Button
                     type="submit"
@@ -292,7 +334,10 @@ export default function RegisterTabs() {
                     variant="contained"
                     size="large"
                   >
-                    Create an Account for Free
+                    Create an Account for Free{" "}
+                    {isLoadingSignUp ? (
+                      <CircularProgress size={20} color="inherit" />
+                    ) : null}
                   </Button>
                 </Grid>
               </form>
