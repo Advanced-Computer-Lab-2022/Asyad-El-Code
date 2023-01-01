@@ -98,7 +98,7 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
               src={image}
             ></img>
           </Grid>
-          {courseList.find((c) => c._id === course?._id) ? (
+          {courseList?.find((c) => c._id === course?._id) ? (
             <Button
               fullWidth
               style={{

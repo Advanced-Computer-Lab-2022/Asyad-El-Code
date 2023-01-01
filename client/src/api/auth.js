@@ -35,3 +35,7 @@ export const getLoggedUser = async () => {
     }`
   );
 };
+
+export const firstTimeInstructor = async (formData, id) => {
+  return await API.patch(`/instructor/firstLogin/${id}`, formData);
+}

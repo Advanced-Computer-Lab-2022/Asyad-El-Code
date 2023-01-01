@@ -3,6 +3,7 @@ import Instructor from "../models/instructor.js";
 import Course from "../models/course.js";
 import { validateInstructor } from "../models/instructor.js";
 import { validateCourse } from "../models/course.js";
+import bcrypt from "bcryptjs";
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
@@ -175,6 +176,34 @@ export const updateInformation = async (req, res) => {
       { new: true }
     );
     res.status(200).send(updatedInstructor);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+  res.send;
+};
+
+export const firstLogin = async (req, res) => {
+  try {
+    const { firstName, lastName, country, password, gender } = req.body;
+    const { id } = req.params;
+    const castedid = mongoose.Types.ObjectId(id);
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const updatedInstructor = await Instructor.findByIdAndUpdate(
+      castedid,
+      {
+        $set: {
+          firstName: firstName,
+          lastName: lastName,
+          country: country,
+          password: hashedPassword,
+          gender:gender,
+          firstLogin: false,
+        },
+      },
+      { new: true }
+    );
+    const token = await updatedInstructor.generateAuthToken();
+    res.status(200).send({ result:updatedInstructor, token ,type:"instructor"});
   } catch (error) {
     res.status(400).send(error.message);
   }
