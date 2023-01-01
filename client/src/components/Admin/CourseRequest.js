@@ -9,20 +9,6 @@ import { getCourseRequests, deleteCourseRequest, acceptCourseRequest, rejectCour
 import CloseIcon from '@mui/icons-material/Close';
 
 
-
-
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
 const CourseRequests = () => {
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState("");
@@ -80,28 +66,20 @@ const CourseRequests = () => {
         <>
             <div>
 
-                <Grid container maxWidth="80%" marginTop={2} marginLeft={20} marginRight={20} marginBottom={5} spacing={5} direction="row" justifyContent="center" alignItems="center">
-                    <Grid item xs={3}>
-                    </Grid>
-                    <Grid item xs={6} sx={{ textAlign: 'center' }}>
-                        <Typography variant="h4" component="div" gutterBottom>
-                            Course Requests
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={3}>
-                    </Grid>
+                <Grid container maxWidth="100%" spacing={5} direction="row" justifyContent="center" alignItems="center">
+
+
                     {requests?.map((request) => (
                         <>
-                            <Grid item xs={3}>
-                            </Grid>
-                            <Grid item xs={6} key={request._id}>
+
+                            <Grid item md={6} key={request._id}>
                                 <Card sx={{ minWidth: 500 }}>
                                     <CardContent>
                                         <Typography variant="h6" component="div">
                                             {request?.userName} has requested to take {request?.courseName}
                                         </Typography>
                                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                            {request?.date?.substring(0, 10)  + ",     " + request?.date?.substring(11, 16) + " GMT"}
+                                            {request?.date?.substring(0, 10) + ",     " + request?.date?.substring(11, 16) + " GMT"}
                                         </Typography>
                                         <Typography variant="body2">
                                             {request?.request}
@@ -109,20 +87,20 @@ const CourseRequests = () => {
                                     </CardContent>
                                     <CardActions>
                                         <Grid container spacing={1}>
-                                            <Grid item xs={8}>
+                                            <Grid item xs={7}>
                                             </Grid>
                                             <Grid item xs={2}>
                                                 <Button size="small" onClick={() => handleReject(request?._id, request?.email, request?.courseName)}>Reject</Button>
                                             </Grid>
                                             <Grid item xs={2}>
-                                                <Button size="small" variant='contained' onClick={() => handleAccept(request?._id, request?.email, request?.courseName)}>Approve</Button>
+                                                <Button size="small" variant='contained' style={{ backgroundColor: "#205295" }} onClick={() => handleAccept(request?._id, request?.email, request?.courseName)}>Approve</Button>
                                             </Grid>
                                         </Grid>
                                     </CardActions>
                                 </Card>
                             </Grid>
-                            <Grid item xs={3}>
-                            </Grid>
+
+
                         </>
                     ))}
                 </Grid>

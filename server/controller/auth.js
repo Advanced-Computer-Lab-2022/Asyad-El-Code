@@ -57,15 +57,12 @@ export const signin = async (req, res) => {
         token: token,
       });
     }
-    console.log("WHY YOU HERE");
-    console.log("SO YOU ARE INSTRUCTOR");
     console.log("password", password);
     //Decrypt the hashed password
     // const isValidPassword = await checkPassword(password, instructor.password);
     const isValidPassword = true;
     console.log("isValidPassword", isValidPassword);
     if (!isValidPassword) {
-      console.log("StATUS 400 friend");
       return res.status(400).json({ message: "Invalid credentials" });
     }
     const token = await instructor.generateAuthToken();
