@@ -26,7 +26,6 @@ import { getCorporate } from "../../../actions/corporate";
 
 export const CoursePage = () => {
   const { isLoading, courses } = useSelector((state) => state.courses);
-  console.log("courses in state now is", courses);
 
   const dispatch = useDispatch();
   const { classes } = useStyles();
@@ -49,8 +48,6 @@ export const CoursePage = () => {
 
   const reportedProblems = useSelector((state) => state?.reportedProblems);
 
-  console.log("Iam the user", user);
-
   useEffect(() => {
     if (traineeType === "corporateTrainee") {
       dispatch(getCorporate());
@@ -65,10 +62,6 @@ export const CoursePage = () => {
   const handleCloseReportCourseModal = () => {
     setReportCourseModal(false);
   };
-  console.log("The state is ", individualTrainee);
-  console.log(individualTrainee?.courses);
-  console.log("The corporate trainee is ", corporateTrainee);
-  console.log(corporateTrainee?.courses);
   let isCourseInUserCourses = false;
   //Create a function to get the user
 
@@ -86,8 +79,6 @@ export const CoursePage = () => {
     }
   }
 
-  console.log("The reported problems are", reportedProblems);
-
   const calculateAndSetProgress = () => {
     let totalDuration = 0;
     individualTrainee?.courses
@@ -100,8 +91,6 @@ export const CoursePage = () => {
       ?.grades?.forEach((g) => {
         totalDuration += g.total * 5;
       });
-    console.log("This is total Duration", totalDuration);
-    console.log("this is course duration", courses[0]?.duration);
     setProgress(Math.ceil(totalDuration / (courses[0]?.duration * 60)) * 100);
   };
   console.log("the course ZERO is ", courses[0]);
@@ -213,6 +202,7 @@ export const CoursePage = () => {
             ) : null}
             <ReportCourseModal
               open={reportCourseModal}
+              refund={false}
               handleClose={handleCloseReportCourseModal}
               course={courses[0]}
               reporterEmail={user?.result?.email}

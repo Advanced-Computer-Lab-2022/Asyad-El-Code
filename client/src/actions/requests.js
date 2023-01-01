@@ -1,17 +1,14 @@
 import * as api from "../api/admin";
-import * as corpApi from "../api/corporate";
 import {
   FETCH_REQUESTS,
   DELETE_REQUEST,
   ACCEPT,
   REJECT,
-  ADD_REQUEST,
 } from "../constants/requests";
 
 export const getCourseRequests = () => async (dispatch) => {
   try {
     const { data } = await api.getAllCourseRequests();
-    console.log(data);
     dispatch({ type: FETCH_REQUESTS, payload: data });
   } catch (error) {
     console.log(error);
@@ -21,7 +18,6 @@ export const getCourseRequests = () => async (dispatch) => {
 export const acceptCourseRequest = (request) => async (dispatch) => {
   try {
     const res = await api.acceptCourseRequest(request);
-    console.log(res.data);
     if (res.status === 200) dispatch({ type: ACCEPT, payload: res.data });
   } catch (error) {
     console.log(error);
@@ -31,7 +27,6 @@ export const acceptCourseRequest = (request) => async (dispatch) => {
 export const rejectCourseRequest = (request) => async (dispatch) => {
   try {
     const res = await api.rejectCourseRequest(request);
-    console.log(res.data);
     if (res.status === 200) dispatch({ type: REJECT, payload: res.data });
   } catch (error) {
     console.log(error);
@@ -42,16 +37,6 @@ export const deleteCourseRequest = (id) => async (dispatch) => {
   try {
     await api.deleteCourseRequest(id);
     dispatch({ type: DELETE_REQUEST, payload: id });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const addCourseRequest = (courseRequest) => async (dispatch) => {
-  try {
-    const res = await corpApi.addRequest(courseRequest);
-    console.log(res.data);
-    if (res.status === 200) dispatch({ type: ADD_REQUEST, payload: res.data });
   } catch (error) {
     console.log(error);
   }

@@ -14,9 +14,9 @@ API.interceptors.request.use((req) => {
 export const getAllInstructorCourses = async (id) =>
   await API.get(`/getAllInstructorCourses/${id}`);
 
-export const filterInstructorCourses = async (filterData) => {
+export const filterInstructorCourses = async (id, filterData) => {
   return await API.get(
-    `/filterInstructorCourses/?id=635c587e07f18b986c357bb7&subject=${filterData.Subject}&price=${filterData.Price}&rating=${filterData.Rating}`
+    `/filterInstructorCourses/?id=${id}&subject=${filterData.Subject}&price=${filterData.Price}&rating=${filterData.Rating}`
   );
 };
 
@@ -60,3 +60,19 @@ export const addMoneyToInstructorWallet = async (courseId, instructorId) => {
     `/addMoneyToInstructorWallet?courseId=${courseId}&instructorId=${instructorId}`
   );
 };
+export const definePromotion = async (
+  courseId,
+  discount,
+  startDate,
+  endDate
+) => {
+  return await API.patch(
+    `/definePromotion?courseId=${courseId}&discount=${discount}&startDate=${startDate}&endDate=${endDate}`
+  );
+};
+
+// export const addMoneyToInstructorWallet = async (courseId, instructorId) => {
+//   return await API.post(
+//     `/addMoneyToInstructorWallet?courseId=${courseId}&instructorId=${instructorId}`
+//   );
+// };

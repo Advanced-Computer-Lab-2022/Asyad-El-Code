@@ -30,7 +30,6 @@ export const ResetPassword = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const authReducer = useSelector((state) => state.authReducer);
-  console.log("MESSAGE ");
 
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);
@@ -58,7 +57,6 @@ export const ResetPassword = () => {
       }
     }
     setMessageSent(true);
-    console.log(form);
   };
 
   return (

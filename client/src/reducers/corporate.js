@@ -5,7 +5,6 @@ import {
 } from "../constants/corporate";
 
 export default (corporates = [], action) => {
-  console.log("Iam here in the corperate reducer");
   switch (action.type) {
     case FETCH_CORPORATES:
       return action.payload;

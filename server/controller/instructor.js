@@ -221,6 +221,7 @@ export const getAllInstructorCourses = async (req, res) => {
     }
     res.status(200).send(courses);
   } catch (err) {
+    console.log("LOOK");
     res.status(401).send(err.message);
   }
 };
@@ -242,8 +243,6 @@ export const filterInstructorCourses = async (req, res) => {
     const courses = await Course.aggregate([
       { $match: { "instructor.instructorId": mongoose.Types.ObjectId(id) } },
       { $match: { subject: { $in: subjectArray } } },
-      { $match: { price: { $lte: parseInt(priceArray[1]) } } },
-      { $match: { price: { $gte: parseInt(priceArray[0]) } } },
       { $match: { rating: { $lte: parseInt(ratingArray[1]) } } },
       { $match: { rating: { $gte: parseInt(ratingArray[0]) } } },
       {
@@ -267,6 +266,8 @@ export const filterInstructorCourses = async (req, res) => {
           },
         },
       },
+      { $match: { discountedPrice: { $lte: parseInt(priceArray[1]) } } },
+      { $match: { discountedPrice: { $gte: parseInt(priceArray[0]) } } },
     ]);
 
     if (!courses) {
@@ -333,7 +334,7 @@ export const definePromotion = async (req, res) => {
       {
         $set: {
           promotion: {
-            discount: discount,
+            discount: discount / 100,
             startDate: start,
             endDate: end,
           },

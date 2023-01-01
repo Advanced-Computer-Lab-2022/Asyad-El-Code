@@ -1,11 +1,8 @@
 import { FETCH_TRAINEE, UPDATE_TRAINEE } from "../constants/individualTrainee";
 
 export default (individualTrainee = {}, action) => {
-  console.log("HI IAM IN THE INDIVIIAL");
   switch (action.type) {
     case FETCH_TRAINEE: {
-      console.log("Iam in the freducer o individiilatTriannee");
-      console.log(action.payload);
       return action.payload;
     }
     case "GET_TRAINEE":

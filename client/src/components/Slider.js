@@ -35,7 +35,6 @@ export const SimpleSlider = () => {
   const [detailsBox, setDetailsBox] = useState(false);
   const [title, setTitle] = useState("");
   const { isLoading, courses } = useSelector((state) => state.courses);
-  console.log("THE COURSES IS ", courses);
   const selectedCountry = useSelector((c) => c.selectedCountry);
   const rates = useSelector((c) => c.currencyRates);
   const [courseDetails, setCourseDetails] = useState(null);
@@ -56,8 +55,6 @@ export const SimpleSlider = () => {
   const handleClose = () => setOpen(false);
 
   const handleMouseOver = (event, title) => {
-    console.log(event);
-    console.log("sdsd");
     setTitle(title);
     setDetailsBox(true);
   };
@@ -142,7 +139,6 @@ export const SimpleSlider = () => {
       <div style={{ width: "1200px" }}>
         <Slider {...settings}>
           {courses?.map((course, index) => {
-            console.log(course.image);
             return (
               // <Card elevation={0} className={classes.cardGrid} key={index}>
               //   <CardMedia

@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import { Avatar, Button, InputAdornment, Link, SvgIcon } from "@mui/material";
 import { CssBaseline, Grid, TextField } from "@mui/material";
 import useStyles from "../../css/navbar";
+import decode from "jwt-decode";
 import {
   Menu,
   MenuItem,
@@ -30,6 +31,7 @@ import { getCourse, getCourses } from "../../actions/courses";
 import * as courseApi from "../../api/course";
 import DropDownMenuProfile from "./DropDownProfileMenu";
 import SearchIcon from "@mui/icons-material/Search";
+import { useLocation } from "react-router-dom";
 export default function ButtonAppBar() {
   const dispatch = useDispatch();
   const { classes } = useStyles();
@@ -39,6 +41,7 @@ export default function ButtonAppBar() {
   const [search, setSearch] = useState("");
   const [openMenu, setOpenMenu] = useState(false);
   const [courses, setCourses] = useState([]);
+  const location = useLocation();
 
   const fetchAllCourses = async () => {
     const { data } = await courseApi.fetchCourses();
@@ -50,7 +53,6 @@ export default function ButtonAppBar() {
 
   const [user, setUser] = useState(parseJson());
   // IMPORTANT TODO We can use here a simple API to get the courses
-  console.log("Iam the courses ", courses);
   const rates = useSelector((state) => state.currencyRates);
 
   const [selected, setSelected] = useState("");
@@ -67,7 +69,6 @@ export default function ButtonAppBar() {
     dispatch(getCourse(courseId, history, courseTitle));
   };
   const handleCountry = (event) => {
-    console.log(event.target.value);
     setCountry(event.target.value);
     dispatch(changeSelectedCountry(event.target.value));
   };
@@ -90,6 +91,16 @@ export default function ButtonAppBar() {
     history.push("/home");
     setUser(null);
   };
+
+  //Check if the token is expired so logout
+  useEffect(() => {
+    const token = user?.token;
+    if (token) {
+      const decodedToken = decode(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [user?.token, location]);
 
   return (
     <CssBaseline>
@@ -302,9 +313,7 @@ export default function ButtonAppBar() {
               </>
             )}
           </Grid>
-          <div>
-            <SearchIcon fontSize="100"></SearchIcon>
-          </div>
+
           {/* <DownloadLink to="/files/myfi22le.pdf" target="_blank" download>
             Download
           </DownloadLink>

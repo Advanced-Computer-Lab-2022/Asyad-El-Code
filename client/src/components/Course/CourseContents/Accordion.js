@@ -89,7 +89,6 @@ export default function AccordionSet({
       outline.subtitles[ind]._id,
       outline.subtitles[ind].minutes
     );
-    console.log("This is the data after check", data);
     setChecked((prev) => new Map(prev).set(`outline${index}index${ind}`, true));
     updateUserObject(data);
   };
