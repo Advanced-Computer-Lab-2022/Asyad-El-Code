@@ -130,6 +130,7 @@ export const enrollCourse = async (req, res) => {
     const { id, courseId } = req.query;
     const courseIdCasted = await mongoose.Types.ObjectId(courseId);
     const idCasted = await mongoose.Types.ObjectId(id);
+    console.log("Im in enroll course methoddd");
     console.log(id);
     console.log(idCasted);
     console.log(courseIdCasted);
@@ -163,6 +164,14 @@ export const enrollCourse = async (req, res) => {
       },
       { new: true }
     );
+    //increase numberOfTraineesEnrolled field of the course by 1
+    console.log("Just before updating course");
+    const updatedCourse = await Course.findByIdAndUpdate(
+      courseIdCasted,
+      { $inc: { numberOfTraineesEnrolled: 1 } },
+      { new: true }
+    );
+    console.log("This is updated course", updatedCourse);
     if (!updatedUser) {
       res.status(401).send("Couldn't enroll course");
     } else res.status(200).send(updatedUser);
