@@ -172,14 +172,15 @@ export const addInstructor = async (req, res) => {
   }
 };
 export const addCorporateTrainee = async (req, res) => {
-  const { userName, password,email } = req.body;
+  const { userName, password, email, company } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 12);
     const corporateTrainee = new CorporateTrainee({
       userName: userName,
       password: hashedPassword,
-      email:email
+      email:email,
+      company: company
     });
     await corporateTrainee.save();
     res.status(200).json(corporateTrainee);

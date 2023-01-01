@@ -32,8 +32,6 @@ const ReportedProblems = (props) => {
     <Grid
       container
       maxWidth="100%"
-      marginTop={2}
-
       marginBottom={5}
       spacing={5}
       direction="row"
