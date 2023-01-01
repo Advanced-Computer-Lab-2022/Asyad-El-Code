@@ -58,13 +58,13 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  let cardHeight = type == "admin" ? "250px" : "430px";
+  let cardHeight = type == "admin" ? "260px" : "430px";
 
   return (
     <Card style={{ width: "600px", height: cardHeight }}>
       <Grid
-        columnSpacing={2}
-        padding={3}
+        columnSpacing={1}
+        padding={1}
         height="100%"
         width="100%"
         container
@@ -206,7 +206,7 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
           </Grid>
           <Grid item>
             <Typography fontSize={12} color="text.secondary" variant="body2">
-              Instructor: {course.instructor.name}
+              <span style={{fontSize: '14px'}}>Instructor: </span> {course.instructor.name}
             </Typography>
           </Grid>
           <Grid item>

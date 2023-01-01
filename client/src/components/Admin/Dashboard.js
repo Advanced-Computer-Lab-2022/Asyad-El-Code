@@ -25,8 +25,12 @@ import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import DiscountIcon from '@mui/icons-material/Discount';
 import CourseRequests from './CourseRequest';
 import ReportedProblems from './ReportedProblems';
-import {Courses} from './Courses';
+import { Courses } from './Courses';
 import { styled } from "@mui/material/styles";
+import Problems from './Problems';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import Admin from './Admin';
+import { Button } from 'reactstrap';
 
 
 const drawerWidth = 240;
@@ -69,9 +73,11 @@ function ResponsiveDrawer(props) {
   if (currentPage === "courseRequest") {
     content = <CourseRequests />;
   } else if (currentPage === "reportedProblems") {
-    content = <ReportedProblems />;
+    content = <Problems />;
   } else if (currentPage === "coursesPromo") {
     content = <Courses />;
+  } else if (currentPage === "adminPage") {
+    content = <Admin />;
   }
 
   const drawer = (
@@ -80,42 +86,50 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
 
-          <ListItem key="Dashboard" disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <DashboardIcon style={{color: 'white'}}/>
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItemButton>
-          </ListItem>
+        <ListItem key="Dashboard" disablePadding style={{ backgroundColor: currentPage === "dashboard" ? "#126E82" : "#132C33" }}>
+          <ListItemButton>
+            <ListItemIcon>
+              <DashboardIcon style={{ color: 'white' }} />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItemButton>
+        </ListItem>
 
-          <ListItem key="Course Requests" disablePadding onClick={() => setCurrentPage("courseRequest")}>
-            <ListItemButton>
-              <ListItemIcon>
-                <RuleFolderIcon style={{color: 'white'}}/>
-              </ListItemIcon>
-              <ListItemText primary="Course Requests" />
-            </ListItemButton>
-          </ListItem>
+        <ListItem key="Course Requests" disablePadding onClick={() => setCurrentPage("courseRequest")} style={{ backgroundColor: currentPage === "courseRequest" ? "#126E82" : "#132C33" }}>
+          <ListItemButton>
+            <ListItemIcon>
+              <RuleFolderIcon style={{ color: 'white' }} />
+            </ListItemIcon>
+            <ListItemText primary="Course Requests" />
+          </ListItemButton>
+        </ListItem>
 
-          <ListItem key="Reported Problems" disablePadding onClick={() => setCurrentPage("reportedProblems")}>
-            <ListItemButton>
-              <ListItemIcon>
-                <ReportProblemIcon style={{color: 'white'}}/>
-              </ListItemIcon>
-              <ListItemText primary="Reported Problems" />
-            </ListItemButton>
-          </ListItem>
+        <ListItem key="Reported Problems" disablePadding onClick={() => setCurrentPage("reportedProblems")} style={{ backgroundColor: currentPage === "reportedProblems" ? "#126E82" : "#132C33" }}>
+          <ListItemButton>
+            <ListItemIcon>
+              <ReportProblemIcon style={{ color: 'white' }} />
+            </ListItemIcon>
+            <ListItemText primary="Reported Problems" />
+          </ListItemButton>
+        </ListItem>
 
-          <ListItem key="Promotions" disablePadding onClick={() => setCurrentPage("coursesPromo")}>
-            <ListItemButton>
-              <ListItemIcon>
-                <DiscountIcon style={{color: 'white'}}/>
-              </ListItemIcon>
-              <ListItemText primary="Promotions"/>
-              
-            </ListItemButton>
-          </ListItem>
+        <ListItem key="Promotions" disablePadding onClick={() => setCurrentPage("coursesPromo")} style={{ backgroundColor: currentPage === "coursesPromo" ? "#126E82" : "#132C33" }}>
+          <ListItemButton>
+            <ListItemIcon>
+              <DiscountIcon style={{ color: 'white' }} />
+            </ListItemIcon>
+            <ListItemText primary="Promotions" />
+          </ListItemButton>
+        </ListItem>
+
+        <ListItem key="User Creation" disablePadding onClick={() => setCurrentPage("adminPage")} style={{ backgroundColor: currentPage === "adminPage" ? "#126E82" : "#132C33" }}>
+          <ListItemButton>
+            <ListItemIcon>
+              <GroupAddIcon style={{ color: 'white' }} />
+            </ListItemIcon>
+            <ListItemText primary="User Creation" />
+          </ListItemButton>
+        </ListItem>
 
       </List>
       <Divider />
@@ -131,14 +145,13 @@ function ResponsiveDrawer(props) {
           </ListItem>
         ))}
       </List>
-      
+
 
 
 
     </div>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -149,24 +162,6 @@ function ResponsiveDrawer(props) {
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        {/* <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-
-          PaperProps={{
-            sx: {
-              backgroundColor: "pink",
-              color: "red",
-            }
-          }}
-        >
-          {drawer}
-        </Drawer> */}
         <Drawer
           variant="permanent"
           sx={{
@@ -177,11 +172,10 @@ function ResponsiveDrawer(props) {
           open
           PaperProps={{
             sx: {
-              backgroundColor: "#1C1D1F",
+              backgroundColor: "#132C33",
               color: "white",
             }
           }}
-
         >
           {drawer}
         </Drawer>

@@ -103,7 +103,7 @@ export default function ButtonAppBar() {
 
   return (
     <CssBaseline>
-      <AppBar className={classes.appBar} position="sticky">
+      <AppBar className={classes.appBar} position="sticky" style={{backgroundColor: user?.type === "admin" ? "#3C4048" : "black"}}>
         <Toolbar>
           {user?.type !== "admin" && (
 
@@ -231,60 +231,62 @@ export default function ButtonAppBar() {
               Admin
             </Button> */}
           <Grid spacing={2} container className={classes.rightSection}>
-            <Grid item xs={2}>
-              <FormControl fullWidth size="small">
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={country}
-                  onChange={handleCountry}
-                  displayEmpty
-                  renderValue={(value) => {
-                    return (
-                      <Box color="#FFFFFF" sx={{ display: "flex", gap: 1 }}>
-                        <SvgIcon color="#FFFFFF">
-                          <LanguageIcon color="#FFFFFF" />
-                        </SvgIcon>
-                        {value}
-                      </Box>
-                    );
-                  }}
-                >
-                  <MenuItem value={"Egypt"}>
-                    <EG title="Egypt" width={20} st />
-                    <span style={{ marginLeft: "10px" }}>Egypt</span>
-                  </MenuItem>
-                  <MenuItem value={"Canada"}>
-                    <CA title="Canada" width={20} />
-                    <span style={{ marginLeft: "10px" }}>Canada</span>
-                  </MenuItem>
-                  <MenuItem value={"USA"}>
-                    <US title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>USA</span>
-                  </MenuItem>
-                  <MenuItem value={"Germany"}>
-                    <DE title="EUR" width={20} />
-                    <span style={{ marginLeft: "10px" }}>Germany</span>
-                  </MenuItem>
-                  <MenuItem value={"KSA"}>
-                    <SA title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>KSA</span>
-                  </MenuItem>
-                  <MenuItem value={"UAE"}>
-                    <AE title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>UAE</span>
-                  </MenuItem>
-                  <MenuItem value={"UK"}>
-                    <GB title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>UK</span>
-                  </MenuItem>
-                  <MenuItem value={"China"}>
-                    <CN title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>China</span>
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
+            {user?.type !== "admin" && (
+                          <Grid item xs={2}>
+                          <FormControl fullWidth size="small">
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={country}
+                              onChange={handleCountry}
+                              displayEmpty
+                              renderValue={(value) => {
+                                return (
+                                  <Box color="#FFFFFF" sx={{ display: "flex", gap: 1 }}>
+                                    <SvgIcon color="#FFFFFF">
+                                      <LanguageIcon color="#FFFFFF" />
+                                    </SvgIcon>
+                                    {value}
+                                  </Box>
+                                );
+                              }}
+                            >
+                              <MenuItem value={"Egypt"}>
+                                <EG title="Egypt" width={20} st />
+                                <span style={{ marginLeft: "10px" }}>Egypt</span>
+                              </MenuItem>
+                              <MenuItem value={"Canada"}>
+                                <CA title="Canada" width={20} />
+                                <span style={{ marginLeft: "10px" }}>Canada</span>
+                              </MenuItem>
+                              <MenuItem value={"USA"}>
+                                <US title="USA" width={20} />
+                                <span style={{ marginLeft: "10px" }}>USA</span>
+                              </MenuItem>
+                              <MenuItem value={"Germany"}>
+                                <DE title="EUR" width={20} />
+                                <span style={{ marginLeft: "10px" }}>Germany</span>
+                              </MenuItem>
+                              <MenuItem value={"KSA"}>
+                                <SA title="USA" width={20} />
+                                <span style={{ marginLeft: "10px" }}>KSA</span>
+                              </MenuItem>
+                              <MenuItem value={"UAE"}>
+                                <AE title="USA" width={20} />
+                                <span style={{ marginLeft: "10px" }}>UAE</span>
+                              </MenuItem>
+                              <MenuItem value={"UK"}>
+                                <GB title="USA" width={20} />
+                                <span style={{ marginLeft: "10px" }}>UK</span>
+                              </MenuItem>
+                              <MenuItem value={"China"}>
+                                <CN title="USA" width={20} />
+                                <span style={{ marginLeft: "10px" }}>China</span>
+                              </MenuItem>
+                            </Select>
+                          </FormControl>
+                        </Grid> 
+            )}
 
             {user?.result ? (
               //Create avatar
@@ -316,9 +318,6 @@ export default function ButtonAppBar() {
               </>
             )}
           </Grid>
-          <div>
-            <SearchIcon fontSize="100"></SearchIcon>
-          </div>
           {/* <DownloadLink to="/files/myfi22le.pdf" target="_blank" download>
             Download
           </DownloadLink>

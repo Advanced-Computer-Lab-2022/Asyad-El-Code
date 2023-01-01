@@ -26,31 +26,25 @@ const ReportedProblems = (props) => {
       })
     );
   };
+  
 
   return (
     <Grid
       container
-      maxWidth="80%"
+      maxWidth="100%"
       marginTop={2}
-      marginLeft={20}
-      marginRight={20}
+
       marginBottom={5}
       spacing={5}
       direction="row"
       justifyContent="center"
       alignItems="center"
     >
-      <Grid item xs={3}></Grid>
-      <Grid item xs={6} sx={{ textAlign: "center" }}>
-        <Typography variant="h4" component="div" gutterBottom>
-          Reported Problems
-        </Typography>
-      </Grid>
-      <Grid item xs={3}></Grid>
+
       {reportedProblems?.map((problem) => (
         <>
-          <Grid item xs={3}></Grid>
-          <Grid item xs={6} key={problem._id}>
+          
+          <Grid item xs={12} lg={6} key={problem._id}>
             <Card sx={{ minWidth: 500 }}>
               <CardContent>
                 <Typography variant="h6" component="div">
@@ -82,10 +76,8 @@ const ReportedProblems = (props) => {
               </CardContent>
               <CardActions>
                 <Grid container spacing={1}>
-                  <Grid item xs={7}></Grid>
-                  <Grid item xs={2}>
-                    <Button size="small">Reject</Button>
-                  </Grid>
+                  <Grid item xs={9}></Grid>
+
                   <Grid item xs={2}>
                     <SplitButton problem={problem} />
                   </Grid>
@@ -93,7 +85,6 @@ const ReportedProblems = (props) => {
               </CardActions>
             </Card>
           </Grid>
-          <Grid item xs={3}></Grid>
         </>
       ))}
     </Grid>

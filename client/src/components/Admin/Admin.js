@@ -97,6 +97,8 @@ const Admin = () => {
   const dispatch = useDispatch();
   const admins = useSelector((a) => a.admins);
   const corporates = useSelector((c) => c.corporates);
+  console.log(corporates);
+  console.log(admins);
 
   useEffect(() => {
     dispatch(getAdmins());
@@ -133,19 +135,15 @@ const Admin = () => {
   };
 
   return (
-    <Box bgcolor={"#FAF9F6"}>
+    <Box>
       <Container
         sx={{
-          backgroundColor: "#FAF9F6",
-          marginTop: "30px",
           width: "100%",
         }}
       >
         <Grid>
-          <Grid item xs={4} sx={{ fontWeight: "bold", textAlign: "center" }}>
-            <h1>Admin Dashboard</h1>
-          </Grid>
-          <Grid item xs={9} sx={{ backgroundColor: "#ffca3a" }}>
+
+          <Grid item xs={9} sx={{ backgroundColor: "red" }}>
             <Box sx={{ backgroundColor: "lavender", width: "100%" }}>
               <AppBar position="static">
                 <Tabs
@@ -163,7 +161,7 @@ const Admin = () => {
               </AppBar>
               <TabPanel value={tabIndex} index={0}>
                 <Grid container bgcolor={"lavender"}>
-                  {admins.map((admin, index) => {
+                  {admins?.map((admin, index) => {
                     return (
                       <Grid
                         container
@@ -212,7 +210,7 @@ const Admin = () => {
               ></InstructorTabPanel>
               <TabPanel value={tabIndex} index={2}>
                 <Grid container>
-                  {corporates.map((corporate, index) => {
+                  {corporates?.map((corporate, index) => {
                     return (
                       <Grid
                         container

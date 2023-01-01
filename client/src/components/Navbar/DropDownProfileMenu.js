@@ -142,36 +142,7 @@ export default function DropDownMenuProfile({ user, logout }) {
           </MenuItem>
         ) : null}
         <Divider />
-        {user?.type === "admin" ? (
-          <MenuItem onClick={() => history.push("/courseRequests")}>
-            <ListItemIcon>
-              <RuleFolderIcon fontSize="small" />
-            </ListItemIcon>
-            Requests
-          </MenuItem>
-        ) : null}
-        {user?.type === "admin" ? (
-          <MenuItem onClick={() => history.push("/reportedProblems")}>
-            <ListItemIcon>
-              <ReportProblemIcon fontSize="small" />
-            </ListItemIcon>
-            Reported Problems
-          </MenuItem>
-        ) : null}
-        {user?.type === "admin" ? (
-          <MenuItem onClick={() => history.push("/coursesPromo")}>
-            <ListItemIcon>
-              <DiscountIcon fontSize="small" />
-            </ListItemIcon>
-            Promotions
-          </MenuItem>
-        ) : null}
-        <MenuItem  onClick={() => history.push("/adminPage")}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
+
         <MenuItem>
           <ListItemIcon>
             <Settings fontSize="small" />

@@ -25,8 +25,8 @@ export const CoursesGrid = () => {
         <CircularProgress></CircularProgress>
     ) : (
          <>
-            <Grid container mt={2} justifyContent="center">
-                <Grid item md={9} mt={2} mb={2}>
+            <Grid container  justifyContent="center">
+                <Grid item md={9}  mb={2}>
                     </Grid>
                 <Grid item mb={3}>
                     <Button

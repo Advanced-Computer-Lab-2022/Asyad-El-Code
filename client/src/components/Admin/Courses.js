@@ -12,9 +12,6 @@ export const Courses = () => {
 
   return (
     <div>
-      <Typography variant="h4" gutterBottom>
-        All Courses
-      </Typography>
       <CoursesGrid></CoursesGrid>
     </div>
   );
