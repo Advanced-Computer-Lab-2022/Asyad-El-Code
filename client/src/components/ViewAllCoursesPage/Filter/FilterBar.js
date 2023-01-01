@@ -52,7 +52,6 @@ export const FilterBar = ({ handleClick }) => {
     const modifyValue = newValue;
     modifyValue[0] = getEGP(selectedCountry, currencyRates, modifyValue[0]);
     modifyValue[1] = getEGP(selectedCountry, currencyRates, modifyValue[1]);
-    console.log("new value", modifyValue);
     setFilterData({ ...filterData, Price: modifyValue });
   };
   const handleRatingChange = (e) => {

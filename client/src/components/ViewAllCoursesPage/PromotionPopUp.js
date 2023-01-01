@@ -61,7 +61,6 @@ export default function BasicModal({ open, setOpen, courseId }) {
   const handleClose = () => setOpen(false);
   const handleSubmit = () => {
     if (discountError || dateError) {
-      console.log("error");
     } else {
       definePromotion(courseId, discount, startDate, endDate);
       setSuccess(true);

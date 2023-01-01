@@ -41,10 +41,7 @@ const bull = (
 const MyCourses = () => {
   const dispatch = useDispatch();
   const trainee = useSelector((t) => t.individualTrainee);
-  console.log(trainee);
   const courses = trainee.courses;
-  console.log(courses);
-  console.log("OH MYG ODD ", trainee);
   const history = useHistory();
 
   useEffect(() => {
@@ -53,8 +50,6 @@ const MyCourses = () => {
   }, []);
 
   const handleClick = (courseTitle, courseId) => {
-    console.log("THE COURSE ID IS ", courseId);
-    console.log("THE COURSE TITLE IS ", courseTitle);
     dispatch(getCourse(courseId, history, courseTitle));
   };
 

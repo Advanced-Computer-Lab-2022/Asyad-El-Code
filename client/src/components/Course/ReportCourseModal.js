@@ -45,8 +45,6 @@ export default function AdminModal(props) {
   };
 
   const handleSubmit = () => {
-    console.log("Type:", type);
-    console.log("Details:", details);
     const problem = {
       reporterEmail: props?.reporterEmail,
       courseId: props?.course._id,
@@ -54,7 +52,6 @@ export default function AdminModal(props) {
       type: type,
       details: details,
     };
-    console.log(problem);
     dispatch(reportProblem(problem));
     props.handleClose();
   };
@@ -65,7 +62,6 @@ export default function AdminModal(props) {
     //     email: e.target.email.value,
     //     password: e.target.password.value,
     // }
-    // console.log(admin)
     // e.preventDefault()
     // dispatch(addAdmin(admin))
     // props.handleClose();

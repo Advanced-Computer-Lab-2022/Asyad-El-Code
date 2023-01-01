@@ -26,7 +26,6 @@ const Demo = styled("div")(({ theme }) => ({
 export default function LecturesLinks({ subtitles }) {
   const [dense, setDense] = React.useState(false);
   const [secondary, setSecondary] = React.useState(false);
-  console.log(subtitles);
 
   return (
     <Box sx={{ flexGrow: 1, maxWidth: 752 }}>

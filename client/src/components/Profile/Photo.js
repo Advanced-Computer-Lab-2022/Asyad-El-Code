@@ -44,7 +44,6 @@ const Photo = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  console.log(trainee);
   const handleForm = (e) => {
     e.preventDefault();
     trainee.firstName = firstName;
@@ -53,7 +52,6 @@ const Photo = () => {
     trainee.phoneNumber = phone;
     trainee.country = country;
     dispatch(updateTrainee(trainee._id, trainee));
-    console.log(trainee);
   };
 
   useEffect(() => {

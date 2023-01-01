@@ -7,7 +7,6 @@ import {
 } from "../constants/reportedProblems";
 
 export default (state = { isLoading: true, problems: [] }, action) => {
-  console.log("Iam here in the reported problems reducer");
   switch (action.type) {
     case START_LOADING_PROBLEMS:
       return { ...state, isLoading: true };
