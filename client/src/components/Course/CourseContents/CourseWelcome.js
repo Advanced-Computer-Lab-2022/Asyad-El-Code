@@ -36,7 +36,7 @@ export const CourseWelcome = ({
       const latest = userObject?.courses
         ?.find((c) => c._id === course._id)
         ?.seenContent?.pop();
-      setLatestContent(latest);
+      if (latest) setLatestContent(latest);
       userObject?.courses
         ?.find((c) => c._id === course._id)
         ?.seenContent?.push(latest);
@@ -62,10 +62,12 @@ export const CourseWelcome = ({
     userObject?.courses
       ?.find((c) => c._id === course._id)
       ?.grades?.forEach((g) => {
-        score += g.score;
-        total += g.total;
+        if (g) {
+          score += g.score;
+          total += g.total;
+        }
       });
-    setGrade((score / total) * 100);
+    if (total != 0) setGrade((score / total) * 100);
   }, [userObject?.courses?.find((c) => c._id === course._id)?.grades]);
   return (
     <>
