@@ -86,6 +86,7 @@ export const getReportedProblem = async (req, res) => {
 export const updateReportedProblem = async (req, res) => {
     const { response, status } = req.body;
     const castedId = mongoose.Types.ObjectId(req.params.id);
+    console.log("IN CONTROLLER TO UPDATE PROBLEM", req.body);
     try {
         const reportedProblem = await ReportedProblems.findByIdAndUpdate(
             castedId,

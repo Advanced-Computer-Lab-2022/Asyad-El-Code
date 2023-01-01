@@ -35,6 +35,8 @@ import { getTrainee } from "./actions/individualTrainees";
 import { getCorporate } from "./actions/corporate";
 import { UdacityCard } from "./components/ViewAllCoursesPage/AllCourses/UdacityCard/UdacityCard";
 import AdminDashboard from "./components/Admin/Dashboard";
+import { Courses } from "./components/Admin/Courses";
+import Dashboard from "@mui/icons-material/Dashboard";
 
 import RequestAccess from "./components/RequestAccess";
 const theme = createTheme({
@@ -97,7 +99,10 @@ export const App = () => {
 
             <Switch>
               <Route exact path={["/home", "/"]}>
-                <Home />
+                {user?.type === "admin" ? (
+                  <Redirect to="/dashboard" /> ) : (
+                    <Home /> )
+                  }
               </Route>
               <Route exact path="/viewAll">
                 <ViewAllCourses />
@@ -111,7 +116,7 @@ export const App = () => {
               </Route>
 
               <Route exact path="/adminPage">
-                {user?.type === "administrator" ? (
+                {user?.type === "admin" ? (
                   <Admin></Admin>
                 ) : (
                   <Redirect to="/home" />
@@ -161,7 +166,7 @@ export const App = () => {
               </Route>
 
               <Route exact path="/courseRequests">
-                {user?.type === "administrator" ? (
+                {user?.type === "admin" ? (
                   <CourseRequests></CourseRequests>
                 ) : (
                   <Redirect to="/home" />
@@ -169,7 +174,7 @@ export const App = () => {
               </Route>
 
               <Route exact path="/reportedProblems">
-                {user?.type === "administrator" ? (
+                {user?.type === "admin" ? (
                   <Problems></Problems>
                 ) : (
                   <Redirect to="/home" />
@@ -185,7 +190,12 @@ export const App = () => {
               <Route exact path="/dashboard">
                 <AdminDashboard></AdminDashboard>
               </Route>
+
+              <Route exact path="/coursesPromo">
+                <Courses></Courses>
+              </Route>
             </Switch>
+
           </Route>
         </Switch>
       </ScrollToTop>

@@ -20,6 +20,7 @@ const instructorSchema = mongoose.Schema({
   email: {
     type: String,
     unique: true,
+    required: true,
   },
   password: {
     type: String,
@@ -78,6 +79,11 @@ const instructorSchema = mongoose.Schema({
   },
   biography: {
     type: String,
+    default: "No biography",
+  },
+  firstLogin: {
+    type: Boolean,
+    default: true,
   },
 });
 

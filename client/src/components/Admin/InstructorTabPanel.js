@@ -63,7 +63,7 @@ const InstructorTabPanel = (props) => {
   return (
     <TabPanel value={props.value} index={props.index}>
       <Grid container>
-        {instructors.map((instructor, index) => {
+        {instructors?.map((instructor, index) => {
           return (
             <Grid
               container
