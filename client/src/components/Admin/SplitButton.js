@@ -19,6 +19,16 @@ export default function SplitButton(props) {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const dispatch = useDispatch();
 
+  React.useEffect(() => {
+    if (props?.problem?.status === "Unseen") {
+      setSelectedIndex(0);
+    } else if (props?.problem?.status === "Pending") {
+      setSelectedIndex(1);
+    } else {
+      setSelectedIndex(2);
+    }
+  }, []);
+
   const handleClick = () => {
     const problem = {
       reporterEmail: props.problem.reporterEmail,
@@ -57,7 +67,7 @@ export default function SplitButton(props) {
         ref={anchorRef}
         aria-label="split button"
       >
-        <Button size="small" onClick={handleClick}>
+        <Button size="small" onClick={handleClick} style={{backgroundColor: "#205295"}}>
           {options[selectedIndex]}
         </Button>
         <Button
@@ -67,6 +77,7 @@ export default function SplitButton(props) {
           aria-label="select merge strategy"
           aria-haspopup="menu"
           onClick={handleToggle}
+          style={{backgroundColor: "#205295"}}
         >
           <ArrowDropDownIcon />
         </Button>

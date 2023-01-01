@@ -18,6 +18,7 @@ export default (state = { isLoading: true, problems: [] }, action) => {
     case GET_REPORTED_PROBLEMS:
       return { ...state, problems: action.payload };
     case UPDATE_REPORTED_PROBLEM:
+    console.log("IN REDUCER TO UPDATE PROBLEM", action.payload);
       const index = state.problems.findIndex(
         (problem) => problem._id === action.payload._id
       );
