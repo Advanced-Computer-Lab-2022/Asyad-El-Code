@@ -1,59 +1,83 @@
 import React from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
-import { styled } from '@mui/material';
-import {
-    Tab, Fab, Tabs, Box, AppBar, Grid, Container, Typography, Paper,
-    Modal, FormControl, form, OutlinedInput, Input, InputLabel,
-    FormGroup, Button, IconButton, TextField,ButtonBase
-} from '@mui/material'
+import { makeStyles } from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
 
-const useStyles = styled((theme) => ({
-  root: {
-    flexGrow: 1,
+const useStyles = makeStyles((theme) => ({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   paper: {
-    padding: theme.spacing(2),
-    margin: 'auto',
-    maxWidth: 500,
-  },
-  image: {
-    width: 128,
-    height: 128,
-  },
-  img: {
-    margin: 'auto',
-    display: 'block',
-    maxWidth: '100%',
-    maxHeight: '100%',
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
   },
 }));
 
 export default function AdminDashboard() {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <Grid container spacing={2}>
-          <Grid item>
-            <ButtonBase className={classes.image}>
-              <img className={classes.img} alt="complex" src="/static/images/grid/complex.jpg" />
-            </ButtonBase>
-          </Grid>
-          <Grid item xs={12} sm container>
-            <Grid item xs container direction="column" spacing={2}>
-              <Grid item xs>
-                <Typography gutterBottom variant="subtitle1">
-                  Admin Dashboard
-                </Typography>
-                <Typography variant="body2" gutterBottom>
-                  Welcome to the admin dashboard! From here, you can manage and monitor all aspects of your website or application.
-                </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Paper>
-    </div>
+      <Modal
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        open={open}
+        onClose={handleClose}
+        className={classes.modal}
+      >
+        <div className={classes.paper}>
+          <h2 id="simple-modal-title">Registration Form</h2>
+          <p id="simple-modal-description">
+            Please enter your first name, last name, new password, and confirm password.
+          </p>
+          <form noValidate>
+            <FormControl>
+              <TextField
+                label="First Name"
+                id="first-name"
+                variant="outlined"
+                fullWidth
+              />
+              <TextField
+                label="Last Name"
+                id="last-name"
+                variant="outlined"
+                fullWidth
+              />
+              <TextField
+                label="New Password"
+                id="new-password"
+                type="password"
+                variant="outlined"
+                fullWidth
+              />
+              <TextField
+                label="Confirm Password"
+                id="confirm-password"
+                type="password"
+                variant="outlined"
+                fullWidth
+              />
+            </FormControl>
+          </form>
+          <Button variant="contained" color="primary" onClick={handleClose}>
+            Submit
+          </Button>
+        </div>
+      </Modal>
   );
 }

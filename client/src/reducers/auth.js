@@ -4,12 +4,14 @@ import {
   AUTH_ERROR,
   CHANGE_PASSWORD,
   SEND_EMAIL,
-  UPDATE_INSTRUCTOR
+  UPDATE_INSTRUCTOR,
+  FIRST_TIME_INSTRUCTOR_START_LOADING,
+  FIRST_TIME_INSTRUCTOR_END_LOADING
 } from "../constants/auth";
 import { END_LOADING, START_LOADING } from "../constants/courses";
 
 export default (
-  state = { authData: null, error: null, isLoading: false },
+  state = { authData: null, error: null, isLoading: false, firstTimeInstructorIsLoading:false },
   action
 ) => {
   console.log("Iam in the auth reducer", action?.payload);
@@ -38,6 +40,10 @@ export default (
       return { ...state, isLoading: true };
     case END_LOADING:
       return { ...state, isLoading: false };
+    case FIRST_TIME_INSTRUCTOR_START_LOADING:
+      return {...state, firstTimeInstructorIsLoading:true}
+    case FIRST_TIME_INSTRUCTOR_END_LOADING:
+      return {...state, firstTimeInstructorIsLoading:false}
     default:
       return state;
   }

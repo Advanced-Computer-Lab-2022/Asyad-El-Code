@@ -4,6 +4,8 @@ import {
   CHANGE_PASSWORD,
   SEND_EMAIL,
   GET_LOGGED_USER,
+  FIRST_TIME_INSTRUCTOR_START_LOADING,
+  FIRST_TIME_INSTRUCTOR_END_LOADING
 } from "../constants/auth";
 import * as userApi from "../api/auth.js";
 import { END_LOADING, START_LOADING } from "../constants/courses";
@@ -22,7 +24,7 @@ export const signup = (formData, history) => async (dispatch) => {
   }
 };
 
-export const signin = (formData, history, setIsLoading) => async (dispatch) => {
+export const signin = (formData, history, setIsLoading, setInstructorModal) => async (dispatch) => {
   try {
     setTimeout(() => {
       setIsLoading(false);
@@ -33,9 +35,14 @@ export const signin = (formData, history, setIsLoading) => async (dispatch) => {
     console.log("I ALREADY IN FRIEND??");
     dispatch({ type: AUTH, payload: result.data });
     dispatch({ type: END_LOADING });
-    setTimeout(() => {
-      history.push("/");
-    }, 3000);
+    if (result.data.type === "instructor") {
+      setInstructorModal(true);
+      // history.push("/firstTimeInstructor");
+    } else {
+      setTimeout(() => {
+        history.push("/");
+      }, 3000);
+    }
   } catch (error) {
     console.log("Iam here mannnnnn");
     console.log("FUC FUCK FUCK ERROR");
