@@ -60,7 +60,6 @@ export default function DropDownMenuProfile({ user, logout }) {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
-    console.log("CLOSE");
     setAnchorEl(null);
   };
 

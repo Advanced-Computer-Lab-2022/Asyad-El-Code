@@ -52,7 +52,6 @@ export const FilterBar = ({ handleClick }) => {
     const modifyValue = newValue;
     modifyValue[0] = getEGP(selectedCountry, currencyRates, modifyValue[0]);
     modifyValue[1] = getEGP(selectedCountry, currencyRates, modifyValue[1]);
-    console.log("new value", modifyValue);
     setFilterData({ ...filterData, Price: modifyValue });
   };
   const handleRatingChange = (e) => {
@@ -130,6 +129,7 @@ export const FilterBar = ({ handleClick }) => {
           <Grid item xs={4}>
             <Stack direction="row-reverse" spacing={2} alignItems="center">
               <Button
+                //TODO HANDLE IT
                 startIcon={<ClearAllIcon />}
                 size="small"
                 style={{ color: "#205294" }}

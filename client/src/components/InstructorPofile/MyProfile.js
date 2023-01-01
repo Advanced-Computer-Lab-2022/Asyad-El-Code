@@ -45,7 +45,6 @@ const MyProfile = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  console.log(trainee);
   const handleForm = (e) => {
     e.preventDefault();
     trainee.firstName = firstName;
@@ -54,7 +53,6 @@ const MyProfile = () => {
     trainee.phoneNumber = phone;
     trainee.country = country;
     dispatch(updateTrainee(trainee._id, trainee));
-    console.log(trainee);
   };
 
   useEffect(() => {
@@ -106,7 +104,6 @@ const MyProfile = () => {
                     defaultValue={firstName}
                     onChange={(newValue) => {
                       setFirstName(newValue.target.value);
-                      console.log(newValue.target.value);
                     }}
                   />
                 </FormControl>
@@ -123,7 +120,6 @@ const MyProfile = () => {
                     defaultValue={lastName}
                     onChange={(newValue) => {
                       setLastName(newValue.target.value);
-                      console.log(newValue.target.value);
                     }}
                   />
                 </FormControl>
@@ -140,7 +136,6 @@ const MyProfile = () => {
                     defaultValue={password}
                     onChange={(newValue) => {
                       setPassword(newValue.target.value);
-                      console.log(newValue.target.value);
                     }}
                     endAdornment={
                       <InputAdornment position="end">
@@ -169,7 +164,6 @@ const MyProfile = () => {
                     defaultValue={country}
                     onChange={(newValue) => {
                       setCountry(newValue.target.value);
-                      console.log(newValue.target.value);
                     }}
                   />
                 </FormControl>

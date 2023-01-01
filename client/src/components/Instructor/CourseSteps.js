@@ -106,8 +106,6 @@ function CourseSteps() {
     setPoints([...points, arr]);
     setSections((map) => new Map(map.set(count, section)));
     setCount(count + 1);
-    console.log(points.length);
-    console.log(count);
     setSd(sd + 1);
   };
 
@@ -124,7 +122,6 @@ function CourseSteps() {
   async function nextStep() {
     if (activeStep === 2) {
       const date = new Date().toJSON();
-      console.log("THE DATE: ", date);
       setInitialForm({ ...initialForm, releaseDate: date });
 
       handleAlertDialogue();

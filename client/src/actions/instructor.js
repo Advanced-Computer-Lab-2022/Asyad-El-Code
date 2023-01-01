@@ -61,7 +61,6 @@ export const filterInstructorCourses = (id, filterData) => async (dispatch) => {
 export const addInstructor = (instructor) => async (dispatch) => {
   try {
     const res = await adminApi.addInstructor(instructor);
-    console.log(res.data);
     if (res.status === 200)
       dispatch({ type: ADD_INSTRUCTOR, payload: res.data });
   } catch (error) {

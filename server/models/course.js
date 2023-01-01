@@ -106,6 +106,7 @@ export const courseSchema = mongoose.Schema({
       review: String,
     },
   ],
+  numberOfTraineesEnrolled: { type: Number, default: 0 },
 });
 
 export function validateCourse(course) {

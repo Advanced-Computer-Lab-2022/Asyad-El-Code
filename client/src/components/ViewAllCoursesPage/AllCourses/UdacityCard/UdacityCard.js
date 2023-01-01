@@ -17,6 +17,7 @@ import { getRate } from "../../../util";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getCourse } from "../../../../actions/courses";
+import FeedbackDialog from "./RatingsAndReviews/FeedbackDialog";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
@@ -28,13 +29,20 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
     (state) => state.currencyRates
   );
 
-  const [open, setOpen] = useState(false);
+  const [openPromotion, setOpenPromotion] = useState(false);
   const dispatch = useDispatch();
-  console.log("UDACITY CARD" + " " + course);
   const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const [scroll, setScroll] = React.useState("paper");
 
-  const handleClick = (courseId, courseTitle) => {
-    dispatch(getCourse(courseId, history, courseTitle));
+  const handleClick = (courseId, courseTitle, scrollType) => {
+    // if (type !== "instructor") {
+    //   dispatch(getCourse(courseId, history, courseTitle));
+    // } else {
+    // }
+
+    setOpen(true);
+    setScroll(scrollType);
   };
 
   const definePromotion = () => {
@@ -45,6 +53,10 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
       return true;
     }
     return false;
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
   let cardHeight = type == "admin" ? "250px" : "430px";
 
@@ -117,23 +129,29 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
             </Button>)
           }
           {type !== "admin" && (
-            <Grid item>
-              <Button
-                fullWidth
-                style={{
-                  padding: "12px",
-                  textTransform: "none",
-                  backgroundColor: "#205295",
-                }}
-                variant="contained"
-                onClick={() => handleClick(course._id, course.title)}
-              >
-                Program Details
-              </Button>
-            </Grid>
+          <Grid item>
+          <Button
+            fullWidth
+            style={{
+              padding: "12px",
+              textTransform: "none",
+              backgroundColor: "#205295",
+            }}
+            variant="contained"
+            onClick={() => handleClick(course._id, course.title, "paper")}
+          >
+            {type === "instructor" ? "Feedback" : "Program Details "}
+          </Button>
+        </Grid>
           )
           }
-
+                    <Grid item>
+            <FeedbackDialog
+              course={course}
+              open={open}
+              handleClose={handleClose}
+            ></FeedbackDialog>
+          </Grid>
           {definePromotion() ? (
             <Grid item>
               <Button
@@ -147,7 +165,7 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
                   textTransform: "none",
                 }}
                 variant="outlined"
-                onClick={() => setOpen(true)}
+                onClick={() => setOpenPromotion(true)}
               >
                 {definePromotion()
                   ? "Define Promotion"
@@ -174,6 +192,7 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
           <Grid item>
             <Typography variant="h5">{course.title}</Typography>
           </Grid>
+          <Grid item></Grid>
           <Grid mt={-1} item>
             <Typography fontSize={17} color="text.secondary" variant="body2">
               {course.price !== course.discountedPrice ? (
@@ -228,7 +247,11 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
             </>)}
         </Grid>
       </Grid>
-      <PromotionPopUp open={open} setOpen={setOpen} courseId={course._id} />
+      <PromotionPopUp
+        open={openPromotion}
+        setOpen={setOpenPromotion}
+        courseId={course._id}
+      />
     </Card>
   );
 };

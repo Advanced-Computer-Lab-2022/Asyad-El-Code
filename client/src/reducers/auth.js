@@ -7,18 +7,15 @@ import {
   UPDATE_INSTRUCTOR,
   START_LOADING_AUTH,
   END_LOADING_AUTH,
+  GET_LOGGED_USER,
 } from "../constants/auth";
 
 export default (
   state = { authData: null, error: null, isLoading: false },
   action
 ) => {
-  console.log("Iam in the auth reducer", action?.payload);
-
   switch (action.type) {
     case AUTH:
-      console.log("AUTH REDUCER", action?.payload);
-      console.log(action?.payload.type);
       localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
       return { ...state, authData: action?.payload, error: null };
     case LOGOUT:
@@ -39,6 +36,12 @@ export default (
       return { ...state, isLoading: true };
     case END_LOADING_AUTH:
       return { ...state, isLoading: false };
+
+    case GET_LOGGED_USER:
+      //Set localstoreage
+      localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
+      return { ...state, authData: action?.payload };
+
     default:
       return state;
   }

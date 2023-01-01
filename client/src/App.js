@@ -5,7 +5,6 @@ import Home from "./components/HomePage/Home";
 import ViewAllCourses from "./components/ViewAllCoursesPage/AllCourses/ViewAllCourses";
 import { InstructorCourses } from "./components/Instructor/InstructorCourses";
 import { Switch, Route, Redirect } from "react-router-dom";
-import CourseStructure from "./components/Instructor/CourseStructure";
 import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
 import CoursePage from "./components/Course/CoursePage/CoursePage";
@@ -133,22 +132,19 @@ export const App = () => {
               <Route exact path="/ta">
                 <Testo></Testo>
               </Route>
-              <Route exact path="/success/:courseId">
+              <Route exact path="/success/:courseId/:traineeId">
                 {(props) => {
-                  const { courseId } = props.match.params;
-                  let isCourseInUserCourses = false;
-                  if (user?.type === "individualTrainee") {
-                    if (individualTrainee?.courses?.length > 0) {
-                      isCourseInUserCourses = individualTrainee?.courses?.find(
-                        (c) => c._id === courseId
-                      );
-                    }
+                  const { courseId, traineeId } = props.match.params;
+                  if (traineeId === user?.result._id) {
+                    return (
+                      <SuccessPage
+                        courseId={courseId}
+                        traineeId={traineeId}
+                      ></SuccessPage>
+                    );
+                  } else {
+                    return <Redirect to="/home" />;
                   }
-                  return isCourseInUserCourses ? (
-                    <SuccessPage></SuccessPage>
-                  ) : (
-                    <Redirect to="/home" />
-                  );
                 }}
               </Route>
 

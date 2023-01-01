@@ -16,7 +16,7 @@ import {
   MenuItem,
   Select,
   InputAdornment,
-  Alert
+  Alert,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -41,7 +41,6 @@ const MyProfile = ({ trainee }) => {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-  console.log("in the MyProfile page", trainee);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -55,7 +54,6 @@ const MyProfile = ({ trainee }) => {
     trainee.country = country;
     dispatch(updateTrainee(trainee._id, trainee));
     setIsUpdated(true);
-    console.log(trainee);
   };
 
   return (
@@ -103,7 +101,6 @@ const MyProfile = ({ trainee }) => {
                     defaultValue={firstName}
                     onChange={(newValue) => {
                       setFirstName(newValue.target.value);
-                      console.log(newValue.target.value);
                     }}
                   />
                 </FormControl>
@@ -120,7 +117,6 @@ const MyProfile = ({ trainee }) => {
                     defaultValue={lastName}
                     onChange={(newValue) => {
                       setLastName(newValue.target.value);
-                      console.log(newValue.target.value);
                     }}
                   />
                 </FormControl>
@@ -137,7 +133,6 @@ const MyProfile = ({ trainee }) => {
                     defaultValue={country}
                     onChange={(newValue) => {
                       setCountry(newValue.target.value);
-                      console.log(newValue.target.value);
                     }}
                   />
                 </FormControl>

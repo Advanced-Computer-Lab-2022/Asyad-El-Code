@@ -36,7 +36,6 @@ export default function RangeSlider(props) {
   const { isLoading, currencyRates } = useSelector(
     (state) => state.currencyRates
   );
-  console.log("selected Country", selectedCountry);
   const [max, setMax] = useState(1000);
 
   const [value, setValue] = React.useState([0, max]);
