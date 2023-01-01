@@ -23,7 +23,7 @@ import {
   FormControl,
   InputLabel,
   FormGroup,
-  CircularProgress
+  CircularProgress,
 } from "@mui/material";
 import useStyles from "../../css/slider.js";
 import { useRef } from "react";
@@ -39,21 +39,21 @@ import PendingProblems from "./PendingProblems.js";
 import ResolvedProblems from "./ResolvedProblems.js";
 import Password from "./Password.js";
 import Instructor from "./Instructor.js";
-import { getUnresolvedProblems, getResolvedProblems } from "../../api/problem.js";
+import {
+  getUnresolvedProblems,
+  getResolvedProblems,
+} from "../../api/problem.js";
 const Profile = () => {
   const [page, setPage] = useState("myProfile");
   const dispatch = useDispatch();
   const auth = useSelector((state) => state?.authReducer);
-  console.log("the auth", auth);
   const [unResolvedProblems, setUnResolvedProblems] = useState([]);
   const [resolvedProblems, setResolvedProblems] = useState([]);
   const user = JSON.parse(localStorage.getItem("profile"));
-  console.log("the user", user);
   if (user?.type === "individualTrainee") {
     if (auth?.isloading) {
-      return <CircularProgress />
+      return <CircularProgress />;
     } else {
-      console.log("the auth", auth);
       let trainee = auth?.authData?.result;
       if (trainee === undefined) {
         trainee = auth?.authData?.user;
@@ -66,7 +66,12 @@ const Profile = () => {
           container
           justifyContent="start"
           marginTop={4}
-          sx={{ border: "ActiveBorder", borderWidth: "1px", borderColor: "silver", borderBottom: "1" }}
+          sx={{
+            border: "ActiveBorder",
+            borderWidth: "1px",
+            borderColor: "silver",
+            borderBottom: "1",
+          }}
           height={650}
           alignItems="start"
           overflow={"auto"}
@@ -74,7 +79,12 @@ const Profile = () => {
           <Grid
             item
             xs={2.5}
-            sx={{ borderStyle: "solid", borderWidth: "1px", borderColor: "silver", borderBottom: "none" }}
+            sx={{
+              borderStyle: "solid",
+              borderWidth: "1px",
+              borderColor: "silver",
+              borderBottom: "none",
+            }}
             mr={0}
             ml={0}
             container
@@ -98,12 +108,20 @@ const Profile = () => {
                 >
                   {trainee?.firstName ? (
                     <b>
-                      {trainee.firstName.charAt(0) + "" + trainee.lastName.charAt(0)}
+                      {trainee.firstName.charAt(0) +
+                        "" +
+                        trainee.lastName.charAt(0)}
                     </b>
                   ) : null}
                 </Avatar>
               </Grid>
-              <Grid item borderBottom={1} borderColor="silver" width="100%" marginTop={1}>
+              <Grid
+                item
+                borderBottom={1}
+                borderColor="silver"
+                width="100%"
+                marginTop={1}
+              >
                 <Typography sx={{ fontWeight: "bold" }} textAlign="center">
                   {trainee?.firstName} {trainee?.lastName}
                 </Typography>
@@ -172,10 +190,13 @@ const Profile = () => {
                       </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                      <ListItemButton component="a" href="#simple-list"
+                      <ListItemButton
+                        component="a"
+                        href="#simple-list"
                         onClick={() => {
-                          getResolvedProblems({ "reporterEmail": trainee?.email }).then((res) => {
-                            console.log("RES", res.data);
+                          getResolvedProblems({
+                            reporterEmail: trainee?.email,
+                          }).then((res) => {
                             setResolvedProblems(res.data);
                             setPage("ResolvedProblems");
                           });
@@ -188,11 +209,13 @@ const Profile = () => {
                       </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                      <ListItemButton component="a" href="#asdasds"
+                      <ListItemButton
+                        component="a"
+                        href="#asdasds"
                         onClick={() => {
-                          console.log("trainee email", trainee?.email);
-                          getUnresolvedProblems({ "reporterEmail": trainee?.email }).then((res) => {
-                            console.log("RES", res.data);
+                          getUnresolvedProblems({
+                            reporterEmail: trainee?.email,
+                          }).then((res) => {
                             setUnResolvedProblems(res.data);
                             setPage("PendingProblems");
                           });
@@ -229,7 +252,11 @@ const Profile = () => {
           <Grid
             item
             xs={8}
-            sx={{ borderStyle: "solid", borderWidth: "1px", borderColor: "silver" }}
+            sx={{
+              borderStyle: "solid",
+              borderWidth: "1px",
+              borderColor: "silver",
+            }}
             minheight={700}
             marginTop={0}
             paddingTop={0}
@@ -242,9 +269,13 @@ const Profile = () => {
             ) : page === "Photo" ? (
               <Photo></Photo>
             ) : page === "PendingProblems" ? (
-              <PendingProblems unResolvedProblems={unResolvedProblems}></PendingProblems>
+              <PendingProblems
+                unResolvedProblems={unResolvedProblems}
+              ></PendingProblems>
             ) : page === "ResolvedProblems" ? (
-              <ResolvedProblems resolvedProblems={resolvedProblems}></ResolvedProblems>
+              <ResolvedProblems
+                resolvedProblems={resolvedProblems}
+              ></ResolvedProblems>
             ) : page === "password" ? (
               <Password userId={user.result._id}></Password>
             ) : null}
@@ -254,9 +285,8 @@ const Profile = () => {
     }
   } else if (user?.type === "instructor") {
     if (auth?.isloading) {
-      return <CircularProgress />
+      return <CircularProgress />;
     } else {
-      console.log("auth", auth)
       let instructor = auth?.authData.result;
       if (instructor === undefined) {
         instructor = auth?.authData?.user;
@@ -276,7 +306,11 @@ const Profile = () => {
           <Grid
             item
             xs={2.5}
-            sx={{ borderStyle: "solid", borderWidth: "1px", borderColor: "silver" }}
+            sx={{
+              borderStyle: "solid",
+              borderWidth: "1px",
+              borderColor: "silver",
+            }}
             mr={0}
             ml={0}
             container
@@ -299,18 +333,43 @@ const Profile = () => {
                 >
                   {instructor?.firstName ? (
                     <b>
-                      {instructor.firstName.charAt(0) + "" + instructor.lastName.charAt(0)}
+                      {instructor.firstName.charAt(0) +
+                        "" +
+                        instructor.lastName.charAt(0)}
                     </b>
                   ) : null}
                 </Avatar>
               </Grid>
-              <Grid item borderBottom={1} borderColor="silver" width="100%" marginTop={1}>
+              <Grid
+                item
+                borderBottom={1}
+                borderColor="silver"
+                width="100%"
+                marginTop={1}
+              >
                 <Typography sx={{ fontWeight: "bold" }} textAlign="center">
-                  {instructor?.firstName !== null && instructor?.lastName !== null ? <>{instructor?.firstName} {instructor?.lastName}</> : (instructor?.firstName !== null) ? <>{instructor?.firstName}</> : (instructor?.lastName !== null) ? <>{instructor?.lastName}</> : <>{instructor?.email}</>
-                  }
+                  {instructor?.firstName !== null &&
+                  instructor?.lastName !== null ? (
+                    <>
+                      {instructor?.firstName} {instructor?.lastName}
+                    </>
+                  ) : instructor?.firstName !== null ? (
+                    <>{instructor?.firstName}</>
+                  ) : instructor?.lastName !== null ? (
+                    <>{instructor?.lastName}</>
+                  ) : (
+                    <>{instructor?.email}</>
+                  )}
                 </Typography>
               </Grid>
-              <Grid item borderBottom={1} borderColor="silver" width="100%" marginTop={1} textAlign="center" >
+              <Grid
+                item
+                borderBottom={1}
+                borderColor="silver"
+                width="100%"
+                marginTop={1}
+                textAlign="center"
+              >
                 <Rating name="read-only" value={instructor?.rating} readOnly />
               </Grid>
               <Grid item width="100%">
@@ -377,10 +436,13 @@ const Profile = () => {
                       </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                      <ListItemButton component="a" href="#simple-list"
+                      <ListItemButton
+                        component="a"
+                        href="#simple-list"
                         onClick={() => {
-                          getResolvedProblems({ "reporterEmail": instructor?.email }).then((res) => {
-                            console.log("RES", res.data);
+                          getResolvedProblems({
+                            reporterEmail: instructor?.email,
+                          }).then((res) => {
                             setResolvedProblems(res.data);
                             setPage("ResolvedProblems");
                           });
@@ -393,11 +455,13 @@ const Profile = () => {
                       </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                      <ListItemButton component="a" href="#asdasds"
+                      <ListItemButton
+                        component="a"
+                        href="#asdasds"
                         onClick={() => {
-                          console.log("instructor email", instructor?.email);
-                          getUnresolvedProblems({ "reporterEmail": instructor?.email }).then((res) => {
-                            console.log("RES", res.data);
+                          getUnresolvedProblems({
+                            reporterEmail: instructor?.email,
+                          }).then((res) => {
                             setUnResolvedProblems(res.data);
                             setPage("PendingProblems");
                           });
@@ -434,7 +498,11 @@ const Profile = () => {
           <Grid
             item
             xs={8}
-            sx={{ borderStyle: "solid", borderWidth: "1px", borderColor: "silver" }}
+            sx={{
+              borderStyle: "solid",
+              borderWidth: "1px",
+              borderColor: "silver",
+            }}
             minheight={700}
             marginTop={0}
             paddingTop={0}
@@ -447,9 +515,13 @@ const Profile = () => {
             ) : page === "Photo" ? (
               <Photo></Photo>
             ) : page === "PendingProblems" ? (
-              <PendingProblems unResolvedProblems={unResolvedProblems}></PendingProblems>
+              <PendingProblems
+                unResolvedProblems={unResolvedProblems}
+              ></PendingProblems>
             ) : page === "ResolvedProblems" ? (
-              <ResolvedProblems resolvedProblems={resolvedProblems}></ResolvedProblems>
+              <ResolvedProblems
+                resolvedProblems={resolvedProblems}
+              ></ResolvedProblems>
             ) : page === "password" ? (
               <Password userId={user.result._id}></Password>
             ) : null}
@@ -458,9 +530,7 @@ const Profile = () => {
       );
     }
   } else {
-    return (
-      <Grid>hi</Grid>
-    );
+    return <Grid>hi</Grid>;
   }
 };
 

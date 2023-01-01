@@ -81,11 +81,9 @@ export default function RegisterTabs({ setInstructorModal }) {
   const [isClicked, setIsClicked] = useState(false);
   const [messageSent, setMessageSent] = useState(false);
   const { authData, error } = useSelector((state) => state.authReducer);
-  console.log("AUTH DATA REDUCER", authData);
   const [isLoading, setIsLoading] = useState(false);
   const [instructorIsLoading, setInstructorIsLoading] = useState(false);
 
-  // console.log("MESSAgE", message.authData.message);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -147,7 +145,6 @@ export default function RegisterTabs({ setInstructorModal }) {
     //Clear the form
   }, [value]);
   const handleSendEmail = () => {
-    console.log("FORM EMAIL ", form.email);
     if (form.email === "") {
       setEmailError(true);
     } else {

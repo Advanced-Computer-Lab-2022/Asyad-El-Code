@@ -11,9 +11,11 @@ import { payCourse } from "../../../api/individualTrainees";
 import { useState, useEffect } from "react";
 
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { getLoggedUser } from "../../../actions/auth";
 import * as individualTraineeApi from "../../../api/individualTrainees.js";
+import * as courseApi from "../../../api/course";
+import { useDispatch, useSelector } from "react-redux";
+import ReportCourseModal from "./ReportCourseModal";
 
 export default function CourseCard({
   isCourseInUserCourses,
@@ -27,9 +29,34 @@ export default function CourseCard({
     color: "#757071",
     fontSize: 12,
   });
-  console.log("IS HERE COURSE ? : ", isCourseInUserCourses);
-  console.log("THE CoURSE IS  : ", course);
+
+  const [type, setType] = React.useState("");
+  const [details, setDetails] = React.useState("");
+  const handleTypeChange = (event) => {
+    setType(event.target.value);
+  };
+
+  const handleDetailsChange = (event) => {
+    setDetails(event.target.value);
+  };
+
+  const handleRefundClose = () => {
+    setRefundModal(false);
+  };
   const [progress, setProgress] = useState(0);
+
+  const [success, setSuccess] = useState(false);
+  const dispatch = useDispatch();
+  const { authData } = useSelector((state) => state.authReducer);
+  const [refundReason, setRefundReason] = useState("");
+  const [refundType, setRefundType] = useState("");
+
+  const handleRefundTypeChange = (event) => {
+    setRefundType(event.target.value);
+  };
+  const handleRefundReasonChange = (event) => {
+    setRefundReason(event.target.value);
+  };
 
   const calculateAndSetProgress = () => {
     let totalDuration = 0;
@@ -53,23 +80,57 @@ export default function CourseCard({
     calculateAndSetProgress();
   }, [userObject?.courses?.find((c) => c._id === course._id)?.seenContent]);
 
-  const requestRefund = () => {
-    //make the refund request here
+  const requestRefund = async () => {
+    const { data } = await courseApi.requestRefund({
+      course: course,
+      type: authData?.type,
+      individualTraineeId:
+        authData?.type === "individualTrainee" ? authData?.result?._id : null,
+      coorporateTraineeId:
+        authData?.type === "coorporateTrainee" ? authData?.result?._id : null,
+      firstName: authData?.result?.firstName,
+      lastName: authData?.result?.lastName,
+      email: authData?.result?.email,
+      refundReason: refundReason,
+      refundType: refundType,
+    });
+    handleRefundClose();
+    console.log(data);
   };
+  useEffect(() => {
+    dispatch(getLoggedUser());
+  }, []);
+
+  const [refundModal, setRefundModal] = useState(false);
+
   const calculateProgressAndCheckUserInCourses = () => {
     if (isCourseInUserCourses) {
       if (progress <= 50) {
         return (
           <Grid mt={2} item md={12}>
-            <div onClick={requestRefund} className={classes.buyNow}>
-              <Typography
-                sx={{ fontWeight: "bold", padding: 1, textAlign: "center" }}
-                variant="body1"
-              >
-                {/* TODO Checking if he has the course */}
-                Request Refund
-              </Typography>
-            </div>
+            <Button
+              fullWidth
+              style={{
+                color: "black",
+                textTransform: "none",
+                "&:hover": { backgroundColor: "#2F2B2E" },
+              }}
+              onClick={() => setRefundModal(true)}
+              variant="outlined"
+            >
+              {/* TODO Checking if he has the course */}
+              Request Refund
+            </Button>
+            <ReportCourseModal
+              open={refundModal}
+              handleClose={handleRefundClose}
+              refund={true}
+              requestRefund={requestRefund}
+              refundReason={refundReason}
+              refundType={refundType}
+              handleRefundReasonChange={handleRefundReasonChange}
+              handleRefundTypeChange={handleRefundTypeChange}
+            ></ReportCourseModal>
           </Grid>
         );
       } else return null;
@@ -80,6 +141,7 @@ export default function CourseCard({
       const { data } = await payCourse({
         course,
         instructorId: course.instructor.instructorId,
+        traineeId: userObject._id,
       });
       window.location = data.url;
     } catch (error) {
@@ -121,7 +183,7 @@ export default function CourseCard({
         Request Course
       </Button>
     );
-  } else {
+  } else if (traineeType === "individualTrainee") {
     button = (
       <Button
         fullWidth
@@ -133,6 +195,7 @@ export default function CourseCard({
         onClick={payForCourse}
       >
         {" "}
+        {/* TODO TO hide this button when the instructor that has the course in this page */}
         Add to Cart
       </Button>
     );

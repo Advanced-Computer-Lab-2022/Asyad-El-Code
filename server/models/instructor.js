@@ -63,7 +63,7 @@ instructorSchema.methods.generateAuthToken = function () {
     { email: this.email, id: this._id, role: "instructor" },
     process.env.TOKEN_KEY,
     {
-      expiresIn: "1h",
+      expiresIn: "2h",
     }
   );
   return token;

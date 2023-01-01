@@ -11,12 +11,16 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const getAllInstructorCourses = async () =>
-  await API.get(`/getAllInstructorCourses/635c587e07f18b986c357bb7`);
+export const getAllInstructorCourses = async (id) =>
+  await API.get(
+    `/getAllInstructorCourses/${
+      JSON.parse(localStorage.getItem("profile")).result._id
+    }`
+  );
 
-export const filterInstructorCourses = async (filterData) => {
+export const filterInstructorCourses = async (id, filterData) => {
   return await API.get(
-    `/filterInstructorCourses/?id=635c587e07f18b986c357bb7&subject=${filterData.Subject}&price=${filterData.Price}&rating=${filterData.Rating}`
+    `/filterInstructorCourses/?id=${id}&subject=${filterData.Subject}&price=${filterData.Price}&rating=${filterData.Rating}`
   );
 };
 
@@ -27,6 +31,17 @@ export const fetchInstructor = async () =>
 
 export const updateInstructor = async (id, instructor) => {
   return await API.patch(`/updateInformation/${id}`, instructor);
+};
+
+export const definePromotion = async (
+  courseId,
+  discount,
+  startDate,
+  endDate
+) => {
+  return await API.patch(
+    `/definePromotion?courseId=${courseId}&discount=${discount}&startDate=${startDate}&endDate=${endDate}`
+  );
 };
 
 // export const addMoneyToInstructorWallet = async (courseId, instructorId) => {

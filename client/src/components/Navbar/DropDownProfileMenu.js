@@ -59,7 +59,6 @@ export default function DropDownMenuProfile({ user, logout }) {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
-    console.log("CLOSE");
     setAnchorEl(null);
   };
 
@@ -132,9 +131,15 @@ export default function DropDownMenuProfile({ user, logout }) {
         <MenuItem onClick={() => history.push("/profile")}>
           <Avatar /> Profile
         </MenuItem>
+
         <MenuItem>
           <Avatar /> My account
         </MenuItem>
+        {user?.type === "instructor" ? (
+          <MenuItem onClick={() => history.push("/viewAll/?source=instructor")}>
+            <Avatar /> My Courses
+          </MenuItem>
+        ) : null}
         <Divider />
         {user?.type === "admin" ? (
           <MenuItem onClick={() => history.push("/courseRequests")}>
@@ -152,7 +157,7 @@ export default function DropDownMenuProfile({ user, logout }) {
             Reported Problems
           </MenuItem>
         ) : null}
-        <MenuItem  onClick={() => history.push("/adminPage")}>
+        <MenuItem onClick={() => history.push("/adminPage")}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>

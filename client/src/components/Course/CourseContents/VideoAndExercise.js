@@ -29,6 +29,7 @@ export const VideoAndExercise = ({
   user,
   videoOpen,
   exerciseOpen,
+  updateUserObject,
 }) => {
   const [value, setValue] = useState(new Map());
   const [correct, setCorrect] = useState(new Map());
@@ -37,7 +38,8 @@ export const VideoAndExercise = ({
   const [total, setTotal] = useState(0);
   const [showGrade, setShowGrade] = useState(false);
   const [playedMinutes, setPlayedMinutes] = useState(0);
-
+  const [duration, setDuration] = useState(0);
+  const [seen, setSeen] = useState(false);
   const { classes } = useStyles();
 
   const handleChange = (index, ind) => {
@@ -69,6 +71,7 @@ export const VideoAndExercise = ({
       grade,
       total
     );
+    updateUserObject(data);
   };
   useEffect(() => {
     if (correct.size === total && total !== 0) {
@@ -97,8 +100,26 @@ export const VideoAndExercise = ({
     setShowGrade(false);
   }, [exerciseId]);
 
-  console.log("This is the current exefcise id", exerciseId);
-  console.log("THE CONTENT IS ", content);
+  useEffect(() => {
+    if (
+      (playedMinutes / duration) * 100 >= 90 &&
+      !user?.courses
+        ?.find((c) => c._id === courseId)
+        ?.seenContent?.find((c) => c._id === content._id)
+    ) {
+      countSeen();
+    }
+  }, [playedMinutes, user]);
+
+  const countSeen = async () => {
+    const { data } = await individualTraineeApi.addSeenContent(
+      user._id,
+      courseId,
+      content._id,
+      content.minutes
+    );
+    updateUserObject(data);
+  };
 
   return (
     <div>
@@ -111,6 +132,9 @@ export const VideoAndExercise = ({
                 width="100%"
                 onProgress={(state) => {
                   setPlayedMinutes((state.playedSeconds / 60).toFixed(2) - 0.1);
+                }}
+                onDuration={(state) => {
+                  setDuration((state / 60).toFixed(2));
                 }}
                 url={`https://www.youtube.com/embed/${content.videoUrl}`}
                 height="500px"

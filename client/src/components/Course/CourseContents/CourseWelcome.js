@@ -1,10 +1,74 @@
-import { Button, Container } from "@mui/material";
+import {
+  Button,
+  Container,
+  outlinedInputClasses,
+  Typography,
+} from "@mui/material";
 import React, { useState, useEffect } from "react";
 import "./courseWelcomeCard.css";
 import LinearProgress from "@mui/material/LinearProgress";
 import { CE } from "./Certificate/Certificate";
-export const CourseWelcome = ({ progress, course }) => {
+import CircularProgressWithLabel from "./CircularProgressWithLabel.js";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+export const CourseWelcome = ({
+  progress,
+  course,
+  showCertificate,
+  userObject,
+  handleVideoClick,
+}) => {
   const [page, setPage] = useState(0);
+  const [latestContent, setLatestContent] = useState("");
+  const [content, setContent] = useState("");
+  const [color, setColor] = useState("#000000");
+  const [grade, setGrade] = useState(0);
+  useEffect(() => {
+    if (grade < 50) {
+      setColor("#CD7F32");
+    } else if (grade < 80) {
+      setColor("#C0C0C0");
+    } else {
+      setColor("#FFD700");
+    }
+  }, [grade]);
+  useEffect(() => {
+    if (userObject?.courses?.find((c) => c._id === course._id)?.seenContent) {
+      const latest = userObject?.courses
+        ?.find((c) => c._id === course._id)
+        ?.seenContent?.pop();
+      if (latest) setLatestContent(latest);
+      userObject?.courses
+        ?.find((c) => c._id === course._id)
+        ?.seenContent?.push(latest);
+    }
+  }, [userObject?.courses?.find((c) => c._id === course._id)?.seenContent]);
+
+  useEffect(() => {
+    if (latestContent !== "") {
+      course?.outlines?.forEach((outline) => {
+        if (outline.subtitles) {
+          outline.subtitles.forEach((subtitle) => {
+            if (subtitle?._id === latestContent?._id) {
+              setContent(subtitle);
+            }
+          });
+        }
+      });
+    }
+  }, [latestContent]);
+  useEffect(() => {
+    let score = 0;
+    let total = 0;
+    userObject?.courses
+      ?.find((c) => c._id === course._id)
+      ?.grades?.forEach((g) => {
+        if (g) {
+          score += g.score;
+          total += g.total;
+        }
+      });
+    if (total != 0) setGrade((score / total) * 100);
+  }, [userObject?.courses?.find((c) => c._id === course._id)?.grades]);
   return (
     <>
       {page === 0 ? (
@@ -14,7 +78,7 @@ export const CourseWelcome = ({ progress, course }) => {
               <h6>Course</h6>
               <h2>{course.title}</h2>
               <a href="#">
-                View all chapters <i class="fas fa-chevron-right"></i>
+                <i class="fas fa-chevron-right"></i>
               </a>
             </div>
             <div class="course-info">
@@ -32,11 +96,28 @@ export const CourseWelcome = ({ progress, course }) => {
                 </>
               ) : (
                 <>
-                  <h6>Chapter 4</h6>
-                  <h2>Callbacks & Closures</h2>
+                  {latestContent !== "" ? (
+                    <h6>Continue from where you left</h6>
+                  ) : (
+                    <h6>Get Started</h6>
+                  )}
+                  {latestContent !== "" ? (
+                    <h2>{content?.subtitle} </h2>
+                  ) : (
+                    <h2>Start Learning</h2>
+                  )}
                 </>
               )}
-
+              <div style={{ bottom: "10px", position: "absolute" }}>
+                <Typography sx={{ fontSize: "17px", fontWeight: "bold" }}>
+                  Course Grade
+                </Typography>
+                <CircularProgressWithLabel progress={grade} />
+                <EmojiEventsIcon
+                  sx={{ fontSize: 40 }}
+                  style={{ color: color }}
+                />
+              </div>
               {progress === 100 ? (
                 <button
                   onClick={() => setPage(1)}
@@ -46,7 +127,9 @@ export const CourseWelcome = ({ progress, course }) => {
                   Completed
                 </button>
               ) : (
-                <button class="btn">Continue</button>
+                <button class="btn" onClick={() => handleVideoClick(content)}>
+                  Continue
+                </button>
               )}
             </div>
           </div>

@@ -8,6 +8,7 @@ import {
   ADD_REVIEW,
   START_LOADING,
   END_LOADING,
+  FILTER_SUBJECT_RATING,
 } from "../constants/courses";
 
 export const getCourses = () => async (dispatch) => {
@@ -17,17 +18,18 @@ export const getCourses = () => async (dispatch) => {
     dispatch({ type: "FETCH_ALL", payload: data });
     dispatch({ type: END_LOADING });
   } catch (error) {
-    console.log(error);
+    console.log("GET COURSES ERROR");
+    console.log("THE ERORR IS ", error);
   }
 };
 export const filterCourses = (filterData) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
     const { data } = await courseApi.filterCourses(filterData);
-    dispatch({ type: "FILTER_SUBJECT_RATING", payload: data });
+    dispatch({ type: FILTER_SUBJECT_RATING, payload: data });
     dispatch({ type: END_LOADING });
   } catch (error) {
-    console.log(error);
+    console.log("THE ERORR IS ", error);
   }
 };
 
@@ -36,14 +38,13 @@ export const filterByTilteOrSubjectOrInstructor =
     try {
       dispatch({ type: START_LOADING });
 
-      console.log("SEARCHQUEYR", searchQuery);
       const { data } = await courseApi.filterByTilteOrSubjectOrInstructor(
         searchQuery
       );
       dispatch({ type: FILTER_COURSES, payload: data });
       dispatch({ type: END_LOADING });
     } catch (error) {
-      console.log(error);
+      console.log("THE ERORR IS ", error);
     }
   };
 
@@ -51,25 +52,21 @@ export const createCourse = (course) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
 
-    console.log("THE COURSE IS : ", course);
     const { data } = await courseApi.createCourse(course);
     dispatch({ type: CREATE_COURSE, payload: data });
     dispatch({ type: END_LOADING });
   } catch (error) {
-    console.log(error);
+    console.log("THE ERORR IS ", error);
   }
 };
 
 export const getCourseData = () => async (dispatch) => {
   try {
-    console.log("im in action");
     dispatch({ type: START_LOADING });
     const { data } = await courseApi.getCourseData();
-    console.log("The data in the reducer", data);
     dispatch({ type: GET_COURSE_DATA, payload: data });
     dispatch({ type: END_LOADING });
   } catch (err) {
-    console.log("Iam in the rrorr ");
     console.log(err);
   }
 };
@@ -77,14 +74,14 @@ export const getCourse =
   (courseId, history, courseTitle) => async (dispatch) => {
     try {
       dispatch({ type: START_LOADING });
-      console.log("COURSE ID IS ", courseId);
       const { data } = await courseApi.getCourse(courseId);
-      console.log("speceif course ", data);
       dispatch({ type: GET_COURSE, payload: data });
       dispatch({ type: END_LOADING });
-      history.push(`/course/${courseTitle}`);
+      if (!courseTitle) {
+        history.push(`/course/`);
+      } else history.push(`/course/${courseTitle}`);
     } catch (error) {
-      console.log(error);
+      console.log("THE ERORR IS ", error);
     }
   };
 //add rating for course by trainee
@@ -105,7 +102,7 @@ export const addRating =
       console.log(data);
       dispatch({ type: END_LOADING });
     } catch (error) {
-      console.log(error);
+      console.log("THE ERORR IS ", error);
     }
   };
 // add review for course by trainee
@@ -124,6 +121,6 @@ export const addReview =
       dispatch({ type: ADD_REVIEW, payload: data });
       dispatch({ type: END_LOADING });
     } catch (error) {
-      console.log(error);
+      console.log("THE ERORR IS ", error);
     }
   };

@@ -1,17 +1,28 @@
+import jwt from "jsonwebtoken";
+import "dotenv/config";
+
 export const authMiddeleware = (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1];
-  const isCustomAuth = token.length < 500;
+  const token = req.headers?.authorization?.split(" ")[1];
+
   let decodedData;
-  if (token && isCustomAuth) {
+
+  //
+  if (token) {
+    console.log("Iam inside the function");
     try {
-      decodedData = jwt.verify(token, "test");
+      decodedData = jwt.verify(token, process.env.TOKEN_KEY);
+      console.log("decodedData", decodedData);
+      //Check if token expired
+      // if (decodedData.exp * 1000 < new Date().getTime()) {
+      //   return res.status(401).json({ message: "Token expired" });
+      // }
       req.userId = decodedData?.id;
+      req.userRole = decodedData?.role;
     } catch (error) {
       console.log(error);
     }
+    next();
   } else {
-    decodedData = jwt.decode(token);
-    req.userId = decodedData?.sub;
+    res.send("NO TOKEN FOUND ");
   }
-  next();
 };

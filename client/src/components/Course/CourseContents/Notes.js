@@ -29,7 +29,6 @@ const Notes = ({ content, playedMinutes, lectureId, userId, courseId }) => {
   };
 
   const addNote = async () => {
-    console.log("IAm here man");
     const { data } = await individualTraineeApi.addNote(
       userId,
       courseId,
@@ -37,15 +36,12 @@ const Notes = ({ content, playedMinutes, lectureId, userId, courseId }) => {
       note,
       playedMinutes
     );
-    console.log("THE DATA ", data);
-    console.log("Finished added note");
     setChanged((prev) => !prev);
   };
   const createAndDownloadPdf = async () => {
     const _ = await individualTraineeApi.createPdf(notesOfUser);
     const { data } = await individualTraineeApi.getPdf();
 
-    console.log("THE blob ", data);
     const blob = new Blob([data], { type: "application/pdf" });
     saveAs(blob, "notes.pdf");
   };
@@ -61,7 +57,6 @@ const Notes = ({ content, playedMinutes, lectureId, userId, courseId }) => {
       courseId,
       lectureId
     );
-    console.log("THE DATA ", data);
     setNotesOfUser(data.note.reverse());
   };
   useEffect(() => {

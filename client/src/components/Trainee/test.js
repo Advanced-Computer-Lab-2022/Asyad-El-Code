@@ -14,12 +14,9 @@ export const Testo = () => {
     await axios
       .post("http://localhost:8000/individualTrainee/payCourse", course)
       .then((res) => {
-        console.log("RES", res);
         window.location = res.data.url;
       })
-      .catch((err) => {
-        console.log("ERROR", err);
-      });
+      .catch((err) => {});
   };
 
   return <Button onClick={checkOut}>ChecKout</Button>;

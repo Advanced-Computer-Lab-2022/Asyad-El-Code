@@ -30,7 +30,7 @@ export const createIndvidualTrainee = async (req, res) => {
   } = req.body;
 
   try {
-    const individualtrainee = await new IndividualTrainee({
+    const individualtrainee = new IndividualTrainee({
       firstName: firstName,
       lastName: lastName,
       email: email,
@@ -88,6 +88,7 @@ export const deleteIndividualTrainee = async (req, res) => {
 
 export const updateIndividualTrainee = async (req, res) => {
   try {
+    console.log("IAM HERE SO ");
     const id = req.params.id;
     const castedId = mongoose.Types.ObjectId(id);
     const IndvidTrainee = await IndividualTrainee.findById(castedId);
@@ -97,7 +98,6 @@ export const updateIndividualTrainee = async (req, res) => {
       {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        password: req.body.password,
         phoneNumber: req.body.phoneNumber,
         country: req.body.country,
       },
@@ -127,9 +127,12 @@ export const selectCountry = async (req, res) => {
 };
 export const enrollCourse = async (req, res) => {
   try {
+    console.log("Iam in the enroolll");
+    console.log(req.body);
     const { id, courseId } = req.query;
     const courseIdCasted = await mongoose.Types.ObjectId(courseId);
     const idCasted = await mongoose.Types.ObjectId(id);
+    console.log("Im in enroll course methoddd");
     console.log(id);
     console.log(idCasted);
     console.log(courseIdCasted);
@@ -163,6 +166,14 @@ export const enrollCourse = async (req, res) => {
       },
       { new: true }
     );
+    //increase numberOfTraineesEnrolled field of the course by 1
+    console.log("Just before updating course");
+    const updatedCourse = await Course.findByIdAndUpdate(
+      courseIdCasted,
+      { $inc: { numberOfTraineesEnrolled: 1 } },
+      { new: true }
+    );
+    console.log("This is updated course", updatedCourse);
     if (!updatedUser) {
       res.status(401).send("Couldn't enroll course");
     } else res.status(200).send(updatedUser);
@@ -318,14 +329,12 @@ export const getNotes = async (req, res) => {
 export const payCourse = async (req, res) => {
   try {
     const courses = [req.body.course];
-    console.log("COURSES", courses);
 
     const instructorPrecentage = 0.86;
-    const instructorProfit = parseInt(courses[0].price) * instructorPrecentage;
-    const stripeProfit = parseInt(courses[0].price) - instructorProfit;
-    const instructorId = req.body.instructorId;
+    const instructorProfit =
+      parseInt(courses[0].discountedPrice) * instructorPrecentage;
+    const { instructorId, traineeId } = req.body;
     console.log("INSTRUCTOR ID", instructorId);
-
     const instructor = await Instructor.findById(instructorId);
     instructor.wallet = instructor.wallet + instructorProfit;
     await instructor.save();
@@ -333,7 +342,7 @@ export const payCourse = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: `http://localhost:3000/success/${courses[0]._id}`,
+      success_url: `http://localhost:3000/success/${courses[0]._id}/${traineeId}`,
       cancel_url: "http://localhost:3000/cancel",
       line_items: courses.map((course) => {
         return {
