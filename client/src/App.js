@@ -5,7 +5,6 @@ import Home from "./components/HomePage/Home";
 import ViewAllCourses from "./components/ViewAllCoursesPage/AllCourses/ViewAllCourses";
 import { InstructorCourses } from "./components/Instructor/InstructorCourses";
 import { Switch, Route, Redirect } from "react-router-dom";
-import CourseStructure from "./components/Instructor/CourseStructure";
 import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
 import CoursePage from "./components/Course/CoursePage/CoursePage";

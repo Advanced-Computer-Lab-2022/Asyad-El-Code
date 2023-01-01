@@ -7,6 +7,7 @@ import {
   UPDATE_INSTRUCTOR,
   START_LOADING_AUTH,
   END_LOADING_AUTH,
+  GET_LOGGED_USER,
 } from "../constants/auth";
 
 export default (
@@ -39,6 +40,12 @@ export default (
       return { ...state, isLoading: true };
     case END_LOADING_AUTH:
       return { ...state, isLoading: false };
+
+    case GET_LOGGED_USER:
+      //Set localstoreage
+      localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
+      return { ...state, authData: action?.payload };
+
     default:
       return state;
   }
