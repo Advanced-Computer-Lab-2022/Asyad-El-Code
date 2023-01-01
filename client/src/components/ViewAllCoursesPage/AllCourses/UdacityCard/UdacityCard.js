@@ -129,23 +129,23 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
             </Button>)
           }
           {type !== "admin" && (
-          <Grid item>
-          <Button
-            fullWidth
-            style={{
-              padding: "12px",
-              textTransform: "none",
-              backgroundColor: "#205295",
-            }}
-            variant="contained"
-            onClick={() => handleClick(course._id, course.title, "paper")}
-          >
-            {type === "instructor" ? "Feedback" : "Program Details "}
-          </Button>
-        </Grid>
+            <Grid item>
+              <Button
+                fullWidth
+                style={{
+                  padding: "12px",
+                  textTransform: "none",
+                  backgroundColor: "#205295",
+                }}
+                variant="contained"
+                onClick={() => handleClick(course._id, course.title, "paper")}
+              >
+                {type === "instructor" ? "Feedback" : "Program Details "}
+              </Button>
+            </Grid>
           )
           }
-                    <Grid item>
+          <Grid item>
             <FeedbackDialog
               course={course}
               open={open}
