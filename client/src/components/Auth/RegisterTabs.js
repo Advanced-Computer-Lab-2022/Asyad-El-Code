@@ -26,6 +26,7 @@ import { sendEmail, signin, signup } from "../../actions/auth";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import FirstTimeInstructor from "./FirstTimeInstructor";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -66,7 +67,7 @@ const initialForm = {
   password: "",
 };
 
-export default function RegisterTabs() {
+export default function RegisterTabs({ setInstructorModal }) {
   const [value, setValue] = React.useState(0);
   const [form, setForm] = useState(initialForm);
   const [showPassword, setShowPassword] = useState(false);
@@ -81,6 +82,7 @@ export default function RegisterTabs() {
   const [messageSent, setMessageSent] = useState(false);
   const { authData, error } = useSelector((state) => state.authReducer);
   const [isLoading, setIsLoading] = useState(false);
+  const [instructorIsLoading, setInstructorIsLoading] = useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -126,7 +128,7 @@ export default function RegisterTabs() {
       dispatch(signup(form, history));
     } else if (form.email && form.password) {
       setIsLoading(true);
-      dispatch(signin(form, history, setIsLoading));
+      dispatch(signin(form, history, setIsLoading, setInstructorModal));
     }
   };
   const handleShowPassword = () => {

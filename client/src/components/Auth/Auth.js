@@ -1,8 +1,14 @@
 import { Container, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import FirstTimeInstructor from "./FirstTimeInstructor";
 import RegisterTabs from "./RegisterTabs";
 
 export const Auth = () => {
+  const [instructorModal,setInstructorModal] = useState(false);
+  console.log("inst modal in auth", instructorModal)
+  const handleClose = () => {
+    setInstructorModal(false);
+  };
   return (
     <>
       <body style={{ backgroundColor: "white" }}>
@@ -50,10 +56,11 @@ export const Auth = () => {
           </Grid>
           <Grid marginTop={13} justifyContent="center" xs={6} item container>
             <Grid item>
-              <RegisterTabs></RegisterTabs>
+              <RegisterTabs instructorModal={instructorModal} setInstructorModal={setInstructorModal}></RegisterTabs>
             </Grid>
           </Grid>
         </Grid>
+        <FirstTimeInstructor instructorModal={instructorModal} handleClose={handleClose}></FirstTimeInstructor>
       </body>
     </>
   );
