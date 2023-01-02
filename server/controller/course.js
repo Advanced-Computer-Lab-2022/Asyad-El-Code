@@ -484,3 +484,16 @@ export const requestRefund = async (req, res) => {
     res.status(401).send(error.message);
   }
 };
+
+export const getPopularCourses = async (req, res) => {
+  try {
+    //I want to get from databse and sort according to numberOfTraineesEnrolled field descendingly and return the first 3 courses
+    const courses = await Course.find()
+      .sort({ numberOfTraineesEnrolled: -1 })
+      .limit(12);
+    if (!courses) return res.status(404).send({ message: "Courses not found" });
+    res.status(200).send(courses);
+  } catch (error) {
+    console.log(error);
+  }
+};

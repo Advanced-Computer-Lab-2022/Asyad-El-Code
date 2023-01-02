@@ -1,7 +1,8 @@
 import React from "react";
 import "./card.css";
 import image from "../../../images/point.png";
-import { Avatar, Rating, Stack } from "@mui/material";
+import { Avatar, Grid, Rating, Stack, Typography } from "@mui/material";
+import GroupIcon from "@mui/icons-material/Group";
 
 export const CardCourse = ({ handleClick, course }) => {
   return (
@@ -25,8 +26,34 @@ export const CardCourse = ({ handleClick, course }) => {
 
           <div class="card__header-text">
             <h3 class="card__title">{course?.title}</h3>
+
             <Stack direction="column">
-              <span class="card__status">{course?.instructor?.name}</span>
+              <Grid container>
+                <Grid item xs={8}>
+                  <span class="card__status">{course?.instructor?.name}</span>
+                </Grid>
+                <Grid item xs={4}>
+                  <Stack direction="row">
+                    <GroupIcon
+                      style={{
+                        marginTop: 4,
+                        marginLeft: 15,
+                        fontSize: "16px",
+                        color: "#6A515E",
+                      }}
+                    />
+
+                    <Typography
+                      marginLeft={0.2}
+                      marginTop={0.2}
+                      fontSize="14px"
+                      color="#808080"
+                    >
+                      {course?.numberOfTraineesEnrolled}
+                    </Typography>
+                  </Stack>
+                </Grid>
+              </Grid>
               <Rating
                 style={{ marginLeft: -5 }}
                 readOnly

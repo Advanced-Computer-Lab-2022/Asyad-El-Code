@@ -17,7 +17,7 @@ import useStyles from "../../css/home";
 import study from "../../images/study.jpeg";
 import Members, { PopularCourses } from "./PopularCourses";
 import { useDispatch, useSelector } from "react-redux";
-import { getCourses } from "../../actions/courses";
+import { getPopularCourses } from "../../actions/courses";
 import "./home.css";
 import background from "../../images/code.jpg";
 import styled from "@emotion/styled";
@@ -35,7 +35,7 @@ export const Home = () => {
   };
 
   useEffect(() => {
-    dispatch(getCourses());
+    dispatch(getPopularCourses());
   }, []);
 
   const user = JSON.parse(localStorage.getItem("profile"));
