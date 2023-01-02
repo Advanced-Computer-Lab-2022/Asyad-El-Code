@@ -96,6 +96,15 @@ We have three main users in our website:
 <img width="1440" alt="Screenshot 2023-01-02 at 3 43 24 AM" src="https://user-images.githubusercontent.com/67745591/210190086-ac556786-61bf-4ece-acdf-ad01bd9db408.png">
 
 
+### Admin
+- Admin View Promotions
+![iamge2](https://user-images.githubusercontent.com/67745591/210193663-77a8e865-465d-40af-89ea-65d516791c6e.png)
+
+- Refund Request 
+![iamge2](https://user-images.githubusercontent.com/67745591/210193639-47643945-aeba-4a55-a5a1-94cab8eefb6c.png)
+
+
+
 
 ### Configuration and Setup
 
