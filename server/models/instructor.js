@@ -135,7 +135,6 @@ export function validateInstructor(user) {
     dateOfBirth: Joi.date(),
     gender: Joi.string(),
     country: Joi.string(),
-    wallet: Joi.number(),
     about: Joi.string(),
   });
   return schema.validate(user);

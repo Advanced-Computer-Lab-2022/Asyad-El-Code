@@ -226,7 +226,7 @@ export default function CourseCard({
       <Card sx={{ width: 345 }}>
         <CardMedia
           component="iframe"
-          image="https://www.youtube.com/embed/TpWqNqNv2AQ"
+          image={course?.previewVideo}
           title="YouTube video player"
           controls
           alt="green iguana"
