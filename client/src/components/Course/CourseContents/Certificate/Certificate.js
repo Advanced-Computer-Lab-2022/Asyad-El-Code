@@ -16,7 +16,7 @@ export const CE = ({ course }) => {
   const user = JSON.parse(localStorage.getItem("profile"));
 
   const sendCertificate = async () => {
-    const { data } = await sendCertificatePdf();
+    const { data } = await sendCertificatePdf(user?.result?.email);
     console.log("DATA", data);
     console.log(data);
   };
