@@ -85,11 +85,11 @@ export default function DropDownMenuProfile({ user, logout }) {
                 alt="Remy Sharp"
               >{`${user?.result?.firstName.charAt(
                 0
-              )}${user?.result?.lastName.charAt(0)}`}</Avatar>
+              )}${user?.result?.lastName.charAt(0).toUpperCase()}`}</Avatar>
             ) : (
-              <Avatar alt="Remy Sharp">{`${user?.result?.userName.charAt(
+              <Avatar alt="Remy Sharp">{`${user?.result?.firstName.charAt(
                 0
-              )}${user?.result?.userName.charAt(1)}`}</Avatar>
+              )}${user?.result?.lastName.charAt(0).toUpperCase()}`}</Avatar>
             )}
           </StyledBadge>
         </IconButton>

@@ -37,10 +37,14 @@ export const signin = (formData, history, setIsLoading, setInstructorModal) => a
 
     const result = await userApi.signin(formData);
     dispatch({ type: AUTH, payload: result.data });
+    console.log("result.data", result.data);
     dispatch({ type: END_LOADING_AUTH });
     if (result.data.type === "instructor") {
-      setInstructorModal(true);
-      // history.push("/firstTimeInstructor");
+      if(result.data.result.firstLogin){
+        setInstructorModal(true);
+      }else{
+        history.push("/");
+      }
     } else {
       setTimeout(() => {
         history.push("/");
@@ -81,6 +85,18 @@ export const getLoggedUser = () => async (dispatch) => {
     const result = await userApi.getLoggedUser();
     dispatch({ type: GET_LOGGED_USER, payload: result.data });
     dispatch({ type: END_LOADING_AUTH });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const firstTimeInstructor = (formData, id, history) => async (dispatch) => {
+  try {
+    dispatch({ type: FIRST_TIME_INSTRUCTOR_START_LOADING });
+    const result = await userApi.firstTimeInstructor(formData, id);
+    dispatch({ type: AUTH, payload: result.data });
+    dispatch({ type: FIRST_TIME_INSTRUCTOR_END_LOADING });
+    history.push("/");
   } catch (error) {
     console.log(error.message);
   }

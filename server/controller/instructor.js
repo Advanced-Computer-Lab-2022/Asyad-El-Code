@@ -1,10 +1,13 @@
 import mongoose from "mongoose";
 import Instructor from "../models/instructor.js";
+import individualTrainee from "../models/individualTrainee.js";
+import corporateTrainee from "../models/corporateTrainee.js";
 import CorporateTrainee from "../models/corporateTrainee.js";
 import IndividualTrainee from "../models/individualTrainee.js";
 import Course from "../models/course.js";
 import { validateInstructor } from "../models/instructor.js";
 import { validateCourse } from "../models/course.js";
+import bcrypt from "bcryptjs";
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
@@ -185,6 +188,34 @@ export const updateInformation = async (req, res) => {
   res.send;
 };
 
+export const firstLogin = async (req, res) => {
+  try {
+    const { firstName, lastName, country, password, gender } = req.body;
+    const { id } = req.params;
+    const castedid = mongoose.Types.ObjectId(id);
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const updatedInstructor = await Instructor.findByIdAndUpdate(
+      castedid,
+      {
+        $set: {
+          firstName: firstName,
+          lastName: lastName,
+          country: country,
+          password: hashedPassword,
+          gender:gender,
+          firstLogin: false,
+        },
+      },
+      { new: true }
+    );
+    const token = await updatedInstructor.generateAuthToken();
+    res.status(200).send({ result:updatedInstructor, token ,type:"instructor"});
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+  res.send;
+};
+
 export const getAllInstructorCourses = async (req, res) => {
   try {
     const { id } = req.params;
@@ -349,6 +380,40 @@ export const definePromotion = async (req, res) => {
   }
 };
 
+export const getUserNames = async (req, res) => {
+  const { id } = req.params;
+  //I want to get all userNames of people that has reviews or rating and return this array
+  try {
+    const instructor = await Instructor.findById(id);
+    if (!instructor) return res.status(401).send({ message: "Instructor not found" });
+    const reviews = instructor.reviews;
+    const ratings = instructor.ratings;
+    const allReviews = [...reviews, ...ratings];
+    const userNames = [];
+    for (let i = 0; i < allReviews.length; i++) {
+      if (allReviews[i].individualTraineeId) {
+        const trainee = await individualTrainee.findById(
+          allReviews[i].individualTraineeId
+        );
+        if (userNames.includes(`${trainee.firstName} ${trainee.lastName}`))
+          continue;
+        userNames.push(`${trainee.firstName} ${trainee.lastName}`);
+      }
+      if (allReviews[i].corporateTraineeId) {
+        const trainee = await corporateTrainee.findById(
+          allReviews[i].corporateTraineeId
+        );
+        //Before adding check if it has the same firstName and lastName
+        if (userNames.includes(`${trainee?.userName}`))
+          continue;
+        userNames.push(`${trainee?.userName}`);
+      }
+    }
+    res.status(200).send(userNames);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
 export const addRating = async (req, res) => {
   console.log("ADD rating", req.query);
   const { instructorId, corporateTraineeId, individualTraineeId, rating } =
