@@ -242,6 +242,9 @@ export default function CourseContents() {
       });
 
     setProgress(Math.ceil((totalDuration / (course?.duration * 60)) * 100));
+    if (progress > 100) {
+      setProgress(100);
+    }
   };
   // const updateUserObject = (duration, id) => {
   //   userObject.courses
