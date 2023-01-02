@@ -18,7 +18,6 @@ import { useDispatch, useSelector } from "react-redux";
 import ReportCourseModal from "./ReportCourseModal";
 import { addCourseRequest } from "../../../actions/requests";
 
-
 export default function CourseCard({
   isCourseInUserCourses,
   course,
@@ -229,7 +228,7 @@ export default function CourseCard({
             </span>
             <span style={{ color: "red", fontWeight: "normal" }}>
               {"  "}
-              Valid Until {course.promotion.endDate.substring(0, 10)}
+              Valid Until {course?.promotion?.endDate?.substring(0, 10)}
             </span>
           </Typography>
         )}
