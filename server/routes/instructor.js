@@ -11,6 +11,7 @@ import {
   updateRating,
   definePromotion,
   firstLogin,
+  getUserNames,
 } from "../controller/instructor.js";
 import { viewCourseTitles } from "../controller/instructor.js";
 import { addNewCourse } from "../controller/instructor.js";
@@ -38,5 +39,6 @@ router.get(
 
 router.post("/updateRating/:id", authMiddeleware, updateRating);
 router.patch("/definePromotion", authMiddeleware, definePromotion);
+router.get("/getUserNames/:id", getUserNames);
 
 export default router;

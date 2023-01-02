@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import Instructor from "../models/instructor.js";
+import individualTrainee from "../models/individualTrainee.js";
+import corporateTrainee from "../models/corporateTrainee.js";
 import Course from "../models/course.js";
 import { validateInstructor } from "../models/instructor.js";
 import { validateCourse } from "../models/course.js";
@@ -369,6 +371,41 @@ export const definePromotion = async (req, res) => {
     );
     if (!updatedCourse) return res.status(404).send("course not found");
     res.status(200).send(updatedCourse);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+
+export const getUserNames = async (req, res) => {
+  const { id } = req.params;
+  //I want to get all userNames of people that has reviews or rating and return this array
+  try {
+    const instructor = await Instructor.findById(id);
+    if (!instructor) return res.status(401).send({ message: "Instructor not found" });
+    const reviews = instructor.reviews;
+    const ratings = instructor.ratings;
+    const allReviews = [...reviews, ...ratings];
+    const userNames = [];
+    for (let i = 0; i < allReviews.length; i++) {
+      if (allReviews[i].individualTraineeId) {
+        const trainee = await individualTrainee.findById(
+          allReviews[i].individualTraineeId
+        );
+        if (userNames.includes(`${trainee.firstName} ${trainee.lastName}`))
+          continue;
+        userNames.push(`${trainee.firstName} ${trainee.lastName}`);
+      }
+      if (allReviews[i].corporateTraineeId) {
+        const trainee = await corporateTrainee.findById(
+          allReviews[i].corporateTraineeId
+        );
+        //Before adding check if it has the same firstName and lastName
+        if (userNames.includes(`${trainee?.userName}`))
+          continue;
+        userNames.push(`${trainee?.userName}`);
+      }
+    }
+    res.status(200).send(userNames);
   } catch (error) {
     res.status(400).send(error.message);
   }

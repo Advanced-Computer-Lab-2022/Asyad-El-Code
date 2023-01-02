@@ -39,6 +39,9 @@ import PendingProblems from "./PendingProblems.js";
 import ResolvedProblems from "./ResolvedProblems.js";
 import Password from "./Password.js";
 import Instructor from "./Instructor.js";
+import Reviews from "./Reviews.js";
+import { getUserNames } from "../../api/instructor.js";
+import * as instructorApi from "../../api/instructor";
 import {
   getUnresolvedProblems,
   getResolvedProblems,
@@ -49,7 +52,15 @@ const Profile = () => {
   const auth = useSelector((state) => state?.authReducer);
   const [unResolvedProblems, setUnResolvedProblems] = useState([]);
   const [resolvedProblems, setResolvedProblems] = useState([]);
+  const [userNames, setUserNames] = useState([]);
+  const getUserNames = async (instructorId) => {
+      console.log("HIMAMA");
+      const { data } = await instructorApi.getUserNames(instructorId);
+      console.log(data);
+      setUserNames(data);
+  };
   const user = JSON.parse(localStorage.getItem("profile"));
+
   if (user?.type === "individualTrainee") {
     if (auth?.isloading) {
       return <CircularProgress />;
@@ -108,9 +119,9 @@ const Profile = () => {
                 >
                   {trainee?.firstName ? (
                     <b>
-                      {trainee.firstName.charAt(0) +
+                      {trainee.firstName.charAt(0).toUpperCase() +
                         "" +
-                        trainee.lastName.charAt(0)}
+                        trainee.lastName.charAt(0).toUpperCase()}
                     </b>
                   ) : null}
                 </Avatar>
@@ -294,6 +305,7 @@ const Profile = () => {
       if (instructor === undefined) {
         instructor = auth?.authData;
       }
+      getUserNames(instructor?._id);
       return (
         <Grid
           container
@@ -349,7 +361,7 @@ const Profile = () => {
               >
                 <Typography sx={{ fontWeight: "bold" }} textAlign="center">
                   {instructor?.firstName !== null &&
-                  instructor?.lastName !== null ? (
+                    instructor?.lastName !== null ? (
                     <>
                       {instructor?.firstName} {instructor?.lastName}
                     </>
@@ -419,6 +431,18 @@ const Profile = () => {
                       >
                         <ListItemText
                           primary="Photo"
+                          sx={{ textAlign: "center", lineHeight: 1 }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                      <ListItemButton
+                        onClick={() => {
+                          setPage("Reviews");
+                        }}
+                      >
+                        <ListItemText
+                          primary="Reviews"
                           sx={{ textAlign: "center", lineHeight: 1 }}
                         />
                       </ListItemButton>
@@ -524,7 +548,11 @@ const Profile = () => {
               ></ResolvedProblems>
             ) : page === "password" ? (
               <Password userId={user.result._id}></Password>
-            ) : null}
+            ) : page === "Reviews" ? (
+              <Reviews instructor={instructor} userNames={userNames}></Reviews>
+            ) : (
+              <></>
+            )}
           </Grid>
         </Grid>
       );

@@ -12,6 +12,7 @@ import {
   createPdf,
   getNotes,
   payCourse,
+  getIndividualTrainee,
 } from "../controller/individualTrainee.js";
 const router = express.Router();
 import pdf from "html-pdf";
@@ -22,6 +23,7 @@ router.put("/:id", authMiddeleware, updateIndividualTrainee);
 
 router.post("/", createIndvidualTrainee);
 router.get("/", getAllIndividualTrainees);
+router.get("/:id", getIndividualTrainee);
 router.get("/getNotes", authMiddeleware, getNotes);
 
 router.delete("/:id", deleteIndividualTrainee);
