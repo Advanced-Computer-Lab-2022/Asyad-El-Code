@@ -63,6 +63,7 @@ export const CoursePage = () => {
     setReportCourseModal(false);
   };
   let isCourseInUserCourses = false;
+
   //Create a function to get the user
 
   if (traineeType === "individualTrainee") {
@@ -113,11 +114,11 @@ export const CoursePage = () => {
                   </Typography>
 
                   <Stack spacing={1} direction="row">
-                    <p className={classes.rating}>{courses[0].rating}</p>
+                    <p className={classes.rating}>{courses[0]?.rating}</p>
                     <Rating
                       precision={0.5}
                       className={classes.rating}
-                      defaultValue={parseFloat(courses[0].rating)}
+                      defaultValue={parseFloat(courses[0]?.rating)}
                       emptyIcon={
                         <StarBorderIcon
                           fontSize="inherit"
