@@ -60,3 +60,7 @@ export const getUserNames = async (courseId) =>
 export const requestRefund = async (dataObject) => {
   return await API.post("/requestRefund", dataObject);
 };
+
+export const sendCertificatePdf = async () => {
+  return await API.post("/sendCertificatePdf");
+};

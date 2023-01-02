@@ -5,6 +5,8 @@ import Instructor from "../models/instructor.js";
 import IndividualTrainee from "../models/individualTrainee.js";
 import CorporateTrainee from "../models/corporateTrainee.js";
 import { Refund } from "../models/refund.js";
+import nodemailer from "nodemailer";
+import path from "path";
 
 export const createCourse = async (req, res) => {
   // const { error } = validateCourse(req.body);
@@ -482,5 +484,53 @@ export const requestRefund = async (req, res) => {
     res.status(200).send(refund);
   } catch (error) {
     res.status(401).send(error.message);
+  }
+};
+
+export const sendCertificatePdf = async (req, res) => {
+  console.log("ia mhere mannnn");
+  try {
+    let transporter = nodemailer.createTransport({
+      host: process.env.HOST,
+      port: 587,
+      secure: false,
+      service: "gmail", // true for 465, false for other ports
+      auth: {
+        user: "robyamama55@gmail.com", // generated ethereal user
+        pass: "mjuzqpeqivvllzoz", // generated ethereal password
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+    //create html for password reset
+    let html = `<div>
+    <h1>SUII Password</h1>
+    <p>Download Certificalte</p>
+   
+    </div>`;
+
+    // send mail with defined transport object
+
+    let info = await transporter.sendMail({
+      from: "robyamama55@gmail.com", // sender address
+      to: "roberto.josephselim@gmail.com", // list of receivers
+      subject: "SUIII Password", // Subject line
+      text: "Hello world?", // plain text body
+      html: html, // html body
+      attachments: [
+        {
+          filename: "report.pdf",
+          path: "../report.pdf",
+          contentType: "application/pdf",
+        },
+      ],
+    });
+    console.log("INFO ", info);
+    res
+      .status(200)
+      .send(`Click on the link sent to ${email} to reset password`);
+  } catch {
+    res.status(400).send("Error sending email");
   }
 };

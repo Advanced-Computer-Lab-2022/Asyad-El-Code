@@ -351,86 +351,86 @@ export const definePromotion = async (req, res) => {
 
 export const addRating = async (req, res) => {
   console.log("ADD rating", req.query);
-  const { instructorId, corporateTraineeId, individualTraineeId, rating } =
-    req.query;
+  // const { instructorId, corporateTraineeId, individualTraineeId, rating } =
+  //   req.query;
 
-  try {
-    const instructor = await Instructor.findById(instructorId);
-    console.log("I founnd the instructot", instructor);
-    if (!instructor)
-      return res.status(404).send({ message: "Course not found" });
-    //check if the trainee is individual or corporate
-    if (individualTraineeId !== "") {
-      const trainee = await IndividualTrainee.findById(individualTraineeId);
-      if (!trainee)
-        return res.status(404).send({ message: "Trainee not found" });
-      //check if the trainee has already rated the course then update the rating
-      const index = instructor.ratings.findIndex(
-        (rating) => rating.individualTraineeId == individualTraineeId
-      );
-      console.log("index", index);
-      if (index !== -1) {
-        instructor.ratings[index].rating = rating;
-        const newRating =
-          instructor.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
-          instructor.ratings.length;
-        instructor.rating = newRating;
-        await instructor.save();
-        console.log("Iam in the end");
-        return res.status(200).json(instructor);
-      }
-      //if the trainee has not rated the course then add the rating and set corporateTraineeId to null
-      instructor.ratings.push({
-        individualTraineeId,
-        rating,
-        corporateTraineeId: null,
-      });
-      const newRating =
-        instructor.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
-        instructor.ratings.length;
-      instructor.rating = newRating;
+  // try {
+  //   const instructor = await Instructor.findById(instructorId);
+  //   console.log("I founnd the instructot", instructor);
+  //   if (!instructor)
+  //     return res.status(404).send({ message: "Course not found" });
+  //   //check if the trainee is individual or corporate
+  //   if (individualTraineeId !== "") {
+  //     const trainee = await IndividualTrainee.findById(individualTraineeId);
+  //     if (!trainee)
+  //       return res.status(404).send({ message: "Trainee not found" });
+  //     //check if the trainee has already rated the course then update the rating
+  //     const index = instructor.ratings.findIndex(
+  //       (rating) => rating.individualTraineeId == individualTraineeId
+  //     );
+  //     console.log("index", index);
+  //     if (index !== -1) {
+  //       instructor.ratings[index].rating = rating;
+  //       const newRating =
+  //         instructor.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
+  //         instructor.ratings.length;
+  //       instructor.rating = newRating;
+  //       await instructor.save();
+  //       console.log("Iam in the end");
+  //       return res.status(200).json(instructor);
+  //     }
+  //     //if the trainee has not rated the course then add the rating and set corporateTraineeId to null
+  //     instructor.ratings.push({
+  //       individualTraineeId,
+  //       rating,
+  //       corporateTraineeId: null,
+  //     });
+  //     const newRating =
+  //       instructor.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
+  //       instructor.ratings.length;
+  //     instructor.rating = newRating;
 
-      await instructor.save();
-      return res.status(200).json(instructor);
-    }
-    console.log("corporateTraineeId", corporateTraineeId);
-    if (corporateTraineeId !== "") {
-      const trainee = await CorporateTrainee.findById(corporateTraineeId);
-      if (!trainee)
-        return res.status(404).send({ message: "Trainee not found" });
-      //check if the trainee has already rated the course then update the rating
-      const index = instructor.ratings.findIndex(
-        (rating) => rating.corporateTraineeId == corporateTraineeId
-      );
-      if (index !== -1) {
-        instructor.ratings[index].rating = rating;
-        //calculate new rating as average of ratings array and update the course rating
-        const newRating =
-          instructor.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
-          instructor.ratings.length;
-        instructor.rating = newRating;
-        await instructor.save();
-        return res.status(200).json(instructor);
-      }
-      //if the trainee has not rated the course then add the rating and set individualTraineeId to null
+  //     await instructor.save();
+  //     return res.status(200).json(instructor);
+  //   }
+  //   console.log("corporateTraineeId", corporateTraineeId);
+  //   if (corporateTraineeId !== "") {
+  //     const trainee = await CorporateTrainee.findById(corporateTraineeId);
+  //     if (!trainee)
+  //       return res.status(404).send({ message: "Trainee not found" });
+  //     //check if the trainee has already rated the course then update the rating
+  //     const index = instructor.ratings.findIndex(
+  //       (rating) => rating.corporateTraineeId == corporateTraineeId
+  //     );
+  //     if (index !== -1) {
+  //       instructor.ratings[index].rating = rating;
+  //       //calculate new rating as average of ratings array and update the course rating
+  //       const newRating =
+  //         instructor.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
+  //         instructor.ratings.length;
+  //       instructor.rating = newRating;
+  //       await instructor.save();
+  //       return res.status(200).json(instructor);
+  //     }
+  //     //if the trainee has not rated the course then add the rating and set individualTraineeId to null
 
-      instructor.ratings.push({
-        corporateTraineeId,
-        rating,
-        individualTraineeId: null,
-      });
-      //calculate new rating as average of ratings array and update the course rating
-      const newRating =
-        instructor.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
-        instructor.ratings.length;
-      instructor.rating = newRating;
+  //     instructor.ratings.push({
+  //       corporateTraineeId,
+  //       rating,
+  //       individualTraineeId: null,
+  //     });
+  //     //calculate new rating as average of ratings array and update the course rating
+  //     const newRating =
+  //       instructor.ratings.reduce((acc, rating) => acc + rating.rating, 0) /
+  //       instructor.ratings.length;
+  //     instructor.rating = newRating;
 
-      await instructor.save();
-      return res.status(200).json(instructor);
-    }
-  } catch (error) {
-    console.log(error);
-  }
+  //     await instructor.save();
+  //     return res.status(200).json(instructor);
+  //   }
+  // } catch (error) {
+  //   console.log(error);
+  // }
 };
 
 // add review for course by trainee

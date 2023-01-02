@@ -33,6 +33,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { styled } from "@mui/material/styles";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { UdacityCard } from "../ViewAllCoursesPage/AllCourses/UdacityCard/UdacityCard";
+import axios from "axios";
 const styles = {
   emptyStar: {
     color: "white",
@@ -98,16 +99,26 @@ function InstructorPage() {
     setValue(avg);
   }, []);
 
+  const handleRating = async (rating) => {
+    if (user?.type === "corporateTrainee") {
+      console.log("corporateTrainee");
+      await axios.post(
+        `http://localhost:8000/instructor/addRating/?instructorId=${instructor?._id}&corporateTraineeId=${user?.result?._id}&rating=${rating}&individualId=${user?.result?._id}`
+      );
+    } else if (user?.type === "individualTrainee") {
+      console.log("individualTrainee");
+      dispatch(addRating(instructor?._id, "", user?.result?._id, rating));
+    }
+  };
   const handleSubmit = (rating, review) => {
     console.log(user);
     if (user?.type === "corporateTrainee") {
       console.log("corporateTrainee");
-      dispatch(addRating(instructor?._id, user?.result?._id, "", rating));
+      handleRating(rating);
       dispatch(addReview(instructor?._id, user?.result?._id, "", review));
     } else if (user?.type === "individualTrainee") {
       console.log("individualTrainee");
 
-      dispatch(addRating(instructor?._id, "", user?.result?._id, rating));
       dispatch(addReview(instructor?._id, "", user?.result?._id, review));
     }
   };
