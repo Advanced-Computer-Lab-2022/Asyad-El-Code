@@ -18,7 +18,6 @@ import { useDispatch, useSelector } from "react-redux";
 import ReportCourseModal from "./ReportCourseModal";
 import { addCourseRequest } from "../../../actions/requests";
 
-
 export default function CourseCard({
   isCourseInUserCourses,
   course,
@@ -215,7 +214,7 @@ export default function CourseCard({
     <Card sx={{ width: 345 }}>
       <CardMedia
         component="iframe"
-        image="https://www.youtube.com/embed/TpWqNqNv2AQ"
+        image={course?.previewVideo}
         title="YouTube video player"
         controls
         alt="green iguana"
