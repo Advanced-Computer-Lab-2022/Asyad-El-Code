@@ -9,7 +9,7 @@ import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
 import CoursePage from "./components/Course/CoursePage/CoursePage";
 import ScrollToTop from "./components/ScrollToTop";
-
+import InstructorPage from "./components/Instructor/instructorPage";
 import MyCourses from "./components/Trainee/MyCourses";
 
 import CourseSteps from "./components/Instructor/CourseSteps";
@@ -38,6 +38,7 @@ import AdminDashboard from "./components/Admin/Dashboard";
 import { Courses } from "./components/Admin/Courses";
 import Dashboard from "@mui/icons-material/Dashboard";
 
+import RequestAccess from "./components/RequestAccess";
 const theme = createTheme({
   palette: {
     primary: {
@@ -89,9 +90,13 @@ export const App = () => {
           <Route exact path="/test">
             <PersistentDrawerLeft></PersistentDrawerLeft>
           </Route>
+          <Route exact path="/instructorProfile/:id">
+            <InstructorPage></InstructorPage>
+          </Route>
 
           <Route>
             <Navbar></Navbar>
+
             <Switch>
               <Route exact path={["/home", "/"]}>
                 {user?.type === "admin" ? (

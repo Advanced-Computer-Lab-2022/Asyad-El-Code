@@ -3,6 +3,8 @@ import {
   ADD_INSTRUCTOR,
   FETCH_INSTRUCTOR,
   FILTER_INSTRUCTOR_COURSES,
+  ADD_REVIEW,
+  ADD_RATING,
 } from "../constants/instructors";
 import {
   FETCH_ALL_INSTRUCTOR_COURSES,
@@ -76,3 +78,37 @@ export const updateInstructor = (id, instructor) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const addRating =
+  (instructorId, corporateTraineeId, individualTraineeId, rating) =>
+  async (dispatch) => {
+    try {
+      console.log("Im in actions add Rating");
+      const { data } = await instructorApi.addRating(
+        instructorId,
+        corporateTraineeId,
+        individualTraineeId,
+        rating
+      );
+      dispatch({ type: ADD_RATING, payload: data });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+// add review for course by trainee
+export const addReview =
+  (instructorId, corporateTraineeId, individualTraineeId, review) =>
+  async (dispatch) => {
+    try {
+      const { data } = await instructorApi.addReview(
+        instructorId,
+        corporateTraineeId,
+        individualTraineeId,
+        review
+      );
+      dispatch({ type: ADD_REVIEW, payload: data });
+    } catch (error) {
+      console.log(error);
+    }
+  };

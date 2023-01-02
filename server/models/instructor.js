@@ -46,7 +46,36 @@ const instructorSchema = mongoose.Schema({
   },
   rating: {
     type: Number,
-    default: 0,
+    default: 0.0,
+  },
+  ratings: [
+    {
+      corporateTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CorporateTrainee",
+      },
+      individualTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "IndividualTrainee",
+      },
+      rating: Number,
+    },
+  ],
+  reviews: [
+    {
+      corporateTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CorporateTrainee",
+      },
+      individualTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "IndividualTrainee",
+      },
+      review: String,
+    },
+  ],
+  about: {
+    type: String,
   },
   biography: {
     type: String,
@@ -81,6 +110,7 @@ export function validateInstructor(user) {
     gender: Joi.string(),
     country: Joi.string(),
     wallet: Joi.number(),
+    about: Joi.string(),
   });
   return schema.validate(user);
 }
