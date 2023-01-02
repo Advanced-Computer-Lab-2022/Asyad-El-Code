@@ -106,6 +106,7 @@ const individualTraineeSchema = mongoose.Schema({
       seenContent: [
         { duration: Number, contentId: mongoose.Schema.Types.ObjectId },
       ],
+      certificateReceived: { type: Boolean, default: false },
     },
   ],
 });

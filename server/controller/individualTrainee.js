@@ -5,6 +5,7 @@ import pdf from "html-pdf";
 import Stripe from "stripe";
 import "dotenv/config";
 import Instructor from "../models/instructor.js";
+import nodemailer from "nodemailer";
 
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
@@ -159,6 +160,7 @@ export const enrollCourse = async (req, res) => {
             image,
             rating,
             instuctor,
+            certificateReceived: false,
           },
         ],
       },
@@ -371,6 +373,53 @@ export const payCourse = async (req, res) => {
   } catch (error) {
     res.status(500).send(error.message);
   }
+};
+
+export const sendEmailForCertificate = async (req, res) => {
+  // create a nodemailer transporter
+  let transporter = nodemailer.createTransport({
+    host: process.env.HOST,
+    port: 587,
+    secure: false,
+    service: "gmail", // true for 465, false for other ports
+    auth: {
+      user: "robyamama55@gmail.com", // generated ethereal user
+      pass: "mjuzqpeqivvllzoz", // generated ethereal password
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  });
+  console.log("This is the body", req.body);
+
+  const pdfBuffer = Buffer.from(JSON.stringify(req.body));
+  const attachment = new Buffer.from(pdfBuffer, "binary");
+
+  const { userId, courseId, userEmail } = req.query;
+
+  // send the email
+  const info = await transporter.sendMail({
+    from: "robyamama55@gmail.com",
+    to: "roberto.josephselim@gmail.com",
+    subject: "Certificate of Completion",
+    text: "Attached is your Certificate of Completion",
+    attachments: [
+      {
+        filename: "certificate.pdf",
+        content: attachment,
+        contentType: "application/pdf",
+      },
+    ],
+  });
+
+  //update the user's course to completed
+  const user = await IndividualTrainee.findById(userId);
+  const course = user.courses.find((course) => course._id == courseId);
+  course.certificateReceived = true;
+  await user.save();
+
+  console.log("Message sent: %s", info.messageId);
+  res.send({ message: "PDF sent successfully" });
 };
 
 //Refunding the course if the progress of course is lessThan 50%

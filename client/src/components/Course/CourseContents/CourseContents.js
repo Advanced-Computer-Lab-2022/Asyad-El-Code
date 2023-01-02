@@ -44,6 +44,10 @@ import { VideoAndExercise } from "./VideoAndExercise";
 import { CourseContentWelcomePage } from "../CourseContentWelcomePage";
 import { CourseWelcome } from "./CourseWelcome";
 import { CE } from "./Certificate/Certificate";
+import { jsPDF } from "jspdf";
+import "./Certificate/certificate.css";
+import { certificateMail } from "./Certificate/certficateMail";
+import { renderToString } from "react-dom/server";
 
 const drawerWidth = 300;
 
@@ -255,10 +259,36 @@ export default function CourseContents() {
       showCertificate();
     }
   }, [progress]);
+
+  useEffect(() => {
+    if (
+      progress === 100 &&
+      userObject?.courses?.find((c) => c._id === course._id)
+        ?.certificateReceived === false
+    ) {
+      generatePDF();
+    }
+  }, [progress, userObject]);
+
+  const generatePDF = async () => {
+    const report = new jsPDF("portrait", "pt", "a4");
+    const html = renderToString(certificateMail(user, course));
+    report.html(html);
+    const pdfBuffer = await report.output("arraybuffer");
+    const result = await individualTraineeApi.sendEmailForCertificate(
+      pdfBuffer,
+      userObject._id,
+      course._id,
+      userObject.email
+    );
+    console.log("This is result", result);
+  };
+
   const showCertificate = () => {
     setShowVideoContent(false);
     setShowExerciseContent(false);
   };
+  console.log("This is certificate state", certificateMail(user, course));
   return (
     <>
       {isLoading ? (
