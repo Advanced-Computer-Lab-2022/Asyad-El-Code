@@ -12,11 +12,13 @@ import {
   createPdf,
   getNotes,
   payCourse,
+  sendEmailForCertificate,
 } from "../controller/individualTrainee.js";
 const router = express.Router();
 import pdf from "html-pdf";
 import path from "path";
 import { authMiddeleware } from "../middlewares/auth.js";
+import { sendEmail } from "../controller/auth.js";
 const __dirname = path.resolve();
 router.put("/:id", authMiddeleware, updateIndividualTrainee);
 
@@ -50,5 +52,5 @@ router.get("/getNotes", getNotes);
 // router.get("/getAllNotes",getAllNotes);
 router.post("/enrollCourse", enrollCourse);
 router.post("/payCourse", payCourse);
-
+router.post("/sendEmailforCertificate", sendEmailForCertificate);
 export default router;
