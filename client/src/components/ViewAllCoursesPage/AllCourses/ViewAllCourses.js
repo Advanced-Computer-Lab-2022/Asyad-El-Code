@@ -18,7 +18,6 @@ export const Courses = () => {
   const queryParams = new URLSearchParams(location.search);
   const search = queryParams.get("source");
   const user = JSON.parse(localStorage.getItem("profile"));
-
   const dispatch = useDispatch();
   useEffect(() => {
     if (search === "instructor") {
@@ -43,12 +42,24 @@ export const Courses = () => {
       dispatch(filterCourses(filterData));
     }
   };
-
+  const handleClear = () => {
+    if (search === "instructor") {
+      dispatch(getAllInstructorCourses());
+    } else {
+      dispatch(getCourses());
+    }
+  };
+  const [searchTerm, setSearchTerm] = useState("");
   return (
     <div style={{ backgroundColor: "#F2F0EF" }}>
-      <FilterBar handleClick={handleClick}></FilterBar>
+      <FilterBar
+        handleClick={handleClick}
+        handleClear={handleClear}
+        search={searchTerm}
+        setSearch={setSearchTerm}
+      ></FilterBar>
 
-      <CoursesGrid type={search}></CoursesGrid>
+      <CoursesGrid type={search} search={searchTerm}></CoursesGrid>
 
       <Grid container justifyContent="center" marginTop="40px"></Grid>
     </div>
