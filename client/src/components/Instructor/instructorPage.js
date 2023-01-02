@@ -102,12 +102,10 @@ function InstructorPage() {
   const handleRating = async (rating) => {
     if (user?.type === "corporateTrainee") {
       console.log("corporateTrainee");
-      await axios.post(
-        `http://localhost:8000/instructor/addRating/?instructorId=${instructor?._id}&corporateTraineeId=${user?.result?._id}&rating=${rating}&individualId=${user?.result?._id}`
-      );
+      await axios.post(`http://localhost:8000/instructor/rating/`);
     } else if (user?.type === "individualTrainee") {
       console.log("individualTrainee");
-      dispatch(addRating(instructor?._id, "", user?.result?._id, rating));
+      await axios.post(`http://localhost:8000/instructor/rating/`);
     }
   };
   const handleSubmit = (rating, review) => {
@@ -118,6 +116,7 @@ function InstructorPage() {
       dispatch(addReview(instructor?._id, user?.result?._id, "", review));
     } else if (user?.type === "individualTrainee") {
       console.log("individualTrainee");
+      handleRating(rating);
 
       dispatch(addReview(instructor?._id, "", user?.result?._id, review));
     }

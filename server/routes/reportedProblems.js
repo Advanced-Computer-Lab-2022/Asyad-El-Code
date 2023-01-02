@@ -13,7 +13,7 @@ import { checkAdmin } from "../middlewares/admin.js";
 const router = express.Router();
 
 router.post("/", [authMiddeleware], createReportedProblem);
-router.get("/", [authMiddeleware], getAllReportedProblems);
+router.get("/", getAllReportedProblems);
 router.get(
   "/getReportedProblemByReporterEmail",
   getReportedProblemByReporterEmail
