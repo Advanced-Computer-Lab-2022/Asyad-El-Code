@@ -3,10 +3,11 @@ import "./certificate.css";
 import image from "../../../../images/can.jpeg";
 import { jsPDF } from "jspdf";
 import { Loading } from "./Loading";
+import { sendCertificatePdf } from "../../../../api/course";
 export const CE = ({ course }) => {
   const [isLoading, setisLoading] = useState(true);
 
-  const generatePDF = () => {
+  const generatePDF = async () => {
     const report = new jsPDF("portrait", "pt", "a4");
     report.html(document.querySelector("#report")).then(() => {
       report.save("report.pdf");
@@ -14,11 +15,17 @@ export const CE = ({ course }) => {
   };
   const user = JSON.parse(localStorage.getItem("profile"));
 
+  const sendCertificate = async () => {
+    const { data } = await sendCertificatePdf();
+    console.log("DATA", data);
+    console.log(data);
+  };
   useEffect(() => {
     setTimeout(() => {
       setisLoading(false);
     }, 6000);
-  });
+    sendCertificate();
+  }, []);
 
   return (
     <>
