@@ -105,6 +105,20 @@ We have three main users in our website:
 
 
 
+### Instructor
+- Instructor create course
+![oo](https://user-images.githubusercontent.com/67745591/210193775-f6d47f0b-11f9-47f4-92dc-d0c537d81690.jpg)
+
+- Steps for creating course
+![o1](https://user-images.githubusercontent.com/67745591/210193866-25db0c40-36cd-4bff-813d-5393b65c7e1a.jpg)
+
+- Adding Lecture 
+![firstle](https://user-images.githubusercontent.com/67745591/210193947-fe9f1fcd-514e-423a-9099-5d226f01d762.jpg)
+
+- Preview Course Content 
+![preview](https://user-images.githubusercontent.com/67745591/210193894-3ba55683-c4a7-44ea-ab28-c7fbb0bdfccd.jpg)
+
+
 
 ### Configuration and Setup
 
