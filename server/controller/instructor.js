@@ -202,14 +202,16 @@ export const firstLogin = async (req, res) => {
           lastName: lastName,
           country: country,
           password: hashedPassword,
-          gender:gender,
+          gender: gender,
           firstLogin: false,
         },
       },
       { new: true }
     );
     const token = await updatedInstructor.generateAuthToken();
-    res.status(200).send({ result:updatedInstructor, token ,type:"instructor"});
+    res
+      .status(200)
+      .send({ result: updatedInstructor, token, type: "instructor" });
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -385,7 +387,8 @@ export const getUserNames = async (req, res) => {
   //I want to get all userNames of people that has reviews or rating and return this array
   try {
     const instructor = await Instructor.findById(id);
-    if (!instructor) return res.status(401).send({ message: "Instructor not found" });
+    if (!instructor)
+      return res.status(401).send({ message: "Instructor not found" });
     const reviews = instructor.reviews;
     const ratings = instructor.ratings;
     const allReviews = [...reviews, ...ratings];
@@ -404,8 +407,7 @@ export const getUserNames = async (req, res) => {
           allReviews[i].corporateTraineeId
         );
         //Before adding check if it has the same firstName and lastName
-        if (userNames.includes(`${trainee?.userName}`))
-          continue;
+        if (userNames.includes(`${trainee?.userName}`)) continue;
         userNames.push(`${trainee?.userName}`);
       }
     }
