@@ -39,13 +39,8 @@ export const CoursesGrid = ({ type, search }) => {
   return isLoading ? (
     <CircularProgress></CircularProgress>
   ) : (
-<<<<<<< HEAD
     <Container sx={{ mt: "20px" }}>
       {/* <TextField
-=======
-    <Container sx={{ mt: "20px", ml: 10 }}>
-      <TextField
->>>>>>> c14c9f6c57e45d7dbff9f80d748e8d0db4062c96
         onChange={(e) => setSearch(e.target.value)}
         variant="outlined"
         size="small"
