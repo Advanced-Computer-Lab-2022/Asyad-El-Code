@@ -47,7 +47,10 @@ export const signin = async (req, res) => {
       //   password,
       //   corporateTrainee.password
       // );
-      const isValidPassword = true;
+      const isValidPassword = checkPassword(
+        password,
+        corporateTrainee.password
+      );
       if (!isValidPassword) {
         return res.status(400).json({ message: "Invalid credentials" });
       }
@@ -58,11 +61,7 @@ export const signin = async (req, res) => {
         token: token,
       });
     }
-    console.log("password", password);
-    //Decrypt the hashed password
     const isValidPassword = await checkPassword(password, instructor.password);
-    // const isValidPassword = true;
-    console.log("isValidPassword", isValidPassword);
     if (!isValidPassword) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
