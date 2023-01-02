@@ -11,6 +11,7 @@ import {
   FILTER_SUBJECT_RATING,
   FETCH_ALL_INSTRUCTOR_COURSES,
   FILTER_INSTRUCTOR_COURSES,
+  FETCH_POPULAR_COURSES,
 } from "../constants/courses";
 
 export default (state = { isLoading: true, courses: [] }, action) => {
@@ -24,6 +25,7 @@ export default (state = { isLoading: true, courses: [] }, action) => {
       return { ...state, courses: action.payload };
 
     case FETCH_ALL:
+    case FETCH_POPULAR_COURSES:
       return { ...state, courses: action.payload };
 
     case FILTER_SUBJECT_RATING:

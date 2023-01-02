@@ -24,5 +24,6 @@ export const authMiddeleware = (req, res, next) => {
     next();
   } else {
     res.send("NO TOKEN FOUND ");
+    //HERE THE ERROR
   }
 };

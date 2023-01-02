@@ -20,11 +20,11 @@ import { getRate } from "../../util.js";
 import { UdacityCard } from "./UdacityCard/UdacityCard.js";
 import { SearchBar } from "./SearchBar.js";
 
-export const CoursesGrid = ({ type }) => {
+export const CoursesGrid = ({ type, search }) => {
   const [detailsBox, setDetailsBox] = useState(false);
   const [title, setTitle] = useState("");
   const { isLoading, courses } = useSelector((c) => c.courses);
-  const [search, setSearch] = useState("");
+  // const [search, setSearch] = useState("");
 
   const filteredCoursesBySubjectOrTitleOrInstructor = courses.filter(
     (course) => {
@@ -40,12 +40,12 @@ export const CoursesGrid = ({ type }) => {
     <CircularProgress></CircularProgress>
   ) : (
     <Container sx={{ mt: "20px" }}>
-      <TextField
+      {/* <TextField
         onChange={(e) => setSearch(e.target.value)}
         variant="outlined"
         size="small"
         label="search cours"
-      ></TextField>
+      ></TextField> */}
       <Grid container columnSpacing={13} rowSpacing={3}>
         {filteredCoursesBySubjectOrTitleOrInstructor.map((course, index) => {
           return (

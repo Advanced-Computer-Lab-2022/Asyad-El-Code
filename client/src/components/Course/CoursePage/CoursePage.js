@@ -93,6 +93,7 @@ export const CoursePage = () => {
       });
     setProgress(Math.ceil(totalDuration / (courses[0]?.duration * 60)) * 100);
   };
+  console.log("the course ZERO is ", courses[0]);
 
   return (
     <>
@@ -135,8 +136,11 @@ export const CoursePage = () => {
                   <Stack spacing={2} direction="row">
                     <MyTypography variant="body2">
                       Created by{" "}
-                      <MyLink underline="always" href="#">
-                        {courses[0].instructor.name}
+                      <MyLink
+                        underline="always"
+                        href={`/instructorProfile/${courses[0].instructor?.instructorId}`}
+                      >
+                        {courses[0].instructor?.name}
                       </MyLink>
                     </MyTypography>
                   </Stack>
@@ -148,7 +152,9 @@ export const CoursePage = () => {
                 <Grid item mt={5}>
                   <CourseCard
                     userObject={
-                      individualTrainee ? individualTrainee : corporateTrainee
+                      traineeType === "individualTrainee"
+                        ? individualTrainee
+                        : corporateTrainee
                     }
                     course={courses[0]}
                     isCourseInUserCourses={isCourseInUserCourses}

@@ -9,7 +9,7 @@ import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
 import CoursePage from "./components/Course/CoursePage/CoursePage";
 import ScrollToTop from "./components/ScrollToTop";
-
+import InstructorPage from "./components/Instructor/instructorPage";
 import MyCourses from "./components/Trainee/MyCourses";
 
 import CourseSteps from "./components/Instructor/CourseSteps";
@@ -38,6 +38,7 @@ import AdminDashboard from "./components/Admin/Dashboard";
 import { Courses } from "./components/Admin/Courses";
 import Dashboard from "@mui/icons-material/Dashboard";
 
+import RequestAccess from "./components/RequestAccess";
 const theme = createTheme({
   palette: {
     primary: {
@@ -92,23 +93,25 @@ export const App = () => {
 
           <Route>
             <Navbar></Navbar>
+
             <Switch>
               <Route exact path={["/home", "/"]}>
                 {user?.type === "admin" ? (
-                  <Redirect to="/dashboard" /> ) : (
-                    <Home /> )
-                  }
+                  <Redirect to="/dashboard" />
+                ) : (
+                  <Home />
+                )}
               </Route>
               <Route exact path="/viewAll">
                 <ViewAllCourses />
               </Route>
-              <Route exact path="/instructorpage">
+              {/* <Route exact path="/instructorpage">
                 {user?.type === "instructor" ? (
                   <InstructorCourses></InstructorCourses>
                 ) : (
                   <Redirect to="/home" />
                 )}
-              </Route>
+              </Route> */}
 
               <Route exact path="/adminPage">
                 {user?.type === "admin" ? (
@@ -116,6 +119,9 @@ export const App = () => {
                 ) : (
                   <Redirect to="/home" />
                 )}
+              </Route>
+              <Route exact path="/instructorProfile/:id">
+                <InstructorPage></InstructorPage>
               </Route>
               <Route exact path="/createCourse">
                 {user?.type == "instructor" ? (
@@ -190,7 +196,6 @@ export const App = () => {
                 <Courses></Courses>
               </Route>
             </Switch>
-
           </Route>
         </Switch>
       </ScrollToTop>
