@@ -1,46 +1,56 @@
-import { Grid, Typography, Button, Card, CardContent, CardActions, Snackbar, IconButton } from '@mui/material'
+import { Grid, Typography, Button, Card, CardContent, CardActions, Snackbar, IconButton, Chip } from '@mui/material'
 import React, { useState, useEffect } from 'react';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 import { useDispatch, useSelector } from "react-redux";
 import { getCourseRequests, deleteCourseRequest, acceptCourseRequest, rejectCourseRequest } from "../../actions/requests";
 import CloseIcon from '@mui/icons-material/Close';
-import { provideCourse } from '../../api/admin';
+import { getRefunds, refundCourse, acceptRefund, rejectRefund, deleteRefundRequest } from '../../api/admin';
 
 
-const CourseRequests = () => {
+const RefundPage = () => {
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState("");
     const dispatch = useDispatch();
-    const requests = useSelector((r) => r.requests);
+    const [refunds, setRefunds] = useState([]);
 
-
+    
+    // fetch all refunds from the database and store them in the refunds state
     useEffect(() => {
-        dispatch(getCourseRequests());
+        const fetchRefunds = async () => {
+            console.log("fetching refunds");
+            const { data } = await getRefunds();
+            setRefunds(data);
+        }
+        fetchRefunds();
     }, []);
+    console.log(refunds);
 
-    const handleAccept = async (id, email, courseName, courseId, corpId) => {
+    const handleAccept = async (instructorId, individualTraineeId, courseId, id, email, courseName) => {
         const request = {
+            instructorId: instructorId,
+            individualTraineeId: individualTraineeId,
+            courseId: courseId
+        }
+        const details = {
             email: email,
             courseName: courseName
         }
-        dispatch(acceptCourseRequest(request));
-        dispatch(deleteCourseRequest(id));
-        const { data } = await provideCourse(courseId, corpId);
-        setMessage("Course Request Accepted");
+        const { data } = await refundCourse(request);
+        const { data2 } = await acceptRefund(details);
+        setRefunds(refunds.filter((refund) => refund._id !== id));
+        const { data3 } = await deleteRefundRequest(id);
+        setMessage("Money Refunded Successfully");
         setOpen(true);
     }
 
     const handleReject = (id, email, courseName) => {
-        const request = {
+        const details = {
             email: email,
             courseName: courseName
         }
-        dispatch(rejectCourseRequest(request));
-        dispatch(deleteCourseRequest(id));
-        setMessage("Course Request Rejected");
+        const { data } = rejectRefund(details);
+        setRefunds(refunds.filter((refund) => refund._id !== id));
+        const { data2 } = deleteRefundRequest(id);
+        setMessage("Refund Request Rejected");
         setOpen(true);
     }
 
@@ -71,20 +81,21 @@ const CourseRequests = () => {
                 <Grid container maxWidth="100%" spacing={5} direction="row"  alignItems="center">
 
 
-                    {requests?.map((request) => (
+                    {refunds?.map((request) => (
                         <>
 
                             <Grid item md={6} key={request._id}>
                                 <Card sx={{ minWidth: 500 }}>
                                     <CardContent>
                                         <Typography variant="h6" component="div">
-                                            {request?.userName} has requested to take {request?.courseName}
+                                            {request?.firstName +" "+ request?.lastName} has requested a refund for the {request?.courseName} course.
                                         </Typography>
                                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                            {request?.date?.substring(0, 10) + ",     " + request?.date?.substring(11, 16) + " GMT"}
+                                            {request?.refundDate?.substring(0, 10) + ",     " + request?.refundDate?.substring(11, 16) + " GMT  "}
+                                            <Chip label={request?.refundType} />
                                         </Typography>
                                         <Typography variant="body2">
-                                            {request?.request}
+                                            {request?.refundReason}
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
@@ -95,7 +106,7 @@ const CourseRequests = () => {
                                                 <Button size="small" onClick={() => handleReject(request?._id, request?.email, request?.courseName)}>Reject</Button>
                                             </Grid>
                                             <Grid item xs={2}>
-                                                <Button size="small" variant='contained' style={{ backgroundColor: "#205295" }} onClick={() => handleAccept(request?._id, request?.email, request?.courseName, request?.courseId, request?.userId)}>Approve</Button>
+                                                <Button size="small" variant='contained' style={{ backgroundColor: "#205295" }} onClick={() => handleAccept(request?.instructorId, request?.individualTraineeId, request?.courseId, request?._id, request?.email, request?.courseName)}>Approve</Button>
                                             </Grid>
                                         </Grid>
                                     </CardActions>
@@ -119,4 +130,4 @@ const CourseRequests = () => {
     )
 }
 
-export default CourseRequests;
+export default RefundPage;

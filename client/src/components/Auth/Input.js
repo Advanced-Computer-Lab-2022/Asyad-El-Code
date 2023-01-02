@@ -20,6 +20,7 @@ const Input = ({
   value,
   error,
 }) => {
+  console.log("error", error);
   return (
     <Grid item xs={12}>
       <TextField

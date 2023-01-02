@@ -16,6 +16,8 @@ import {
   Select,
   Stack,
   Typography,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 import { maxWidth } from "@mui/system";
 import React, { useEffect, useState } from "react";
@@ -25,6 +27,7 @@ import RatingSlider from "./RatingSlider";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getEGP } from "../../util";
+import SearchIcon from "@mui/icons-material/Search";
 
 const initialFilterData = {
   Subject: [
@@ -38,7 +41,7 @@ const initialFilterData = {
   Rating: [0, 5],
 };
 
-export const FilterBar = ({ handleClick }) => {
+export const FilterBar = ({ handleClick, handleClear, search, setSearch }) => {
   const selectedCountry = useSelector((c) => c.selectedCountry);
   const { isLoading, currencyRates } = useSelector(
     (state) => state.currencyRates
@@ -72,6 +75,11 @@ export const FilterBar = ({ handleClick }) => {
     setFilterData({ ...filterData, Subject: newValue });
   };
 
+  const handleClearAll = () => {
+    setFilterData(initialFilterData);
+    handleClear();
+  };
+
   // useEffect(() => {}, [courses]);
 
   return (
@@ -83,7 +91,20 @@ export const FilterBar = ({ handleClick }) => {
           <Typography fontSize={15} fontWeight="bold" color="black">
             Filter By:
           </Typography>
-          <Button>Search</Button>
+          <TextField
+            onChange={(e) => setSearch(e.target.value)}
+            variant="outlined"
+            size="small"
+            label="search course"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            style={{ width: "300px", marginTop: "10px" }}
+          ></TextField>
         </Stack>
       </Box>
 
@@ -129,7 +150,7 @@ export const FilterBar = ({ handleClick }) => {
           <Grid item xs={4}>
             <Stack direction="row-reverse" spacing={2} alignItems="center">
               <Button
-                //TODO HANDLE IT
+                onClick={handleClearAll}
                 startIcon={<ClearAllIcon />}
                 size="small"
                 style={{ color: "#205294" }}

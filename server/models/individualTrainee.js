@@ -10,6 +10,10 @@ const individualTraineeSchema = mongoose.Schema({
     required: true,
     minLength: 3,
   },
+  gender: {
+    type: String,
+    required: true,
+  },
 
   lastName: {
     type: String,
@@ -55,6 +59,10 @@ const individualTraineeSchema = mongoose.Schema({
     city: String,
     streetName: String,
     streetNumber: String,
+  },
+  wallet: {
+    type: Number,
+    default: 0,
   },
   courses: [
     {
@@ -106,6 +114,7 @@ const individualTraineeSchema = mongoose.Schema({
       seenContent: [
         { duration: Number, contentId: mongoose.Schema.Types.ObjectId },
       ],
+      certificateReceived: { type: Boolean, default: false },
     },
   ],
 });
@@ -132,6 +141,7 @@ export function validate(individualTrainee) {
     address: Joi.object(),
     country: Joi.string(),
     university: Joi.string(),
+    wallet: Joi.number(),
     billingDetails: Joi.object({
       masterCardNumber: Joi.string().required(),
       expiryDate: Joi.date().required(),

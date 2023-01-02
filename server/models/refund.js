@@ -20,15 +20,15 @@ export const refundSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "CorporateTrainee",
   },
+  instructorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Instructor",
+  },
   courseId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Course",
   },
   courseName: {
-    type: String,
-    required: true,
-  },
-  refundReason: {
     type: String,
     required: true,
   },

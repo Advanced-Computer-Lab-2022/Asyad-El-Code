@@ -9,6 +9,8 @@ import {
   getInstructors,
   getInstructor,
   updateRating,
+  addRating,
+  addReview,
   definePromotion,
   firstLogin,
   getUserNames,
@@ -31,11 +33,10 @@ router.patch("/updateInformation/:id", authMiddeleware, updateInformation);
 router.patch("/firstLogin/:id", authMiddeleware, firstLogin);
 router.get("/searchByTitleOrSubject/:id", searchByTitleOrSubject);
 
-router.get(
-  "/getAllInstructorCourses/:id",
-  [authMiddeleware],
-  getAllInstructorCourses
-);
+router.get("/filterInstructorCourses", filterInstructorCourses);
+router.post("/addRating ", addRating);
+router.post("/addReview", addReview);
+router.get("/getAllInstructorCourses/:id", getAllInstructorCourses);
 
 router.post("/updateRating/:id", authMiddeleware, updateRating);
 router.patch("/definePromotion", authMiddeleware, definePromotion);

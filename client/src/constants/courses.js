@@ -15,3 +15,5 @@ export const ADD_REVIEW = "ADD_REVIEW";
 
 export const START_LOADING = "START_LOADING";
 export const END_LOADING = "END_LOADING";
+
+export const FETCH_POPULAR_COURSES = "FETCH_POPULAR_COURSES";

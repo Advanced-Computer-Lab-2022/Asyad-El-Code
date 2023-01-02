@@ -9,6 +9,7 @@ import {
   START_LOADING,
   END_LOADING,
   FILTER_SUBJECT_RATING,
+  FETCH_POPULAR_COURSES,
 } from "../constants/courses";
 
 export const getCourses = () => async (dispatch) => {
@@ -54,6 +55,17 @@ export const createCourse = (course) => async (dispatch) => {
 
     const { data } = await courseApi.createCourse(course);
     dispatch({ type: CREATE_COURSE, payload: data });
+    dispatch({ type: END_LOADING });
+  } catch (error) {
+    console.log("THE ERORR IS ", error);
+  }
+};
+
+export const getPopularCourses = () => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
+    const { data } = await courseApi.getPopularCourses();
+    dispatch({ type: FETCH_POPULAR_COURSES, payload: data });
     dispatch({ type: END_LOADING });
   } catch (error) {
     console.log("THE ERORR IS ", error);
