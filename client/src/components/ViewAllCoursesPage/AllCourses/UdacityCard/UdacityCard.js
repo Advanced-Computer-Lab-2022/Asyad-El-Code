@@ -18,8 +18,8 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getCourse } from "../../../../actions/courses";
 import FeedbackDialog from "./RatingsAndReviews/FeedbackDialog";
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 
 export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
   const traineeType = JSON.parse(localStorage.getItem("profile"))?.type;
@@ -98,7 +98,7 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
               src={image}
             ></img>
           </Grid>
-          {courseList.find((c) => c._id === course?._id) ? (
+          {courseList?.find((c) => c._id === course?._id) ? (
             <Button
               fullWidth
               style={{
@@ -112,8 +112,9 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
               onClick={(e) => handleSelect(e, course)}
             >
               Unselect Course
-            </Button>) :
-            (<Button
+            </Button>
+          ) : (
+            <Button
               fullWidth
               style={{
                 padding: "12px",
@@ -126,8 +127,8 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
               onClick={(e) => handleSelect(e, course)}
             >
               Select Course
-            </Button>)
-          }
+            </Button>
+          )}
           {type !== "admin" && (
             <Grid item>
               <Button
@@ -143,8 +144,7 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
                 {type === "instructor" ? "Feedback" : "Program Details "}
               </Button>
             </Grid>
-          )
-          }
+          )}
           <Grid item>
             <FeedbackDialog
               course={course}
@@ -171,8 +171,8 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
                   ? "Define Promotion"
                   : traineeType == "individualTrainee" ||
                     traineeType == "corporateTrainee"
-                    ? "Enroll Now"
-                    : "Download"}
+                  ? "Enroll Now"
+                  : "Download"}
               </Button>
             </Grid>
           ) : null}
@@ -186,7 +186,7 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
                 backgroundColor: "#eeeeee",
                 color: "black",
               }}
-            // color="success"
+              // color="success"
             />
           </Grid>
           <Grid item>
@@ -206,7 +206,8 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
           </Grid>
           <Grid item>
             <Typography fontSize={12} color="text.secondary" variant="body2">
-              <span style={{fontSize: '14px'}}>Instructor: </span> {course.instructor.name}
+              <span style={{ fontSize: "14px" }}>Instructor: </span>{" "}
+              {course.instructor.name}
             </Typography>
           </Grid>
           <Grid item>
@@ -240,11 +241,16 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
                 <Typography variant="h7">Course Summary</Typography>
               </Grid>
               <Grid item>
-                <Typography fontSize={12} color="text.secondary" variant="body2">
+                <Typography
+                  fontSize={12}
+                  color="text.secondary"
+                  variant="body2"
+                >
                   {course.summary}
                 </Typography>
               </Grid>
-            </>)}
+            </>
+          )}
         </Grid>
       </Grid>
       <PromotionPopUp
