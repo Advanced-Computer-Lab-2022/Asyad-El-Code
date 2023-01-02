@@ -39,7 +39,6 @@ export const filterByTilteOrSubjectOrInstructor =
     try {
       dispatch({ type: START_LOADING });
 
-      console.log("SEARCHQUEYR", searchQuery);
       const { data } = await courseApi.filterByTilteOrSubjectOrInstructor(
         searchQuery
       );
@@ -54,7 +53,6 @@ export const createCourse = (course) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
 
-    console.log("THE COURSE IS : ", course);
     const { data } = await courseApi.createCourse(course);
     dispatch({ type: CREATE_COURSE, payload: data });
     dispatch({ type: END_LOADING });
@@ -76,15 +74,11 @@ export const getPopularCourses = () => async (dispatch) => {
 
 export const getCourseData = () => async (dispatch) => {
   try {
-    console.log("im in action");
     dispatch({ type: START_LOADING });
     const { data } = await courseApi.getCourseData();
     dispatch({ type: GET_COURSE_DATA, payload: data });
     dispatch({ type: END_LOADING });
   } catch (err) {
-    console.log("Iam in the rrorr ");
-    console.log("GET COURSES5 ERROR");
-
     console.log(err);
   }
 };
@@ -92,12 +86,12 @@ export const getCourse =
   (courseId, history, courseTitle) => async (dispatch) => {
     try {
       dispatch({ type: START_LOADING });
-      console.log("COURSE ID IS ", courseId);
       const { data } = await courseApi.getCourse(courseId);
-      console.log("speceif course ", data);
       dispatch({ type: GET_COURSE, payload: data });
       dispatch({ type: END_LOADING });
-      history.push(`/course/${courseTitle}`);
+      if (!courseTitle) {
+        history.push(`/course/`);
+      } else history.push(`/course/${courseTitle}`);
     } catch (error) {
       console.log("THE ERORR IS ", error);
     }

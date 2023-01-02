@@ -44,7 +44,6 @@ const Payments = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  console.log(trainee);
   const handleForm = (e) => {
     e.preventDefault();
     trainee.firstName = firstName;
@@ -53,7 +52,6 @@ const Payments = () => {
     trainee.phoneNumber = phone;
     trainee.country = country;
     dispatch(updateTrainee(trainee._id, trainee));
-    console.log(trainee);
   };
 
   useEffect(() => {
@@ -68,7 +66,15 @@ const Payments = () => {
       alignContent="center"
       color="#1C1D1F"
     >
-      <Grid item borderBottom={1} borderColor="silver" width="100%" padding={3} bgcolor="#1C1D1F" color="white">
+      <Grid
+        item
+        borderBottom={1}
+        borderColor="silver"
+        width="100%"
+        padding={3}
+        bgcolor="#1C1D1F"
+        color="white"
+      >
         <Typography fontWeight="bold" fontSize={35} textAlign="center">
           Payments
         </Typography>

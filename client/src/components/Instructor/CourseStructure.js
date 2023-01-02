@@ -77,8 +77,6 @@ function CourseStructure(props) {
   const [initialForm, setInitialForm] = React.useState(initialFormState);
   const { window } = props;
   const [page, setPage] = useState("Course Details");
-  
- 
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -94,7 +92,6 @@ function CourseStructure(props) {
   };
 
   const submitOutlines = (state) => {
-    console.log("asdfghjkl");
     setInitialForm({ ...initialForm, outlines: state });
     setPage("Course Preview");
   };

@@ -241,8 +241,6 @@ export default function CourseContents() {
         if (g) totalDuration += g.total * 5;
       });
 
-    console.log("This is total Duration", totalDuration);
-    console.log("this is course duration", course?.duration);
     setProgress(Math.ceil((totalDuration / (course?.duration * 60)) * 100));
   };
   // const updateUserObject = (duration, id) => {

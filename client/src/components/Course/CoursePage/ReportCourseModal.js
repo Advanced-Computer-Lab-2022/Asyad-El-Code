@@ -56,8 +56,6 @@ export default function AdminModal({
   };
 
   const handleSubmit = () => {
-    console.log("Type:", type);
-    console.log("Details:", details);
     if (refund == false) {
       const problem = {
         reporterEmail: reporterEmail,
@@ -66,7 +64,6 @@ export default function AdminModal({
         type: type,
         details: details,
       };
-      console.log(problem);
       dispatch(reportProblem(problem));
       handleClose();
     }

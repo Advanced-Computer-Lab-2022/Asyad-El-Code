@@ -30,7 +30,6 @@ import { Box } from "@mui/system";
 import { getCourse, getCourses } from "../../actions/courses";
 import * as courseApi from "../../api/course";
 import DropDownMenuProfile from "./DropDownProfileMenu";
-import SearchIcon from "@mui/icons-material/Search";
 import { useLocation } from "react-router-dom";
 export default function ButtonAppBar() {
   const dispatch = useDispatch();
@@ -53,7 +52,6 @@ export default function ButtonAppBar() {
 
   const [user, setUser] = useState(parseJson());
   // IMPORTANT TODO We can use here a simple API to get the courses
-  console.log("Iam the courses ", courses);
   const rates = useSelector((state) => state.currencyRates);
 
   const [selected, setSelected] = useState("");
@@ -70,7 +68,6 @@ export default function ButtonAppBar() {
     dispatch(getCourse(courseId, history, courseTitle));
   };
   const handleCountry = (event) => {
-    console.log(event.target.value);
     setCountry(event.target.value);
     dispatch(changeSelectedCountry(event.target.value));
   };
@@ -106,100 +103,104 @@ export default function ButtonAppBar() {
 
   return (
     <CssBaseline>
-      <AppBar className={classes.appBar} position="sticky">
+      <AppBar className={classes.appBar} position="sticky" style={{backgroundColor: user?.type === "admin" ? "#3C4048" : "black"}}>
         <Toolbar>
-          <MyLink underline="none" href="/home">
-            Home
-          </MyLink>
-          {/* <Typography color="black" variant="h6" component="div">
-              Logo
-            </Typography> */}
+          {user?.type !== "admin" && (
 
-          <MyLink sx={{ ml: 4, mr: 3 }} href="/viewAll" underline="none">
-            Explore
-          </MyLink>
+            <MyLink underline="none" href="/home">
+              Home
+            </MyLink>
+          )}
 
-          <div className={classes.headerOptions}>
-            <Autocomplete
-              open={openMenu}
-              onChange={(event, value) => setSelected(value)}
-              onSelect={() =>
-                handleSelect(selectedCourse?._id, selectedCourse?.title)
-              }
-              onInputChange={(_, value) => {
-                if (value.length === 0) {
-                  if (openMenu) {
-                    setOpenMenu(false);
-                  }
-                } else {
-                  if (!openMenu) {
-                    setOpenMenu(true);
-                  }
+          {user?.type !== "admin" && (
+
+            <MyLink sx={{ ml: 4, mr: 3 }} href="/viewAll" underline="none">
+              Explore
+            </MyLink>
+          )}
+          {user?.type !== "admin" && (
+
+            <div className={classes.headerOptions}>
+              <Autocomplete
+                open={openMenu}
+                onChange={(event, value) => setSelected(value)}
+                onSelect={() =>
+                  handleSelect(selectedCourse?._id, selectedCourse?.title)
                 }
-              }}
-              onClose={() => setOpenMenu(false)}
-              options={courses?.map((course) => course.title)}
-              sx={{
-                opacity: 0.5,
-                width: 300,
-                height: 3,
-                mb: 5,
-                //INeed you to remove the autocomplete border
-                "& .MuiAutocomplete-inputRoot": {
-                  border: "none",
-                },
-                "& .MuiAutocomplete-input": {
-                  border: "none",
-                },
-                "& .MuiAutocomplete-input:first-child": {
-                  border: "none",
-                },
-                "& .MuiAutocomplete-inputAdornmentPositionStart": {
-                  border: "none",
-                },
-                "& .MuiAutocomplete-inputAdornment": {
-                  border: "none",
-                },
-                //Then set a border to my autocomplete to be of radius 10px and gray color
-                "& .MuiAutocomplete-inputRoot": {
-                  border: "1px solid gray",
-                  borderRadius: "40px",
-                  border: "none",
-                  backgroundColor: "#555555",
-                },
-                "& .MuiAutocomplete-input": {
-                  border: "1px solid gray",
-                  borderRadius: "40px",
-                  border: "none",
-                  backgroundColor: "#555555",
-                },
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  fullWidth
-                  InputLabelProps={{
-                    className: "text_label",
-                  }}
-                  // InputProps={{
-                  //   startAdornment: (
-                  //     <InputAdornment position="start">
-                  //       <SearchIcon />
-                  //     </InputAdornment>
-                  //   ),
-                  // }}
-                  sx={{
-                    input: {
-                      height: 2,
-                      width: "400px",
-                      color: "aqua",
-                      mb: 1,
-                    },
-                  }}
-                />
-              )}
-            />
-          </div>
+                onInputChange={(_, value) => {
+                  if (value.length === 0) {
+                    if (openMenu) {
+                      setOpenMenu(false);
+                    }
+                  } else {
+                    if (!openMenu) {
+                      setOpenMenu(true);
+                    }
+                  }
+                }}
+                onClose={() => setOpenMenu(false)}
+                options={courses?.map((course) => course.title)}
+                sx={{
+                  opacity: 0.5,
+                  width: 300,
+                  height: 3,
+                  mb: 5,
+                  //INeed you to remove the autocomplete border
+                  "& .MuiAutocomplete-inputRoot": {
+                    border: "none",
+                  },
+                  "& .MuiAutocomplete-input": {
+                    border: "none",
+                  },
+                  "& .MuiAutocomplete-input:first-child": {
+                    border: "none",
+                  },
+                  "& .MuiAutocomplete-inputAdornmentPositionStart": {
+                    border: "none",
+                  },
+                  "& .MuiAutocomplete-inputAdornment": {
+                    border: "none",
+                  },
+                  //Then set a border to my autocomplete to be of radius 10px and gray color
+                  "& .MuiAutocomplete-inputRoot": {
+                    border: "1px solid gray",
+                    borderRadius: "40px",
+                    border: "none",
+                    backgroundColor: "#555555",
+                  },
+                  "& .MuiAutocomplete-input": {
+                    border: "1px solid gray",
+                    borderRadius: "40px",
+                    border: "none",
+                    backgroundColor: "#555555",
+                  },
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    InputLabelProps={{
+                      className: "text_label",
+                    }}
+                    // InputProps={{
+                    //   startAdornment: (
+                    //     <InputAdornment position="start">
+                    //       <SearchIcon />
+                    //     </InputAdornment>
+                    //   ),
+                    // }}
+                    sx={{
+                      input: {
+                        height: 2,
+                        width: "400px",
+                        color: "aqua",
+                        mb: 1,
+                      },
+                    }}
+                  />
+                )}
+              />
+            </div>)}
           {/* <Button
               onClick={() => {
                 history.push("/instructorpage");
@@ -230,60 +231,62 @@ export default function ButtonAppBar() {
               Admin
             </Button> */}
           <Grid spacing={2} container className={classes.rightSection}>
-            <Grid item xs={2}>
-              <FormControl fullWidth size="small">
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={country}
-                  onChange={handleCountry}
-                  displayEmpty
-                  renderValue={(value) => {
-                    return (
-                      <Box color="#FFFFFF" sx={{ display: "flex", gap: 1 }}>
-                        <SvgIcon color="#FFFFFF">
-                          <LanguageIcon color="#FFFFFF" />
-                        </SvgIcon>
-                        {value}
-                      </Box>
-                    );
-                  }}
-                >
-                  <MenuItem value={"Egypt"}>
-                    <EG title="Egypt" width={20} st />
-                    <span style={{ marginLeft: "10px" }}>Egypt</span>
-                  </MenuItem>
-                  <MenuItem value={"Canada"}>
-                    <CA title="Canada" width={20} />
-                    <span style={{ marginLeft: "10px" }}>Canada</span>
-                  </MenuItem>
-                  <MenuItem value={"USA"}>
-                    <US title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>USA</span>
-                  </MenuItem>
-                  <MenuItem value={"Germany"}>
-                    <DE title="EUR" width={20} />
-                    <span style={{ marginLeft: "10px" }}>Germany</span>
-                  </MenuItem>
-                  <MenuItem value={"KSA"}>
-                    <SA title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>KSA</span>
-                  </MenuItem>
-                  <MenuItem value={"UAE"}>
-                    <AE title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>UAE</span>
-                  </MenuItem>
-                  <MenuItem value={"UK"}>
-                    <GB title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>UK</span>
-                  </MenuItem>
-                  <MenuItem value={"China"}>
-                    <CN title="USA" width={20} />
-                    <span style={{ marginLeft: "10px" }}>China</span>
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
+            {user?.type !== "admin" && (
+                          <Grid item xs={2}>
+                          <FormControl fullWidth size="small">
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              value={country}
+                              onChange={handleCountry}
+                              displayEmpty
+                              renderValue={(value) => {
+                                return (
+                                  <Box color="#FFFFFF" sx={{ display: "flex", gap: 1 }}>
+                                    <SvgIcon color="#FFFFFF">
+                                      <LanguageIcon color="#FFFFFF" />
+                                    </SvgIcon>
+                                    {value}
+                                  </Box>
+                                );
+                              }}
+                            >
+                              <MenuItem value={"Egypt"}>
+                                <EG title="Egypt" width={20} st />
+                                <span style={{ marginLeft: "10px" }}>Egypt</span>
+                              </MenuItem>
+                              <MenuItem value={"Canada"}>
+                                <CA title="Canada" width={20} />
+                                <span style={{ marginLeft: "10px" }}>Canada</span>
+                              </MenuItem>
+                              <MenuItem value={"USA"}>
+                                <US title="USA" width={20} />
+                                <span style={{ marginLeft: "10px" }}>USA</span>
+                              </MenuItem>
+                              <MenuItem value={"Germany"}>
+                                <DE title="EUR" width={20} />
+                                <span style={{ marginLeft: "10px" }}>Germany</span>
+                              </MenuItem>
+                              <MenuItem value={"KSA"}>
+                                <SA title="USA" width={20} />
+                                <span style={{ marginLeft: "10px" }}>KSA</span>
+                              </MenuItem>
+                              <MenuItem value={"UAE"}>
+                                <AE title="USA" width={20} />
+                                <span style={{ marginLeft: "10px" }}>UAE</span>
+                              </MenuItem>
+                              <MenuItem value={"UK"}>
+                                <GB title="USA" width={20} />
+                                <span style={{ marginLeft: "10px" }}>UK</span>
+                              </MenuItem>
+                              <MenuItem value={"China"}>
+                                <CN title="USA" width={20} />
+                                <span style={{ marginLeft: "10px" }}>China</span>
+                              </MenuItem>
+                            </Select>
+                          </FormControl>
+                        </Grid> 
+            )}
 
             {user?.result ? (
               //Create avatar
@@ -315,7 +318,6 @@ export default function ButtonAppBar() {
               </>
             )}
           </Grid>
-
           {/* <DownloadLink to="/files/myfi22le.pdf" target="_blank" download>
             Download
           </DownloadLink>

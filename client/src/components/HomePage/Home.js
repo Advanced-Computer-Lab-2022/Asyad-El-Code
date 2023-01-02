@@ -30,16 +30,13 @@ const MyTypography = styled(Typography)({
 export const Home = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
-  const handleOver = (event) => {
-    console.log("HIIISID");
-  };
+  const handleOver = (event) => {};
 
   useEffect(() => {
     dispatch(getPopularCourses());
   }, []);
 
   const user = JSON.parse(localStorage.getItem("profile"));
-  console.log("USER IS NULLLLL", user);
   return (
     <div className={classes.root}>
       <div

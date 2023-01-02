@@ -33,7 +33,6 @@ export default function FeedbackDialog({ course, handleClose, open, scroll }) {
   }, [open]);
 
   const getUserNames = async () => {
-    console.log("course id" + course._id);
     const { data } = await courseApi.getUserNames(course._id);
     setUserNames(data);
   };

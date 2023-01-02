@@ -15,7 +15,6 @@ import {
 } from "../constants/courses";
 
 export default (state = { isLoading: true, courses: [] }, action) => {
-  console.log("Iam here");
   switch (action.type) {
     case START_LOADING:
       return { ...state, isLoading: true };

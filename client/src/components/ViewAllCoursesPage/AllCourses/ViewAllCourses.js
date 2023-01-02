@@ -21,7 +21,7 @@ export const Courses = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (search === "instructor") {
-      dispatch(getAllInstructorCourses());
+      dispatch(getAllInstructorCourses(user?.result?._id));
     } else {
       dispatch(getCourses());
     }

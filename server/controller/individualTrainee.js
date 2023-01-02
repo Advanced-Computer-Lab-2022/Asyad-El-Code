@@ -128,6 +128,8 @@ export const selectCountry = async (req, res) => {
 };
 export const enrollCourse = async (req, res) => {
   try {
+    console.log("Iam in the enroolll");
+    console.log(req.body);
     const { id, courseId } = req.query;
     const courseIdCasted = await mongoose.Types.ObjectId(courseId);
     const idCasted = await mongoose.Types.ObjectId(id);
@@ -329,14 +331,12 @@ export const getNotes = async (req, res) => {
 export const payCourse = async (req, res) => {
   try {
     const courses = [req.body.course];
-    console.log("COURSES", courses);
 
     const instructorPrecentage = 0.86;
-    const instructorProfit = parseInt(courses[0].price) * instructorPrecentage;
-    const stripeProfit = parseInt(courses[0].price) - instructorProfit;
-    const instructorId = req.body.instructorId;
+    const instructorProfit =
+      parseInt(courses[0].discountedPrice) * instructorPrecentage;
+    const { instructorId, traineeId } = req.body;
     console.log("INSTRUCTOR ID", instructorId);
-
     const instructor = await Instructor.findById(instructorId);
     instructor.wallet = instructor.wallet + instructorProfit;
     await instructor.save();
@@ -344,7 +344,7 @@ export const payCourse = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      success_url: `http://localhost:3000/success/${courses[0]._id}`,
+      success_url: `http://localhost:3000/success/${courses[0]._id}/${traineeId}`,
       cancel_url: "http://localhost:3000/cancel",
       line_items: courses.map((course) => {
         return {

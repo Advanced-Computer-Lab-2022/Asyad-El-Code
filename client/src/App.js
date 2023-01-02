@@ -9,7 +9,7 @@ import Admin from "./components/Admin/Admin.js";
 import Exercise from "./components/Instructor/Exercise";
 import CoursePage from "./components/Course/CoursePage/CoursePage";
 import ScrollToTop from "./components/ScrollToTop";
-
+import InstructorPage from "./components/Instructor/instructorPage";
 import MyCourses from "./components/Trainee/MyCourses";
 
 import CourseSteps from "./components/Instructor/CourseSteps";
@@ -35,7 +35,10 @@ import { getTrainee } from "./actions/individualTrainees";
 import { getCorporate } from "./actions/corporate";
 import { UdacityCard } from "./components/ViewAllCoursesPage/AllCourses/UdacityCard/UdacityCard";
 import AdminDashboard from "./components/Admin/Dashboard";
+import { Courses } from "./components/Admin/Courses";
+import Dashboard from "@mui/icons-material/Dashboard";
 
+import RequestAccess from "./components/RequestAccess";
 const theme = createTheme({
   palette: {
     primary: {
@@ -90,27 +93,35 @@ export const App = () => {
 
           <Route>
             <Navbar></Navbar>
+
             <Switch>
               <Route exact path={["/home", "/"]}>
-                <Home />
+                {user?.type === "admin" ? (
+                  <Redirect to="/dashboard" />
+                ) : (
+                  <Home />
+                )}
               </Route>
               <Route exact path="/viewAll">
                 <ViewAllCourses />
               </Route>
-              <Route exact path="/instructorpage">
+              {/* <Route exact path="/instructorpage">
                 {user?.type === "instructor" ? (
                   <InstructorCourses></InstructorCourses>
                 ) : (
                   <Redirect to="/home" />
                 )}
-              </Route>
+              </Route> */}
 
               <Route exact path="/adminPage">
-                {user?.type === "administrator" ? (
+                {user?.type === "admin" ? (
                   <Admin></Admin>
                 ) : (
                   <Redirect to="/home" />
                 )}
+              </Route>
+              <Route exact path="/instructorProfile/:id">
+                <InstructorPage></InstructorPage>
               </Route>
               <Route exact path="/createCourse">
                 {user?.type == "instructor" ? (
@@ -131,22 +142,19 @@ export const App = () => {
               <Route exact path="/ta">
                 <Testo></Testo>
               </Route>
-              <Route exact path="/success/:courseId">
+              <Route exact path="/success/:courseId/:traineeId">
                 {(props) => {
-                  const { courseId } = props.match.params;
-                  let isCourseInUserCourses = false;
-                  if (user?.type === "individualTrainee") {
-                    if (individualTrainee?.courses?.length > 0) {
-                      isCourseInUserCourses = individualTrainee?.courses?.find(
-                        (c) => c._id === courseId
-                      );
-                    }
+                  const { courseId, traineeId } = props.match.params;
+                  if (traineeId === user?.result._id) {
+                    return (
+                      <SuccessPage
+                        courseId={courseId}
+                        traineeId={traineeId}
+                      ></SuccessPage>
+                    );
+                  } else {
+                    return <Redirect to="/home" />;
                   }
-                  return isCourseInUserCourses ? (
-                    <SuccessPage></SuccessPage>
-                  ) : (
-                    <Redirect to="/home" />
-                  );
                 }}
               </Route>
 
@@ -159,7 +167,7 @@ export const App = () => {
               </Route>
 
               <Route exact path="/courseRequests">
-                {user?.type === "administrator" ? (
+                {user?.type === "admin" ? (
                   <CourseRequests></CourseRequests>
                 ) : (
                   <Redirect to="/home" />
@@ -167,7 +175,7 @@ export const App = () => {
               </Route>
 
               <Route exact path="/reportedProblems">
-                {user?.type === "administrator" ? (
+                {user?.type === "admin" ? (
                   <Problems></Problems>
                 ) : (
                   <Redirect to="/home" />
@@ -182,6 +190,10 @@ export const App = () => {
               </Route>
               <Route exact path="/dashboard">
                 <AdminDashboard></AdminDashboard>
+              </Route>
+
+              <Route exact path="/coursesPromo">
+                <Courses></Courses>
               </Route>
             </Switch>
           </Route>
