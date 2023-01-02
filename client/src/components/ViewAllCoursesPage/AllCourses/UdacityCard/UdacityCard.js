@@ -18,12 +18,13 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getCourse } from "../../../../actions/courses";
 import FeedbackDialog from "./RatingsAndReviews/FeedbackDialog";
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 
 export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
   const traineeType = JSON.parse(localStorage.getItem("profile"))?.type;
   const selectedCountry = useSelector((c) => c.selectedCountry);
+  console.log("TYPE", type);
 
   const { isLoading, currencyRates } = useSelector(
     (state) => state.currencyRates
@@ -36,13 +37,12 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
   const [scroll, setScroll] = React.useState("paper");
 
   const handleClick = (courseId, courseTitle, scrollType) => {
-    // if (type !== "instructor") {
-    //   dispatch(getCourse(courseId, history, courseTitle));
-    // } else {
-    // }
-
-    setOpen(true);
-    setScroll(scrollType);
+    if (type !== "instructor") {
+      dispatch(getCourse(courseId, history, courseTitle));
+    } else {
+      setOpen(true);
+      setScroll(scrollType);
+    }
   };
 
   const definePromotion = () => {
@@ -98,36 +98,38 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
               src={image}
             ></img>
           </Grid>
-          {courseList.find((c) => c._id === course?._id) ? (
-            <Button
-              fullWidth
-              style={{
-                padding: "12px",
-                textTransform: "none",
-                marginTop: "40px",
-              }}
-              color="success"
-              variant="contained"
-              startIcon={<CheckBoxIcon />}
-              onClick={(e) => handleSelect(e, course)}
-            >
-              Unselect Course
-            </Button>) :
-            (<Button
-              fullWidth
-              style={{
-                padding: "12px",
-                textTransform: "none",
-                backgroundColor: "#205295",
-                marginTop: "40px",
-              }}
-              variant="contained"
-              startIcon={<CheckBoxOutlineBlankIcon />}
-              onClick={(e) => handleSelect(e, course)}
-            >
-              Select Course
-            </Button>)
-          }
+          {type === "admin" &&
+            (courseList?.find((c) => c._id === course?._id) ? (
+              <Button
+                fullWidth
+                style={{
+                  padding: "12px",
+                  textTransform: "none",
+                  marginTop: "40px",
+                }}
+                color="success"
+                variant="contained"
+                startIcon={<CheckBoxIcon />}
+                onClick={(e) => handleSelect(e, course)}
+              >
+                Unselect Course
+              </Button>
+            ) : (
+              <Button
+                fullWidth
+                style={{
+                  padding: "12px",
+                  textTransform: "none",
+                  backgroundColor: "#205295",
+                  marginTop: "40px",
+                }}
+                variant="contained"
+                startIcon={<CheckBoxOutlineBlankIcon />}
+                onClick={(e) => handleSelect(e, course)}
+              >
+                Select Course
+              </Button>
+            ))}
           {type !== "admin" && (
             <Grid item>
               <Button
@@ -143,8 +145,7 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
                 {type === "instructor" ? "Feedback" : "Program Details "}
               </Button>
             </Grid>
-          )
-          }
+          )}
           <Grid item>
             <FeedbackDialog
               course={course}
@@ -171,8 +172,8 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
                   ? "Define Promotion"
                   : traineeType == "individualTrainee" ||
                     traineeType == "corporateTrainee"
-                    ? "Enroll Now"
-                    : "Download"}
+                  ? "Enroll Now"
+                  : "Download"}
               </Button>
             </Grid>
           ) : null}
@@ -186,7 +187,7 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
                 backgroundColor: "#eeeeee",
                 color: "black",
               }}
-            // color="success"
+              // color="success"
             />
           </Grid>
           <Grid item>
@@ -206,7 +207,8 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
           </Grid>
           <Grid item>
             <Typography fontSize={12} color="text.secondary" variant="body2">
-              <span style={{fontSize: '14px'}}>Instructor: </span> {course.instructor.name}
+              <span style={{ fontSize: "14px" }}>Instructor: </span>{" "}
+              {course.instructor.name}
             </Typography>
           </Grid>
           <Grid item>
@@ -240,11 +242,16 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
                 <Typography variant="h7">Course Summary</Typography>
               </Grid>
               <Grid item>
-                <Typography fontSize={12} color="text.secondary" variant="body2">
+                <Typography
+                  fontSize={12}
+                  color="text.secondary"
+                  variant="body2"
+                >
                   {course.summary}
                 </Typography>
               </Grid>
-            </>)}
+            </>
+          )}
         </Grid>
       </Grid>
       <PromotionPopUp

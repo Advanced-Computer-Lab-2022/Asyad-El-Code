@@ -236,7 +236,7 @@ export default function RegisterTabs({ setInstructorModal }) {
                       setMessageSent(false);
                     }}
                   >
-                    This is a success alert — check it out!
+                    We have sent you an email with instructions on how to reset
                   </Alert>
                 </>
               )}
