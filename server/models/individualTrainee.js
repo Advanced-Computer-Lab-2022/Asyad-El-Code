@@ -56,6 +56,10 @@ const individualTraineeSchema = mongoose.Schema({
     streetName: String,
     streetNumber: String,
   },
+  wallet: {
+    type: Number,
+    default: 0,
+  },
   courses: [
     {
       courseId: { type: mongoose.Schema.Types.ObjectId, ref: "Course" },
@@ -132,6 +136,7 @@ export function validate(individualTrainee) {
     address: Joi.object(),
     country: Joi.string(),
     university: Joi.string(),
+    wallet: Joi.number(),
     billingDetails: Joi.object({
       masterCardNumber: Joi.string().required(),
       expiryDate: Joi.date().required(),

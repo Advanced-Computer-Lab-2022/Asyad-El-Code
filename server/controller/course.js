@@ -468,13 +468,14 @@ export const requestRefund = async (req, res) => {
       coorporateTraineeId,
       courseId: course._id,
       courseName: course.title,
-      refundReason: "7amada",
+      refundReason: refundReason,
       refundDate: new Date(Date.now()),
       firstName,
       lastName,
       email,
       refundReason,
       refundType,
+      instructorId: course.instructor.instructorId,
     });
     console.log("refund", refund);
     await refund.save();

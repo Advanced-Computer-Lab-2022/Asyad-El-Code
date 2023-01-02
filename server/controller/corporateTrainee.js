@@ -76,7 +76,7 @@ export const createCourseRequest = async (req, res) => {
 };
 
 
-export const getAllCorporateTrainees = async (req, res) => {
+export const getAllCorporateTrainees = async (_req, res) => {
     const corpTrainees = await CorporateTrainee.find();
     res.send(corpTrainees);
 }

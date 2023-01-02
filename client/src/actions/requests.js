@@ -1,10 +1,21 @@
 import * as api from "../api/admin";
+import * as corpApi from "../api/corporate";
 import {
   FETCH_REQUESTS,
   DELETE_REQUEST,
   ACCEPT,
   REJECT,
+  ADD_REQUEST
 } from "../constants/requests";
+
+export const addCourseRequest = (request) => async (dispatch) => {
+  try {
+    const { data } = await corpApi.addCourseRequest(request);
+    dispatch({ type: ADD_REQUEST, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getCourseRequests = () => async (dispatch) => {
   try {

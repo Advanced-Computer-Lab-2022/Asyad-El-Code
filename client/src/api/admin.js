@@ -38,3 +38,18 @@ export const addInstructor = async (instructor) => {
 export const addCorporate = async (corporate) => {
   return await API.post(`/addCorporate`, corporate);
 };
+
+export const provideCourse = async (courseId, corpId) =>
+  await API.post(
+    `/provideCourse?courseId=${courseId}&id=${corpId}`
+  );
+
+export const getRefunds = async () => await API.get(`/refunds`);
+
+export const refundCourse = async (request) => await API.post(`/refundCourse`, request);
+
+export const acceptRefund = async (request) => await API.post(`/acceptRefund`, request);
+
+export const rejectRefund = async (request) => await API.post(`/rejectRefund`, request);
+
+export const deleteRefundRequest = async (id) => await API.delete(`/deleteRefundRequest/${id}`);

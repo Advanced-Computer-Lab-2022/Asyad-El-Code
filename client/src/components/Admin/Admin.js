@@ -103,6 +103,8 @@ const Admin = () => {
     dispatch(getAdmins());
     dispatch(getCorporates());
   }, []);
+  console.log(admins);
+  console.log(corporates);
   useEffect(() => {
     dispatch(getAdmins());
   }, [instructorModal]);

@@ -4,9 +4,8 @@ const API = axios.create({ baseURL: "http://localhost:8000/corporateTrainee" });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("profile")) {
-    req.headers.Authorization = `Bearer ${
-      JSON.parse(localStorage.getItem("profile")).token
-    }`;
+    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem("profile")).token
+      }`;
   }
   return req;
 });
@@ -19,3 +18,5 @@ export const addCorporate = async (corporate) => {
 
 export const getCorporate = async () =>
   await API.get(`/${JSON.parse(localStorage.getItem("profile")).result._id}`);
+
+export const addCourseRequest = async (request) => await API.post(`/newCourseRequest`, request);
