@@ -40,7 +40,6 @@ import ResolvedProblems from "./ResolvedProblems.js";
 import Password from "./Password.js";
 import Instructor from "./Instructor.js";
 import Reviews from "./Reviews.js";
-import { getUserNames } from "../../api/instructor.js";
 import * as instructorApi from "../../api/instructor";
 import {
   getUnresolvedProblems,
@@ -53,13 +52,18 @@ const Profile = () => {
   const [unResolvedProblems, setUnResolvedProblems] = useState([]);
   const [resolvedProblems, setResolvedProblems] = useState([]);
   const [userNames, setUserNames] = useState([]);
+  // const [instructor, setInstructor] = useState([]);
+  let instructor = {};
   const getUserNames = async (instructorId) => {
-      console.log("HIMAMA");
-      const { data } = await instructorApi.getUserNames(instructorId);
-      console.log(data);
-      setUserNames(data);
+    console.log("HIMAMA", instructorId);
+    const { data } = await instructorApi.getUserNames(instructorId);
+    console.log(data);
+    setUserNames(data);
+    console.log(userNames);
   };
   const user = JSON.parse(localStorage.getItem("profile"));
+
+  console.log(page)
 
   if (user?.type === "individualTrainee") {
     if (auth?.isloading) {
@@ -195,7 +199,7 @@ const Profile = () => {
                         }}
                       >
                         <ListItemText
-                          primary="Payments"
+                          primary="Wallet"
                           sx={{ textAlign: "center", lineHeight: 1 }}
                         />
                       </ListItemButton>
@@ -276,7 +280,7 @@ const Profile = () => {
             {page === "myProfile" ? (
               <MyProfile trainee={trainee}></MyProfile>
             ) : page === "Payment" ? (
-              <Payments></Payments>
+              <Payments wallet={trainee?.wallet}></Payments>
             ) : page === "Photo" ? (
               <Photo></Photo>
             ) : page === "PendingProblems" ? (
@@ -298,14 +302,13 @@ const Profile = () => {
     if (auth?.isloading) {
       return <CircularProgress />;
     } else {
-      let instructor = auth?.authData.result;
+      instructor = auth?.authData.result;
       if (instructor === undefined) {
         instructor = auth?.authData?.user;
       }
       if (instructor === undefined) {
         instructor = auth?.authData;
       }
-      getUserNames(instructor?._id);
       return (
         <Grid
           container
@@ -438,7 +441,9 @@ const Profile = () => {
                     <ListItem disablePadding>
                       <ListItemButton
                         onClick={() => {
-                          setPage("Reviews");
+                          getUserNames(instructor?._id).then(() => {
+                            setPage("Reviews");
+                          });
                         }}
                       >
                         <ListItemText
@@ -454,7 +459,7 @@ const Profile = () => {
                         }}
                       >
                         <ListItemText
-                          primary="Payments"
+                          primary="Wallet"
                           sx={{ textAlign: "center", lineHeight: 1 }}
                         />
                       </ListItemButton>
@@ -535,7 +540,7 @@ const Profile = () => {
             {page === "myProfile" ? (
               <Instructor instructor={instructor}></Instructor>
             ) : page === "Payment" ? (
-              <Payments></Payments>
+              <Payments wallet={instructor?.wallet}></Payments>
             ) : page === "Photo" ? (
               <Photo></Photo>
             ) : page === "PendingProblems" ? (
