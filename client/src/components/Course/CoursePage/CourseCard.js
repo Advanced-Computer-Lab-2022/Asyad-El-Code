@@ -161,14 +161,13 @@ export default function CourseCard({
     const requestObject = {
       courseId: course?._id,
       courseName: course?.title,
-      userId: userObject?._id ,
+      userId: userObject?._id,
       userName: userObject?.userName,
       email: userObject?.email,
       request: message,
-    }
+    };
     // setRequest(requestObject);
     dispatch(addCourseRequest(requestObject));
-
   };
   const handleClose = () => {
     setOpen(false);
@@ -241,7 +240,7 @@ export default function CourseCard({
               </span>
               <span style={{ color: "red", fontWeight: "normal" }}>
                 {"  "}
-                Valid Until {course.promotion.endDate.substring(0, 10)}
+                Valid Until {course?.promotion?.endDate?.substring(0, 10)}
               </span>
             </Typography>
           )}
@@ -271,7 +270,12 @@ export default function CourseCard({
           </Grid>
         </CardContent>
       </Card>
-      <RequestAccess open={open} handleClose={handleClose} setOpen={setOpen} handleSubmit={handleSubmitRequest}></RequestAccess>
+      <RequestAccess
+        open={open}
+        handleClose={handleClose}
+        setOpen={setOpen}
+        handleSubmit={handleSubmitRequest}
+      ></RequestAccess>
     </>
   );
 }
