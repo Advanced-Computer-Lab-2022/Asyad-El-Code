@@ -90,9 +90,6 @@ export const App = () => {
           <Route exact path="/test">
             <PersistentDrawerLeft></PersistentDrawerLeft>
           </Route>
-          <Route exact path="/instructorProfile/:id">
-            <InstructorPage></InstructorPage>
-          </Route>
 
           <Route>
             <Navbar></Navbar>
@@ -100,20 +97,21 @@ export const App = () => {
             <Switch>
               <Route exact path={["/home", "/"]}>
                 {user?.type === "admin" ? (
-                  <Redirect to="/dashboard" /> ) : (
-                    <Home /> )
-                  }
+                  <Redirect to="/dashboard" />
+                ) : (
+                  <Home />
+                )}
               </Route>
               <Route exact path="/viewAll">
                 <ViewAllCourses />
               </Route>
-              <Route exact path="/instructorpage">
+              {/* <Route exact path="/instructorpage">
                 {user?.type === "instructor" ? (
                   <InstructorCourses></InstructorCourses>
                 ) : (
                   <Redirect to="/home" />
                 )}
-              </Route>
+              </Route> */}
 
               <Route exact path="/adminPage">
                 {user?.type === "admin" ? (
@@ -121,6 +119,9 @@ export const App = () => {
                 ) : (
                   <Redirect to="/home" />
                 )}
+              </Route>
+              <Route exact path="/instructorProfile/:id">
+                <InstructorPage></InstructorPage>
               </Route>
               <Route exact path="/createCourse">
                 {user?.type == "instructor" ? (
@@ -195,7 +196,6 @@ export const App = () => {
                 <Courses></Courses>
               </Route>
             </Switch>
-
           </Route>
         </Switch>
       </ScrollToTop>

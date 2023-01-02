@@ -11,17 +11,22 @@ import {
 } from "../constants/auth";
 import * as userApi from "../api/auth.js";
 
-export const signup = (formData, history) => async (dispatch) => {
-  try {
-    dispatch({ type: START_LOADING_AUTH });
-    const result = await userApi.signup(formData);
-    dispatch({ type: AUTH, payload: result.data });
-    history.push("/");
-    dispatch({ type: END_LOADING_AUTH });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+export const signup =
+  (formData, history, setIsLoadingSignUp) => async (dispatch) => {
+    try {
+      setTimeout(() => {
+        setIsLoadingSignUp(false);
+      }, 2000);
+
+      dispatch({ type: START_LOADING_AUTH });
+      const result = await userApi.signup(formData);
+      dispatch({ type: AUTH, payload: result.data });
+      history.push("/");
+      dispatch({ type: END_LOADING_AUTH });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
 export const signin = (formData, history, setIsLoading, setInstructorModal) => async (dispatch) => {
   try {

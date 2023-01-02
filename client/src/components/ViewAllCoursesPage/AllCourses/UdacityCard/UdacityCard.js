@@ -24,6 +24,7 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
   const traineeType = JSON.parse(localStorage.getItem("profile"))?.type;
   const selectedCountry = useSelector((c) => c.selectedCountry);
+  console.log("TYPE", type);
 
   const { isLoading, currencyRates } = useSelector(
     (state) => state.currencyRates
@@ -36,13 +37,12 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
   const [scroll, setScroll] = React.useState("paper");
 
   const handleClick = (courseId, courseTitle, scrollType) => {
-    // if (type !== "instructor") {
-    //   dispatch(getCourse(courseId, history, courseTitle));
-    // } else {
-    // }
-
-    setOpen(true);
-    setScroll(scrollType);
+    if (type !== "instructor") {
+      dispatch(getCourse(courseId, history, courseTitle));
+    } else {
+      setOpen(true);
+      setScroll(scrollType);
+    }
   };
 
   const definePromotion = () => {
@@ -98,37 +98,38 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
               src={image}
             ></img>
           </Grid>
-          {courseList?.find((c) => c._id === course?._id) ? (
-            <Button
-              fullWidth
-              style={{
-                padding: "12px",
-                textTransform: "none",
-                marginTop: "40px",
-              }}
-              color="success"
-              variant="contained"
-              startIcon={<CheckBoxIcon />}
-              onClick={(e) => handleSelect(e, course)}
-            >
-              Unselect Course
-            </Button>
-          ) : (
-            <Button
-              fullWidth
-              style={{
-                padding: "12px",
-                textTransform: "none",
-                backgroundColor: "#205295",
-                marginTop: "40px",
-              }}
-              variant="contained"
-              startIcon={<CheckBoxOutlineBlankIcon />}
-              onClick={(e) => handleSelect(e, course)}
-            >
-              Select Course
-            </Button>
-          )}
+          {type === "admin" &&
+            (courseList?.find((c) => c._id === course?._id) ? (
+              <Button
+                fullWidth
+                style={{
+                  padding: "12px",
+                  textTransform: "none",
+                  marginTop: "40px",
+                }}
+                color="success"
+                variant="contained"
+                startIcon={<CheckBoxIcon />}
+                onClick={(e) => handleSelect(e, course)}
+              >
+                Unselect Course
+              </Button>
+            ) : (
+              <Button
+                fullWidth
+                style={{
+                  padding: "12px",
+                  textTransform: "none",
+                  backgroundColor: "#205295",
+                  marginTop: "40px",
+                }}
+                variant="contained"
+                startIcon={<CheckBoxOutlineBlankIcon />}
+                onClick={(e) => handleSelect(e, course)}
+              >
+                Select Course
+              </Button>
+            ))}
           {type !== "admin" && (
             <Grid item>
               <Button

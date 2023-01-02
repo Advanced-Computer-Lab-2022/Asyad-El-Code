@@ -39,7 +39,7 @@ export const CoursesGrid = ({ type }) => {
   return isLoading ? (
     <CircularProgress></CircularProgress>
   ) : (
-    <Container sx={{ mt: "20px" }}>
+    <Container sx={{ mt: "20px", ml: 10 }}>
       <TextField
         onChange={(e) => setSearch(e.target.value)}
         variant="outlined"
