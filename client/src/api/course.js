@@ -64,3 +64,6 @@ export const requestRefund = async (dataObject) => {
 export const sendCertificatePdf = async () => {
   return await API.post("/sendCertificatePdf");
 };
+export const getPopularCourses = async () => {
+  return await API.get("/getPopularCourses");
+};

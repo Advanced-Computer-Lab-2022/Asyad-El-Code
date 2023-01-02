@@ -30,6 +30,11 @@ const corporateTraineeSchema = mongoose.Schema({
     unique: true,
   },
 
+  company: {
+    type: String,
+    required: true,
+  },
+
   country: {
     type: String,
   },
@@ -101,13 +106,6 @@ const corporateTraineeSchema = mongoose.Schema({
     },
   ],
 
-  // COURSES WITH ACCESS TO
-
-  // accessRequest:{
-  //     type: String,  //requesting a course that I don't have access to
-  //     courseName: String,   //or ID
-  //     default: null
-  // },
 });
 
 corporateTraineeSchema.methods.generateAuthToken = function () {
@@ -126,6 +124,7 @@ export function validate(corporateTrainee) {
     firstName: Joi.string().min(3),
     lastName: Joi.string().min(3),
     email: Joi.string().email().required(),
+    company: Joi.string().required(),
     phoneNumber: Joi.number().min(10),
     dateOfBirth: Joi.date(),
     password: Joi.string().required(),

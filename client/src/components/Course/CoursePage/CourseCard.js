@@ -16,6 +16,8 @@ import * as individualTraineeApi from "../../../api/individualTrainees.js";
 import * as courseApi from "../../../api/course";
 import { useDispatch, useSelector } from "react-redux";
 import ReportCourseModal from "./ReportCourseModal";
+import { addCourseRequest } from "../../../actions/requests";
+
 
 export default function CourseCard({
   isCourseInUserCourses,
@@ -149,8 +151,16 @@ export default function CourseCard({
     }
   };
 
-  const requestCourse = () => {
-    console.log("Request Course");
+  const requestCourse = (request) => {
+    // const request = {
+    //   courseId: course?._id,
+    //   courseName: course?.courseName,
+    //   userId: userObject?._id ,
+    //   userName: userObject?.userName,
+    //   email: userObject?.email,
+    //   request: "Would you please me give access to this course, I need it."
+    // }
+    dispatch(addCourseRequest(request));
   };
 
   let button;

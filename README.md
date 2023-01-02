@@ -1,47 +1,124 @@
-# Asyad-El-Code
-# Memories-App
-
-### Built with the MERN stack (MongoDB, Express, React and NodeJS).
-![ezgif com-gif-maker-2](https://user-images.githubusercontent.com/67745591/185786916-a0960afa-7911-4aee-a854-75bb2cbe86be.gif)
 
 
-### Roadmap
----
-*  [Introduction](https://github.com/RobertoJoseph/Memories-App#introduction "Named link title")
-*  [Key Features](https://github.com/RobertoJoseph/Memories-App#key-features "Named link title")
-*  [Technologies used](https://github.com/RobertoJoseph/Memories-APp#technologies-used "Named link title")
+# [Asyad El Code](https://gucair.netlify.app/)
+<img width="1440" alt="Screenshot 2023-01-01 at 12 48 17 PM" src="https://user-images.githubusercontent.com/67745591/210168622-ba7c70c8-aedd-4b7a-a533-d3a1dec6b7a4.png">
 
 
-### Introduction
----
-This is a side project I've been working on. A full stack social media  application made using the MERN stack (MongoDB, Express, React & Nodejs), specially designed for practice. With this application, you can create, update, like, delete posts and create comments. Download the entire Source code and run it on your server. This project is something I've been working on in my free time so I cannot be sure that everything will work out correctly. But I'll appreciate you if can report any issue.
 
-### Key Features
----
-* Create/Delete/Update/Like posts via the user.
-* Search by title/tags and use Pagination feature.
-* Multiple user registration.
-* Authentication using jsonwebtoken (jwt) and Google auth.
+## Table of Contents
+- [Project Description](#project-description)
+- [Tools and Frameworks](#tools-and-frameworks)
+- [Features](#features)
+  * [Admin Functionalities](#administrator)
+  * [Trainee/Instructor Functionalities](#user)
+- [API References](#api-references)
+  * [Admin Router](#admin-router)
+  * [Trainee/Instructor Router](#user-router)
 
-### Technologies used
----
- Client
- * React
- * Redux (Redux (for managing and centralizing application state)
- * React-router-dom (To handle routing)
- * Axios (for making api calls)
- * Material UI & CSS Module (for User Interface)
- * React-google-login (To enable authentication using Google)
 
- Server
-  * Express
-  * Nodejs
-  * Mongoose
-  * JWT (For authentication
-  * bcryptjs (for data encryption)
 
- Database
-  * MongoDB (MongoDB Atlas)
+## Project Description
+
+### Course 
+Advanced Computer Lab (CSEN 704/ DMET 706), Winter 2022
+
+### Theme
+Our project is an online learning platform that allows both individual and corporate trainees to enroll in a variety of courses and track their progress as they work towards earning a certificate of completion. The platform features a range of courses taught by experienced instructors who have created engaging lectures and quizzes to help students master the material. In addition to providing a convenient and flexible way for learners to gain new skills and knowledge, the platform also offers tools for instructors to manage their courses and for admins to track and address any issues that may arise, such as requests for refunds or reports of problems. Whether you're looking to advance your career, learn a new hobby, or simply expand your horizons, our platform is a great resource for anyone looking to learn and grow.
+
+### Overview 
+Our project was developed using the Agile Methodology, which involves breaking the project into shorter time periods called "Sprints." Each Sprint has a specific set of goals, and at the end of each Sprint, a fully functional version of the project is delivered and evaluated based on the specified system requirements. This approach allows for a more flexible and responsive development process, as it allows for ongoing adjustments and improvements to be made based on feedback and changing needs.
+
+### Objectives
+- Gain an understanding of how to effectively utilize the Agile Methodology for project planning and software development
+- Learn the process of following a given set of System Requirements to develop a
+software.
+- Learn to research and master the use of the MERN Stack.
+- Learn how to work together as a team on GitHub.
+
+
+## Tools and Frameworks
+![Features-of-Mern-stack-development-services-You-Should-Know](https://user-images.githubusercontent.com/67745591/210168593-cf028e59-623e-418e-8dfb-3e2ac711ba2e.png)
+
+### What is the MERN Stack?
+MERN stands for MongoDB, Express, React, Node, after the four key technologies that make up the stack.
+
+- MongoDB - document database
+- Express(.js) - Node.js web framework
+- React(.js) - a client-side JavaScript framework
+- Node(.js) - the premier JavaScript web server
+
+Express and Node make up the middle (application) tier. Express.js is a server-side web framework, and Node.js the popular and powerful JavaScript server platform. Regardless of which variant you choose, ME(RVA)N is the ideal approach to working with JavaScript and JSON, all the way through.
+
+### How does the MERN stack work?
+The MERN architecture allows you to easily construct a 3-tier architecture (frontend, backend, database) entirely using JavaScript and JSON.
+
+![MERN_ARCH](https://webimages.mongodb.com/_com_assets/cms/mern-stack-b9q1kbudz0.png?auto=format%2Ccompress)
+
+#### - React.js Front End
+The top tier of the MERN stack is React.js, the declarative JavaScript framework for creating dynamic client-side applications in HTML. React lets you build up complex interfaces through simple Components, connect them to data on your backend server, and render them as HTML.
+
+React’s strong suit is handling stateful, data-driven interfaces with minimal code and minimal pain, and it has all the bells and whistles you’d expect from a modern web framework: great support for forms, error handling, events, lists, and more.
+
+#### - Express.js and Node.js Server Tier
+The next level down is the Express.js server-side framework, running inside a Node.js server. Express.js bills itself as a “fast, unopinionated, minimalist web framework for Node.js,” and that is indeed exactly what it is. Express.js has powerful models for URL routing (matching an incoming URL with a server function), and handling HTTP requests and responses.
+
+By making XML HTTP Requests (XHRs) or GETs or POSTs from your React.js front-end, you can connect to Express.js functions that power your application. Those functions in turn use MongoDB’s Node.js drivers, either via callbacks for using Promises, to access and update data in your MongoDB database.
+
+#### - MongoDB Database Tier
+If your application stores any data (user profiles, content, comments, uploads, events, etc.), then you’re going to want a database that’s just as easy to work with as React, Express, and Node.
+
+That’s where MongoDB comes in: JSON documents created in your React.js front end can be sent to the Express.js server, where they can be processed and (assuming they’re valid) stored directly in MongoDB for later retrieval. Again, if you’re building in the cloud, you’ll want to look at Atlas. If you’re looking to set up your own MERN stack, read on!
+
+
+## Features 
+
+We have three main users in our website:
+
+### Individual Trainee 
+
+- Sign up and enter their details in a form including first name, last name, email, password and gender.
+<img width="1438" alt="Screenshot 2023-01-01 at 5 08 57 PM" src="https://user-images.githubusercontent.com/67745591/210189926-bb31cefb-613f-4544-8132-9af0fbdf9351.png">
+
+
+- Sign in using his email and password.
+<img width="1440" alt="Screenshot 2023-01-02 at 3 39 15 AM" src="https://user-images.githubusercontent.com/67745591/210189949-7c9be920-2fd1-4ce2-8e66-0f18efff523e.png">
+
+
+- Send email in case of forgetting password.
+<img width="1439" alt="Screenshot 2023-01-02 at 3 41 42 AM" src="https://user-images.githubusercontent.com/67745591/210190007-f73f8a83-f6d6-42c7-8976-12f1b423c7ad.png">
+
+
+- Change password
+<img width="1440" alt="Screenshot 2023-01-02 at 3 42 41 AM" src="https://user-images.githubusercontent.com/67745591/210190061-e793165b-7f9e-4ea3-930f-90c43914c4cc.png">
+
+
+- View your profile
+<img width="1440" alt="Screenshot 2023-01-02 at 3 43 24 AM" src="https://user-images.githubusercontent.com/67745591/210190086-ac556786-61bf-4ece-acdf-ad01bd9db408.png">
+
+
+### Admin
+- Admin View Promotions
+![iamge2](https://user-images.githubusercontent.com/67745591/210193663-77a8e865-465d-40af-89ea-65d516791c6e.png)
+
+- Refund Request 
+![iamge2](https://user-images.githubusercontent.com/67745591/210193639-47643945-aeba-4a55-a5a1-94cab8eefb6c.png)
+
+
+
+### Instructor
+- Instructor create course
+![oo](https://user-images.githubusercontent.com/67745591/210193775-f6d47f0b-11f9-47f4-92dc-d0c537d81690.jpg)
+
+- Steps for creating course
+![o1](https://user-images.githubusercontent.com/67745591/210193866-25db0c40-36cd-4bff-813d-5393b65c7e1a.jpg)
+
+- Adding Lecture 
+![firstle](https://user-images.githubusercontent.com/67745591/210193947-fe9f1fcd-514e-423a-9099-5d226f01d762.jpg)
+
+- Preview Course Content 
+![preview](https://user-images.githubusercontent.com/67745591/210193894-3ba55683-c4a7-44ea-ab28-c7fbb0bdfccd.jpg)
+
+
 
 ### Configuration and Setup
 
@@ -59,18 +136,13 @@ PORT= 8000
 CONNECTION_URL=mongodb+srv://username:password@cluster0.tmwp1g9.mongodb.net/?retryWrites=true&w=majority
 ```
 
-To get your Google ClientID for authentication, go to the credential Page (if you are new, then create a new project first and follow the following steps;
-
-* Click Create credentials > OAuth client ID.
-* Select the Web application type.
-* Name your OAuth client and click Create
-* Remember to provide your domain and redirect URL so that Google identifies the origin domain to which it can display the consent (screen. In development, that is going to be http://localhost:3000 and http://localhost:3000/login
-* Copy the Client ID and assign it to the variable REACT_APP_GOOGLE_CLIENT_ID in your .env file
+In the second terminal
+* cd client from the root of your project
+* Supply the following credentials
 
 ```javascript
-$ cd client
-$ npm install (to install client-side dependencies)
-$ npm start (to start the client)
+$ npm install
+$ npm start
 ```
 
 ## Schema Design
@@ -689,9 +761,3 @@ Our Api is divided into 6 parts
 ```
 
 
-
-
-
- 
- 
- 

@@ -39,6 +39,8 @@ import PendingProblems from "./PendingProblems.js";
 import ResolvedProblems from "./ResolvedProblems.js";
 import Password from "./Password.js";
 import Instructor from "./Instructor.js";
+import Reviews from "./Reviews.js";
+import * as instructorApi from "../../api/instructor";
 import {
   getUnresolvedProblems,
   getResolvedProblems,
@@ -49,7 +51,20 @@ const Profile = () => {
   const auth = useSelector((state) => state?.authReducer);
   const [unResolvedProblems, setUnResolvedProblems] = useState([]);
   const [resolvedProblems, setResolvedProblems] = useState([]);
+  const [userNames, setUserNames] = useState([]);
+  // const [instructor, setInstructor] = useState([]);
+  let instructor = {};
+  const getUserNames = async (instructorId) => {
+    console.log("HIMAMA", instructorId);
+    const { data } = await instructorApi.getUserNames(instructorId);
+    console.log(data);
+    setUserNames(data);
+    console.log(userNames);
+  };
   const user = JSON.parse(localStorage.getItem("profile"));
+
+  console.log(page)
+
   if (user?.type === "individualTrainee") {
     if (auth?.isloading) {
       return <CircularProgress />;
@@ -108,9 +123,9 @@ const Profile = () => {
                 >
                   {trainee?.firstName ? (
                     <b>
-                      {trainee.firstName.charAt(0) +
+                      {trainee.firstName.charAt(0).toUpperCase() +
                         "" +
-                        trainee.lastName.charAt(0)}
+                        trainee.lastName.charAt(0).toUpperCase()}
                     </b>
                   ) : null}
                 </Avatar>
@@ -184,7 +199,7 @@ const Profile = () => {
                         }}
                       >
                         <ListItemText
-                          primary="Payments"
+                          primary="Wallet"
                           sx={{ textAlign: "center", lineHeight: 1 }}
                         />
                       </ListItemButton>
@@ -265,7 +280,7 @@ const Profile = () => {
             {page === "myProfile" ? (
               <MyProfile trainee={trainee}></MyProfile>
             ) : page === "Payment" ? (
-              <Payments></Payments>
+              <Payments wallet={trainee?.wallet}></Payments>
             ) : page === "Photo" ? (
               <Photo></Photo>
             ) : page === "PendingProblems" ? (
@@ -287,7 +302,7 @@ const Profile = () => {
     if (auth?.isloading) {
       return <CircularProgress />;
     } else {
-      let instructor = auth?.authData.result;
+      instructor = auth?.authData.result;
       if (instructor === undefined) {
         instructor = auth?.authData?.user;
       }
@@ -349,7 +364,7 @@ const Profile = () => {
               >
                 <Typography sx={{ fontWeight: "bold" }} textAlign="center">
                   {instructor?.firstName !== null &&
-                  instructor?.lastName !== null ? (
+                    instructor?.lastName !== null ? (
                     <>
                       {instructor?.firstName} {instructor?.lastName}
                     </>
@@ -426,11 +441,25 @@ const Profile = () => {
                     <ListItem disablePadding>
                       <ListItemButton
                         onClick={() => {
+                          getUserNames(instructor?._id).then(() => {
+                            setPage("Reviews");
+                          });
+                        }}
+                      >
+                        <ListItemText
+                          primary="Reviews"
+                          sx={{ textAlign: "center", lineHeight: 1 }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                      <ListItemButton
+                        onClick={() => {
                           setPage("Payment");
                         }}
                       >
                         <ListItemText
-                          primary="Payments"
+                          primary="Wallet"
                           sx={{ textAlign: "center", lineHeight: 1 }}
                         />
                       </ListItemButton>
@@ -511,7 +540,7 @@ const Profile = () => {
             {page === "myProfile" ? (
               <Instructor instructor={instructor}></Instructor>
             ) : page === "Payment" ? (
-              <Payments></Payments>
+              <Payments wallet={instructor?.wallet}></Payments>
             ) : page === "Photo" ? (
               <Photo></Photo>
             ) : page === "PendingProblems" ? (
@@ -524,7 +553,11 @@ const Profile = () => {
               ></ResolvedProblems>
             ) : page === "password" ? (
               <Password userId={user.result._id}></Password>
-            ) : null}
+            ) : page === "Reviews" ? (
+              <Reviews instructor={instructor} userNames={userNames}></Reviews>
+            ) : (
+              <></>
+            )}
           </Grid>
         </Grid>
       );

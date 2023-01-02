@@ -10,6 +10,7 @@ import {
   START_LOADING_AUTH,
   END_LOADING_AUTH,
   GET_LOGGED_USER,
+  FIRST_TIME_INSTRUCTOR,
 } from "../constants/auth";
 
 export default (
@@ -19,6 +20,7 @@ export default (
   switch (action.type) {
     case AUTH:
       localStorage.setItem("profile", JSON.stringify({ ...action?.payload }));
+      console.log("IAM IN THE AUTH REDUCER", action?.payload);
       return { ...state, authData: action?.payload, error: null };
     case LOGOUT:
       localStorage.clear();

@@ -15,6 +15,7 @@ import {
   Button,
   IconButton,
   TextField,
+  Select,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useState } from "react";
@@ -45,6 +46,7 @@ const CorperateModal = (props) => {
       userName: e.target.username.value,
       email: e.target.email.value,
       password: e.target.password.value,
+      company: e.target.company.value,
     };
     e.preventDefault();
     dispatch(addCorporate(corporate));
@@ -98,6 +100,21 @@ const CorperateModal = (props) => {
                 required
               />
             </FormControl>
+            <FormControl variant="standard" sx={{ marginTop: "20px" }}>
+              <InputLabel htmlFor="company">Company</InputLabel>
+              <Select
+                native
+                id="company"
+                aria-describedby="component-helper-text"
+                required
+              >
+                <option aria-label="None" value="" />
+                <option value="German University in Cairo">German University in Cairo</option>
+                <option value="German International University">German International University</option>
+                <option value="Canadian Embassy in Egypt">Canadian Embassy in Egypt</option>
+              </Select>
+            </FormControl>
+
             <Button
               type="submit"
               style={{

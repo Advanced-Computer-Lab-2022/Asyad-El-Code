@@ -71,6 +71,10 @@ export const definePromotion = async (
   );
 };
 
+export const getUserNames = async (id) => {
+  return await API.get(`/getUserNames/${id}`);
+};
+
 // export const addMoneyToInstructorWallet = async (courseId, instructorId) => {
 //   return await API.post(
 //     `/addMoneyToInstructorWallet?courseId=${courseId}&instructorId=${instructorId}`

@@ -77,3 +77,15 @@ export const enrollCourse = async (courseId, individualTraineeId) =>
 
 export const payCourse = async (courses) =>
   await API.post(`/payCourse`, courses);
+
+export const sendEmailForCertificate = async (
+  pdfBuffer,
+  userId,
+  courseId,
+  userEmail
+) => {
+  await API.post(
+    `/sendEmailForCertificate?userId=${userId}&courseId=${courseId}&userEmail=${userEmail}`,
+    pdfBuffer
+  );
+};

@@ -470,13 +470,14 @@ export const requestRefund = async (req, res) => {
       coorporateTraineeId,
       courseId: course._id,
       courseName: course.title,
-      refundReason: "7amada",
+      refundReason: refundReason,
       refundDate: new Date(Date.now()),
       firstName,
       lastName,
       email,
       refundReason,
       refundType,
+      instructorId: course.instructor.instructorId,
     });
     console.log("refund", refund);
     await refund.save();
@@ -532,5 +533,18 @@ export const sendCertificatePdf = async (req, res) => {
       .send(`Click on the link sent to ${email} to reset password`);
   } catch {
     res.status(400).send("Error sending email");
+  }
+};
+
+export const getPopularCourses = async (req, res) => {
+  try {
+    //I want to get from databse and sort according to numberOfTraineesEnrolled field descendingly and return the first 3 courses
+    const courses = await Course.find()
+      .sort({ numberOfTraineesEnrolled: -1 })
+      .limit(12);
+    if (!courses) return res.status(404).send({ message: "Courses not found" });
+    res.status(200).send(courses);
+  } catch (error) {
+    console.log(error);
   }
 };

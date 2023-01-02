@@ -85,6 +85,32 @@ const instructorSchema = mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  ratings: [
+    {
+      corporateTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CorporateTrainee",
+      },
+      individualTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "IndividualTrainee",
+      },
+      rating: Number,
+    },
+  ],
+  reviews: [
+    {
+      corporateTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CorporateTrainee",
+      },
+      individualTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "IndividualTrainee",
+      },
+      review: String,
+    },
+  ],
 });
 
 instructorSchema.methods.generateAuthToken = function () {

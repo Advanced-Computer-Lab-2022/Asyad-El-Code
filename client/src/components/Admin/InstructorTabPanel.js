@@ -68,7 +68,7 @@ const InstructorTabPanel = (props) => {
             <Grid
               container
               key={index}
-              sx={{ backgroundColor: "lavender", padding: "15px" }}
+              sx={{ backgroundColor: "#EEEEEE", padding: "15px" }}
             >
               <Grid item xs={1}>
                 <AccountCircleIcon />

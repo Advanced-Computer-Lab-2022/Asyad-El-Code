@@ -97,13 +97,14 @@ const Admin = () => {
   const dispatch = useDispatch();
   const admins = useSelector((a) => a.admins);
   const corporates = useSelector((c) => c.corporates);
-  console.log(corporates);
-  console.log(admins);
+
 
   useEffect(() => {
     dispatch(getAdmins());
     dispatch(getCorporates());
   }, []);
+  console.log(admins);
+  console.log(corporates);
   useEffect(() => {
     dispatch(getAdmins());
   }, [instructorModal]);
@@ -143,8 +144,8 @@ const Admin = () => {
       >
         <Grid>
 
-          <Grid item xs={9} sx={{ backgroundColor: "red" }}>
-            <Box sx={{ backgroundColor: "lavender", width: "100%" }}>
+          <Grid item xs={9}>
+            <Box sx={{ backgroundColor: "#EEEEEE", width: "100%" }}>
               <AppBar position="static">
                 <Tabs
                   value={tabIndex}
@@ -160,13 +161,13 @@ const Admin = () => {
                 </Tabs>
               </AppBar>
               <TabPanel value={tabIndex} index={0}>
-                <Grid container bgcolor={"lavender"}>
+                <Grid container bgcolor={"#EEEEEE"}>
                   {admins?.map((admin, index) => {
                     return (
                       <Grid
                         container
                         key={index}
-                        sx={{ backgroundColor: "lavender", padding: "15px" }}
+                        sx={{ backgroundColor: "#EEEEEE", padding: "15px" }}
                       >
                         <Grid item xs={1}>
                           <AccountCircleIcon />
@@ -215,12 +216,12 @@ const Admin = () => {
                       <Grid
                         container
                         key={index}
-                        sx={{ backgroundColor: "lavender", padding: "15px" }}
+                        sx={{ backgroundColor: "#EEEEEE", padding: "15px" }}
                       >
                         <Grid item xs={1}>
                           <AccountCircleIcon />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           <Typography
                             sx={{
                               fontWeight: "bold",
@@ -233,6 +234,11 @@ const Admin = () => {
                         <Grid item xs={4}>
                           <Typography sx={{ fontWeight: "bold" }}>
                             {corporate?.email}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                          <Typography sx={{ fontWeight: "bold" }}>
+                            {corporate?.company}
                           </Typography>
                         </Grid>
                         <Divider></Divider>
