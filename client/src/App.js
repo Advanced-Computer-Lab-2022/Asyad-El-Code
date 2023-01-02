@@ -90,9 +90,6 @@ export const App = () => {
           <Route exact path="/test">
             <PersistentDrawerLeft></PersistentDrawerLeft>
           </Route>
-          <Route exact path="/instructorProfile/:id">
-            <InstructorPage></InstructorPage>
-          </Route>
 
           <Route>
             <Navbar></Navbar>
@@ -122,6 +119,9 @@ export const App = () => {
                 ) : (
                   <Redirect to="/home" />
                 )}
+              </Route>
+              <Route exact path="/instructorProfile/:id">
+                <InstructorPage></InstructorPage>
               </Route>
               <Route exact path="/createCourse">
                 {user?.type == "instructor" ? (
