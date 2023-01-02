@@ -33,11 +33,7 @@ router.get("/searchByTitleOrSubject/:id", searchByTitleOrSubject);
 router.get("/filterInstructorCourses", filterInstructorCourses);
 router.post("/addRating ", addRating);
 router.post("/addReview", addReview);
-router.get(
-  "/getAllInstructorCourses/:id",
-  [authMiddeleware],
-  getAllInstructorCourses
-);
+router.get("/getAllInstructorCourses/:id", getAllInstructorCourses);
 
 router.post("/updateRating/:id", authMiddeleware, updateRating);
 router.patch("/definePromotion", authMiddeleware, definePromotion);

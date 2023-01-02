@@ -13,6 +13,8 @@ import {
   getAllInstructorCourses,
   getInstructors,
   getInstructor,
+  addRating,
+  addReview,
 } from "../../actions/instructor";
 import LanguageIcon from "@mui/icons-material/Language";
 import Box from "@mui/material/Box";
@@ -26,7 +28,6 @@ import { Stack } from "@mui/system";
 import "../../css/card.css";
 import { useState } from "react";
 import { RatingAndReviewPopup } from "../Course/RatingAndReviewPopup";
-import { addRating, addReview } from "../../actions/instructor";
 import { useParams } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { styled } from "@mui/material/styles";
@@ -82,7 +83,7 @@ function InstructorPage() {
   )[0];
 
   const courses = useSelector((c) => c.courses);
-
+  console.log(courses);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -281,10 +282,10 @@ function InstructorPage() {
       >
         <Grid item xs={8}>
           <Typography variant="h6" sx={{ fontSize: "30px" }}>
-            Explore <b>{instructor.userName}</b>s courses
+            Explore <b>{instructor?.userName}</b>s courses
           </Typography>
         </Grid>
-        {courses.courses.map((course, index) => {
+        {courses?.courses?.map((course, index) => {
           return (
             <>
               <Grid item xs={5}>
