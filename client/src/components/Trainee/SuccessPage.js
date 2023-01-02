@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { enrollCourse } from "../../api/individualTrainees";
 import { Container } from "@mui/system";
-import { CircularProgress, Grid } from "@mui/material";
+import { Button, CircularProgress, Grid } from "@mui/material";
 import { Redirect } from "react-router-dom";
 import { getCourse } from "../../actions/courses";
 import { useHistory } from "react-router-dom";
@@ -15,7 +15,6 @@ export const SuccessPage = () => {
   const { courseId } = useParams();
   useEffect(() => {
     //TODO CHECK IF USER HAS ALREADY THE COURSE
-    enrollCourse(courseId, user?.result?._id);
   }, []);
   const user = JSON.parse(localStorage.getItem("profile"));
   //change spinner when component did mount to false after a whilte
@@ -25,6 +24,10 @@ export const SuccessPage = () => {
     }, 3000);
   }, []);
   const dispatch = useDispatch();
+  const handleClickCourse = () => {
+    enrollCourse(courseId, user?.result?._id);
+    history.push("/");
+  };
 
   return (
     <Container>
@@ -45,7 +48,14 @@ export const SuccessPage = () => {
             ></CircularProgress>
           </Grid>
         ) : (
-          <Redirect to="/home"></Redirect>
+          <Container
+            sx={{
+              textAlign: "center",
+            }}
+            variant="contained"
+          >
+            <Button onClick={handleClickCourse}>Click here </Button>
+          </Container>
         )}
       </Grid>
     </Container>

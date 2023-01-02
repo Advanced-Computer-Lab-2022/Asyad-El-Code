@@ -142,8 +142,22 @@ export const selectCountry = async (req, res) => {
 export const enrollCourse = async (req, res) => {
   try {
     const { id, courseId } = req.query;
-    const courseIdCasted = await mongoose.Types.ObjectId(courseId);
     const idCasted = await mongoose.Types.ObjectId(id);
+    const user = await IndividualTrainee.findById(idCasted);
+    const courseIdCasted = await mongoose.Types.ObjectId(courseId);
+
+    //Check if user has the course already
+    console.log("THE USER ", user);
+    console.log("courseIdCasted", courseIdCasted);
+    console.log("user.courses", user.courses);
+    const courseExists = user.courses.find((course) =>
+      course._id.equals(courseIdCasted)
+    );
+    console.log("courseExists", courseExists);
+    if (courseExists) {
+      return res.status(400).send("Course already exists");
+    }
+
     const {
       _id,
       title,
@@ -154,7 +168,6 @@ export const enrollCourse = async (req, res) => {
       rating,
       instuctor,
     } = await Course.findById(courseIdCasted);
-    const user = await IndividualTrainee.findById(idCasted);
     const updatedUser = await IndividualTrainee.findByIdAndUpdate(
       idCasted,
       {
@@ -313,6 +326,10 @@ export const createPdf = (notes) => {
 export const getNotes = async (req, res) => {
   // console.log("getNotes fucntion here");
   console.log("PLEASE");
+  console.log("PLEASE");
+  console.log("PLEASE");
+  console.log("PLEASE");
+
   try {
     console.log("IAM IN THE BACK OF GETNOTES");
     const { userId, courseId, lectureId } = req.query;

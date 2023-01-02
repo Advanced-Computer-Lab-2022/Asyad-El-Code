@@ -23,9 +23,12 @@ import { useDispatch } from "react-redux";
 import { getTrainee } from "../../../actions/individualTrainees";
 import { getAllProblems } from "../../../actions/reportedProblems";
 import { getCorporate } from "../../../actions/corporate";
+import { getInstructor } from "../../../actions/instructor";
+import { useHistory } from "react-router-dom";
 
 export const CoursePage = () => {
   const { isLoading, courses } = useSelector((state) => state.courses);
+  const history = useHistory();
 
   const dispatch = useDispatch();
   const { classes } = useStyles();
@@ -96,6 +99,14 @@ export const CoursePage = () => {
   };
   console.log("the course ZERO is ", courses[0]);
 
+  const handleInstructorProfile = (instructorId) => {
+    console.log("the instructor id is ", instructorId);
+    dispatch(getInstructor(instructorId));
+    setTimeout(() => {
+      history.push(`/instructorProfile/${courses[0].instructor?.instructorId}`);
+    }, 1000);
+  };
+
   return (
     <>
       {isLoading ? (
@@ -139,7 +150,11 @@ export const CoursePage = () => {
                       Created by{" "}
                       <MyLink
                         underline="always"
-                        href={`/instructorProfile/${courses[0].instructor?.instructorId}`}
+                        onClick={() =>
+                          handleInstructorProfile(
+                            courses[0].instructor?.instructorId
+                          )
+                        }
                       >
                         {courses[0].instructor?.name}
                       </MyLink>

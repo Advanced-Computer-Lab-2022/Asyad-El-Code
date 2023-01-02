@@ -74,15 +74,12 @@ function InstructorPage() {
   const user = JSON.parse(localStorage.getItem("profile"));
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getInstructors());
-    dispatch(getAllInstructorCourses(instructor?._id));
-  }, []);
-  const instructors = useSelector((c) => c.instructors);
-  const instructor = instructors.filter(
-    (instructor) => instructor._id === id
-  )[0];
+  // useEffect(() => {
+  //   dispatch(getAllInstructorCourses(instructor?._id));
+  // }, []);
 
+  const instructors = useSelector((state) => state.instructors);
+  console.log("THE INSTRUCTROS", instructors);
   const courses = useSelector((c) => c.courses);
   console.log(courses);
   const [open, setOpen] = useState(false);
@@ -90,37 +87,34 @@ function InstructorPage() {
   const handleClose = () => setOpen(false);
 
   const [value, setValue] = useState(0);
+
   useEffect(() => {
     let avg = 0;
-    instructor?.ratings?.forEach((rating) => {
+    instructors[0]?.ratings?.forEach((rating) => {
       avg += rating.rating;
     });
-    avg /= instructor?.ratings?.length;
-    setValue(avg);
+    avg /= instructors[0]?.ratings?.length;
+
+    console.log("THE AVG", avg);
+    if (!avg) setValue(instructors[0].rating);
+    else setValue(avg);
   }, []);
 
-  const handleRating = async (rating) => {
-    if (user?.type === "corporateTrainee") {
-      console.log("corporateTrainee");
-      await axios.post(`http://localhost:8000/instructor/rating/`);
-    } else if (user?.type === "individualTrainee") {
-      console.log("individualTrainee");
-      await axios.post(`http://localhost:8000/instructor/rating/`);
+  const handleSubmit = async (rating, review) => {
+    if (user?.type === "individualTrainee") {
+      console.log("Iam here");
+      dispatch(addRating(instructors[0]._id, null, user?.result?._id, rating));
+      dispatch(addReview(instructors[0]._id, null, user?.result?._id, review));
+    } else if (user?.type === "corporateTrainee") {
+      dispatch(addRating(instructors[0]._id, user?.result?._id, null, rating));
+      dispatch(addReview(instructors[0]._id, user?.result?._id, null, review));
     }
+    handleCancel();
   };
-  const handleSubmit = (rating, review) => {
-    console.log(user);
-    if (user?.type === "corporateTrainee") {
-      console.log("corporateTrainee");
-      handleRating(rating);
-      dispatch(addReview(instructor?._id, user?.result?._id, "", review));
-    } else if (user?.type === "individualTrainee") {
-      console.log("individualTrainee");
-      handleRating(rating);
 
-      dispatch(addReview(instructor?._id, "", user?.result?._id, review));
-    }
-  };
+  useEffect(() => {
+    dispatch(getInstructor(instructors[0]._id));
+  }, [open]);
 
   const handleCancel = () => {
     setOpen(false);
@@ -171,7 +165,7 @@ function InstructorPage() {
                 color: "white",
               }}
             >
-              {instructor?.userName}
+              {instructors[0]?.userName.toUpperCase()}
             </Typography>
           </Grid>
 
@@ -184,29 +178,16 @@ function InstructorPage() {
           >
             <Grid item xs={0.3} marginLeft="100px">
               <Typography sx={{ fontWeight: "bold", color: "white" }}>
-                {instructor?.rating}
+                {instructors[0]?.rating}
               </Typography>
             </Grid>
 
             <Grid item xs={1.5}>
               <Rating
-                name="read-only"
-                value={value}
-                readOnly
                 precision={0.5}
-                emptyIcon={
-                  <StarBorderIcon
-                    fontSize="inherit"
-                    style={{ color: "white" }}
-                  />
-                }
-              />
-            </Grid>
-            <Grid item>
-              <Typography sx={{ fontWeight: "bold", color: "white" }}>
-                {instructor?.ratings?.length} Rating
-                {instructor?.ratings?.length > 1 ? "s" : ""}
-              </Typography>
+                readOnly
+                value={instructors[0].rating}
+              ></Rating>
             </Grid>
           </Grid>
 
@@ -251,8 +232,11 @@ function InstructorPage() {
           <Grid item xs={12} marginLeft="200px" marginBottom={5}>
             <Button
               variant="contained"
+              style={{
+                backgroundColor: "#eeeeee",
+                color: "black",
+              }}
               onClick={handleOpen}
-              style={{ backgroundColor: "#2196f3" }}
             >
               Rate and review Instructor
             </Button>
@@ -263,19 +247,7 @@ function InstructorPage() {
             ></RatingAndReviewPopup>
           </Grid>
         </Grid>
-        <Grid item xs={3}>
-          <Avatar sx={{ width: 160, height: 160, marginTop: 5 }}>
-            {instructor?.firstName && instructor?.lastName ? (
-              `${instructor?.firstName.charAt(0)}${instructor?.lastName.charAt(
-                0
-              )}`
-            ) : (
-              <AccountCircleIcon sx={{ width: 160, height: 160 }} />
-            )}
-          </Avatar>
-        </Grid>
       </Grid>
-      {/* </Grid> */}
 
       <Grid
         container
@@ -283,25 +255,7 @@ function InstructorPage() {
         rowSpacing={5}
         justifyContent="center"
         marginBottom="30px"
-      >
-        <Grid item xs={8}>
-          <Typography variant="h6" sx={{ fontSize: "30px" }}>
-            Explore <b>{instructor?.userName}</b>s courses
-          </Typography>
-        </Grid>
-        {courses?.courses?.map((course, index) => {
-          return (
-            <>
-              <Grid item xs={5}>
-                <UdacityCard course={course} type={user?.type} />
-              </Grid>
-              <Grid item xs={5}>
-                <UdacityCard course={course} type={user?.type} />
-              </Grid>
-            </>
-          );
-        })}
-      </Grid>
+      ></Grid>
     </Grid>
   );
 }
