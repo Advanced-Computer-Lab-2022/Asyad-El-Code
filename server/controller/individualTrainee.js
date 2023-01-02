@@ -128,15 +128,9 @@ export const selectCountry = async (req, res) => {
 };
 export const enrollCourse = async (req, res) => {
   try {
-    console.log("Iam in the enroolll");
-    console.log(req.body);
     const { id, courseId } = req.query;
     const courseIdCasted = await mongoose.Types.ObjectId(courseId);
     const idCasted = await mongoose.Types.ObjectId(id);
-    console.log("Im in enroll course methoddd");
-    console.log(id);
-    console.log(idCasted);
-    console.log(courseIdCasted);
     const {
       _id,
       title,
@@ -175,7 +169,6 @@ export const enrollCourse = async (req, res) => {
       { $inc: { numberOfTraineesEnrolled: 1 } },
       { new: true }
     );
-    console.log("This is updated course", updatedCourse);
     if (!updatedUser) {
       res.status(401).send("Couldn't enroll course");
     } else res.status(200).send(updatedUser);
