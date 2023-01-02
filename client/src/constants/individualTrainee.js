@@ -1,0 +1,3 @@
+export const FETCH_TRAINEE = "FETCH_TRAINEE";
+export const GET_TRAINEE = "GET_TRAINEE";
+export const UPDATE_TRAINEE = "UPDATE_TRAINEE";

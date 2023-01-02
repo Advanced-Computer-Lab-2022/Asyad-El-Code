@@ -1,8 +1,7 @@
 import mongoose, { mongo } from "mongoose";
-import Exercise from "./exercise.js";
 import Joi from "joi";
 
-const courseSchema = mongoose.Schema({
+export const courseSchema = mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -15,10 +14,7 @@ const courseSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  // department: {
-  //   type: String,
-  //   required: true,
-  // }, later
+
   duration: {
     type: Number,
     required: true,
@@ -43,29 +39,77 @@ const courseSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  outline: {
-    type: [String],
+  outlines: {
+    type: [
+      {
+        outline: String,
+        totalHours: Number,
+        subtitles: [
+          {
+            subtitle: String,
+            minutes: Number,
+            videoUrl: String,
+          },
+        ],
+        exercises: [
+          {
+            question: String,
+            answers: [{ answer: String, correct: Boolean }],
+          },
+        ],
+      },
+    ],
     required: true,
   },
-  excercises: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Exercise",
-      required: true,
-    },
-  ],
+
   price: {
     type: Number,
     required: true,
   },
-  // promotion: {
-  //   type: Number,
-  //   default: 0.0,
-  // },later
+  instructor: {
+    instructorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Instructor",
+    },
+    name: String,
+  },
+  promotion: {
+    discount: { type: Number, default: 0.0 },
+    startDate: Date,
+    endDate: Date,
+  },
   // add instructor
+  discount: [{ country: String, percent: Number }],
+  ratings: [
+    {
+      corporateTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CorporateTrainee",
+      },
+      individualTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "IndividualTrainee",
+      },
+      rating: Number,
+    },
+  ],
+  reviews: [
+    {
+      corporateTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CorporateTrainee",
+      },
+      individualTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "IndividualTrainee",
+      },
+      review: String,
+    },
+  ],
+  numberOfTraineesEnrolled: { type: Number, default: 0 },
 });
 
-export function validate(course) {
+export function validateCourse(course) {
   const schema = Joi.object({
     title: Joi.string().min(3).required(),
     summary: Joi.string().min(3).required(),
@@ -75,11 +119,14 @@ export function validate(course) {
     language: Joi.string().required(),
     image: Joi.string().required(),
     rating: Joi.number(),
+    outlines: Joi.array().required(),
     previewVideo: Joi.string().required(),
     price: Joi.number().required(),
+    discount: Joi.array(),
   });
   return schema.validate(course, { allowUnknown: true });
 }
 
 const Course = mongoose.model("Course", courseSchema);
+
 export default Course;

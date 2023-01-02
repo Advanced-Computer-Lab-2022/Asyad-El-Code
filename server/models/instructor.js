@@ -1,22 +1,26 @@
 import mongoose from "mongoose";
-
 import Joi from "joi";
+import jwt from "jsonwebtoken";
 
 const instructorSchema = mongoose.Schema({
-  firstName: {
+  userName: {
     type: String,
     required: true,
+    minlength: 5,
+    unique: true,
+  },
+  firstName: {
+    type: String,
     minlength: 3,
   },
   lastName: {
     type: String,
-    required: true,
     minlength: 3,
   },
   email: {
     type: String,
-    required: true,
     unique: true,
+    required: true,
   },
   password: {
     type: String,
@@ -29,35 +33,110 @@ const instructorSchema = mongoose.Schema({
 
   country: {
     type: String,
-    required: true,
   },
   gender: {
     type: String,
-    required: true,
     enum: ["Male", "Female", "Prefer not to say"],
   },
   dateOfBirth: {
     type: Date,
-    required: true,
   },
   phoneNumber: {
     type: String,
-    required: true,
   },
-  //Courses
+  rating: {
+    type: Number,
+    default: 0.0,
+  },
+  ratings: [
+    {
+      corporateTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CorporateTrainee",
+      },
+      individualTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "IndividualTrainee",
+      },
+      rating: Number,
+    },
+  ],
+  reviews: [
+    {
+      corporateTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CorporateTrainee",
+      },
+      individualTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "IndividualTrainee",
+      },
+      review: String,
+    },
+  ],
+  about: {
+    type: String,
+  },
+  biography: {
+    type: String,
+    default: "No biography",
+  },
+  firstLogin: {
+    type: Boolean,
+    default: true,
+  },
+  ratings: [
+    {
+      corporateTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CorporateTrainee",
+      },
+      individualTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "IndividualTrainee",
+      },
+      rating: Number,
+    },
+  ],
+  reviews: [
+    {
+      corporateTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "CorporateTrainee",
+      },
+      individualTraineeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "IndividualTrainee",
+      },
+      review: String,
+    },
+  ],
 });
 
-export function validate(user) {
+instructorSchema.methods.generateAuthToken = function () {
+  const token = jwt.sign(
+    { email: this.email, id: this._id, role: "instructor" },
+    process.env.TOKEN_KEY,
+    {
+      expiresIn: "2h",
+    }
+  );
+  return token;
+};
+
+export function validateInstructor(user) {
   const schema = Joi.object({
-    firstName: Joi.string().min(3).required(),
-    lastName: Joi.string().min(3).required(),
-    email: Joi.string().email().required(),
-    phoneNumber: Joi.number().required().min(10),
-    dateOfBirth: Joi.date().required(),
+    userName: Joi.string().min(5),
     password: Joi.string().required(),
-    gender: Joi.string().required(),
-    country: Joi.string().required(),
+    firstName: Joi.string().min(3),
+    lastName: Joi.string().min(3),
+    email: Joi.string().email().required(),
+    phoneNumber: Joi.number().min(10),
+    dateOfBirth: Joi.date(),
+    gender: Joi.string(),
+    country: Joi.string(),
     wallet: Joi.number(),
+    about: Joi.string(),
   });
   return schema.validate(user);
 }
