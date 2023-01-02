@@ -35,7 +35,6 @@ const ReportedProblems = (props) => {
       marginBottom={5}
       spacing={5}
       direction="row"
-      justifyContent="center"
       alignItems="center"
     >
 

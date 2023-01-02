@@ -17,6 +17,7 @@ import * as courseApi from "../../../api/course";
 import { useDispatch, useSelector } from "react-redux";
 import ReportCourseModal from "./ReportCourseModal";
 import { addCourseRequest } from "../../../actions/requests";
+import RequestAccess from "../../RequestAccess";
 
 export default function CourseCard({
   isCourseInUserCourses,
@@ -52,6 +53,7 @@ export default function CourseCard({
   const [refundReason, setRefundReason] = useState("");
   const [refundType, setRefundType] = useState("");
 
+  const [open, setOpen] = React.useState(false);
   const handleRefundTypeChange = (event) => {
     setRefundType(event.target.value);
   };
@@ -103,6 +105,7 @@ export default function CourseCard({
   }, []);
 
   const [refundModal, setRefundModal] = useState(false);
+  const [request, setRequest] = useState();
 
   const calculateProgressAndCheckUserInCourses = () => {
     if (isCourseInUserCourses) {
@@ -150,16 +153,24 @@ export default function CourseCard({
     }
   };
 
-  const requestCourse = (request) => {
-    // const request = {
-    //   courseId: course?._id,
-    //   courseName: course?.courseName,
-    //   userId: userObject?._id ,
-    //   userName: userObject?.userName,
-    //   email: userObject?.email,
-    //   request: "Would you please me give access to this course, I need it."
-    // }
-    dispatch(addCourseRequest(request));
+  const requestCourse = () => {
+    setOpen(true);
+  };
+  const handleSubmitRequest = (message) => {
+    setOpen(false);
+    const requestObject = {
+      courseId: course?._id,
+      courseName: course?.title,
+      userId: userObject?._id,
+      userName: userObject?.userName,
+      email: userObject?.email,
+      request: message,
+    };
+    // setRequest(requestObject);
+    dispatch(addCourseRequest(requestObject));
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
 
   let button;
@@ -211,52 +222,60 @@ export default function CourseCard({
   }
 
   return (
-    <Card sx={{ width: 345 }}>
-      <CardMedia
-        component="iframe"
-        image={course?.previewVideo}
-        title="YouTube video player"
-        controls
-        alt="green iguana"
-        sx={{ width: "100%", height: "230px" }}
-      />
-      <CardContent>
-        {course.price !== course.discountedPrice && (
-          <Typography className={classes.courseOldPrice}>
-            <span style={{ textDecoration: "line-through" }}>
-              ${course.price}
-            </span>
-            <span style={{ color: "red", fontWeight: "normal" }}>
-              {"  "}
-              Valid Until {course.promotion.endDate.substring(0, 10)}
-            </span>
+    <>
+      <Card sx={{ width: 345 }}>
+        <CardMedia
+          component="iframe"
+          image="https://www.youtube.com/embed/TpWqNqNv2AQ"
+          title="YouTube video player"
+          controls
+          alt="green iguana"
+          sx={{ width: "100%", height: "230px" }}
+        />
+        <CardContent>
+          {course.price !== course.discountedPrice && (
+            <Typography className={classes.courseOldPrice}>
+              <span style={{ textDecoration: "line-through" }}>
+                ${course.price}
+              </span>
+              <span style={{ color: "red", fontWeight: "normal" }}>
+                {"  "}
+                Valid Until {course?.promotion?.endDate?.substring(0, 10)}
+              </span>
+            </Typography>
+          )}
+          <Typography
+            className={classes.coursePrice}
+            gutterBottom
+            variant="h5"
+            component="div"
+          >
+            ${course.discountedPrice}
           </Typography>
-        )}
-        <Typography
-          className={classes.coursePrice}
-          gutterBottom
-          variant="h5"
-          component="div"
-        >
-          ${course.discountedPrice}
-        </Typography>
-        <Grid columnSpacing={4} container direction="row">
-          <Grid item md={12}>
-            {" "}
-            {button}{" "}
-          </Grid>
+          <Grid columnSpacing={4} container direction="row">
+            <Grid item md={12}>
+              {" "}
+              {button}{" "}
+            </Grid>
 
-          {calculateProgressAndCheckUserInCourses()}
-          <Grid container alignItems="center" direction="column" item>
-            <Grid mt={1} item>
-              <MyInfo>30-Day Money-Back Guarantee</MyInfo>
-            </Grid>
-            <Grid mt={1} item>
-              <MyInfo>Full Lifetime Access</MyInfo>
+            {calculateProgressAndCheckUserInCourses()}
+            <Grid container alignItems="center" direction="column" item>
+              <Grid mt={1} item>
+                <MyInfo>30-Day Money-Back Guarantee</MyInfo>
+              </Grid>
+              <Grid mt={1} item>
+                <MyInfo>Full Lifetime Access</MyInfo>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+      <RequestAccess
+        open={open}
+        handleClose={handleClose}
+        setOpen={setOpen}
+        handleSubmit={handleSubmitRequest}
+      ></RequestAccess>
+    </>
   );
 }

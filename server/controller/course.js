@@ -539,7 +539,32 @@ export const sendCertificatePdf = async (req, res) => {
 export const getPopularCourses = async (req, res) => {
   try {
     //I want to get from databse and sort according to numberOfTraineesEnrolled field descendingly and return the first 3 courses
-    const courses = await Course.find()
+    // const courses = await Course.find()
+    //   .sort({ numberOfTraineesEnrolled: -1 })
+    //   .limit(12);
+    const courses = await Course.aggregate([
+      {
+        $addFields: {
+          discountedPrice: {
+            $cond: [
+              {
+                $and: [
+                  { $lte: ["$promotion.startDate", new Date(Date.now())] },
+                  { $gte: ["$promotion.endDate", new Date(Date.now())] },
+                ],
+              },
+              {
+                $multiply: [
+                  "$price",
+                  { $subtract: [1, "$promotion.discount"] },
+                ],
+              },
+              "$price",
+            ],
+          },
+        },
+      },
+    ])
       .sort({ numberOfTraineesEnrolled: -1 })
       .limit(12);
     if (!courses) return res.status(404).send({ message: "Courses not found" });
