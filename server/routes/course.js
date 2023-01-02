@@ -17,6 +17,7 @@ import {
   getCoursesWithPromotion,
   getUserNames,
   requestRefund,
+  sendCertificatePdf,
   getPopularCourses,
 } from "../controller/course.js";
 import { authMiddeleware } from "../middlewares/auth.js";
@@ -42,5 +43,7 @@ router.post("/addReview", [authMiddeleware], addReview);
 router.get("/getCoursesWithPromotion", getCoursesWithPromotion);
 router.get("/getUserNames", getUserNames);
 router.post("/requestRefund", requestRefund);
+
+router.post("/sendCertificatePdf", sendCertificatePdf);
 router.get("/getPopularCourses", getPopularCourses);
 export default router;

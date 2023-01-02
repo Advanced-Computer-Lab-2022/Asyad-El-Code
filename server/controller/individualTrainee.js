@@ -9,6 +9,19 @@ import nodemailer from "nodemailer";
 
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
+export const getIndividualTrainee = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("id is ", id);
+    const indvidTrainee = await IndividualTrainee.findById(id);
+    if (!indvidTrainee) return res.status(404).send("No Trainee found");
+    res.status(200).json(indvidTrainee);
+  } catch (error) {
+    console.log(error.message);
+    res.send(error.message);
+  }
+};
+
 export const createIndvidualTrainee = async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
