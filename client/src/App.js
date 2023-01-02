@@ -95,7 +95,7 @@ export const App = () => {
             <Navbar></Navbar>
 
             <Switch>
-              <Route exact path={["/home", "/"]}>
+              <Route exact path={["/"]}>
                 {user?.type === "admin" ? (
                   <Redirect to="/dashboard" />
                 ) : (

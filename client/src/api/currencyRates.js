@@ -5,7 +5,7 @@ const getRates = axios.create({
     "https://api.apilayer.com/exchangerates_data/latest?symbols=USD,CAD,SAR,GBP,EUR,AED,CNY,EGP&base=EGP",
   headers: {
     "Content-Type": "application/json",
-    apikey: "clpQZ54L07mNv3hMEXfjPIbWmJXD2cGr",
+    apikey: "WrCn00kyoOpjgLec4q5UQMuPSFZcrshY",
   },
 });
 

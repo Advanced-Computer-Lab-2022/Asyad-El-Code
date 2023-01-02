@@ -65,10 +65,11 @@ export const FilterBar = ({ handleClick, handleClear, search, setSearch }) => {
     if (newValue.length === 0) {
       newValue = [
         "Computer Science",
-        "Business",
-        "Management",
-        "Medicine",
-        "Pharmacy",
+        "Commerce",
+        "Finance",
+        "Robotics",
+        "Project Management",
+        "Logistics",
       ];
     }
 
@@ -115,10 +116,11 @@ export const FilterBar = ({ handleClick, handleClear, search, setSearch }) => {
             <CheckboxesTags
               subjectOptions={[
                 "Computer Science",
-                "Business",
-                "Management",
-                "Medicine",
-                "Pharmacy",
+                "Commerce",
+                "Finance",
+                "Robotics",
+                "Project Management",
+                "Logistics",
               ]}
               name={"Subject"}
               handleChange={handleChange}

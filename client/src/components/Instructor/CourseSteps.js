@@ -18,6 +18,8 @@ import { useDispatch } from "react-redux";
 import { createCourse } from "../../actions/courses";
 import AlertDialog from "./Alert";
 
+const user = JSON.parse(localStorage.getItem("profile"));
+
 const initialFormState = {
   title: "",
   summary: "",
@@ -31,8 +33,8 @@ const initialFormState = {
   outlines: [],
   price: "",
   instructor: {
-    instructorId: "635c5741e087f4d70628ec72",
-    name: "ahmedheida",
+    instructorId: user?.result?._id,
+    name: user?.result?.userName,
   },
   discount: [{ country: "", precentage: "" }],
 };
@@ -139,6 +141,7 @@ function CourseSteps() {
 
   const alertAction = () => {
     setReady(true);
+    setOpenAlert(false);
   };
 
   return (

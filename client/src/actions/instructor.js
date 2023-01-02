@@ -3,8 +3,8 @@ import {
   ADD_INSTRUCTOR,
   FETCH_INSTRUCTOR,
   FILTER_INSTRUCTOR_COURSES,
-  ADD_REVIEW,
-  ADD_RATING,
+  ADD_INSTRUCTOR_REVIEW,
+  ADD_INSTRUCTOR_RATING,
 } from "../constants/instructors";
 import {
   FETCH_ALL_INSTRUCTOR_COURSES,
@@ -23,9 +23,12 @@ export const getInstructors = () => async (dispatch) => {
     console.log(err);
   }
 };
-export const getInstructor = () => async (dispatch) => {
+export const getInstructor = (id) => async (dispatch) => {
+  console.log("Iam in the getinstructor");
   try {
-    const { data } = await instructorApi.fetchInstructor();
+    const { data } = await instructorApi.fetchInstructor(id);
+    console.log("Iam in the getinstructor");
+    console.log("THE DATA IS ", data);
     dispatch({ type: FETCH_INSTRUCTOR, payload: data });
   } catch (err) {
     console.log(err);
@@ -78,25 +81,23 @@ export const updateInstructor = (id, instructor) => async (dispatch) => {
     console.log(error);
   }
 };
-
 export const addRating =
   (instructorId, corporateTraineeId, individualTraineeId, rating) =>
   async (dispatch) => {
+    console.log("DID YOU REACH HERE?");
     try {
-      console.log("Im in actions add Rating");
       const { data } = await instructorApi.addRating(
         instructorId,
         corporateTraineeId,
         individualTraineeId,
         rating
       );
-      dispatch({ type: ADD_RATING, payload: data });
-      console.log(data);
+      dispatch({ type: ADD_INSTRUCTOR_RATING, payload: data });
     } catch (error) {
       console.log(error);
     }
   };
-// add review for course by trainee
+
 export const addReview =
   (instructorId, corporateTraineeId, individualTraineeId, review) =>
   async (dispatch) => {
@@ -107,7 +108,7 @@ export const addReview =
         individualTraineeId,
         review
       );
-      dispatch({ type: ADD_REVIEW, payload: data });
+      dispatch({ type: ADD_INSTRUCTOR_REVIEW, payload: data });
     } catch (error) {
       console.log(error);
     }

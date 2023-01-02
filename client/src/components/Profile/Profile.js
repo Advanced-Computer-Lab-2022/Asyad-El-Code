@@ -45,6 +45,7 @@ import {
   getUnresolvedProblems,
   getResolvedProblems,
 } from "../../api/problem.js";
+import { getLoggedUser } from "../../actions/auth.js";
 const Profile = () => {
   const [page, setPage] = useState("myProfile");
   const dispatch = useDispatch();
@@ -62,8 +63,11 @@ const Profile = () => {
     console.log(userNames);
   };
   const user = JSON.parse(localStorage.getItem("profile"));
+  useEffect(() => {
+    dispatch(getLoggedUser(user?.result?._id));
+  }, [page]);
 
-  console.log(page)
+  console.log(page);
 
   if (user?.type === "individualTrainee") {
     if (auth?.isloading) {
@@ -364,7 +368,7 @@ const Profile = () => {
               >
                 <Typography sx={{ fontWeight: "bold" }} textAlign="center">
                   {instructor?.firstName !== null &&
-                    instructor?.lastName !== null ? (
+                  instructor?.lastName !== null ? (
                     <>
                       {instructor?.firstName} {instructor?.lastName}
                     </>

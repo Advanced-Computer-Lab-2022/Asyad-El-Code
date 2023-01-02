@@ -35,8 +35,13 @@ export const addRating = async (
   individualTraineeId,
   rating
 ) => {
+  console.log("THE RATING", rating);
+  console.log("instructorID", instructorId);
+  console.log("corporateTraineeId", corporateTraineeId);
+  console.log("individualTraineeId", individualTraineeId);
+
   return await API.post(
-    `/addRating?instructorId=${instructorId}&corporateTraineeId=${corporateTraineeId}&individualTraineeId=${individualTraineeId}&rating=${rating}`
+    `/test?instructorId=${instructorId}&corporateTraineeId=${corporateTraineeId}&individualTraineeId=${individualTraineeId}&rating=${rating}`
   );
 };
 

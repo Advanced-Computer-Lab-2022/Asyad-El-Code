@@ -87,7 +87,7 @@ export default function ButtonAppBar() {
   }
   const logout = () => {
     dispatch({ type: "LOGOUT" });
-    history.push("/home");
+    history.push("/");
     setUser(null);
   };
 
@@ -103,23 +103,26 @@ export default function ButtonAppBar() {
 
   return (
     <CssBaseline>
-      <AppBar className={classes.appBar} position="sticky" style={{backgroundColor: user?.type === "admin" ? "#3C4048" : "black"}}>
+      <AppBar
+        className={classes.appBar}
+        position="sticky"
+        style={{
+          backgroundColor: user?.type === "admin" ? "#3C4048" : "black",
+        }}
+      >
         <Toolbar>
           {user?.type !== "admin" && (
-
-            <MyLink underline="none" href="/home">
+            <MyLink underline="none" href="/">
               Home
             </MyLink>
           )}
 
           {user?.type !== "admin" && (
-
             <MyLink sx={{ ml: 4, mr: 3 }} href="/viewAll" underline="none">
               Explore
             </MyLink>
           )}
           {user?.type !== "admin" && (
-
             <div className={classes.headerOptions}>
               <Autocomplete
                 open={openMenu}
@@ -200,7 +203,8 @@ export default function ButtonAppBar() {
                   />
                 )}
               />
-            </div>)}
+            </div>
+          )}
           {/* <Button
               onClick={() => {
                 history.push("/instructorpage");
@@ -232,60 +236,60 @@ export default function ButtonAppBar() {
             </Button> */}
           <Grid spacing={2} container className={classes.rightSection}>
             {user?.type !== "admin" && (
-                          <Grid item xs={2}>
-                          <FormControl fullWidth size="small">
-                            <Select
-                              labelId="demo-simple-select-label"
-                              id="demo-simple-select"
-                              value={country}
-                              onChange={handleCountry}
-                              displayEmpty
-                              renderValue={(value) => {
-                                return (
-                                  <Box color="#FFFFFF" sx={{ display: "flex", gap: 1 }}>
-                                    <SvgIcon color="#FFFFFF">
-                                      <LanguageIcon color="#FFFFFF" />
-                                    </SvgIcon>
-                                    {value}
-                                  </Box>
-                                );
-                              }}
-                            >
-                              <MenuItem value={"Egypt"}>
-                                <EG title="Egypt" width={20} st />
-                                <span style={{ marginLeft: "10px" }}>Egypt</span>
-                              </MenuItem>
-                              <MenuItem value={"Canada"}>
-                                <CA title="Canada" width={20} />
-                                <span style={{ marginLeft: "10px" }}>Canada</span>
-                              </MenuItem>
-                              <MenuItem value={"USA"}>
-                                <US title="USA" width={20} />
-                                <span style={{ marginLeft: "10px" }}>USA</span>
-                              </MenuItem>
-                              <MenuItem value={"Germany"}>
-                                <DE title="EUR" width={20} />
-                                <span style={{ marginLeft: "10px" }}>Germany</span>
-                              </MenuItem>
-                              <MenuItem value={"KSA"}>
-                                <SA title="USA" width={20} />
-                                <span style={{ marginLeft: "10px" }}>KSA</span>
-                              </MenuItem>
-                              <MenuItem value={"UAE"}>
-                                <AE title="USA" width={20} />
-                                <span style={{ marginLeft: "10px" }}>UAE</span>
-                              </MenuItem>
-                              <MenuItem value={"UK"}>
-                                <GB title="USA" width={20} />
-                                <span style={{ marginLeft: "10px" }}>UK</span>
-                              </MenuItem>
-                              <MenuItem value={"China"}>
-                                <CN title="USA" width={20} />
-                                <span style={{ marginLeft: "10px" }}>China</span>
-                              </MenuItem>
-                            </Select>
-                          </FormControl>
-                        </Grid> 
+              <Grid item xs={2}>
+                <FormControl fullWidth size="small">
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={country}
+                    onChange={handleCountry}
+                    displayEmpty
+                    renderValue={(value) => {
+                      return (
+                        <Box color="#FFFFFF" sx={{ display: "flex", gap: 1 }}>
+                          <SvgIcon color="#FFFFFF">
+                            <LanguageIcon color="#FFFFFF" />
+                          </SvgIcon>
+                          {value}
+                        </Box>
+                      );
+                    }}
+                  >
+                    <MenuItem value={"Egypt"}>
+                      <EG title="Egypt" width={20} st />
+                      <span style={{ marginLeft: "10px" }}>Egypt</span>
+                    </MenuItem>
+                    <MenuItem value={"Canada"}>
+                      <CA title="Canada" width={20} />
+                      <span style={{ marginLeft: "10px" }}>Canada</span>
+                    </MenuItem>
+                    <MenuItem value={"USA"}>
+                      <US title="USA" width={20} />
+                      <span style={{ marginLeft: "10px" }}>USA</span>
+                    </MenuItem>
+                    <MenuItem value={"Germany"}>
+                      <DE title="EUR" width={20} />
+                      <span style={{ marginLeft: "10px" }}>Germany</span>
+                    </MenuItem>
+                    <MenuItem value={"KSA"}>
+                      <SA title="USA" width={20} />
+                      <span style={{ marginLeft: "10px" }}>KSA</span>
+                    </MenuItem>
+                    <MenuItem value={"UAE"}>
+                      <AE title="USA" width={20} />
+                      <span style={{ marginLeft: "10px" }}>UAE</span>
+                    </MenuItem>
+                    <MenuItem value={"UK"}>
+                      <GB title="USA" width={20} />
+                      <span style={{ marginLeft: "10px" }}>UK</span>
+                    </MenuItem>
+                    <MenuItem value={"China"}>
+                      <CN title="USA" width={20} />
+                      <span style={{ marginLeft: "10px" }}>China</span>
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
             )}
 
             {user?.result ? (

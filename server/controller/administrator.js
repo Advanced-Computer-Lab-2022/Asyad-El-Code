@@ -7,9 +7,8 @@ import CourseRequests from "../models/courseRequests.js";
 import nodemailer from "nodemailer";
 import Course from "../models/course.js";
 import mongoose from "mongoose";
-import {Refund} from "../models/refund.js";
+import { Refund } from "../models/refund.js";
 import IndividualTrainee from "../models/individualTrainee.js";
-
 
 // export const createAdministrator = async (req, res) => {
 //     const { error } = validate(req.body);
@@ -55,7 +54,8 @@ export const getRefunds = async (_req, res) => {
 export const refundCourse = async (req, res) => {
   const { individualTraineeId, courseId, instructorId } = req.body;
   const courseCastedId = mongoose.Types.ObjectId(courseId);
-  const individualTraineeCastedId = mongoose.Types.ObjectId(individualTraineeId);
+  const individualTraineeCastedId =
+    mongoose.Types.ObjectId(individualTraineeId);
   const instructorCastedId = mongoose.Types.ObjectId(instructorId);
   try {
     const course = await Course.findById(courseCastedId);
@@ -64,17 +64,36 @@ export const refundCourse = async (req, res) => {
     );
     const instructor = await Instructor.findById(instructorCastedId);
     // update the individual trainee wallet balance
-    const newBalance =
-      individualTrainee.wallet + course.price;
+    const newBalance = individualTrainee.wallet + course.price;
     await IndividualTrainee.findByIdAndUpdate(individualTraineeCastedId, {
       wallet: newBalance,
     });
     // update the instructor wallet balance
-    const newInstructorBalance =
-      instructor.wallet - course.price * 0.86;
+    const newInstructorBalance = instructor.wallet - course.price * 0.86;
     await Instructor.findByIdAndUpdate(instructorCastedId, {
       wallet: newInstructorBalance,
     });
+
+    //I need to remove the course from the individual trainee courses array
+
+    console.log("HIS COURSES", individualTrainee.courses[0]);
+    console.log("COURSE ID", courseCastedId);
+
+    console.log("individualTrainee.course", individualTrainee.courses[0]._id);
+    const indId = individualTrainee.courses[0]._id;
+    console.log("indId", indId);
+    console.log("courseId", courseId);
+    console.log("castedId", courseCastedId);
+    if (indId.equals(courseCastedId)) console.log("YES");
+
+    const newCourses = individualTrainee.courses.filter(
+      (course) => !course._id.equals(courseCastedId)
+    );
+
+    await IndividualTrainee.findByIdAndUpdate(individualTraineeCastedId, {
+      courses: newCourses,
+    });
+
     res.status(200).send("Refund successful");
   } catch (err) {
     res.send(err.message);
@@ -98,8 +117,6 @@ export const createAdministrator = async (req, res) => {
     res.status(401).send(error.message);
   }
 };
-
-
 
 export const getAdministrators = async (_req, res) => {
   console.log("I am in the admin controller");
@@ -181,14 +198,14 @@ export const updateAdministrator = async (req, res) => {
 //TODO HEIDAR
 //ADD EMAIL TO HIS BODY
 export const addInstructor = async (req, res) => {
-  const { userName, password,email } = req.body;
+  const { userName, password, email } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 12);
     const instructor = new Instructor({
       userName: userName,
       password: hashedPassword,
-      email:email
+      email: email,
     });
     await instructor.save();
     res.status(200).json(instructor);
@@ -204,16 +221,14 @@ export const addCorporateTrainee = async (req, res) => {
     const corporateTrainee = new CorporateTrainee({
       userName: userName,
       password: hashedPassword,
-      email:email,
-      company: company
+      email: email,
+      company: company,
     });
     await corporateTrainee.save();
     res.status(200).json(corporateTrainee);
   } catch (error) {
     res.send(error.message);
   }
-
-
 };
 
 export const provideCourse = async (req, res) => {

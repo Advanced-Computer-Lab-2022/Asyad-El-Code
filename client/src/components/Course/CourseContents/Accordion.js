@@ -99,10 +99,12 @@ export default function AccordionSet({
 
   const updateChecked = () => {
     const co = userObject?.courses?.find((c) => c._id === course?._id);
-    for (let i = 0; i < outline?.subtitles.length; i++) {
-      let seen = co?.seenContent?.find(
-        (s) => s._id === outline?.subtitles[i]._id
-      );
+    for (let i = 0; i < outline?.subtitles?.length; i++) {
+      let seen = co?.seenContent?.find((s) => {
+        if (s) {
+          return s._id === outline?.subtitles[i]._id;
+        } else return false;
+      });
       if (seen) {
         setChecked((prev) =>
           new Map(prev).set(`outline${index}index${i}`, true)
