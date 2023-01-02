@@ -510,12 +510,12 @@ export const sendCertificatePdf = async (req, res) => {
     <p>Download Certificalte</p>
    
     </div>`;
-
+    console.log(req.body);
     // send mail with defined transport object
 
     let info = await transporter.sendMail({
       from: "robyamama55@gmail.com", // sender address
-      to: "roberto.josephselim@gmail.com", // list of receivers
+      to: req.body.email, // list of receivers
       subject: "SUIII Password", // Subject line
       text: "Hello world?", // plain text body
       html: html, // html body

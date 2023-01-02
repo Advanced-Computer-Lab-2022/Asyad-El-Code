@@ -5,9 +5,7 @@ import ReportedProblems from "./ReportedProblems";
 
 const Problems = () => {
   const dispatch = useDispatch();
-  const reportedProblems = useSelector(
-    (state) => state?.reportedProblems?.problems
-  );
+  const state = useSelector((state) => state.reportedProblems);
   const [flag, setFlag] = useState(true);
   useEffect(() => {
     if (flag) {
@@ -15,11 +13,13 @@ const Problems = () => {
       setFlag(false);
     }
   }, []);
-
+  console.log("THIS IS THE STATE", state);
 
   return (
     <div>
-      <ReportedProblems reportedProblems={reportedProblems}></ReportedProblems>
+      {state?.problems?.length > 0 ? (
+        <ReportedProblems reportedProblems={state.problems}></ReportedProblems>
+      ) : null}
     </div>
   );
 };
