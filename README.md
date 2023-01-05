@@ -182,6 +182,11 @@ This project is licensed under the Apache License 2.0. See the LICENSE file for 
 
 <img width="1428" alt="Screenshot 2023-01-05 at 3 44 34 AM" src="https://user-images.githubusercontent.com/67745591/210682759-b416eb30-8ddb-4fb8-8707-72d11f2ad0c5.png">
 
+## Meet our team
+
+![Team](https://user-images.githubusercontent.com/67745591/210626755-a47162e9-ddf0-47c4-b42b-2be73a382886.jpeg)
+
+
 
 
 ## Configuration and Setup :unlock:
@@ -216,8 +221,6 @@ Frontend
 cd client && npm start
 ```
 
-## Meet our team
-![Team](https://user-images.githubusercontent.com/67745591/210626755-a47162e9-ddf0-47c4-b42b-2be73a382886.jpeg)
 
 
 ## Environment Variables
