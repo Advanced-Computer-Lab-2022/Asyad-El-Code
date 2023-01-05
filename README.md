@@ -137,6 +137,11 @@ This project is licensed under the Apache License 2.0. See the LICENSE file for 
 
 - #### View Course Content 
 
+- #### Watching Video 
+
+<img width="1429" alt="Screenshot 2023-01-05 at 8 57 42 PM" src="https://user-images.githubusercontent.com/67745591/210859333-570cb0b2-ce33-48fe-b72b-d70615b9ad8f.png">
+
+
 <img width="1426" alt="Screenshot 2023-01-05 at 3 22 00 AM" src="https://user-images.githubusercontent.com/67745591/210682107-94b6ee11-0532-4cae-b7cd-ad5fbd5d6722.png">
 
 <img width="1422" alt="Screenshot 2023-01-05 at 3 22 51 AM" src="https://user-images.githubusercontent.com/67745591/210682149-438c3df7-28b3-4e3b-a482-7782641bf933.png">
@@ -158,9 +163,6 @@ This project is licensed under the Apache License 2.0. See the LICENSE file for 
 
 <img width="1425" alt="Screenshot 2023-01-05 at 3 36 47 AM" src="https://user-images.githubusercontent.com/67745591/210682376-becfa013-6a9a-4508-8ebf-62ec214c8112.png">
 
-- #### Watching Video 
-
-<img width="1429" alt="Screenshot 2023-01-05 at 8 57 42 PM" src="https://user-images.githubusercontent.com/67745591/210859333-570cb0b2-ce33-48fe-b72b-d70615b9ad8f.png">
 
 
 
