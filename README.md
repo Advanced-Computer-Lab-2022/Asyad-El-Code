@@ -160,7 +160,7 @@ This project is licensed under the Apache License 2.0. See the LICENSE file for 
 
 
 
-## Configuration and Setup
+## Configuration and Setup :unlock:
 
 In order to run this project locally, simply fork and clone the repository or download as zip and unzip on your machine.
  * Open the project in your prefered code editor.
