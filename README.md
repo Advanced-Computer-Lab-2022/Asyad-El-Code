@@ -108,41 +108,61 @@ This project is licensed under the Apache License 2.0. See the LICENSE file for 
 ### Individual Trainee 
 
 - #### Sign up and enter their details in a form including first name, last name, email, password and gender.
+
 <img width="1438" alt="Screenshot 2023-01-01 at 5 08 57 PM" src="https://user-images.githubusercontent.com/67745591/210189926-bb31cefb-613f-4544-8132-9af0fbdf9351.png">
 
 
 - #### Sign in using his email and password.
+
 <img width="1440" alt="Screenshot 2023-01-02 at 3 39 15 AM" src="https://user-images.githubusercontent.com/67745591/210189949-7c9be920-2fd1-4ce2-8e66-0f18efff523e.png">
 
 
 - #### Send email in case of forgetting password.
+
 <img width="1439" alt="Screenshot 2023-01-02 at 3 41 42 AM" src="https://user-images.githubusercontent.com/67745591/210190007-f73f8a83-f6d6-42c7-8976-12f1b423c7ad.png">
 
 
 - #### Change password
+
 <img width="1440" alt="Screenshot 2023-01-02 at 3 42 41 AM" src="https://user-images.githubusercontent.com/67745591/210190061-e793165b-7f9e-4ea3-930f-90c43914c4cc.png">
 
 
 - #### View your profile
+
 <img width="1440" alt="Screenshot 2023-01-02 at 3 43 24 AM" src="https://user-images.githubusercontent.com/67745591/210190086-ac556786-61bf-4ece-acdf-ad01bd9db408.png">
 
-- #### View Course<img width="1426" alt="Screenshot 2023-01-05 at 3 24 15 AM" src="https://user-images.githubusercontent.com/67745591/210682035-179eb922-c605-4bbc-ab40-33ca5b7929dc.png">
+- #### View Course
+
+<img width="1426" alt="Screenshot 2023-01-05 at 3 24 15 AM" src="https://user-images.githubusercontent.com/67745591/210682035-179eb922-c605-4bbc-ab40-33ca5b7929dc.png">
 
 - #### View Course Content 
+
 <img width="1426" alt="Screenshot 2023-01-05 at 3 22 00 AM" src="https://user-images.githubusercontent.com/67745591/210682107-94b6ee11-0532-4cae-b7cd-ad5fbd5d6722.png">
+
 <img width="1422" alt="Screenshot 2023-01-05 at 3 22 51 AM" src="https://user-images.githubusercontent.com/67745591/210682149-438c3df7-28b3-4e3b-a482-7782641bf933.png">
 
 - #### See Your Certificate
+
 <img width="1423" alt="Screenshot 2023-01-05 at 3 23 02 AM" src="https://user-images.githubusercontent.com/67745591/210682211-b68172ee-ad58-4127-be87-22e84b708b7f.png">
 
-- #### Rating The Course <img width="1425" alt="Screenshot 2023-01-05 at 3 23 51 AM" src="https://user-images.githubusercontent.com/67745591/210682283-75331542-35e5-4844-9918-ecb93c1f47db.png">
+- #### Rating The Course 
+
+<img width="1425" alt="Screenshot 2023-01-05 at 3 23 51 AM" src="https://user-images.githubusercontent.com/67745591/210682283-75331542-35e5-4844-9918-ecb93c1f47db.png">
 
 
 - #### See Resolved Problems
+
 <img width="1423" alt="Screenshot 2023-01-05 at 3 25 15 AM" src="https://user-images.githubusercontent.com/67745591/210682326-060eb06c-deb8-446d-9669-6ebe714e1a2b.png">
 
 - #### Solving Exercise 
+
 <img width="1425" alt="Screenshot 2023-01-05 at 3 36 47 AM" src="https://user-images.githubusercontent.com/67745591/210682376-becfa013-6a9a-4508-8ebf-62ec214c8112.png">
+
+- #### Watching Video 
+
+<img width="1429" alt="Screenshot 2023-01-05 at 8 57 42 PM" src="https://user-images.githubusercontent.com/67745591/210859333-570cb0b2-ce33-48fe-b72b-d70615b9ad8f.png">
+
+
 
 
 ### Instructor
