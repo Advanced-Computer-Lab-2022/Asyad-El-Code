@@ -1568,7 +1568,6 @@ A table of query
   POST /acceptRefund
 ```
 
-A table of body contain email and courseName
 
 | Body      | Type     | Description                               |
 | :---------- | :------- | :---------------------------------------- |
