@@ -1,9 +1,6 @@
 
 # Asyad El Code
 
-<img width="1427" alt="Screenshot 2023-01-05 at 3 44 10 AM" src="https://user-images.githubusercontent.com/67745591/210682774-70d28736-28b6-440f-9c6e-1ff83c134c6b.png">
-
-<img width="1428" alt="Screenshot 2023-01-05 at 3 47 04 AM" src="https://user-images.githubusercontent.com/67745591/210683047-b02758dc-3b76-4851-92b5-8e9207b3cf29.png">
 
 ## Badges
 
@@ -116,7 +113,15 @@ This project is licensed under the Apache License 2.0. See the LICENSE file for 
 
 ## Screenshots 📗
 
+- #### Home Page
+
+<img width="1427" alt="Screenshot 2023-01-05 at 3 44 10 AM" src="https://user-images.githubusercontent.com/67745591/210682774-70d28736-28b6-440f-9c6e-1ff83c134c6b.png">
+
+<img width="1428" alt="Screenshot 2023-01-05 at 3 47 04 AM" src="https://user-images.githubusercontent.com/67745591/210683047-b02758dc-3b76-4851-92b5-8e9207b3cf29.png">
+
 ### Individual Trainee 
+
+
 
 - #### Sign up and enter their details in a form including first name, last name, email, password and gender.
 
