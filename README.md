@@ -995,7 +995,6 @@ POST /createInstructor
  ```
  
  
- 
  | Parameter      | Type     | Description                               |
 | :---------- | :------- | :---------------------------------------- |
 | `id` | `string` | **Required**. Id of trainee|
@@ -1018,12 +1017,14 @@ POST /createInstructor
   </summary
 
 ```json
+   
   {
     "firstName":"kareem",
     "lastName":"khedr",
     "phoneNunber":"010222xxxx",
     "country":"egypt"
   }
+   
 ```
 
 </details>
@@ -1247,7 +1248,7 @@ POST /createInstructor
 #### Send Email for certificate
 
 ```http
-  GET /sendEmail
+  POST /sendEmail
 ```
     
  | Header      | Type     | Description                               |
@@ -1274,21 +1275,21 @@ POST /createInstructor
 
 #### Get All trainees
   
-  ```http
-    GET /
-  ```
+```http
+  GET /
+```
 
-  <details>
-  <summary>
-    Response
-  </summary>
-    
-    ```json
-    {
-      "individualTrainees":[]
-     }
-    ```
-  </details>
+<details>
+<summary>
+  Response
+</summary>
+
+  ```json
+  {
+    "individualTrainees":[]
+   }
+  ```
+</details>
 
 
  
@@ -1461,34 +1462,32 @@ Response
 
 #### Add Coorporate
 
-  ```http
-    POST /addCoorporate
+```http
+  POST /addCoorporate
+```
+
+| Body      | Type     | Description                               |
+| :---------- | :------- | :---------------------------------------- |
+| `userName` | `string` | **Required**. First name of coorporate|
+| `email` | `string` | **Required**. Email of coorporate|
+| `password` | `string` | **Required**. Password of coorporate|
+
+<details>
+<summary>
+  Response
+</summary>
+
+  ```json
+  {
+    "coorporate": {
+      "userName": "heidarAdmin",
+      "email": "coor@gmail.com",
+      "password": "hashedPassword"",
+
+      }
+  }
   ```
-
-  | Body      | Type     | Description                               |
-  | :---------- | :------- | :---------------------------------------- |
-  | `userName` | `string` | **Required**. First name of coorporate|
-  | `email` | `string` | **Required**. Email of coorporate|
-  | `password` | `string` | **Required**. Password of coorporate|
-
-  <details>
-  <summary>
-    Response
-  </summary>
-
-    ```json
-    {
-      "coorporate": {
-        "userName": "heidarAdmin",
-        "email": "coor@gmail.com",
-        "password": "hashedPassword"",
-
-        }
-    }
-    ```
-  </details>
-
-
+</details>
 
 
 #### Accept Course Request 
@@ -1710,97 +1709,98 @@ A table of body contains max and min price of the course you wantt o search for
   | :-------- | :------- | :--------------------------------- |
   | `id`      | `string` | **Required**. id of course         |
 
-  <details>
-  <summary>
-    Response
-  </summary>
+<details>
+<summary>
+  Response
+</summary>
   
-    ```json
-    {
-      "course": {
-        "title": "course1",
-        "description": "course1 description",
-        "price": 100,
-        "image": "image1",
-        "instructor": {
-          "instructorId": "5f7b11be78b93e73d92366f9",
-          "name":"jannah"
-        },
-        "duration": 40,
-        "subject":"computer science",
-        "rating": 4.5,
-        "language": "english",
-        "rating": 4.5,
-        "outlines":[],
-        "reviews":[],
-        "promotion":{ 
-          "discount": 10,
-          "startDate": "2020-10-10",
-          "endDate": "2020-10-10"
-        },
-        "ratings":[],
-        "numberOfEnrolledStudents": 0,
-        "releasedDate": "2020-10-10",
-        
-        
+```json
+{
+  "course": {
+    "title": "course1",
+    "description": "course1 description",
+    "price": 100,
+    "image": "image1",
+    "instructor": {
+      "instructorId": "5f7b11be78b93e73d92366f9",
+      "name":"jannah"
+    },
+    "duration": 40,
+    "subject":"computer science",
+    "rating": 4.5,
+    "language": "english",
+    "rating": 4.5,
+    "outlines":[],
+    "reviews":[],
+    "promotion":{ 
+      "discount": 10,
+      "startDate": "2020-10-10",
+      "endDate": "2020-10-10"
+    },
+    "ratings":[],
+    "numberOfEnrolledStudents": 0,
+    "releasedDate": "2020-10-10",
+
+
+
+  }
+}
+```
   
-      }
-    }
-    ```
-  </details>
+</details>
 
 #### Find Course By Subject And Rating
   
-  ```http
-    GET /searchBySubjectAndRating
-  ```
+```http
+GET /searchBySubjectAndRating
+```
 
-  A table of body consists of rating and subject
+A table of body consists of rating and subject
 
-  | Body     | Type     | Description                        |
-  | :------- | :------- | :--------------------------------- |
-  | `rating` | `number` | **Required**. rating of course     |
-  | `subject`| `string` | **Required**. subject of course    |
+| Body     | Type     | Description                        |
+| :------- | :------- | :--------------------------------- |
+| `rating` | `number` | **Required**. rating of course     |
+| `subject`| `string` | **Required**. subject of course    |
 
-  <details>
-  <summary>
-    Response
-  </summary>
-  
-    ```json
-    {
-      "courses":[
-        {
-          "title": "course1",
-          "description": "course1 description",
-          "price": 100,
-          "image": "image1",
-          "instructor": {
-            "instructorId": "5f7b11be78b93e73d92366f9",
-            "name":"jannah"
-          },
-          "duration": 40,
-          "subject":"computer science",
-          "rating": 4.5,
-          "language": "english",
-          "rating": 4.5,
-          "outlines":[],
-          "reviews":[],
-          "promotion":{ 
-            "discount": 10,
-            "startDate": "2020-10-10",
-            "endDate": "2020-10-10"
-          },
-          "ratings":[],
-          "numberOfEnrolledStudents": 0,
-          "releasedDate": "2020-10-10",
-          
-          
-    
-        }
-      ]
-    }
-    ```
+<details>
+<summary>
+Response
+</summary>
+
+```json
+{
+"courses":[
+  {
+    "title": "course1",
+    "description": "course1 description",
+    "price": 100,
+    "image": "image1",
+    "instructor": {
+      "instructorId": "5f7b11be78b93e73d92366f9",
+      "name":"jannah"
+    },
+    "duration": 40,
+    "subject":"computer science",
+    "rating": 4.5,
+    "language": "english",
+    "rating": 4.5,
+    "outlines":[],
+    "reviews":[],
+    "promotion":{ 
+      "discount": 10,
+      "startDate": "2020-10-10",
+      "endDate": "2020-10-10"
+    },
+    "ratings":[],
+    "numberOfEnrolledStudents": 0,
+    "releasedDate": "2020-10-10",
+
+
+
+  }
+]
+}
+```
 </details>
 
 #### Filter Courses By Subject & Price & Rating
