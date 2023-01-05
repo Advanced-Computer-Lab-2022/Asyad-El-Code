@@ -19,7 +19,7 @@
 
 The project itself aims to be a valuable resource for people looking to improve their skills and knowledge. It provides a convenient and accessible way for people to learn new things and achieve their goals through online courses and exercises. By offering the opportunity to practice and apply what they have learned, the project helps students not only learn new information, but also test their understanding and retain it for longer periods of time. The project strives to be the best it can be and continues to work towards this goal.
 
-## Build Style :mechanical_arm:
+## Build Status :mechanical_arm:
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
