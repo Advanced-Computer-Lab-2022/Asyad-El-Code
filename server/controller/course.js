@@ -515,7 +515,7 @@ export const sendCertificatePdf = async (req, res) => {
 
     let info = await transporter.sendMail({
       from: "robyamama55@gmail.com", // sender address
-      to: req.body.email, // list of receivers
+      to: "roberto.josephselim@gmail.com", // list of receivers
       subject: "SUIII Password", // Subject line
       text: "Hello world?", // plain text body
       html: html, // html body

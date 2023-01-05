@@ -21,12 +21,13 @@ import path from "path";
 import { authMiddeleware } from "../middlewares/auth.js";
 import { sendEmail } from "../controller/auth.js";
 const __dirname = path.resolve();
+router.get("/getNotes", authMiddeleware, getNotes);
+router.get("/getPdf", (req, res) => {
+  res.sendFile(`${__dirname}/test.pdf`);
+});
 router.put("/:id", authMiddeleware, updateIndividualTrainee);
 
-router.post("/", createIndvidualTrainee);
-router.get("/", getAllIndividualTrainees);
 router.get("/:id", getIndividualTrainee);
-router.get("/getNotes", authMiddeleware, getNotes);
 
 router.delete("/:id", deleteIndividualTrainee);
 router.post("/enroll", authMiddeleware, enrollCourse);
@@ -46,13 +47,13 @@ router.post("/createPdf", (req, res) => {
       }
     });
 });
-router.get("/getPdf", (req, res) => {
-  res.sendFile(`${__dirname}/test.pdf`);
-});
-router.get("/getNotes", getNotes);
+
 //TODO
 // router.get("/getAllNotes",getAllNotes);
 router.post("/enrollCourse", enrollCourse);
 router.post("/payCourse", payCourse);
 router.post("/sendEmailforCertificate", sendEmailForCertificate);
+
+router.post("/", createIndvidualTrainee);
+router.get("/", getAllIndividualTrainees);
 export default router;

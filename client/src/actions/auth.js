@@ -28,34 +28,37 @@ export const signup =
     }
   };
 
-export const signin = (formData, history, setIsLoading, setInstructorModal) => async (dispatch) => {
-  try {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-    dispatch({ type: START_LOADING_AUTH });
+export const signin =
+  (formData, history, setIsLoading, setInstructorModal) => async (dispatch) => {
+    try {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+      dispatch({ type: START_LOADING_AUTH });
 
-    const result = await userApi.signin(formData);
-    dispatch({ type: AUTH, payload: result.data });
-    console.log("result.data", result.data);
-    dispatch({ type: END_LOADING_AUTH });
-    if (result.data.type === "instructor") {
-      if(result.data.result.firstLogin){
-        setInstructorModal(true);
-      }else{
+      const result = await userApi.signin(formData);
+      dispatch({ type: AUTH, payload: result.data });
+      console.log("result.data", result.data);
+      dispatch({ type: END_LOADING_AUTH });
+      if (result.data.type === "instructor") {
+        if (result.data.result.firstLogin) {
+          setInstructorModal(true);
+        } else {
+          history.push("/");
+        }
+      } else if (result.data.type === "admin") {
+        setTimeout(() => {
+          history.push("/dashboard");
+        }, 3000);
+      } else {
         history.push("/");
       }
-    } else {
-      setTimeout(() => {
-        history.push("/");
-      }, 3000);
+    } catch (error) {
+      console.log(error);
+      dispatch({ type: AUTH_ERROR, payload: error.response.data });
+      history.push("/auth");
     }
-  } catch (error) {
-    console.log(error);
-    dispatch({ type: AUTH_ERROR, payload: error.response.data });
-    history.push("/auth");
-  }
-};
+  };
 
 export const sendEmail = (formData) => async (dispatch) => {
   try {
@@ -90,14 +93,15 @@ export const getLoggedUser = () => async (dispatch) => {
   }
 };
 
-export const firstTimeInstructor = (formData, id, history) => async (dispatch) => {
-  try {
-    dispatch({ type: FIRST_TIME_INSTRUCTOR_START_LOADING });
-    const result = await userApi.firstTimeInstructor(formData, id);
-    dispatch({ type: AUTH, payload: result.data });
-    dispatch({ type: FIRST_TIME_INSTRUCTOR_END_LOADING });
-    history.push("/");
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+export const firstTimeInstructor =
+  (formData, id, history) => async (dispatch) => {
+    try {
+      dispatch({ type: FIRST_TIME_INSTRUCTOR_START_LOADING });
+      const result = await userApi.firstTimeInstructor(formData, id);
+      dispatch({ type: AUTH, payload: result.data });
+      dispatch({ type: FIRST_TIME_INSTRUCTOR_END_LOADING });
+      history.push("/");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };

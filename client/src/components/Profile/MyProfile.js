@@ -17,6 +17,7 @@ import {
   Select,
   InputAdornment,
   Alert,
+  CircularProgress,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -27,8 +28,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 //import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { getTrainee } from "../../actions/individualTrainees";
 import { updateTrainee } from "../../actions/individualTrainees";
+import { getLoggedUser } from "../../actions/auth";
 
 const MyProfile = ({ trainee }) => {
+  console.log("trainee", trainee);
   const dispatch = useDispatch();
   const [firstName, setFirstName] = useState(trainee?.firstName);
   const [lastName, setLastName] = useState(trainee?.lastName);
@@ -38,6 +41,7 @@ const MyProfile = ({ trainee }) => {
   const [date, setDate] = useState(trainee?.dateOfBirth);
   const [showPassword, setShowPassword] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -53,8 +57,21 @@ const MyProfile = ({ trainee }) => {
     trainee.phoneNumber = phone;
     trainee.country = country;
     dispatch(updateTrainee(trainee._id, trainee));
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
     setIsUpdated(true);
   };
+  useEffect(() => {
+    dispatch(getLoggedUser());
+  }, [isUpdated]);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
 
   return (
     <Grid
@@ -79,82 +96,90 @@ const MyProfile = ({ trainee }) => {
           Add information about yourself
         </Typography>
       </Grid>
-      <Grid item borderBottom={1} borderColor="silver" width="100%" padding={3}>
-        <form onSubmit={handleForm}>
-          <FormGroup sx={{ marginTop: "20px" }}>
-            <Grid
-              container
-              alignItems="center"
-              justifyItems="center"
-              columnSpacing={4}
-              rowSpacing={5}
-            >
-              <Grid item xs={5}>
-                <FormControl fullWidth>
-                  <TextField
-                    required
-                    id="firstName"
-                    name="firstName"
-                    label="First name"
-                    fullWidth
-                    variant="outlined"
-                    defaultValue={firstName}
-                    onChange={(newValue) => {
-                      setFirstName(newValue.target.value);
-                    }}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={5}>
-                <FormControl variant="outlined" margin="10" fullWidth>
-                  <TextField
-                    required
-                    id="lastName"
-                    name="lastName"
-                    label="Last name"
-                    fullWidth
-                    variant="outlined"
-                    defaultValue={lastName}
-                    onChange={(newValue) => {
-                      setLastName(newValue.target.value);
-                    }}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item></Grid>
-              <Grid item xs={5}>
-                <FormControl variant="outlined" margin="10" fullWidth>
-                  <TextField
-                    id="counrty"
-                    name="country"
-                    label="Country"
-                    fullWidth
-                    variant="outlined"
-                    defaultValue={country}
-                    onChange={(newValue) => {
-                      setCountry(newValue.target.value);
-                    }}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={5}>
-                <FormControl variant="outlined" margin="10" fullWidth>
-                  <TextField
-                    id="phone"
-                    name="phone"
-                    label="Phone"
-                    fullWidth
-                    variant="outlined"
-                    required
-                    defaultValue={phone}
-                    onChange={(newValue) => {
-                      setPhone(newValue.target.value);
-                    }}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={5}>
-                {/*                 
+      {isLoading ? (
+        <CircularProgress></CircularProgress>
+      ) : (
+        <Grid
+          item
+          borderBottom={1}
+          borderColor="silver"
+          width="100%"
+          padding={3}
+        >
+          <form onSubmit={handleForm}>
+            <FormGroup sx={{ marginTop: "20px" }}>
+              <Grid
+                container
+                alignItems="center"
+                justifyItems="center"
+                columnSpacing={4}
+                rowSpacing={5}
+              >
+                <Grid item xs={5}>
+                  <FormControl fullWidth>
+                    <TextField
+                      required
+                      id="firstName"
+                      name="firstName"
+                      label="First name"
+                      fullWidth
+                      variant="outlined"
+                      defaultValue={firstName}
+                      onChange={(newValue) => {
+                        setFirstName(newValue.target.value);
+                      }}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={5}>
+                  <FormControl variant="outlined" margin="10" fullWidth>
+                    <TextField
+                      required
+                      id="lastName"
+                      name="lastName"
+                      label="Last name"
+                      fullWidth
+                      variant="outlined"
+                      defaultValue={lastName}
+                      onChange={(newValue) => {
+                        setLastName(newValue.target.value);
+                      }}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item></Grid>
+                <Grid item xs={5}>
+                  <FormControl variant="outlined" margin="10" fullWidth>
+                    <TextField
+                      id="counrty"
+                      name="country"
+                      label="Country"
+                      fullWidth
+                      variant="outlined"
+                      defaultValue={country}
+                      onChange={(newValue) => {
+                        setCountry(newValue.target.value);
+                      }}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={5}>
+                  <FormControl variant="outlined" margin="10" fullWidth>
+                    <TextField
+                      id="phone"
+                      name="phone"
+                      label="Phone"
+                      fullWidth
+                      variant="outlined"
+                      defaultValue={phone}
+                      onChange={(newValue) => {
+                        setPhone(newValue.target.value);
+                      }}
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={5}>
+                  {/*                 
                 <LocalizationProvider>
                   <DatePicker
                     label="Date of birth"
@@ -170,43 +195,44 @@ const MyProfile = ({ trainee }) => {
                     )}
                   />
                 </LocalizationProvider> */}
-              </Grid>
-              <Grid item xs={10}>
-                <FormControl variant="outlined" margin="10" fullWidth>
-                  <TextField
-                    id="address"
-                    name="address"
-                    label="Address"
-                    fullWidth
-                    variant="outlined"
-                  />
-                </FormControl>
-              </Grid>
-              {isUpdated && (
-                <Grid item xs={12}>
-                  <Alert severity="success">
-                    Your profile has been updated successfully
-                  </Alert>
                 </Grid>
-              )}
-              <Grid item xs={4}></Grid>
-              <Grid item xs={3} alignItems="center" justifyItems="center">
-                <Button
-                  type="submit"
-                  fullWidth
-                  style={{
-                    color: "#ffffff",
-                    background: "#80b918",
-                    marginTop: "20px",
-                  }}
-                >
-                  Update
-                </Button>
+                <Grid item xs={10}>
+                  <FormControl variant="outlined" margin="10" fullWidth>
+                    <TextField
+                      id="address"
+                      name="address"
+                      label="Address"
+                      fullWidth
+                      variant="outlined"
+                    />
+                  </FormControl>
+                </Grid>
+                {isUpdated && (
+                  <Grid item xs={12}>
+                    <Alert severity="success">
+                      Your profile has been updated successfully
+                    </Alert>
+                  </Grid>
+                )}
+                <Grid item xs={4}></Grid>
+                <Grid item xs={3} alignItems="center" justifyItems="center">
+                  <Button
+                    type="submit"
+                    fullWidth
+                    style={{
+                      color: "#ffffff",
+                      background: "#80b918",
+                      marginTop: "20px",
+                    }}
+                  >
+                    Update
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
-          </FormGroup>
-        </form>
-      </Grid>
+            </FormGroup>
+          </form>
+        </Grid>
+      )}
     </Grid>
   );
 };

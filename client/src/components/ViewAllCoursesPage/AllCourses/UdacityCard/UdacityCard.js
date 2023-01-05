@@ -95,7 +95,7 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
                 //   clipPath: "ellipse(150% 80% at 0% 90%)",
                 // clipPath: "circle(100% at 100% 90%)",
               }}
-              src={image}
+              src={course?.image ? course.image : image}
             ></img>
           </Grid>
           {type === "admin" &&
@@ -202,7 +202,6 @@ export const UdacityCard = ({ course, type, courseList, handleSelect }) => {
                 </span>
               ) : null}
               {getRate(selectedCountry, currencyRates, course.discountedPrice)}
-              {/* {` ${course.discountedPrice} EGP`} */}
             </Typography>
           </Grid>
           <Grid item>

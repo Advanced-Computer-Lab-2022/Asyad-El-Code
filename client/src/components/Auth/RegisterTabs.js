@@ -89,7 +89,6 @@ export default function RegisterTabs({ setInstructorModal }) {
   const [genderError, setGenderError] = useState(false);
   const [isLoadingSignUp, setIsLoadingSignUp] = useState(false);
 
-  const [selectedValue, setSelectedValue] = useState("");
   const [instructorIsLoading, setInstructorIsLoading] = useState(false);
 
   const handleChange = (event, newValue) => {
@@ -131,13 +130,15 @@ export default function RegisterTabs({ setInstructorModal }) {
     e.preventDefault();
     setMessage(error?.message ? error.message : null);
     console.log("form", form);
-    if (form.firstName === "") setFirstNameError(true);
+    if (form.firstName === "" || form.firstName.length < 3)
+      setFirstNameError(true);
     else setFirstNameError(false);
-    if (form.lastName === "") setLastNameError(true);
+    if (form.lastName === "" || form.lastName.length < 3)
+      setLastNameError(true);
     else setLastNameError(false);
     if (form.email === "") setEmailError(true);
     else setEmailError(false);
-    if (form.password === "") setPasswordError(true);
+    if (form.password === "" || form.password < 3) setPasswordError(true);
     else setPasswordError(false);
     if (form.gender === "") setGenderError(true);
     else setGenderError(false);
@@ -301,7 +302,7 @@ export default function RegisterTabs({ setInstructorModal }) {
                     </InputLabel>
                     <Select
                       type="text"
-                      value={selectedValue}
+                      value={form.gender}
                       label="Gender"
                       onChange={handleChangeValues}
                       size="small"

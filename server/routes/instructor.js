@@ -20,7 +20,6 @@ import { addNewCourse } from "../controller/instructor.js";
 import { searchByTitleOrSubjectOrInstructor } from "../controller/course.js";
 import { authMiddeleware } from "../middlewares/auth.js";
 const router = express.Router();
-router.post("/rating ", addRating);
 
 router.get("/filterInstructorCourses", filterInstructorCourses);
 router.post("/", createInstructor);
@@ -36,6 +35,11 @@ router.patch("/firstLogin/:id", authMiddeleware, firstLogin);
 router.get("/searchByTitleOrSubject/:id", searchByTitleOrSubject);
 
 router.get("/filterInstructorCourses", filterInstructorCourses);
+router.post("/z ", (req, res) => {
+  console.log("iam in the add rating");
+});
+
+router.post("/test", addRating);
 router.post("/addReview", addReview);
 router.get("/getAllInstructorCourses/:id", getAllInstructorCourses);
 

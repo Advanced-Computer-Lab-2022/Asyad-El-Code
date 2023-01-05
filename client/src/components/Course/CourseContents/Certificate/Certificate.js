@@ -4,6 +4,7 @@ import image from "../../../../images/can.jpeg";
 import { jsPDF } from "jspdf";
 import { Loading } from "./Loading";
 import { sendCertificatePdf } from "../../../../api/course";
+import { Button } from "@mui/material";
 export const CE = ({ course }) => {
   const [isLoading, setisLoading] = useState(true);
 
@@ -20,11 +21,16 @@ export const CE = ({ course }) => {
     console.log("DATA", data);
     console.log(data);
   };
+  const sendCertificateByEmail = async () => {
+    const { data } = await sendCertificatePdf(user?.result?.email);
+    console.log("DATA", data);
+    console.log(data);
+  };
+
   useEffect(() => {
     setTimeout(() => {
       setisLoading(false);
-    }, 6000);
-    sendCertificate();
+    }, 3000);
   }, []);
 
   return (
@@ -47,6 +53,7 @@ export const CE = ({ course }) => {
           <div class="date">{new Date(Date.now()).toDateString()}</div>
           <div class="signature">Signed by John Doe</div>
           <button onClick={generatePDF}> Click Me</button>
+          <button onClick={sendCertificateByEmail}> SEND Me</button>
         </div>
       )}
     </>

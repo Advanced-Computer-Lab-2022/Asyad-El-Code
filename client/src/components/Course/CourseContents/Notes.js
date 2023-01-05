@@ -52,12 +52,17 @@ const Notes = ({ content, playedMinutes, lectureId, userId, courseId }) => {
   //   );
   // };
   const fetchNotesOfUser = async () => {
+    console.log(userId);
+    console.log(courseId);
+    console.log(lectureId);
+
     const { data } = await individualTraineeApi.getNotes(
       userId,
       courseId,
       lectureId
     );
-    setNotesOfUser(data.note.reverse());
+    console.log(data);
+    setNotesOfUser(data.note);
   };
   useEffect(() => {
     fetchNotesOfUser();
