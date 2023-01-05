@@ -15,6 +15,28 @@
 - [Features](#features)
 - [Screenshots](#screenshots) 
 
+## Motiviation :fire:
+
+The project itself aims to be a valuable resource for people looking to improve their skills and knowledge. It provides a convenient and accessible way for people to learn new things and achieve their goals through online courses and exercises. By offering the opportunity to practice and apply what they have learned, the project helps students not only learn new information, but also test their understanding and retain it for longer periods of time. The project strives to be the best it can be and continues to work towards this goal.
+
+## Build Style :mechanical_arm:
+
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+
+- The project is currently in development.
+- Unit tests will be added.
+
+
+
+## Code Style :writing_hand:
+
+[![Code Style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io/)
+
+You can then run Prettier on your code by using the prettier command in your terminal. For example:
+```bash
+prettier --write "src/**/*.js"
+```
+
 
 
 ## Project Description
@@ -196,143 +218,85 @@ Add this keys to .env file to run project
 
 
 
-## Schema Design Example :computer:
+## Code Example :computer:
 ---
+
 ```javascript
-import mongoose, { mongo } from "mongoose";
-import Joi from "joi";
 
-export const courseSchema = mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  summary: {
-    type: String,
-    required: true,
-  },
-  subject: {
-    type: String,
-    required: true,
-  },
-
-  duration: {
-    type: Number,
-    required: true,
-  },
-  releaseDate: {
-    type: Date,
-    required: true,
-  },
-  language: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
-  rating: {
-    type: Number,
-    default: 0.0,
-  },
-  previewVideo: {
-    type: String,
-    required: true,
-  },
-  outlines: {
-    type: [
-      {
-        outline: String,
-        totalHours: Number,
-        subtitles: [
-          {
-            subtitle: String,
-            minutes: Number,
-            videoUrl: String,
-          },
-        ],
-        exercises: [
-          {
-            question: String,
-            answers: [{ answer: String, correct: Boolean }],
-          },
-        ],
-      },
-    ],
-    required: true,
-  },
-
-  price: {
-    type: Number,
-    required: true,
-  },
-  instructor: {
-    instructorId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Instructor",
-    },
-    name: String,
-  },
-  promotion: {
-    discount: { type: Number, default: 0.0 },
-    startDate: Date,
-    endDate: Date,
-  },
-
-  discount: [{ country: String, percent: Number }],
-  ratings: [
-    {
-      corporateTraineeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "CorporateTrainee",
-      },
-      individualTraineeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "IndividualTrainee",
-      },
-      rating: Number,
-    },
-  ],
-  reviews: [
-    {
-      corporateTraineeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "CorporateTrainee",
-      },
-      individualTraineeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "IndividualTrainee",
-      },
-      review: String,
-    },
-  ],
-  numberOfTraineesEnrolled: { type: Number, default: 0 },
-});
-
-export function validateCourse(course) {
-  const schema = Joi.object({
-    title: Joi.string().min(3).required(),
-    summary: Joi.string().min(3).required(),
-    subject: Joi.string().min(3).required(),
-    duration: Joi.number().required(),
-    releaseDate: Joi.date().required(),
-    language: Joi.string().required(),
-    image: Joi.string().required(),
-    rating: Joi.number(),
-    outlines: Joi.array().required(),
-    previewVideo: Joi.string().required(),
-    price: Joi.number().required(),
-    discount: Joi.array(),
-  });
-  return schema.validate(course, { allowUnknown: true });
-}
-
-const Course = mongoose.model("Course", courseSchema);
-
-export default Course;
-
+export const RatingAndReviewPopup = ({
+  ratingOpen,
+  handleCancelRating,
+  handleSubmit,
+}) => {
+  const dispatch = useDispatch();
+  const [ratingValue, setRatingValue] = useState(0);
+  const [review, setReview] = useState("");
+  //update RatingOpen to false when cancel button is clicked
+  const handleCancel = () => {
+    handleCancelRating();
+  };
+  const handleClick = () => {
+    handleSubmit(ratingValue, review);
+  };
+  return (
+    <>
+      <Dialog open={ratingOpen}>
+        <DialogTitle>Add a rating and review for the course</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Add a rating from 1 to 5</DialogContentText>
+          <Rating
+            name="simple-controlled-rating"
+            value={ratingValue}
+            onChange={(event, newValue) => {
+              setRatingValue(newValue);
+            }}
+          />
+          <DialogContentText>Add a review</DialogContentText>
+          <TextField
+            id="outlined-multiline-static"
+            label="Review"
+            multiline
+            rows={4}
+            defaultValue=""
+            variant="outlined"
+            onChange={(e) => setReview(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button variant="outlined" color="primary" onClick={handleClick}>
+            Submit
+          </Button>
+          <Button variant="outlined" color="primary" onClick={handleCancel}>
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+ 
 ```
+
+```javascript
+
+export const updateRating = async (req, res) => {
+  try {
+    const id = mongoose.Types.ObjectId(req.params.id);
+    const { rating } = req.body;
+    const instructor = await Instructor.findById(id);
+    if (!instructor) return res.status(404).send("instructor not found");
+    const updatedInstructor = await Instructor.findByIdAndUpdate(
+      id,
+      { rating: rating },
+      { new: true }
+    );
+    res.status(200).send(updatedInstructor);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};
+```
+
+
 
 ## END POINTS
 
