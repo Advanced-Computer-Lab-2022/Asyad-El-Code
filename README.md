@@ -32,6 +32,8 @@ The project itself aims to be a valuable resource for people looking to improve 
 
 [![Code Style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io/)
 
+- Camel Case in variable names used
+
 You can then run Prettier on your code by using the prettier command in your terminal. For example:
 ```bash
 prettier --write "src/**/*.js"
